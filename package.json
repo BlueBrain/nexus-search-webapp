@@ -1,0 +1,25 @@
+{
+  "name": "nexus-search-webapp",
+  "version": "0.0.1",
+  "description": "Search web application for the Nexus Data Platform",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "true"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BlueBrain/nexus-search-webapp.git"
+  },
+  "author": "Blue Brain Nexus",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/BlueBrain/nexus-search-webapp/issues"
+  },
+  "homepage": "https://github.com/BlueBrain/nexus-search-webapp#readme",
+  "dependencies": {
+    "elasticsearch": "^14.2.2",
+    "express": "^4.16.3",
+    "express-http-proxy": "^1.2.0"
+  }
+}
