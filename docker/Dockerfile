@@ -11,7 +11,7 @@ COPY node_modules ./node_modules/
 
 # Default values for environment variables
 ENV NODE_ENV="production"
-ENV ELASTICSEARCH_CLIENT_URL=""
+ENV ELASTICSEARCH_CLIENT_URL="http://localhost:9200"
 
 CMD ["node","index.js"]
 
