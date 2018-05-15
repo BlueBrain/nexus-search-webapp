@@ -4,7 +4,7 @@ import SearchBar from "./SearchBar";
 import Login from "./Login";
 import { WithStore } from "@bbp/nexus-react";
 import { navigate } from "../store/actions";
-
+console.log('hello')
 const Header = base => (
   <header>
     <div className="logo-block">
