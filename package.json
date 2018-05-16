@@ -4,7 +4,7 @@
   "description": "Search web application for the Nexus Data Platform",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "babel-node index.js --presets env",
     "test": "true"
   },
   "repository": {
@@ -21,5 +21,10 @@
     "elasticsearch": "^14.2.2",
     "express": "^4.16.3",
     "express-http-proxy": "^1.2.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "dotenv": "^5.0.1"
   }
 }
