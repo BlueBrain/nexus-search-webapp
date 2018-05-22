@@ -501,6 +501,15 @@ ul.explorer-list {
   flex-grow: 1;
 }
 
+.relationship .container {
+  justify-content: space-between;
+}
+
+.relationship .container .value.ellipsis {
+  flex-grow: 1;
+}
+
+
 .instance-modal .Modal-overlay-0-1-1 {
   /* override react-responsive-modal values */
   padding-top: 10vh;
@@ -642,6 +651,25 @@ ul.pagination {
   background-size: cover;
   background-color: grey;
   border-radius: 50%;
+}
+
+.file-preview {
+  display: none;
+}
+
+.media-preview.file span {
+  width: 100%; height: 100%;
+}
+
+#search-results .file-preview {
+  color: grey;
+  display: block;
+  width: 2em; height: 2em;
+  padding: 0 1em;
+}
+
+#search-results .media-preview {
+  width: 2em; height: 2em;
 }
 
 .download {
