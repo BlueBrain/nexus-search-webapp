@@ -1,3 +1,5 @@
+@import './search.css';
+
 html {
   height: auto;
   background: linear-gradient(#c5dfeb 10%, #e2e7ea);
@@ -160,9 +162,9 @@ header h1 {
 .login-block {
   padding: 0 2em;
   transition: all 150ms ease-out;
-  background-color: #0000002b;
-  box-shadow: inset 2px -1px 2px rgba(0, 0, 0, 0.30);
-  color: white;
+  /* background-color: #0000002b; */
+  /* box-shadow: inset 2px -1px 2px rgba(0, 0, 0, 0.30); */
+  /* color: white; */
   height: 100%;
   display: flex;
   justify-content: center;
@@ -177,18 +179,18 @@ header h1 {
 }
 .login-block:hover,
 #login:active {
-  background-color: #4c5865;
+  /* background-color: #4c5865; */
   box-shadow: none;
 }
 .login-block:hover a,
 .login-block:active a {
-  color: white;
+  /* color: white; */
   box-shadow: none;
 }
 .login-block a {
   cursor: pointer;
   font-weight: lighter;
-  color: #e0e0e0;
+  color: #525f7f;
 }
 
 .modal-header {
@@ -262,7 +264,7 @@ header h1 {
 .spinner {
   height: 3em;
   width: 3em;
-  margin-top: 3em;
+  /* margin-top: 3em; */
 }
 .modal-footer {
   width: 100%;
@@ -299,8 +301,8 @@ section {
   box-sizing: border-box;
   max-height: 100%;
   min-height: 75vh;
-  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
-  background-color: white;
+  /* box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3); */
+  /* background-color: white; */
 }
 
 .column {
@@ -322,9 +324,9 @@ header {
   align-items: center;
   justify-content: space-between;
   height: 60px;
-  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
-  background-color: white;
-  background-color: #2d2f38f0;
+  /* box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3); */
+  /* background-color: white; */
+  /* background-color: #2d2f38f0; */
 }
 
 footer {
@@ -333,7 +335,7 @@ footer {
   justify-content: center;
   align-items: center;
   color: gray;
-  background-color: #f7f9fa;
+  /* background-color: #f7f9fa; */
 }
 .column-footer {
   flex-grow: 0;

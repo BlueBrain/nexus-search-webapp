@@ -1,0 +1,55 @@
+{
+  "data": [
+    {
+      "@context": [
+        "https://bbp.epfl.ch/nexus/v0/contexts/neurosciencegraph/core/data/v0.2.0",
+        "https://bbp.epfl.ch/nexus/v0/contexts/nexus/core/resource/v0.3.0"
+      ],
+      "@id":
+        "https://bbp.epfl.ch/nexus/v0/data/thalamusproject/electrophysiology/trace/v0.1.0/0001af94-d139-4505-9402-02ddc21d7ab4",
+      "@type": ["prov:Entity", "nsg:Trace", "nsg:ResponseTrace"],
+      "channel": "2",
+      "distribution": [
+        {
+          "@context":
+            "https://bbp.epfl.ch/nexus/v0/contexts/nexus/core/distribution/v0.1.0",
+          "contentSize": { "unit": "byte", "value": 5037 },
+          "digest": {
+            "algorithm": "SHA-256",
+            "value":
+              "877d7251f0d9e6dda5da1381bc348d4ed0a27a94ea469092911587a479b94fe1"
+          },
+          "downloadURL":
+            "https://bbp.epfl.ch/nexus/v0/data/thalamusproject/electrophysiology/trace/v0.1.0/0001af94-d139-4505-9402-02ddc21d7ab4/attachment",
+          "mediaType": "text/plain; charset=UTF-8",
+          "originalFileName": "exp_ResetITC_ch2_2000.ibw"
+        }
+      ],
+      "name": "exp_ResetITC_ch2_2000.ibw",
+      "qualifiedGeneration": {
+        "@id":
+          "https://bbp.epfl.ch/nexus/v0/data/thalamusproject/electrophysiology/tracegeneration/v0.1.0/d85af0f2-3de0-4d49-b778-a18ead5c9608",
+        "@type": "nsg:TraceGeneration"
+      },
+      "wasGeneratedBy": {
+        "@id":
+          "https://bbp.epfl.ch/nexus/v0/data/thalamusproject/electrophysiology/stimulusexperiment/v0.1.0/7c4db033-f636-4118-be43-0245249c8e0e",
+        "@type": "nsg:StimulusExperiment"
+      },
+      "nxv:rev": 2,
+      "nxv:deprecated": false,
+      "links": {
+        "@context":
+          "https://bbp.epfl.ch/nexus/v0/contexts/nexus/core/links/v0.2.0",
+        "incoming":
+          "https://bbp.epfl.ch/nexus/v0/data/thalamusproject/electrophysiology/trace/v0.1.0/0001af94-d139-4505-9402-02ddc21d7ab4/incoming",
+        "outgoing":
+          "https://bbp.epfl.ch/nexus/v0/data/thalamusproject/electrophysiology/trace/v0.1.0/0001af94-d139-4505-9402-02ddc21d7ab4/outgoing",
+        "schema":
+          "https://bbp.epfl.ch/nexus/v0/schemas/thalamusproject/electrophysiology/trace/v0.1.0",
+        "self":
+          "https://bbp.epfl.ch/nexus/v0/data/thalamusproject/electrophysiology/trace/v0.1.0/0001af94-d139-4505-9402-02ddc21d7ab4"
+      }
+    }
+  ]
+}

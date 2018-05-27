@@ -3,6 +3,8 @@ import listReducer from "./list";
 import loaderReducer from "./loader";
 import configReducer from "./config";
 import pickReducer from "./pick";
+import queryReducer from "./query";
+import typesReducer from "./types";
 import {
   auth as authModule,
   searchBar as searchBarModule,
@@ -17,3 +19,5 @@ export const auth = authModule.reducer;
 export const pick = pickReducer;
 export const searchBar = searchBarModule.reducer;
 export const searchResults = searchResultsModule.reducer;
+export const query = queryReducer;
+export const types = typesReducer;

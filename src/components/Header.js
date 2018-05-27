@@ -1,14 +1,14 @@
 import React from "react";
 import logo from "../../public/img/logo.png";
-import SearchBar from "./SearchBar";
 import Login from "./Login";
 import { WithStore } from "@bbp/nexus-react";
 import { navigate } from "../store/actions";
-console.log('hello')
-const Header = base => (
+import SearchBar from "./SearchBar";
+
+const HeaderComponent = base => (
   <header>
     <div className="logo-block">
-      <a className="logo" href={base + "/home/"}>
+      <a className="logo bs-Button" href={base + "/home/"}>
         <img src={logo} />
       </a>
       <WithStore
@@ -25,7 +25,7 @@ const Header = base => (
               navigate("/");
             }}
           >
-            <h1>Search</h1>
+            {/* <h1>Search</h1> */}
           </a>
         )}
       </WithStore>
@@ -35,4 +35,4 @@ const Header = base => (
   </header>
 );
 
-export default Header;
+export default HeaderComponent;

@@ -65,8 +65,6 @@ const SearchResultsFound = (results, hits, pageParams, goToEntityByID, api) => {
 
 const SearchResults = (query, pageParams) => {
   return (
-    <main className="flex">
-      <div className="wrapper">
         <WithStore
           mapStateToProps={({ searchResults, config, auth }) => ({
             pending: searchResults.pending,
@@ -83,7 +81,7 @@ const SearchResults = (query, pageParams) => {
         >
           {({ hits, results, goToEntityByID, api, loggedIn, loginURI, pending }) => {
             return (
-              <section className="padding column full flex space-between">
+              <React.Fragment>
                 <h1 className="search-feedback border-bottom">
                   Search results for &quot;{query}&quot;
                 </h1>
@@ -113,12 +111,10 @@ const SearchResults = (query, pageParams) => {
                     )}
                   </div>
                 )}
-              </section>
+              </React.Fragment>
             );
           }}
         </WithStore>
-      </div>
-    </main>
   );
 };
 

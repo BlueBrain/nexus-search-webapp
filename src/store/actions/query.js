@@ -1,0 +1,63 @@
+import * as types from "./types";
+import qs from 'query-string';
+
+export default {
+  fetchQuery,
+  fetchQueryStarted,
+  fetchQueryFulfilled,
+  fetchQueryFailed
+};
+
+function fetchQuery({ query, size, from, type }) {
+  return (dispatch, getState) => {
+    let state = getState();
+    const { elasticSearchAPI, uiConfig, routing } = state.config;
+    console.log('routing: ', routing);
+    const searchAPI = elasticSearchAPI + "/search";
+    dispatch(fetchQueryStarted());
+    // TODO make query change
+    return fetch(searchAPI + "?" + qs.stringify({ q: query, size, from, type }))
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error(
+          `Encountered HTTP error ${
+            response.status
+          }. Query is not available.`
+        );
+      })
+      .then(response => {
+        console.log("query response", response);
+        dispatch(
+          fetchQueryFulfilled(
+            { hits: response.total, results: response.hits }
+          )
+        );
+      })
+      .catch(error => {
+        console.error(error);
+        dispatch(fetchQueryFailed(error));
+      });
+  };
+}
+
+function fetchQueryStarted() {
+  return {
+    type: types.FETCH_QUERY_STARTED
+  };
+}
+
+function fetchQueryFulfilled(data) {
+  return {
+    type: types.FETCH_QUERY_FULFILLED,
+    payload: data
+  };
+}
+
+function fetchQueryFailed(error) {
+  return {
+    type: types.FETCH_QUERY_FAILED,
+    error: error
+  };
+}

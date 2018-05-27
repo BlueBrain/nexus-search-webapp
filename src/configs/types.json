@@ -1,0 +1,10 @@
+{
+  "prov:Agent": {
+    "icon": "person",
+    "label": "Contributors"
+  },
+  "nsg:Subject": {
+    "icon": "mouse",
+    "label": "Subject"
+  }
+}

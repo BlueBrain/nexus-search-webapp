@@ -1,0 +1,43 @@
+body {
+  background-color: transparent;
+}
+
+section h2 {
+  background-color: white;
+}
+
+
+section .header {
+  display: block;
+  margin: 0;
+  padding: .5em;
+  text-align: center;
+  font-weight: lighter;
+  background-color: #f7f9fa;
+  border-bottom: 1px solid #b4c3ca;
+  border-top-left-radius: 1px;
+  border-top-right-radius: 1px;
+  background-color: white;
+}
+
+.bs-Button {
+  transition: box-shadow .08s ease-in, color .08s ease-in;
+  box-shadow: 0 2px 5px 0 rgba(49,49,93,.1), 0 1px 2px 0 rgba(0,0,0,.08);
+}
+
+.bs-Button:hover {
+  background-color: #fff;
+  box-shadow: 0 0 0 1px rgba(50,50,93,.1), 0 2px 5px 0 rgba(50,50,93,.1), 0 3px 9px 0 rgba(50,50,93,.08), 0 1px 1.5px 0 rgba(0,0,0,.08), 0 1px 2px 0 rgba(0,0,0,.08);
+  color: #32325d;
+}
+
+.login-block {
+  /* background-color: blue; */
+  text-shadow: 0 2px 5px 0 rgba(49,49,93,.1), 0 1px 2px 0 rgba(0,0,0,.08);
+}
+
+.tree {
+  /* fill: #dbf3e8; */
+  fill: #32325d;
+  width: 1.5em;
+}

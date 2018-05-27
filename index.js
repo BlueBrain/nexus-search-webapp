@@ -5,10 +5,10 @@ import { Route, Switch } from "react-router";
 import { ConnectedRouter } from "react-router-redux";
 import App from "./src/components/App";
 import Home from "./src/components/Home";
-import Search from "./src/components/Search";
 import store from "./src/store";
 import history from "./src/libs/history";
 import { WithStyle } from "@bbp/nexus-react";
+// import "antd/dist/antd.css";
 
 ReactDOM.render(
   <WithStyle
@@ -17,7 +17,6 @@ ReactDOM.render(
         <ConnectedRouter history={history}>
           <App>
             <Switch>
-              <Route path="/search" component={Search} />
               <Route path="/*" component={Home} />
             </Switch>
           </App>

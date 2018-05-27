@@ -1,0 +1,128 @@
+{
+  "data": [
+    {
+      "@context": [
+        "https://bbp.epfl.ch/nexus/v0/contexts/neurosciencegraph/core/data/v0.2.0",
+        "https://bbp.epfl.ch/nexus/v0/contexts/nexus/core/resource/v0.3.0"
+      ],
+      "@id":
+        "https://bbp.epfl.ch/nexus/v0/data/thalamusproject/contributor/agent/v0.1.0/1c5151de-25b8-4f37-ba6a-b54291fadf63",
+      "@type": ["prov:Agent"],
+      "familyName": "Garcia-Amado",
+      "givenName": "Maria",
+      "nxv:rev": 1,
+      "nxv:deprecated": false,
+      "links": {
+        "@context":
+          "https://bbp.epfl.ch/nexus/v0/contexts/nexus/core/links/v0.2.0",
+        "incoming":
+          "https://bbp.epfl.ch/nexus/v0/data/thalamusproject/contributor/agent/v0.1.0/1c5151de-25b8-4f37-ba6a-b54291fadf63/incoming",
+        "outgoing":
+          "https://bbp.epfl.ch/nexus/v0/data/thalamusproject/contributor/agent/v0.1.0/1c5151de-25b8-4f37-ba6a-b54291fadf63/outgoing",
+        "schema":
+          "https://bbp.epfl.ch/nexus/v0/schemas/thalamusproject/contributor/agent/v0.1.0",
+        "self":
+          "https://bbp.epfl.ch/nexus/v0/data/thalamusproject/contributor/agent/v0.1.0/1c5151de-25b8-4f37-ba6a-b54291fadf63"
+      }
+    },
+    {
+      "@context": [
+        "https://bbp.epfl.ch/nexus/v0/contexts/neurosciencegraph/core/data/v0.2.0",
+        "https://bbp.epfl.ch/nexus/v0/contexts/nexus/core/resource/v0.3.0"
+      ],
+      "@id":
+        "https://bbp.epfl.ch/nexus/v0/data/thalamusproject/contributor/agent/v0.1.0/3930b6e4-9c47-4767-bf63-daa79cbac4de",
+      "@type": ["prov:Agent"],
+      "email": "ying.shi@epfl.ch",
+      "familyName": "Shi",
+      "givenName": "Ying",
+      "nxv:rev": 1,
+      "nxv:deprecated": false,
+      "links": {
+        "@context":
+          "https://bbp.epfl.ch/nexus/v0/contexts/nexus/core/links/v0.2.0",
+        "incoming":
+          "https://bbp.epfl.ch/nexus/v0/data/thalamusproject/contributor/agent/v0.1.0/3930b6e4-9c47-4767-bf63-daa79cbac4de/incoming",
+        "outgoing":
+          "https://bbp.epfl.ch/nexus/v0/data/thalamusproject/contributor/agent/v0.1.0/3930b6e4-9c47-4767-bf63-daa79cbac4de/outgoing",
+        "schema":
+          "https://bbp.epfl.ch/nexus/v0/schemas/thalamusproject/contributor/agent/v0.1.0",
+        "self":
+          "https://bbp.epfl.ch/nexus/v0/data/thalamusproject/contributor/agent/v0.1.0/3930b6e4-9c47-4767-bf63-daa79cbac4de"
+      }
+    },
+    {
+      "@context": [
+        "https://bbp.epfl.ch/nexus/v0/contexts/neurosciencegraph/core/data/v0.2.0",
+        "https://bbp.epfl.ch/nexus/v0/contexts/nexus/core/resource/v0.3.0"
+      ],
+      "@id":
+        "https://bbp.epfl.ch/nexus/v0/data/thalamusproject/contributor/agent/v0.1.0/b86a6596-9a1b-4733-8f9f-a023d4a8ad37",
+      "@type": ["prov:Agent"],
+      "familyName": "Violot",
+      "givenName": "Caroline",
+      "nxv:rev": 1,
+      "nxv:deprecated": false,
+      "links": {
+        "@context":
+          "https://bbp.epfl.ch/nexus/v0/contexts/nexus/core/links/v0.2.0",
+        "incoming":
+          "https://bbp.epfl.ch/nexus/v0/data/thalamusproject/contributor/agent/v0.1.0/b86a6596-9a1b-4733-8f9f-a023d4a8ad37/incoming",
+        "outgoing":
+          "https://bbp.epfl.ch/nexus/v0/data/thalamusproject/contributor/agent/v0.1.0/b86a6596-9a1b-4733-8f9f-a023d4a8ad37/outgoing",
+        "schema":
+          "https://bbp.epfl.ch/nexus/v0/schemas/thalamusproject/contributor/agent/v0.1.0",
+        "self":
+          "https://bbp.epfl.ch/nexus/v0/data/thalamusproject/contributor/agent/v0.1.0/b86a6596-9a1b-4733-8f9f-a023d4a8ad37"
+      }
+    },
+    {
+      "@context": [
+        "https://bbp.epfl.ch/nexus/v0/contexts/neurosciencegraph/core/data/v0.2.0",
+        "https://bbp.epfl.ch/nexus/v0/contexts/nexus/core/resource/v0.3.0"
+      ],
+      "@id":
+        "https://bbp.epfl.ch/nexus/v0/data/thalamusproject/contributor/agent/v0.1.0/b86a6596-9a1b-4733-8f9f-a023d4a8ad37",
+      "@type": ["prov:Agent"],
+      "familyName": "Kenenth",
+      "givenName": "Pirman",
+      "email": "kenneth.pirman@epfl.ch",
+      "nxv:rev": 1,
+      "nxv:deprecated": false,
+      "links": {
+        "@context":
+          "https://bbp.epfl.ch/nexus/v0/contexts/nexus/core/links/v0.2.0",
+        "incoming":
+          "https://bbp.epfl.ch/nexus/v0/data/thalamusproject/contributor/agent/v0.1.0/b86a6596-9a1b-4733-8f9f-a023d4a8ad37/incoming",
+        "outgoing":
+          "https://bbp.epfl.ch/nexus/v0/data/thalamusproject/contributor/agent/v0.1.0/b86a6596-9a1b-4733-8f9f-a023d4a8ad37/outgoing",
+        "schema":
+          "https://bbp.epfl.ch/nexus/v0/schemas/thalamusproject/contributor/agent/v0.1.0",
+        "self":
+          "https://bbp.epfl.ch/nexus/v0/data/thalamusproject/contributor/agent/v0.1.0/b86a6596-9a1b-4733-8f9f-a023d4a8ad37"
+      },
+      "distribution": [
+        {
+          "downloadURL":
+            "https://scontent-ams3-1.xx.fbcdn.net/v/t31.0-8/12339146_10153464407343500_5851999292523882004_o.jpg?_nc_cat=0&oh=721e883c192d997958b7e70baed8a6cb&oe=5B83D312",
+          "mediaType": "image/png",
+          "originalFileName": "Kenny",
+          "contentSize": {
+            "value": 50,
+            "unitCode": "mb"
+          },
+          "digest": [
+            {
+              "alg": "MD5",
+              "value": "c02aa11a4c6"
+            },
+            {
+              "alg": "SHA256",
+              "value": "639e...60cba"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

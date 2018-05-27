@@ -1,6 +1,9 @@
 import React from "react";
 import { Instance, WithStore } from "@bbp/nexus-react";
 import { navigate } from "../store/actions";
+import Workspace from "./Workspace";
+import Filters from "./Filters";
+import { Layout } from "antd";
 
 function mapStateToInstanceContainerProps({ instance, pick }) {
   if (instance.data) {
@@ -27,33 +30,26 @@ function mapStateToInstanceContainerProps({ instance, pick }) {
 }
 
 const Home = () => (
-  <main className="flex">
-    <div className="wrapper">
-      <section className="padding column full flex space-between">
-        <h1 className="search-feedback border-bottom">
-          Welcome to the Search App
-        </h1>
-        <div className="center grow">
-        </div>
-      </section>
-      <WithStore
-        mapStateToProps={mapStateToInstanceContainerProps}
-        mapDispatchToProps={{
-          goDown: navigate.goDown,
-          goToEntityByID: navigate.goToEntityByID
-        }}
-      >
-        {({ data, open, goToEntityByID, goDown }) => (
-          <Instance
-            goDown={goDown}
-            goToEntityByID={goToEntityByID}
-            data={data}
-            open={open}
-          />
-        )}
-      </WithStore>
-    </div>
-  </main>
+  <Layout style={{ padding: "24px 0", background: "#fff" }}>
+    <Filters />
+    <Workspace />
+    <WithStore
+      mapStateToProps={mapStateToInstanceContainerProps}
+      mapDispatchToProps={{
+        goDown: navigate.goDown,
+        goToEntityByID: navigate.goToEntityByID
+      }}
+    >
+      {({ data, open, goToEntityByID, goDown }) => (
+        <Instance
+          goDown={goDown}
+          goToEntityByID={goToEntityByID}
+          data={data}
+          open={open}
+        />
+      )}
+    </WithStore>
+  </Layout>
 );
 
 export default Home;

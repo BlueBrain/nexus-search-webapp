@@ -13,7 +13,9 @@ const initialState = {
   base: BASE_URI,
   appPath: APP_PATH,
   appLocation,
-  loginURI: LOGIN_URI
+  loginURI: LOGIN_URI,
+  elasticSearchAPI: "http://localhost:9999",
+  uiConfig: require('../../configs'),
 };
 
 const configReducer = (state = initialState) => state;
