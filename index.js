@@ -7,12 +7,8 @@ import App from "./src/components/App";
 import Home from "./src/components/Home";
 import store from "./src/store";
 import history from "./src/libs/history";
-import { WithStyle } from "@bbp/nexus-react";
-// import "antd/dist/antd.css";
 
 ReactDOM.render(
-  <WithStyle
-    render={() => (
       <Provider store={store}>
         <ConnectedRouter history={history}>
           <App>
@@ -21,8 +17,6 @@ ReactDOM.render(
             </Switch>
           </App>
         </ConnectedRouter>
-      </Provider>
-    )}
-  />,
+      </Provider>,
   document.getElementById("explorer-app")
 );

@@ -5,11 +5,10 @@ import Facets from "./Facets";
 const { Content, Sider } = Layout;
 
 const FiltersComponent = () => (
-  <Sider width={200} style={{ background: '#fff' }}>
+  <Sider id={'filters'} width={300} style={{ background: '#fff', padding: '1em 0'}}>
     <Content>
       <Types />
-      <hr />
-      <Facets />
+      {/* <Facets /> */}
     </Content>
   </Sider>
 )

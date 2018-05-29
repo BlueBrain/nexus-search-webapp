@@ -4,8 +4,9 @@ import { navigate } from "../store/actions";
 import Workspace from "./Workspace";
 import Filters from "./Filters";
 import { Layout } from "antd";
+import qs from "query-string";
 
-function mapStateToInstanceContainerProps({ instance, pick }) {
+function mapStateToInstanceContainerProps({ instance, routing }) {
   if (instance.data) {
     instance.data.metaFields = [
       "distribution",
@@ -25,24 +26,23 @@ function mapStateToInstanceContainerProps({ instance, pick }) {
   }
   return {
     ...instance,
-    open: !!pick.instance
+    open: !!qs.parse(routing.location.search).instance
   };
 }
 
 const Home = () => (
-  <Layout style={{ padding: "24px 0", background: "#fff" }}>
-    <Filters />
+  <Layout>
     <Workspace />
+    <Filters />
     <WithStore
       mapStateToProps={mapStateToInstanceContainerProps}
       mapDispatchToProps={{
-        goDown: navigate.goDown,
         goToEntityByID: navigate.goToEntityByID
       }}
     >
-      {({ data, open, goToEntityByID, goDown }) => (
+      {({ data, open, goToEntityByID }) => (
         <Instance
-          goDown={goDown}
+          goDown={() => goToEntityByID()}
           goToEntityByID={goToEntityByID}
           data={data}
           open={open}

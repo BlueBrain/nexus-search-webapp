@@ -5,8 +5,9 @@ import PropTypes from "prop-types";
 import ReactPaginate from "react-paginate";
 import { Shapes, Spinner } from "@bbp/nexus-react";
 import { query, navigate } from "../store/actions";
-import qs from 'query-string';
-// import { Button, Input, Icon, Radio } from 'antd';
+import qs from "query-string";
+import { Select, Icon, Radio, Spin } from "antd";
+import GridResults from "./GridResults";
 
 const DEFAULT_PAGE_SIZE = 50;
 
@@ -35,54 +36,121 @@ Paginate.propTypes = {
   handlePageClick: PropTypes.func.isRequired
 };
 
-const SearchResultsFound = (results, hits, pageParams, goToEntityByID, api) => {
+const SearchToolbar = ({ hits }) => {
+  const Option = Select.Option;
+  const RadioButton = Radio.Button;
+  const RadioGroup = Radio.Group;
+  return (
+    <div className="search-toolbar flex space-between">
+      <div className="">
+        <p>{hits} results found</p>
+      </div>
+      <div className="">
+        <Select defaultValue="lucy" style={{ width: 120 }} onChange={() => {}}>
+          <Option value="jack">Relevance</Option>
+          <Option value="lucy">Name</Option>
+        </Select>{" "}
+        <RadioGroup onChange={() => {}} defaultValue="a">
+          <RadioButton value="a">
+            <Icon type="appstore-o" />
+          </RadioButton>
+          <RadioButton value="b">
+            <Icon type="profile" />
+          </RadioButton>
+        </RadioGroup>
+      </div>
+    </div>
+  );
+};
+
+const SearchResultsList = ({ results, api, goToEntityByID }) => {
+  return (
+    <ul id="search-results" className="grow">
+      {results.map((result, index) => {
+        return (
+          <li
+            key={`${result._source["@id"]}-${index}`}
+            onClick={() => goToEntityByID(result._source["@id"])}
+          >
+            <Shapes.Relationship value={result._source} api={api} />
+          </li>
+        );
+      })}
+    </ul>
+  );
+};
+
+const SearchResultsGrid = ({ results, api, goToEntityByID, hoverType }) => {
+  return (
+    <div id="search-results" className="flex wrap">
+      {results.map((result, index) => {
+        return (
+          <GridResults
+            key={`${result._source["@id"]}-${index}`}
+            value={result._source}
+            goToEntityByID={goToEntityByID}
+          />
+        );
+      })}
+    </div>
+  );
+};
+
+const SearchResultsFound = (results, hits, pageParams, goToEntityByID, api, hoverType, types) => {
   return (
     <React.Fragment>
-      <ul id="search-results" className="grow">
-        {results.map((result, index) => {
-          return (
-            <li
-              key={`${result._source['@id']}-${index}`}
-              onClick={() => goToEntityByID(result._source['@id'])}
-            >
-              <Shapes.Relationship value={result._source} api={api} />
-            </li>
-          );
-        })}
-        {results.length ? (
-          <div>
-            Displaying: {results.length}
-            <small> of {hits} instances found</small>
-          </div>
-        ) : (
-          <div>No instances found</div>
-        )}
-      </ul>
+      <SearchToolbar hits={hits} />
+      {/* <SearchResultsList results={results} api={api} goToEntityByID={goToEntityByID}/> */}
+      <SearchResultsGrid
+        results={results}
+        api={api}
+        goToEntityByID={goToEntityByID}
+        hoverType={hoverType}
+        types={types}
+      />
+      {results.length ? (
+        <div>
+          Displaying: {results.length}
+          <small> of {hits} instances found</small>
+        </div>
+      ) : (
+        <div>No instances found</div>
+      )}
       {hits - results.length > 0 &&
         Paginate({ totalPages: hits / pageParams.pageSize, ...pageParams })}
     </React.Fragment>
   );
 };
+// const Hero = () => (
+//   <div className="hero">
+//     <h1>This is bananas</h1>
+//     <p>stuff dont think it be like that but it do</p>
+//   </div>
+// )
 
-const SearchResults = ({ pending, results, hits, goToEntityByID, api}, pageParams) => {
+const SearchResults = (
+  { pending, results, hits, goToEntityByID, api, hoverType, types },
+  pageParams
+) => {
   return (
-    <div>
-      <h1 className="search-feedback border-bottom">
-        Search results for &quot;{"something"}&quot;
-      </h1>
+    <div className="center grow full full-height column">
       {pending && (
         <div className="center grow spinner">
-          <Spinner />
+          <div style={{ width: 100, margin: '200px auto'}}>
+          <Spin size="large" tip={"fetching items"}/>
+          </div>
         </div>
       )}
       {!!results.length &&
-        SearchResultsFound(results, hits, pageParams, goToEntityByID, api)}
+        SearchResultsFound(results, hits, pageParams, goToEntityByID, api, hoverType, types)}
       {!results.length &&
         !pending && (
-          <div className="center grow">
+          <div className="center grow full full-height column">
             <h3>Hmmmm...</h3>
             <p>
-              We didn&#39;t manage to find any instances matching &quot;{"q uery"}&quot;
+              We didn&#39;t manage to find any instances matching &quot;{
+                "query"
+              }&quot;
             </p>
             {/* {!loggedIn && (
               <p>
@@ -108,8 +176,7 @@ class SearchResultsContainer extends React.Component {
   componentDidMount() {
     this.search();
   }
-  componentDidUpdate (props) {
-    console.log('update?', this.props)
+  componentDidUpdate(props) {
     if (props.query !== this.props.query) {
       this.search();
     }
@@ -146,10 +213,9 @@ SearchResultsContainer.propTypes = {
   api: PropTypes.string.isRequired
 };
 
-function mapStateToProps({ config, query, routing }) {
+function mapStateToProps({ config, query, routing, types }) {
   const queryTerm = qs.parse(routing.location.search).q;
   const selectedType = qs.parse(routing.location.search).type;
-  console.log('result props', queryTerm, selectedType)
   return {
     pageSize: config.pageSize,
     api: config.api,
@@ -157,7 +223,7 @@ function mapStateToProps({ config, query, routing }) {
     hits: query.hits,
     pending: query.pending,
     query: queryTerm,
-    type: selectedType
+    type: selectedType,
   };
 }
 

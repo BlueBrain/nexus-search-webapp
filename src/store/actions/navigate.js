@@ -14,7 +14,7 @@ const truthy = function(obj) {
   return obj;
 };
 
-const updateQuery = ({ query, type }) => {
+const updateQuery = ({ query, type, instance }) => {
   return (dispatch, getState) => {
     let { routing } = getState();
     let path = routing.location.pathname;
@@ -23,7 +23,7 @@ const updateQuery = ({ query, type }) => {
       qs.parse(routing.location.search).q : query;
     const selectedType =
       type === undefined ? qs.parse(routing.location.search).type : type;
-    let queryStringObject = truthy({ q: queryTerm, type: selectedType });
+    let queryStringObject = truthy({ q: queryTerm, type: selectedType, instance });
     let queryString = qs.stringify(queryStringObject);
     if (queryString) {
       return dispatch(push(`${path}?${queryString}`));
@@ -47,10 +47,8 @@ const goToSearch = query => {
 };
 
 const goToEntityByID = id => {
-  return (dispatch, getState) => {
-    let API = getState().config.api;
-    const [, entityPath] = id.split(API + "/data/");
-    dispatch(navigate(entityPath));
+  return (dispatch) => {
+    dispatch(updateQuery({ instance: id }));
   };
 };
 
@@ -70,48 +68,11 @@ const goDown = () => {
   };
 };
 
-const pickEntity = ({ entity, id }) => {
-  return (dispatch, getState) => {
-    const oldRoute = getState().routing.location.pathname;
-    const paths = oldRoute.split("/").slice(1);
-    const indexOfEntity = entityKeys.indexOf(entity);
-    let newPaths = [];
-    for (let i = 0; i <= indexOfEntity; i++) {
-      if (indexOfEntity === i) {
-        newPaths.push(id);
-      } else if (paths[i]) {
-        newPaths.push(paths[i]);
-      }
-    }
-    if (entity === "schema") {
-      let [schemaId, verId] = id.split("_");
-      newPaths[newPaths.length - 1] = schemaId;
-      newPaths.push(verId);
-    }
-    const newPath = newPaths.join("/");
-    dispatch(navigate(newPath));
-  };
-};
-
 const reconcileRoutes = () => {
   return (dispatch, getState) => {
-    const newPath = getState().routing.location.pathname;
-    if (newPath.indexOf("/search") >= 0) {
-      // TODO might have to do something here
-    }
-    const entityList = newPath.slice(1, newPath.length).split("/");
-    const [
-      org = "",
-      domain = "",
-      schema = "",
-      ver = "",
-      instance = ""
-    ] = entityList;
-    const oldInstance = getState().pick.instance;
-    dispatch({ type: "ALL_PICK", org, domain, schema, ver, instance });
-    // FetchInstance if there is a new one
-    // TODO find an async way to do this?
-    if (instance && instance !== oldInstance) {
+    const { routing } = getState();
+    const instanceID =  qs.parse(routing.location.search).instance;
+    if (instanceID) {
       dispatch(instanceActions.fetchInstance());
     }
   };
@@ -127,7 +88,6 @@ const fetchListFailed = (error, entity) => {
 
 export default {
   navigate,
-  pickEntity,
   goDown,
   reconcileRoutes,
   fetchListFailed,

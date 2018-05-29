@@ -1,34 +1,35 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
-import { Spinner } from "@bbp/nexus-react";
 import { connect } from "react-redux";
-import { Checkbox, Row, Col, Spin, Tree, Icon } from "antd";
+import { Spin, Icon, Card } from "antd";
 import { types, navigate } from "../../store/actions";
-import icons from "../Icons";
-import SVG from "react-svg";
+import TypeIcon from "../TypeIcon";
 import qs from 'query-string';
 
-const DEFAULT_TYPE_ICON_KEY = "cube";
 
-const { TreeNode } = Tree;
+const Type = ({ color, label, value, icon, amount, onSelect, onHover }) => {
+  return (
+      <div key={value} className="type" onMouseLeave={() => onHover(null)} onMouseEnter={() => onHover(value)} onClick={() => onSelect(value)}>
+        <Card>
+          <div className="flex space-between"><TypeIcon iconURL={icon} color={color} /><span style={{flexGrow: 1, padding: '0 1em'}}>{label}</span><span style={{color: '#80808094'}}>{amount}</span></div>
+        </Card>
+      </div>
+  )
+}
 
-const TypeIcon = ({iconURL}) => (
-  <SVG
-    path={icons[iconURL] || icons[DEFAULT_TYPE_ICON_KEY]}
-    svgClassName="svg-class-name"
-    className="tree"
-  />
-);
-
-const TypesComponent = ({ pending, types, onSelect, clearTypes }) => (
-  <div className="facets title">
-    <a onClick={clearTypes}>clear filters</a>
-    {pending && <Spin />}
+const TypesComponent = ({ pending, types, onHover, onSelect, clearTypes }) => (
+  <div id="types">
+    <div className="filter-title flex space-between">
+      <p>Categories</p>
+      <a onClick={clearTypes}>clear filters</a>
+    </div>
+    {pending && <div className="filter-title flex space-between" style={{width:"100%", margin: "40px auto"}}><Spin /></div>}
     {types &&
-      types.map(({ label, value, icon, amount }) => (
-        <button key={value} onClick={() => onSelect(value)}><TypeIcon iconURL={icon} /> {label}{"   "}{amount}</button>
-      ))}
+      types.map(props => Type({ onSelect, onHover, ...props }))}
+    <div className="filter-title flex space-between">
+      <a onClick={clearTypes}>see more <Icon type="down"/></a>
+    </div>
   </div>
 );
 
@@ -54,6 +55,9 @@ class TypesContainer extends React.PureComponent {
   onSelect (value) {
     this.props.updateQuery({ type: value });
   }
+  onHover (value) {
+    this.props.hoverType(value);
+  }
   clearTypes () {
     this.props.updateQuery({ type: null });
   }
@@ -61,7 +65,8 @@ class TypesContainer extends React.PureComponent {
     const { pending, error, types, selectedType } = this.props;
     const onSelect = this.onSelect.bind(this);
     const clearTypes = this.clearTypes.bind(this);
-    return TypesComponent({ pending, error, types, onSelect, selectedType, clearTypes });
+    const onHover = this.onHover.bind(this);
+    return TypesComponent({ pending, error, types, onSelect, selectedType, clearTypes, onHover });
   }
 }
 
@@ -91,7 +96,8 @@ function mapStateToProps({ types: typeData, routing }) {
 function mapDispatchToProps(dispatch) {
   return {
     updateQuery: bindActionCreators(navigate.updateQuery, dispatch),
-    fetchTypes: bindActionCreators(types.fetchTypes, dispatch)
+    fetchTypes: bindActionCreators(types.fetchTypes, dispatch),
+    hoverType: bindActionCreators(types.updateHoverType, dispatch)
   };
 }
 

@@ -4,7 +4,8 @@ export default function typesReducer (
   state = {
     types: [],
     pending: false,
-    error: null
+    error: null,
+    hoverType: null
   },
   action
 ) {
@@ -28,6 +29,11 @@ export default function typesReducer (
         pending: false,
         types: [],
         error: action.error
+      });
+
+    case types.UPDATE_HOVER_TYPE:
+      return Object.assign({}, state, {
+        hoverType: action.payload
       });
 
     default:

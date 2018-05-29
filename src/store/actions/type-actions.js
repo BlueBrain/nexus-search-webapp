@@ -5,7 +5,8 @@ export default {
   fetchTypes,
   fetchTypesStarted,
   fetchTypesFulfilled,
-  fetchTypesFailed
+  fetchTypesFailed,
+  updateHoverType
 };
 
 function fetchTypes(query) {
@@ -26,14 +27,14 @@ function fetchTypes(query) {
         );
       })
       .then(response => {
-        console.log("types response", response, uiConfig);
         dispatch(
           fetchTypesFulfilled(
-            response.map(({ key, doc_count }) => {
+            response.map(({ key, doc_count, color }) => {
               let typesUiConfig = uiConfig.types[key];
               return {
                 label: typesUiConfig ? typesUiConfig.label : key,
                 value: key,
+                color: color,
                 icon: typesUiConfig ? typesUiConfig.icon : null,
                 amount: doc_count
               };
@@ -65,5 +66,12 @@ function fetchTypesFailed(error) {
   return {
     type: types.FETCH_TYPES_FAILED,
     error: error
+  };
+}
+
+function updateHoverType(data) {
+  return {
+    type: types.UPDATE_HOVER_TYPE,
+    payload: data
   };
 }

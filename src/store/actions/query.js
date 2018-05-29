@@ -12,7 +12,6 @@ function fetchQuery({ query, size, from, type }) {
   return (dispatch, getState) => {
     let state = getState();
     const { elasticSearchAPI, uiConfig, routing } = state.config;
-    console.log('routing: ', routing);
     const searchAPI = elasticSearchAPI + "/search";
     dispatch(fetchQueryStarted());
     // TODO make query change
@@ -28,7 +27,6 @@ function fetchQuery({ query, size, from, type }) {
         );
       })
       .then(response => {
-        console.log("query response", response);
         dispatch(
           fetchQueryFulfilled(
             { hits: response.total, results: response.hits }

@@ -1,9 +1,86 @@
+@import './style.css';
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body {
   background-color: transparent;
 }
 
+a {
+  color: #45c7f4;
+}
+
+html {
+  background: #F7F9FA !important;
+}
+
+.wrap {
+  flex-wrap: wrap;
+  justify-content: stretch;
+}
+
 section h2 {
   background-color: white;
+}
+
+#filters {
+  box-shadow: 0px 0px 3px 0px #abbac98c;
+  min-height: 100vh;
+}
+
+.type {
+  margin: 0.5em 0;
+  cursor: pointer;
+}
+.type .ant-card-body {
+  padding: 1em;
+}
+.type-icon {
+  display: inline-block;
+}
+
+#types {
+  padding: 1em;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.filter-title {
+  text-transform: uppercase;
+}
+
+.filter-title p, .filter-title a {
+  font-size: 10px;
+  line-height: 24px;
+}
+
+#workspace {
+  padding: 1em;
+}
+
+#search-results {
+  align-self: flex-start;
+}
+
+.search-toolbar {
+  flex-grow: 0;
+}
+
+.ant-layout {
+  background-color: transparent;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  opacity: 1;
+  width: 100vw;
+  /* box-shadow: 0px 1px 3px 0px #abbac9; */
+  background-color: #f0f0f0;
 }
 
 
@@ -17,7 +94,7 @@ section .header {
   border-bottom: 1px solid #b4c3ca;
   border-top-left-radius: 1px;
   border-top-right-radius: 1px;
-  background-color: white;
+  /* background-color: white; */
 }
 
 .bs-Button {
@@ -36,8 +113,160 @@ section .header {
   text-shadow: 0 2px 5px 0 rgba(49,49,93,.1), 0 1px 2px 0 rgba(0,0,0,.08);
 }
 
-.tree {
+.align-center {
+  align-self: center;
+}
+
+.type-icon {
   /* fill: #dbf3e8; */
   fill: #32325d;
   width: 1.5em;
+}
+
+.rounded-shadow::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  -webkit-box-shadow: 0 0 40px;
+  box-shadow: 0 0 40px #abbac9;
+  width: 90%;
+  top: 40px;
+  height: 20px;
+  -moz-border-radius: 100%;
+  border-radius: 100%;
+  left: 5%;
+  right: 5%;
+}
+
+.stack-top {
+  z-index:2;
+}
+
+.result-card {
+  position: relative;
+  background: white;
+  border-radius: 3px;
+  width: 250px;
+  max-height: 400px;
+  min-height: 300px;
+  box-shadow: -1px 1px 4px 0px #abbac95e;
+  margin: 1em;
+}
+
+.result-card .image-preview {
+  background-color: #abbac942;
+  height: 100px;
+}
+
+.result-card .type-avatar {
+  padding: 1em;
+  border-radius: 50%;
+  position: relative;
+  top: -1em;
+  background-color: white;
+  width: 4em;
+  height: 4em;
+  left: 1em;
+  box-shadow: -1px 1px 4px 0px #abbac95e;
+}
+.result-card .type-avatar .type-icon {
+  width: 2em; height: 2em;
+}
+.result-card .type-avatar .type-svg {
+  top: 0;
+}
+.card-tag {
+}
+
+.result-card .card-footer {
+  border-top: 1px solid #f0f0f0;
+  padding: 1em;
+  position: absolute;
+  background-color: #f0f0f042;
+  bottom: 0;
+}
+.card-title {
+  padding: 1em;
+}
+.card-title .name {
+  text-align: left;
+  font-weight: 600;
+  color: #485870;
+}
+.card-files {
+  padding: 1em;
+}
+.card-title .date {
+  opacity: 0.8;
+}
+.card-description {
+  padding: 0 1em;
+  opacity: 0.6;
+}
+
+.p-ellipsis {
+  display: -webkit-box;
+  overflow : hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.result-card:hover .result-card-hover {
+  z-index: 1;
+  visibility: visible;
+}
+
+.result-card .result-card-hover {
+  visibility: hidden;
+  background-color: #596579ed;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 1em;
+  justify-content: space-between;
+  font-weight: lighter;
+}
+
+.result-card-hover .btn-wrapper {
+  margin: 1em 0;
+}
+
+.explorer, .type-icon {
+  vertical-align: baseline;
+  text-align: center;
+  text-transform: none;
+  line-height: 1;
+  display: inline-block;
+}
+.explorer, .svg-explorer {
+  width: 1em; height: 1em;
+}
+.svg-explorer, .type-svg {
+  top: 3px;
+  position: relative;
+}
+
+.result-card-hover .star, .result-card-hover .bookmark {
+  cursor: pointer;
+}
+
+.result-card-hover button {
+  border-radius: 3px;
+  border: 1px solid white;
+  color: white;
+  background-color: transparent;
+  font-size: 1.5em;
+  cursor: pointer;
+  font-weight: lighter;
+}
+
+.result-card-hover button.emphasized {
+  color: #596579;
+  background-color: white;
 }

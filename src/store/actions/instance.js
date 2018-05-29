@@ -1,5 +1,6 @@
-import { getInstance } from '@bbp/nexus-js-helpers';
+import { fetchWithToken } from '@bbp/nexus-js-helpers';
 import * as types from './types';
+import qs from "query-string";
 
 export default {
   fetchInstance,
@@ -10,12 +11,12 @@ export default {
 
 function fetchInstance () {
   return (dispatch, getState) => {
-    let state = getState()
-    const { org, domain, schema, ver, instance } = state.pick
-    const { api } = state.config
-    const { token } = state.auth
+    let { auth, routing } = getState();
+    const { token } = auth
+    const instanceID = qs.parse(routing.location.search).instance;
+    if (!instanceID) { return; }
     dispatch(fetchInstanceStarted())
-    return getInstance([org, domain, schema, ver, instance], {}, api, token)
+    return fetchWithToken(instanceID, token)
     .then(response => {
       if (response.ok) {
         return response.json();

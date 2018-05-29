@@ -6,6 +6,7 @@ import { navigate } from "../store/actions";
 import SearchBar from "./SearchBar";
 
 const HeaderComponent = base => (
+  <div className="stack-wrap rounded-shadow stack-top">
   <header>
     <div className="logo-block">
       <a className="logo bs-Button" href={base + "/home/"}>
@@ -33,6 +34,7 @@ const HeaderComponent = base => (
     <SearchBar />
     <Login />
   </header>
+  </div>
 );
 
 export default HeaderComponent;

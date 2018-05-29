@@ -14,11 +14,8 @@ class WorkspaceContainer extends React.PureComponent {
 }
 
 const Workspace = () => (
-<section id="search-results" className="column flex space-between">
-  <div className="">
-  {/* <SearchBar /> */}
-  </div>
-  <div className="center grow">
+<section id="workspace" className="column full flex space-between">
+  <div className="center grow full full-height">
   <SearchResults/>
   </div>
 </section>

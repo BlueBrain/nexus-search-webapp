@@ -1,4 +1,5 @@
-const index = "test_index_2";
+import palettes from 'distinct-colors';
+const index = "test_index_3";
 
 function getTypes(client, query) {
   const params = {
@@ -22,13 +23,11 @@ function getTypes(client, query) {
     };
   }
   return client.search(params).then(res => {
-    console.log(res);
     return res.aggregations["@types"].buckets;
   });
 }
 
 function getDocs(client, query) {
-  console.log("query", query);
   let params = {};
   if (query.q) {
     params = {
@@ -70,7 +69,6 @@ function getDocs(client, query) {
       }
     };
   }
-  console.log("params", JSON.stringify(params, null, 2));
   return client
     .search({
       index,
@@ -85,6 +83,15 @@ function getDocs(client, query) {
 export default function routes(app, elasticSearch) {
   app.get("/types", (req, res) => {
     getTypes(elasticSearch, req.query)
+      .then(types => {
+        let palette = palettes({count: types.length, chromaMax: 80, lightMin: 70})
+        return types.map((type, index) => {
+
+          type.color = palette[index].hex()
+          console.log(type);
+          return type;
+        })
+      })
       .then(data => res.status(200).json(data))
       .catch(error => {
         console.log(error);

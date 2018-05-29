@@ -1,15 +1,13 @@
-@import './search.css';
-
 html {
   height: auto;
-  background: linear-gradient(#c5dfeb 10%, #e2e7ea);
+  /* background: linear-gradient(#c5dfeb 10%, #e2e7ea); */
 }
 body {
   min-height: 100vh;
   box-sizing: border-box;
   display: flex;
   position: relative;
-  flex-direction: column;
+  flex-direction: coluwwmn;
   margin: 0;
   color: #555;
   padding: 0;
@@ -22,6 +20,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
+  min-width: 100vw;
 }
 
 .pattern {
@@ -120,6 +119,9 @@ ul#search-results {
   overflow: hidden;
   position: relative;
   width: 100%;
+}
+.full-height {
+  height: 100%;
 }
 .full {
   width: 100%;

@@ -24,7 +24,6 @@ const Facet = ({ label, value, amount }) => (
 
 const FacetGroup = (facet, onSelect ) => {
   const { title, facetOptions } = facet
-  console.log('in facetGroup', title, facetOptions);
   return <li className="facet-group">
       <FacetTitle>{title}</FacetTitle>
       <FacetBody>
