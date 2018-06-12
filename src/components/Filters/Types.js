@@ -24,7 +24,7 @@ const TypesComponent = ({ pending, types, onHover, onSelect, clearTypes }) => (
       <p>Categories</p>
       <a onClick={clearTypes}>clear filters</a>
     </div>
-    {pending && <div className="filter-title flex space-between" style={{width:"100%", margin: "40px auto"}}><Spin /></div>}
+    {pending && <div className="filter-title flex center" style={{width:"100%", margin: "40px auto"}}><Spin /></div>}
     {types &&
       types.map(props => Type({ onSelect, onHover, ...props }))}
     <div className="filter-title flex space-between">

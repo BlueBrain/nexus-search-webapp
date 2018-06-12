@@ -3,6 +3,7 @@ import instanceActions from "./instance";
 import typeActions from "./type-actions";
 import loadingActions from "./loading";
 import queryActions from "./query";
+import facetsActions from "./facets";
 import {
   auth as authModule,
   searchBar as searchBarModule,
@@ -17,3 +18,4 @@ export const searchBar = searchBarModule.actions;
 export const searchResults = searchResultsModule.actions;
 export const types = typeActions;
 export const query = queryActions;
+export const facets = facetsActions;

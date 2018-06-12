@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mappingToAggs() can handle distribution, which is a hardcoded special case 1`] = `
+Object {
+  "distribution": Object {
+    "aggs": Object {
+      "labels": Object {
+        "terms": Object {
+          "field": "distribution.mediaType.raw",
+        },
+      },
+    },
+    "nested": Object {
+      "path": "distribution",
+    },
+  },
+}
+`;
+
+exports[`mappingToAggs() can transform even nested property types 1`] = `
+Object {
+  "brainLocation": Object {
+    "aggs": Object {
+      "brainRegion": Object {
+        "aggs": Object {
+          "labels": Object {
+            "terms": Object {
+              "field": "brainLocation.brainRegion.label.raw",
+            },
+          },
+        },
+        "nested": Object {
+          "path": "brainLocation.brainRegion",
+        },
+      },
+    },
+    "nested": Object {
+      "path": "brainLocation",
+    },
+  },
+}
+`;
+
+exports[`mappingToAggs() makes a properly formed agg object 1`] = `
+Object {
+  "sex": Object {
+    "aggs": Object {
+      "labels": Object {
+        "terms": Object {
+          "field": "sex.label.raw",
+        },
+      },
+    },
+    "nested": Object {
+      "path": "sex",
+    },
+  },
+}
+`;
+
+exports[`mappingToAggs() makes a properly formed agg object with multiple inputs 1`] = `
+Object {
+  "sex": Object {
+    "aggs": Object {
+      "labels": Object {
+        "terms": Object {
+          "field": "sex.label.raw",
+        },
+      },
+    },
+    "nested": Object {
+      "path": "sex",
+    },
+  },
+  "species": Object {
+    "aggs": Object {
+      "labels": Object {
+        "terms": Object {
+          "field": "species.label.raw",
+        },
+      },
+    },
+    "nested": Object {
+      "path": "species",
+    },
+  },
+}
+`;

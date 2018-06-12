@@ -8,14 +8,14 @@ export default {
   fetchQueryFailed
 };
 
-function fetchQuery({ query, size, from, type }) {
+function fetchQuery({ query, size, from, type, filter }) {
   return (dispatch, getState) => {
     let state = getState();
     const { elasticSearchAPI, uiConfig, routing } = state.config;
-    const searchAPI = elasticSearchAPI + "/search";
+    const searchAPI = elasticSearchAPI + "/docs";
     dispatch(fetchQueryStarted());
     // TODO make query change
-    return fetch(searchAPI + "?" + qs.stringify({ q: query, size, from, type }))
+    return fetch(searchAPI + "?" + qs.stringify({ q: query, size, from, type, filter }))
       .then(response => {
         if (response.ok) {
           return response.json();

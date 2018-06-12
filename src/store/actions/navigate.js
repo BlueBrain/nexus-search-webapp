@@ -2,28 +2,21 @@ import { push } from "react-router-redux";
 import instanceActions from "./instance";
 import * as types from "./types";
 import qs from "query-string";
+import { truthy } from "../../libs/utils";
 
-const entityKeys = ["org", "domain", "schema", "ver", "instance"];
-
-const truthy = function(obj) {
-  for (let i in obj) {
-    if (!obj[i]) {
-      delete obj[i];
-    }
-  }
-  return obj;
-};
-
-const updateQuery = ({ query, type, instance }) => {
+const updateQuery = ({ query, type, instance, filter }) => {
   return (dispatch, getState) => {
     let { routing } = getState();
     let path = routing.location.pathname;
     const queryTerm =
       query === undefined ?
       qs.parse(routing.location.search).q : query;
+    const filterTerm =
+      filter === undefined ?
+      qs.parse(routing.location.search).filter : JSON.stringify(filter);
     const selectedType =
       type === undefined ? qs.parse(routing.location.search).type : type;
-    let queryStringObject = truthy({ q: queryTerm, type: selectedType, instance });
+    let queryStringObject = truthy({ q: queryTerm, type: selectedType, instance, filter: filterTerm });
     let queryString = qs.stringify(queryStringObject);
     if (queryString) {
       return dispatch(push(`${path}?${queryString}`));

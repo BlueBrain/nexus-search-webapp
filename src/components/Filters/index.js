@@ -8,7 +8,7 @@ const FiltersComponent = () => (
   <Sider id={'filters'} width={300} style={{ background: '#fff', padding: '1em 0'}}>
     <Content>
       <Types />
-      {/* <Facets /> */}
+      <Facets />
     </Content>
   </Sider>
 )

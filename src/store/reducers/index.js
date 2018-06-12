@@ -4,6 +4,7 @@ import loaderReducer from "./loader";
 import configReducer from "./config";
 import pickReducer from "./pick";
 import queryReducer from "./query";
+import facetsReducer from "./facets";
 import typesReducer from "./types";
 import {
   auth as authModule,
@@ -20,4 +21,5 @@ export const pick = pickReducer;
 export const searchBar = searchBarModule.reducer;
 export const searchResults = searchResultsModule.reducer;
 export const query = queryReducer;
+export const facets = facetsReducer;
 export const types = typesReducer;

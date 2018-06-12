@@ -183,15 +183,18 @@ class SearchResultsContainer extends React.Component {
     if (props.type !== this.props.type) {
       this.search();
     }
+    if (props.filter !== this.props.filter) {
+      this.search();
+    }
   }
   handlePageClick({ selected }) {
     const from = Math.ceil(selected * this.pageSize);
     this.setState({ from, selected }, () => this.search(this.props));
   }
   search() {
-    let { query, type } = this.props;
+    let { query, type, filter } = this.props;
     let { from } = this.state;
-    this.props.search({ query, from, size: this.pageSize, type });
+    this.props.search({ query, from, size: this.pageSize, type, filter });
   }
   render() {
     let { selected } = this.state;
@@ -210,12 +213,14 @@ SearchResultsContainer.propTypes = {
   hits: PropTypes.number,
   pending: PropTypes.bool,
   pageSize: PropTypes.number,
+  filter: PropTypes.string,
   api: PropTypes.string.isRequired
 };
 
-function mapStateToProps({ config, query, routing, types }) {
+function mapStateToProps({ config, query, routing }) {
   const queryTerm = qs.parse(routing.location.search).q;
   const selectedType = qs.parse(routing.location.search).type;
+  const filter = qs.parse(routing.location.search).filter;
   return {
     pageSize: config.pageSize,
     api: config.api,
@@ -224,6 +229,7 @@ function mapStateToProps({ config, query, routing, types }) {
     pending: query.pending,
     query: queryTerm,
     type: selectedType,
+    filter
   };
 }
 

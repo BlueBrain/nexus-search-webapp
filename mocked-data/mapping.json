@@ -126,10 +126,12 @@
           "properties": {
             "downloadURL": { "type": "text" },
             "mediaType": {
-              "type": "text",
-              "fields": {
-                "raw": {
-                  "type": "keyword"
+              "properties": {
+                "type": "text",
+                "fields": {
+                  "raw": {
+                    "type": "keyword"
+                  }
                 }
               }
             },
