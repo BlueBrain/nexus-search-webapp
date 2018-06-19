@@ -19,10 +19,11 @@ const FacetBody = ({ children }) => (
   <div className="facet-body">{children}</div>
 );
 
-const Facet = ({ label, value, amount }) => (
+const Facet = ({ label, value, amount, selected }) => {
+  return (
   <Row>
     <Col span={3}>
-      <Checkbox value={value} />
+      <Checkbox value={value} checked={true}/>
     </Col>
     <Col span={12}>
       {label}
@@ -31,15 +32,15 @@ const Facet = ({ label, value, amount }) => (
     <Col span={8}>{amount}</Col>
   </Row>
 );
-
+}
 const FacetGroup = (facet, onSelect) => {
-  const { title, total, facetOptions } = facet;
+  const { title, total, facetOptions, selected } = facet;
   return (
     <li key={title} className="facet-group">
       <FacetTitle title={title} total={total} />
       <FacetBody>
-        <CheckboxGroup style={{ width: "100%" }} onChange={value => onSelect(title, value)}>
-          {facetOptions && !!facetOptions.length && facetOptions.map(({ label, value, selected, amount }, index) => (
+        <CheckboxGroup style={{ width: "100%" }} defaultValue={selected} onChange={value => onSelect(title, value)}>
+          {facetOptions && !!facetOptions.length && facetOptions.map(({ label, value, amount, selected }, index) => (
             <Facet
               key={`${label}-${index}`}
               name={name}
@@ -68,7 +69,7 @@ const FacetsComponent = ({ facets, pending, selectedType, onSelect }) => (
       facets &&
       !!facets.length && (
         <div>
-          <ul>{facets.filter(facet => !!facet.total).map(facet => FacetGroup(facet, onSelect))}</ul>
+          <ul>{facets.map(facet => FacetGroup(facet, onSelect))}</ul>
         </div>
       )}
   </div>
@@ -84,18 +85,21 @@ FacetsComponent.propTypes = {
 class FacetContainer extends React.Component {
   state = { facet: {} };
   componentDidMount() {
-    this.props.fetchFacetsByType(this.props.selectedType);
+    this.props.fetchFacets(this.props.selectedType, this.props.queryTerm);
   }
   componentDidUpdate (props) {
+    console.log(props.facets);
     if (props.selectedType !== this.props.selectedType) {
-      this.props.fetchFacetsByType(this.props.selectedType);
+      this.props.fetchFacets(this.props.selectedType, this.props.queryTerm);
+    }
+    if (props.queryTerm !== this.props.queryTerm) {
+      this.props.fetchFacets(this.props.selectedType, this.props.queryTerm);
     }
   }
   onSelect (key, value) {
     let { facet } = this.state;
     facet[key] = value;
     this.setState({ facet: truthy(facet) }, () => {
-      console.log('new facet: ', this.state.facet);
       this.props.updateQuery({ filter: this.state.facet });
     });
   }
@@ -106,9 +110,11 @@ class FacetContainer extends React.Component {
 }
 
 FacetContainer.propTypes = {
-  fetchFacetsByType: PropTypes.func.isRequired,
+  fetchFacets: PropTypes.func.isRequired,
   updateQuery: PropTypes.func.isRequired,
+  selectedFacets: PropTypes.any,
   selectedType: PropTypes.string,
+  queryTerm: PropTypes.string,
   facets: PropTypes.any,
   pending: PropTypes.bool,
   error: PropTypes.any
@@ -117,8 +123,27 @@ FacetContainer.propTypes = {
 function mapStateToProps({ facets, routing }) {
   const { results } = facets;
   const selectedType = qs.parse(routing.location.search).type;
+  const queryTerm = qs.parse(routing.location.search).q;
+  const selectedFacets = JSON.parse(qs.parse(routing.location.search).filter || "{}");
+  if (selectedFacets) {
+    results.map(facet => {
+      let selectedFacet = selectedFacets[facet.title];
+      if (selectedFacet) {
+        facet.selected = selectedFacet;
+        facet.facetOptions.map(facetOption => {
+          if (selectedFacet.indexOf(facetOption.value) >= 0) {
+            facetOption.selected = true;
+          }
+          return facetOption;
+        })
+      }
+      return facet;
+    });
+  }
   return {
     selectedType,
+    selectedFacets,
+    queryTerm,
     facets: results,
     ...facets
   };
@@ -127,7 +152,7 @@ function mapStateToProps({ facets, routing }) {
 function mapDispatchToProps(dispatch) {
   return {
     updateQuery: bindActionCreators(navigate.updateQuery, dispatch),
-    fetchFacetsByType: bindActionCreators(facets.fetchFacets, dispatch)
+    fetchFacets: bindActionCreators(facets.fetchFacets, dispatch)
   };
 }
 

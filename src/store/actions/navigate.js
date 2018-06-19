@@ -13,7 +13,7 @@ const updateQuery = ({ query, type, instance, filter }) => {
       qs.parse(routing.location.search).q : query;
     const filterTerm =
       filter === undefined ?
-      qs.parse(routing.location.search).filter : JSON.stringify(filter);
+      qs.parse(routing.location.search).filter : filter !== null ? JSON.stringify(filter) : null;
     const selectedType =
       type === undefined ? qs.parse(routing.location.search).type : type;
     let queryStringObject = truthy({ q: queryTerm, type: selectedType, instance, filter: filterTerm });

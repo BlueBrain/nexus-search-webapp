@@ -26,12 +26,12 @@ function makeQueryStringWithText (textQuery) {
  * @param {string} textQuery
  * @returns {object} an elastic search query object
  */
-function makeTypeQuery(textQuery) {
+function makeTypeQuery({ q }={q: null}) {
   let params = {
     aggs: typeAggs
   };
-  if (textQuery) {
-    params.query = makeQueryStringWithText(textQuery)
+  if (q) {
+    params.query = makeQueryStringWithText(q)
   }
   return params;
 }

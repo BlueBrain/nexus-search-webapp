@@ -4,7 +4,7 @@ exports[`mappingToAggs() can handle distribution, which is a hardcoded special c
 Object {
   "distribution": Object {
     "aggs": Object {
-      "labels": Object {
+      "mediaTypes": Object {
         "terms": Object {
           "field": "distribution.mediaType.raw",
         },
@@ -23,6 +23,11 @@ Object {
     "aggs": Object {
       "brainRegion": Object {
         "aggs": Object {
+          "@ids": Object {
+            "terms": Object {
+              "field": "brainLocation.brainRegion.@id.raw",
+            },
+          },
           "labels": Object {
             "terms": Object {
               "field": "brainLocation.brainRegion.label.raw",
@@ -45,6 +50,11 @@ exports[`mappingToAggs() makes a properly formed agg object 1`] = `
 Object {
   "sex": Object {
     "aggs": Object {
+      "@ids": Object {
+        "terms": Object {
+          "field": "sex.@id.raw",
+        },
+      },
       "labels": Object {
         "terms": Object {
           "field": "sex.label.raw",
@@ -62,6 +72,11 @@ exports[`mappingToAggs() makes a properly formed agg object with multiple inputs
 Object {
   "sex": Object {
     "aggs": Object {
+      "@ids": Object {
+        "terms": Object {
+          "field": "sex.@id.raw",
+        },
+      },
       "labels": Object {
         "terms": Object {
           "field": "sex.label.raw",
@@ -74,6 +89,11 @@ Object {
   },
   "species": Object {
     "aggs": Object {
+      "@ids": Object {
+        "terms": Object {
+          "field": "species.@id.raw",
+        },
+      },
       "labels": Object {
         "terms": Object {
           "field": "species.label.raw",

@@ -1,5 +1,6 @@
 import * as types from "./types";
 import qs from 'query-string';
+import FacetNormalizer from "./facetNormalizer";
 
 export default {
   fetchFacets,
@@ -8,7 +9,7 @@ export default {
   fetchFacetsFailed
 };
 
-function fetchFacets(type) {
+function fetchFacets(type, query) {
   return (dispatch, getState) => {
     let state = getState();
     const { location } = state.routing;
@@ -16,7 +17,7 @@ function fetchFacets(type) {
     const facetsAPI = elasticSearchAPI + "/facets";
     dispatch(fetchFacetsStarted());
     // TODO make query change
-    return fetch(facetsAPI + "?" + qs.stringify({ type }))
+    return fetch(facetsAPI + "?" + qs.stringify({ type, q: query }))
       .then(response => {
         if (response.ok) {
           return response.json();
@@ -28,31 +29,9 @@ function fetchFacets(type) {
         );
       })
       .then(response => {
-        let normalizedFacets = Object.keys(response).map((key, i) => {
-          // TODO make recursive, or flatten object instead of hardcoded
-          let buckets;
-          if (key === "brainLocation") {
-            buckets = response[key]["brainRegion"].labels.buckets;
-          } else if (!response[key].labels) {
-            buckets = [];
-          } else {
-            buckets = response[key].labels.buckets
-          }
-          return {
-            title: key,
-            total: response[key].doc_count,
-            facetOptions: buckets.map(bucket => {
-              return {
-                label: bucket.key,
-                value: bucket.key,
-                amount: bucket.doc_count
-              }
-            })
-          }
-        })
         dispatch(
           fetchFacetsFulfilled(
-           normalizedFacets.sort((a, b) => b.total - a.total)
+            FacetNormalizer(response)
           )
         );
       })

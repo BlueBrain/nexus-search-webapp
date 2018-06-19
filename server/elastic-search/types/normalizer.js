@@ -1,18 +1,22 @@
 import palettes from "distinct-colors";
 
+const COLOR_SETTINGS = {
+  chromaMax: 80,
+  lightMin: 70
+};
+
 /**
  *
  *
  * @param {Object} docs elastic search response
- * @returns
+ * @returns {Array} types
  */
 function normalizer (docs) {
   let types = docs.aggregations["@types"].buckets;
-  // TODO add tests for colors or move to client
+  // TODO move to client?
   let palette = palettes({
     count: types.length,
-    chromaMax: 80,
-    lightMin: 70
+    ...COLOR_SETTINGS
   });
   types = types.map((type, index) => {
     type.color = palette[index].hex();

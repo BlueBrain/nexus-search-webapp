@@ -25,12 +25,10 @@ const MyTree = () => {
           <SVG
             path={brain}
             onInjected={svg => {
-              console.log("onInjected", svg);
             }}
             svgClassName="svg-class-name"
             className="tree"
             onClick={() => {
-              console.log("wrapper onClick");
             }}
           />
         }
@@ -69,12 +67,10 @@ const MyTree = () => {
           <SVG
             path={person}
             onInjected={svg => {
-              console.log("onInjected", svg);
             }}
             svgClassName="svg-class-name"
             className="tree"
             onClick={() => {
-              console.log("wrapper onClick");
             }}
           />
         }
@@ -86,12 +82,10 @@ const MyTree = () => {
           <SVG
             path={experiment}
             onInjected={svg => {
-              console.log("onInjected", svg);
             }}
             svgClassName="svg-class-name"
             className="tree"
             onClick={() => {
-              console.log("wrapper onClick");
             }}
           />
         }
@@ -103,12 +97,10 @@ const MyTree = () => {
           <SVG
             path={paw}
             onInjected={svg => {
-              console.log("onInjected", svg);
             }}
             svgClassName="svg-class-name"
             className="tree"
             onClick={() => {
-              console.log("wrapper onClick");
             }}
           />
         }

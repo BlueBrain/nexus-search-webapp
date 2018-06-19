@@ -1,3 +1,4 @@
+// For when ES breaks
 class ElasticSearchError extends Error {
   constructor(message) {
     super(message);
@@ -5,6 +6,15 @@ class ElasticSearchError extends Error {
   }
 }
 
+// For when QB breaks
+class QueryBuilderError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'QueryBuilderError';
+  }
+}
+
 export {
-  ElasticSearchError
+  ElasticSearchError,
+  QueryBuilderError
 }

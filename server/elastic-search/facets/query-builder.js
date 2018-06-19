@@ -17,14 +17,24 @@ async function getAggsFromMapping (client, index) {
  */
 async function makeFacetQuery({ q, type }, client, index) {
   let params = {
+    query: {
+      bool: {
+        must: []
+      }
+    },
     aggs: await getAggsFromMapping(client, index)
   };
-  if (type) {
-    params.query = {
-      match: {
-        "@type.raw": type
+  if (q) {
+    params.query.bool.must.push({
+      query_string: {
+        query: `(${q}* OR ${q}~)`
       }
-    };
+    });
+  }
+  if (type) {
+    params.query.bool.must.push({
+      term: { "@type.raw": type }
+    });
   }
   return params;
 }

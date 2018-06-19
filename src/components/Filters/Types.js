@@ -8,39 +8,40 @@ import TypeIcon from "../TypeIcon";
 import qs from 'query-string';
 
 
-const Type = ({ color, label, value, icon, amount, onSelect, onHover }) => {
+const Type = ({ selectedType, color, label, value, icon, amount, onSelect, onHover }) => {
+  let selected = selectedType === value ? "selected" : "";
   return (
-      <div key={value} className="type" onMouseLeave={() => onHover(null)} onMouseEnter={() => onHover(value)} onClick={() => onSelect(value)}>
-        <Card>
+      <div key={value} className={"type " + selected} onMouseLeave={() => onHover(null)} onMouseEnter={() => onHover(value)} onClick={() => onSelect(value)}>
+        <Card bodyStyle={selectedType === value ? { backgroundColor : "#b9e9d417"}: {}}>
           <div className="flex space-between"><TypeIcon iconURL={icon} color={color} /><span style={{flexGrow: 1, padding: '0 1em'}}>{label}</span><span style={{color: '#80808094'}}>{amount}</span></div>
         </Card>
       </div>
   )
 }
 
-const TypesComponent = ({ pending, types, onHover, onSelect, clearTypes }) => (
+const TypesComponent = ({ pending, selectedType, types, onHover, onSelect, clearFilters }) => (
   <div id="types">
     <div className="filter-title flex space-between">
       <p>Categories</p>
-      <a onClick={clearTypes}>clear filters</a>
+      <a onClick={clearFilters}>clear filters</a>
     </div>
     {pending && <div className="filter-title flex center" style={{width:"100%", margin: "40px auto"}}><Spin /></div>}
     {types &&
-      types.map(props => Type({ onSelect, onHover, ...props }))}
+      types.map(props => Type({ onSelect, selectedType, onHover, ...props }))}
     <div className="filter-title flex space-between">
-      <a onClick={clearTypes}>see more <Icon type="down"/></a>
+      <a onClick={clearFilters}>see more <Icon type="down"/></a>
     </div>
   </div>
 );
 
 TypesComponent.propTypes = {
-  clearTypes: PropTypes.func.isRequired,
+  clearFilters: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
   pending: PropTypes.bool.isRequired,
   types: PropTypes.any.isRequired
 };
 
-class TypesContainer extends React.PureComponent {
+class TypesContainer extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -48,6 +49,7 @@ class TypesContainer extends React.PureComponent {
     this.props.fetchTypes(this.props.query);
   }
   componentDidUpdate (props) {
+    console.log("i update", props.selectedType, this.props.selectedType)
     if (props.query !== this.props.query) {
       this.props.fetchTypes(this.props.query);
     }
@@ -58,15 +60,15 @@ class TypesContainer extends React.PureComponent {
   onHover (value) {
     this.props.hoverType(value);
   }
-  clearTypes () {
-    this.props.updateQuery({ type: null });
+  clearFilters () {
+    this.props.updateQuery({ type: null, filter: null, query:null });
   }
   render() {
     const { pending, error, types, selectedType } = this.props;
     const onSelect = this.onSelect.bind(this);
-    const clearTypes = this.clearTypes.bind(this);
+    const clearFilters = this.clearFilters.bind(this);
     const onHover = this.onHover.bind(this);
-    return TypesComponent({ pending, error, types, onSelect, selectedType, clearTypes, onHover });
+    return TypesComponent({ pending, error, types, onSelect, selectedType, clearFilters, onHover });
   }
 }
 

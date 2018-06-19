@@ -13,8 +13,8 @@
     "dev": "babel-watch server/index.js --presets env --watch server/index.js & parcel public/index.html -p 8000",
     "start": "babel-node server/index.js --presets env & parcel public/index.html -p 8000",
     "start-docker": "docker run --rm -p 8000:8000 ${npm_package_name}",
-    "test": "istanbul cover jest",
-    "test-watch": "istanbul cover jest -- --watch",
+    "test": "jest",
+    "test-watch": "jest --watch",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -63,10 +63,12 @@
     "eslint": "^4.19.1",
     "eslint-plugin-jest": "^21.17.0",
     "eslint-plugin-react": "^7.8.2",
-    "istanbul": "^0.4.5",
     "jest": "^23.1.0",
     "parcel-bundler": "^1.8.1",
     "ts-jest": "^22.4.6",
     "typescript-babel-jest": "^1.0.5"
+  },
+  "jest": {
+    "collectCoverage": false
   }
 }

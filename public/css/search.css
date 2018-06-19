@@ -283,3 +283,22 @@ section .header {
   color: #596579;
   background-color: white;
 }
+
+.no-results {
+  margin-top: 20%;
+  text-align: center;
+  color: grey;
+  text-shadow: 0 1px 1px #d3cfcf;
+}
+.no-results h3 {
+  color: rgba(0, 0, 0, 0.64);
+}
+.nothing-found-svg {
+  fill: #f6b0e7;
+  filter: drop-shadow(5px 5px 7px rgba(0,0,0,0.5));
+}
+.nothing-found-icon {
+  width: 5em;
+  display: inline-block;
+  margin-bottom: 5em;
+}

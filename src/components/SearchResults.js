@@ -8,6 +8,8 @@ import { query, navigate } from "../store/actions";
 import qs from "query-string";
 import { Select, Icon, Radio, Spin } from "antd";
 import GridResults from "./GridResults";
+import icons from "./Icons";
+import SVG from "react-svg";
 
 const DEFAULT_PAGE_SIZE = 50;
 
@@ -96,7 +98,15 @@ const SearchResultsGrid = ({ results, api, goToEntityByID, hoverType }) => {
   );
 };
 
-const SearchResultsFound = (results, hits, pageParams, goToEntityByID, api, hoverType, types) => {
+const SearchResultsFound = (
+  results,
+  hits,
+  pageParams,
+  goToEntityByID,
+  api,
+  hoverType,
+  types
+) => {
   return (
     <React.Fragment>
       <SearchToolbar hits={hits} />
@@ -136,28 +146,32 @@ const SearchResults = (
     <div className="center grow full full-height column">
       {pending && (
         <div className="center grow spinner">
-          <div style={{ width: 100, margin: '200px auto'}}>
-          <Spin size="large" tip={"fetching items"}/>
+          <div style={{ width: 100, margin: "200px auto" }}>
+            <Spin size="large" tip={"fetching items"} />
           </div>
         </div>
       )}
       {!!results.length &&
-        SearchResultsFound(results, hits, pageParams, goToEntityByID, api, hoverType, types)}
+        SearchResultsFound(
+          results,
+          hits,
+          pageParams,
+          goToEntityByID,
+          api,
+          hoverType,
+          types
+        )}
       {!results.length &&
         !pending && (
           <div className="center grow full full-height column">
-            <h3>Hmmmm...</h3>
-            <p>
-              We didn&#39;t manage to find any instances matching &quot;{
-                "query"
-              }&quot;
-            </p>
-            {/* {!loggedIn && (
-              <p>
-                Expecting something different? try{" "}
-                <a href={`${loginURI}?q=${query}`}>logging in.</a>
-              </p>
-            )} */}
+            <div className="no-results">
+              <SVG
+                path={icons.notFound}
+                svgClassName="nothing-found-svg"
+                className="nothing-found-icon"
+              />
+              <h3>Nothing matching your query was found</h3>
+            </div>
           </div>
         )}
     </div>
@@ -240,6 +254,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  SearchResultsContainer
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SearchResultsContainer);

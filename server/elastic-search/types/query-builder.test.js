@@ -14,7 +14,7 @@ describe("makeTypeQuery()", () => {
   });
 
   it(" makes an elasticSearch aggs object with a query if a textQuery argument is provided", () => {
-    const textQuery = "mySearchString";
+    const textQuery = { q: "mySearchString" };
     expect(makeTypeQuery(textQuery).query).toBeDefined();
     expect(makeTypeQuery(textQuery)).toMatchSnapshot();
   });

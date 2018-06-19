@@ -81,12 +81,6 @@ const SearchBar = ({ query, onSearch, onKeyDown }) => (
       onSearch={onSearch}
       defaultValue={query}
     />
-    {/* <Button type="primary" icon="download">Export</Button> */}
-    {/* <Radio.Group value={"small"} onChange={() => {console.log('hello')}}>
-      <Radio.Button value="large"><Icon type="link" /></Radio.Button>
-      <Radio.Button value="default">Default</Radio.Button>
-      <Radio.Button value="small">Small</Radio.Button>
-    </Radio.Group> */}
   </div>
 );
 
