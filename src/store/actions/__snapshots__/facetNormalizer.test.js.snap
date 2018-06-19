@@ -1,0 +1,260 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`facetNormalizer() able to return nested responses 1`] = `
+Array [
+  Object {
+    "facetOptions": Array [
+      Object {
+        "amount": 1,
+        "label": "http://api.brain-map.org/api/v2/data/Structure/1020",
+        "value": "http://api.brain-map.org/api/v2/data/Structure/1020",
+      },
+      Object {
+        "amount": 1,
+        "label": "http://api.brain-map.org/api/v2/data/Structure/170",
+        "value": "http://api.brain-map.org/api/v2/data/Structure/170",
+      },
+    ],
+    "title": "brainLocation.brainRegion.@ids",
+    "total": undefined,
+  },
+  Object {
+    "facetOptions": Array [
+      Object {
+        "amount": 1,
+        "label": "Dorsal part of the lateral geniculate complex",
+        "value": "Dorsal part of the lateral geniculate complex",
+      },
+      Object {
+        "amount": 1,
+        "label": "Posterior complex of the thalamus",
+        "value": "Posterior complex of the thalamus",
+      },
+    ],
+    "title": "brainLocation.brainRegion.labels",
+    "total": undefined,
+  },
+]
+`;
+
+exports[`facetNormalizer() matches the expected output of a complex example 1`] = `
+Array [
+  Object {
+    "facetOptions": Array [
+      Object {
+        "amount": 1,
+        "label": "C57BL/6J",
+        "value": "C57BL/6J",
+      },
+      Object {
+        "amount": 1,
+        "label": "GAD67-eGFPxPValb-CrexR26-LSL-tdTomato",
+        "value": "GAD67-eGFPxPValb-CrexR26-LSL-tdTomato",
+      },
+      Object {
+        "amount": 1,
+        "label": "http://purl.obolibrary.org/obo/RS_0001833",
+        "value": "http://purl.obolibrary.org/obo/RS_0001833",
+      },
+    ],
+    "title": "strain.@ids",
+    "total": undefined,
+  },
+  Object {
+    "facetOptions": Array [
+      Object {
+        "amount": 1,
+        "label": "C57BL/6J",
+        "value": "C57BL/6J",
+      },
+      Object {
+        "amount": 1,
+        "label": "GAD67-eGFPxPValb-CrexR26-LSL-tdTomato",
+        "value": "GAD67-eGFPxPValb-CrexR26-LSL-tdTomato",
+      },
+      Object {
+        "amount": 1,
+        "label": "Wistar Han",
+        "value": "Wistar Han",
+      },
+    ],
+    "title": "strain.labels",
+    "total": undefined,
+  },
+  Object {
+    "facetOptions": Array [
+      Object {
+        "amount": 2,
+        "label": "http://purl.obolibrary.org/obo/NCBITaxon_10090",
+        "value": "http://purl.obolibrary.org/obo/NCBITaxon_10090",
+      },
+      Object {
+        "amount": 1,
+        "label": "http://purl.obolibrary.org/obo/NCBITaxon_10116",
+        "value": "http://purl.obolibrary.org/obo/NCBITaxon_10116",
+      },
+    ],
+    "title": "species.@ids",
+    "total": undefined,
+  },
+  Object {
+    "facetOptions": Array [
+      Object {
+        "amount": 2,
+        "label": "Mus musculus",
+        "value": "Mus musculus",
+      },
+      Object {
+        "amount": 1,
+        "label": "Rattus norvegicus",
+        "value": "Rattus norvegicus",
+      },
+    ],
+    "title": "species.labels",
+    "total": undefined,
+  },
+  Object {
+    "facetOptions": Array [
+      Object {
+        "amount": 2,
+        "label": "http://purl.obolibrary.org/obo/PATO_0000384",
+        "value": "http://purl.obolibrary.org/obo/PATO_0000384",
+      },
+      Object {
+        "amount": 1,
+        "label": "http://purl.obolibrary.org/obo/PATO_0000383",
+        "value": "http://purl.obolibrary.org/obo/PATO_0000383",
+      },
+    ],
+    "title": "sex.@ids",
+    "total": undefined,
+  },
+  Object {
+    "facetOptions": Array [
+      Object {
+        "amount": 2,
+        "label": "male",
+        "value": "male",
+      },
+      Object {
+        "amount": 1,
+        "label": "female",
+        "value": "female",
+      },
+    ],
+    "title": "sex.labels",
+    "total": undefined,
+  },
+  Object {
+    "facetOptions": Array [
+      Object {
+        "amount": 1,
+        "label": "http://api.brain-map.org/api/v2/data/Structure/1020",
+        "value": "http://api.brain-map.org/api/v2/data/Structure/1020",
+      },
+      Object {
+        "amount": 1,
+        "label": "http://api.brain-map.org/api/v2/data/Structure/170",
+        "value": "http://api.brain-map.org/api/v2/data/Structure/170",
+      },
+    ],
+    "title": "brainLocation.brainRegion.@ids",
+    "total": undefined,
+  },
+  Object {
+    "facetOptions": Array [
+      Object {
+        "amount": 1,
+        "label": "Dorsal part of the lateral geniculate complex",
+        "value": "Dorsal part of the lateral geniculate complex",
+      },
+      Object {
+        "amount": 1,
+        "label": "Posterior complex of the thalamus",
+        "value": "Posterior complex of the thalamus",
+      },
+    ],
+    "title": "brainLocation.brainRegion.labels",
+    "total": undefined,
+  },
+  Object {
+    "facetOptions": Array [
+      Object {
+        "amount": 1,
+        "label": "schema:Person",
+        "value": "schema:Person",
+      },
+    ],
+    "title": "schema:creator.@types",
+    "total": undefined,
+  },
+  Object {
+    "facetOptions": Array [
+      Object {
+        "amount": 26,
+        "label": "image/png",
+        "value": "image/png",
+      },
+      Object {
+        "amount": 9,
+        "label": "text/plain; charset=UTF-8",
+        "value": "text/plain; charset=UTF-8",
+      },
+      Object {
+        "amount": 1,
+        "label": "application/json",
+        "value": "application/json",
+      },
+    ],
+    "title": "distribution.mediaTypes",
+    "total": undefined,
+  },
+]
+`;
+
+exports[`facetNormalizer() matches the expected output of a simple response example 1`] = `
+Array [
+  Object {
+    "facetOptions": Array [
+      Object {
+        "amount": 1,
+        "label": "C57BL/6J",
+        "value": "C57BL/6J",
+      },
+      Object {
+        "amount": 1,
+        "label": "GAD67-eGFPxPValb-CrexR26-LSL-tdTomato",
+        "value": "GAD67-eGFPxPValb-CrexR26-LSL-tdTomato",
+      },
+      Object {
+        "amount": 1,
+        "label": "http://purl.obolibrary.org/obo/RS_0001833",
+        "value": "http://purl.obolibrary.org/obo/RS_0001833",
+      },
+    ],
+    "title": "strain.@ids",
+    "total": undefined,
+  },
+  Object {
+    "facetOptions": Array [
+      Object {
+        "amount": 1,
+        "label": "C57BL/6J",
+        "value": "C57BL/6J",
+      },
+      Object {
+        "amount": 1,
+        "label": "GAD67-eGFPxPValb-CrexR26-LSL-tdTomato",
+        "value": "GAD67-eGFPxPValb-CrexR26-LSL-tdTomato",
+      },
+      Object {
+        "amount": 1,
+        "label": "Wistar Han",
+        "value": "Wistar Han",
+      },
+    ],
+    "title": "strain.labels",
+    "total": undefined,
+  },
+]
+`;

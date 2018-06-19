@@ -1,0 +1,18 @@
+{
+  "prov:Agent": {
+    "icon": "person",
+    "label": "Contributors"
+  },
+  "nsg:Subject": {
+    "icon": "mouse",
+    "label": "Subject"
+  },
+  "nsg:ResponseTrace": {
+    "icon": "experiment",
+    "label": "Response Trace"
+  },
+  "nsg:ReconstructedWholeBrainCell": {
+    "icon": "brain",
+    "label": "Reconstr. Whole Brain Cell"
+  }
+}
