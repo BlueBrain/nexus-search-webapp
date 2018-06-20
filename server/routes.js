@@ -7,7 +7,7 @@ export default function generateRoutes(app) {
       let [error, hits] = await to(ElasticSearch[endpointName](req.query));
       if (error) {
         console.log(error);
-        return res.status(500);
+        return res.status(500).send();
       }
       return res.json(hits);
     });

@@ -17,7 +17,7 @@ import { get } from "../../libs/object";
         .reduce((memo, propKey) => {
           let keyword = get(['fields', 'raw', 'type'], property.properties[propKey]);
           if (keyword) {
-            let label = `${propKey}s`;
+            let label = propKey;
             let field = `${pathName}.${propKey}.raw`;
             memo[label] =
               {

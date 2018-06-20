@@ -88,7 +88,6 @@ class FacetContainer extends React.Component {
     this.props.fetchFacets(this.props.selectedType, this.props.queryTerm);
   }
   componentDidUpdate (props) {
-    console.log(props.facets);
     if (props.selectedType !== this.props.selectedType) {
       this.props.fetchFacets(this.props.selectedType, this.props.queryTerm);
     }

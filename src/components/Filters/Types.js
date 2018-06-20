@@ -49,7 +49,6 @@ class TypesContainer extends React.Component {
     this.props.fetchTypes(this.props.query);
   }
   componentDidUpdate (props) {
-    console.log("i update", props.selectedType, this.props.selectedType)
     if (props.query !== this.props.query) {
       this.props.fetchTypes(this.props.query);
     }

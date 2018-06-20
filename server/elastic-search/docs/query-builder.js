@@ -1,15 +1,10 @@
-const SPECIAL_CASES = {
-  distribution: 'mediaType',
-  brainLocation: 'brainRegion.label'
- }
-
 /**
  *
  *
  * @param {string} query
  * @returns {object} an elastic search query object
  */
-function makeDocsQuery(query) {
+function makeDocsQuery(query={ filter:null, type:null, q:null }) {
   let params = {
     query: {
       bool: {
@@ -32,44 +27,31 @@ function makeDocsQuery(query) {
   }
   if (filter) {
     filter = JSON.parse(filter);
-    console.log("FILTER: ", filter);
     // MUST is an AND, we do it for terms across filter sets
     let must = Object.keys(filter).map(key => {
       // SHOULD is an OR, we do it for terms in the same filter set
       let should = filter[key].map(filterTerm => {
-        let specialCase = SPECIAL_CASES[key];
-        // TODO programatically deal with special case;
-        let propertyName = `${key}.${specialCase || "label"}.raw`;
+        let propertyName = `${key}.raw`;
         return { term: { [propertyName]: filterTerm } };
       });
-      if (key === "brainLocation") {
-        return {
-          nested: {
-            path: "brainLocation",
-            query: {
-              nested: {
-                path: "brainRegion",
-                query: should[0]
-                  // should[0]
-                  // bool: {
-                  //   should
-                  // }
-                // }
-              }
-            }
-          }
-        }
-      }
-      return {
-        nested: {
-          path: key,
-          query: {
+
+      let path = key.split('.');
+      return path.reverse().reduce((memo, level, index) => {
+        if (index === 0) {
+          memo = {
             bool: {
-              should
+            should
+          }}
+        } else {
+          memo = {
+            nested: {
+              path: level,
+              query: memo
             }
           }
         }
-      };
+        return memo;
+      }, {});
     });
     params.query.bool.must.push({
       bool: {
