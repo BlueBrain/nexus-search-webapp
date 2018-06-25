@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`makeTypeQuery()  makes an elasticSearch agg object, and the proper with @types, terms, and field 1`] = `
+Object {
+  "aggs": Object {
+    "@types": Object {
+      "terms": Object {
+        "field": "@type.raw",
+      },
+    },
+  },
+}
+`;
+
+exports[`makeTypeQuery()  makes an elasticSearch aggs object with a query if a textQuery argument is provided 1`] = `
+Object {
+  "aggs": Object {
+    "@types": Object {
+      "terms": Object {
+        "field": "@type.raw",
+      },
+    },
+  },
+  "query": Object {
+    "query_string": Object {
+      "query": "(mySearchString* OR mySearchString~)",
+    },
+  },
+}
+`;
