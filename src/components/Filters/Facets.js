@@ -143,7 +143,7 @@ function mapStateToProps({ facets, routing }) {
     selectedType,
     selectedFacets,
     queryTerm,
-    facets: results,
+    facets: results.filter(filter => !!filter.total),
     ...facets
   };
 }

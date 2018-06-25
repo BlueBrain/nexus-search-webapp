@@ -16,7 +16,7 @@ Array [
       },
     ],
     "title": "brainLocation.brainRegion.@ids",
-    "total": undefined,
+    "total": 2,
   },
   Object {
     "facetOptions": Array [
@@ -32,13 +32,34 @@ Array [
       },
     ],
     "title": "brainLocation.brainRegion.labels",
-    "total": undefined,
+    "total": 2,
   },
 ]
 `;
 
 exports[`facetNormalizer() matches the expected output of a complex example 1`] = `
 Array [
+  Object {
+    "facetOptions": Array [
+      Object {
+        "amount": 26,
+        "label": "image/png",
+        "value": "image/png",
+      },
+      Object {
+        "amount": 9,
+        "label": "text/plain; charset=UTF-8",
+        "value": "text/plain; charset=UTF-8",
+      },
+      Object {
+        "amount": 1,
+        "label": "application/json",
+        "value": "application/json",
+      },
+    ],
+    "title": "distribution.mediaTypes",
+    "total": 36,
+  },
   Object {
     "facetOptions": Array [
       Object {
@@ -58,7 +79,7 @@ Array [
       },
     ],
     "title": "strain.@ids",
-    "total": undefined,
+    "total": 3,
   },
   Object {
     "facetOptions": Array [
@@ -79,7 +100,7 @@ Array [
       },
     ],
     "title": "strain.labels",
-    "total": undefined,
+    "total": 3,
   },
   Object {
     "facetOptions": Array [
@@ -95,7 +116,7 @@ Array [
       },
     ],
     "title": "species.@ids",
-    "total": undefined,
+    "total": 3,
   },
   Object {
     "facetOptions": Array [
@@ -111,7 +132,7 @@ Array [
       },
     ],
     "title": "species.labels",
-    "total": undefined,
+    "total": 3,
   },
   Object {
     "facetOptions": Array [
@@ -127,7 +148,7 @@ Array [
       },
     ],
     "title": "sex.@ids",
-    "total": undefined,
+    "total": 3,
   },
   Object {
     "facetOptions": Array [
@@ -143,7 +164,7 @@ Array [
       },
     ],
     "title": "sex.labels",
-    "total": undefined,
+    "total": 3,
   },
   Object {
     "facetOptions": Array [
@@ -159,7 +180,7 @@ Array [
       },
     ],
     "title": "brainLocation.brainRegion.@ids",
-    "total": undefined,
+    "total": 2,
   },
   Object {
     "facetOptions": Array [
@@ -175,7 +196,7 @@ Array [
       },
     ],
     "title": "brainLocation.brainRegion.labels",
-    "total": undefined,
+    "total": 2,
   },
   Object {
     "facetOptions": Array [
@@ -186,28 +207,7 @@ Array [
       },
     ],
     "title": "schema:creator.@types",
-    "total": undefined,
-  },
-  Object {
-    "facetOptions": Array [
-      Object {
-        "amount": 26,
-        "label": "image/png",
-        "value": "image/png",
-      },
-      Object {
-        "amount": 9,
-        "label": "text/plain; charset=UTF-8",
-        "value": "text/plain; charset=UTF-8",
-      },
-      Object {
-        "amount": 1,
-        "label": "application/json",
-        "value": "application/json",
-      },
-    ],
-    "title": "distribution.mediaTypes",
-    "total": undefined,
+    "total": 1,
   },
 ]
 `;
@@ -233,7 +233,7 @@ Array [
       },
     ],
     "title": "strain.@ids",
-    "total": undefined,
+    "total": 3,
   },
   Object {
     "facetOptions": Array [
@@ -254,7 +254,7 @@ Array [
       },
     ],
     "title": "strain.labels",
-    "total": undefined,
+    "total": 3,
   },
 ]
 `;

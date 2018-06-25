@@ -10,7 +10,7 @@ function makeFacetsFromAggs (o, path) {
     if (isObject && currentObject.buckets) {
       return {
         title: newPath,
-        total: o[key].doc_count,
+        total: currentObject.buckets.reduce((total, bucket) => total += bucket.doc_count, 0),
         facetOptions: currentObject.buckets.map(bucket => {
           return {
             label: bucket.key,
