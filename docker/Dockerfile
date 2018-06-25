@@ -12,9 +12,9 @@ COPY node_modules ./node_modules/
 # Default values for environment variables
 ENV NODE_ENV="production"
 ENV ELASTIC_SEARCH_INDEX="index"
-ENV SEARCH_PROXY_PORT="8888"
+ENV SEARCH_PROXY_PORT="8000"
 ENV ELASTICSEARCH_CLIENT_URL="http://localhost:9200"
 
 CMD ["node","dist/server/index.js"]
 
-EXPOSE 8888
+EXPOSE 8000
