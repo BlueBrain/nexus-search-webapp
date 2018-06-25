@@ -1,15 +1,7 @@
 # nexus-search-webapp
 
-## Elastic Search Proxy Dev Mode
+> Search and filter nexus data via elastic search
 
-make sure openshift CLI is installed
+## Development
 
-find the elastic search instance to connect to
-
-```
-oc port-forward ${ELASTIC_SEARCHCLIENT_NAME} ${SEARCH_PROXY_PORT}:${ELASTIC_SEARCH_POD_PORT}
-```
-
-Icon Credits
-- flaticon user Freepik
-- flaticon user  Dimitry Miroliubov
+``` npm run dev ```
