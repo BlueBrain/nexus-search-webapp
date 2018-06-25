@@ -14,7 +14,16 @@ class QueryBuilderError extends Error {
   }
 }
 
+// For when the server is not configured correctly
+class InvalidConfigError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'InvalidConfigError';
+  }
+}
+
 export {
   ElasticSearchError,
-  QueryBuilderError
+  QueryBuilderError,
+  InvalidConfigError
 }

@@ -1,7 +1,7 @@
 import express from "express";
-import middleware from "./middleware";
-import config from "./config";
-import routes from "./routes";
+import middleware from "./libs/middleware";
+import config from "./libs/config";
+import routes from "./libs/routes";
 
 const app = express();
 

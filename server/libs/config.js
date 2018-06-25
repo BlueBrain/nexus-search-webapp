@@ -11,7 +11,7 @@ if (STAGE === "dev") {
   envConfig = Object.assign(
     envConfig,
     dotenv.parse(
-      fs.readFileSync(path.resolve(__dirname, `../envs/${STAGE}.env`))
+      fs.readFileSync(path.resolve(__dirname, `../../envs/${STAGE}.env`))
     )
   );
 }

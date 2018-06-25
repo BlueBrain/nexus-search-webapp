@@ -1,5 +1,5 @@
-import ElasticSearch from "./elastic-search";
-import { to } from "./libs/async";
+import ElasticSearch from "../elastic-search";
+import { to } from "./async";
 
 export default function generateRoutes(app) {
   Object.keys(ElasticSearch).forEach(endpointName => {

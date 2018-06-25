@@ -8,11 +8,12 @@
   "repository": "github:bluebrain/nexus-explorer",
   "homepage": "https://github.com/BlueBrain/nexus-search-webapp#readme",
   "scripts": {
-    "build": "parcel build public/index.html --public-url ./ && envsub --env npm_package_version dist/index.html",
+    "build": "babel server -d dist --presets env && parcel build public/index.html --public-url ./ && envsub --env npm_package_version dist/index.html",
     "build-docker": "npm run build && docker build -f docker/Dockerfile -t ${npm_package_name} .",
     "dev": "babel-watch server/index.js --presets env --watch server/index.js & parcel public/index.html -p 8000",
     "start": "babel-node server/index.js --presets env & parcel public/index.html -p 8000",
     "start-docker": "docker run --rm -p 8000:8000 ${npm_package_name}",
+    "serve": "node dist/index.js",
     "test": "jest",
     "test-watch": "jest --watch",
     "lint": "eslint ."
