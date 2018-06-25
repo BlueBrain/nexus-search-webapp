@@ -1,5 +1,5 @@
 {
-  "name": "nexus-search",
+  "name": "nexus-search-webapp",
   "description": "Service which allows you to search Nexus platform",
   "version": "0.0.1",
   "author": "Blue Brain Nexus",

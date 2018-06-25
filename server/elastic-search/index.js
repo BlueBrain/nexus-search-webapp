@@ -10,8 +10,16 @@ const index = config.ELASTIC_SEARCH_INDEX;
 const host = config.ELASTICSEARCH_CLIENT_URL;
 const client = new elasticsearch.Client({ host });
 
-if (!index) { throw new errors.InvalidConfigError('no ES index defined! please define env ELASTIC_SEARCH_INDEX')}
-if (!host) { throw new errors.InvalidConfigError('no ES host defined! please define env ELASTICSEARCH_CLIENT_URL')}
+if (!index) {
+  throw new errors.InvalidConfigError(
+    "no ES index defined! please define env ELASTIC_SEARCH_INDEX"
+  );
+}
+if (!host) {
+  throw new errors.InvalidConfigError(
+    "no ES host defined! please define env ELASTICSEARCH_CLIENT_URL"
+  );
+}
 
 const ENDPOINTS = {
   types: queryFactory(client, index, types.queryBuilder, types.normalizer),
