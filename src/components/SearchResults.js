@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import ReactPaginate from "react-paginate";
 import { Shapes, Spinner } from "@bbp/nexus-react";
-import { query, navigate } from "../store/actions";
+import { query, navigate, lightbox } from "../store/actions";
 import qs from "query-string";
 import { Select, Icon, Radio, Spin } from "antd";
 import GridResults from "./GridResults";
@@ -82,7 +82,7 @@ const SearchResultsList = ({ results, api, goToEntityByID }) => {
   );
 };
 
-const SearchResultsGrid = ({ results, api, goToEntityByID, hoverType }) => {
+const SearchResultsGrid = ({ results, api, goToEntityByID, openVisualizer, hoverType }) => {
   return (
     <div id="search-results" className="flex wrap">
       {results.map((result, index) => {
@@ -90,6 +90,7 @@ const SearchResultsGrid = ({ results, api, goToEntityByID, hoverType }) => {
           <GridResults
             key={`${result._source["@id"]}-${index}`}
             value={result._source}
+            openVisualizer={openVisualizer}
             goToEntityByID={goToEntityByID}
           />
         );
@@ -105,7 +106,8 @@ const SearchResultsFound = (
   goToEntityByID,
   api,
   hoverType,
-  types
+  types,
+  openVisualizer
 ) => {
   return (
     <React.Fragment>
@@ -117,6 +119,7 @@ const SearchResultsFound = (
         goToEntityByID={goToEntityByID}
         hoverType={hoverType}
         types={types}
+        openVisualizer={openVisualizer}
       />
       {results.length ? (
         <div>
@@ -139,7 +142,7 @@ const SearchResultsFound = (
 // )
 
 const SearchResults = (
-  { pending, results, hits, goToEntityByID, api, hoverType, types },
+  { pending, results, hits, goToEntityByID, api, hoverType, types, openVisualizer },
   pageParams
 ) => {
   return (
@@ -159,7 +162,8 @@ const SearchResults = (
           goToEntityByID,
           api,
           hoverType,
-          types
+          types,
+          openVisualizer
         )}
       {!results.length &&
         !pending && (
@@ -223,6 +227,7 @@ class SearchResultsContainer extends React.Component {
 SearchResultsContainer.propTypes = {
   search: PropTypes.func.isRequired,
   goToEntityByID: PropTypes.func.isRequired,
+  openVisualizer: PropTypes.func.isRequired,
   results: PropTypes.any,
   hits: PropTypes.number,
   pending: PropTypes.bool,
@@ -250,7 +255,8 @@ function mapStateToProps({ config, query, routing }) {
 function mapDispatchToProps(dispatch) {
   return {
     search: bindActionCreators(query.fetchQuery, dispatch),
-    goToEntityByID: bindActionCreators(navigate.goToEntityByID, dispatch)
+    goToEntityByID: bindActionCreators(navigate.goToEntityByID, dispatch),
+    openVisualizer: bindActionCreators(lightbox.openVisualizer, dispatch)
   };
 }
 

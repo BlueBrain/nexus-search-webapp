@@ -1,4 +1,5 @@
 @import './style.css';
+@import './animations.css';
 
 * {
   -webkit-font-smoothing: antialiased;
@@ -277,11 +278,32 @@ section .header {
   font-size: 1.5em;
   cursor: pointer;
   font-weight: lighter;
+  width: 180px;
+  display: flex;
+  margin: 0 auto;
+}
+.result-card-hover button span {
+  margin-left: 0.5em;
 }
 
+.result-card-hover .injected-svg path {
+  fill: white;
+}
+.result-card-hover button.emphasized .injected-svg path {
+  fill: #596579;
+}
 .result-card-hover button.emphasized {
   color: #596579;
   background-color: white;
+}
+
+.result-card-hover button:hover {
+  color: #596579;
+  background-color: white;
+}
+
+.result-card-hover button:hover .injected-svg path  {
+  fill: #45C7F4;
 }
 
 .no-results {

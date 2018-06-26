@@ -16,6 +16,7 @@ const PleaseLogin = () => (
       {({ loginURI }) => (
         <div className="flex center">
           <Card
+            className="slide-in"
             style={{ width: 300, marginTop: "10%", height: "100%" }}
             cover={
               <img

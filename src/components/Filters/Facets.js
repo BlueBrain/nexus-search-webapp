@@ -9,8 +9,9 @@ import { truthy } from "../../libs/utils";
 const CheckboxGroup = Checkbox.Group;
 
 const FacetTitle = ({ title, total }) => (
-  <div className="filter-title flex space-between">
-    <p>{title}</p>
+    // TOOD make a title normalizer?
+    <div className="filter-title flex space-between">
+    <p>{title.replace(".", " ").replace(".label", "")}</p>
     <span style={{color: 'rgba(128, 128, 128, 0.58)'}}>{total}</span>
   </div>
 );

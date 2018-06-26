@@ -1,7 +1,7 @@
 const DEFAULT_SEARCH_API_URL = "http://localhost:9999/search"
 
 const BASE_URI = window.BASE_URI.startsWith("$")
-  ? ""
+  ? "https://bbp-nexus.epfl.ch/staging"
   : window.BASE_URI;
 const APP_PATH = window.BASE_PATH.startsWith("$") ? "" : window.BASE_PATH;
 const SEARCH_API_URI = window.SEARCH_API_URI.startsWith("$") ? DEFAULT_SEARCH_API_URL : window.SEARCH_API_URL;

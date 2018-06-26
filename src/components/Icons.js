@@ -5,8 +5,12 @@ import experiment from "../../public/img/test.svg";
 import person from "../../public/img/user.svg";
 import cube from "../../public/img/3d.svg";
 import notFound from "../../public/img/search-not-found.svg";
+import preview from "../../public/img/preview.svg";
+import eye from "../../public/img/eye.svg";
 
 export default {
+  preview,
+  eye,
   brain,
   paw,
   mouse,
