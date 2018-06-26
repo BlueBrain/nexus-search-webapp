@@ -7,8 +7,10 @@ import cube from "../../public/img/3d.svg";
 import notFound from "../../public/img/search-not-found.svg";
 import preview from "../../public/img/preview.svg";
 import eye from "../../public/img/eye.svg";
+import fullscreen from "../../public/img/full-screen.svg";
 
 export default {
+  fullscreen,
   preview,
   eye,
   brain,

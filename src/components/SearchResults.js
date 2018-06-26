@@ -256,7 +256,7 @@ function mapDispatchToProps(dispatch) {
   return {
     search: bindActionCreators(query.fetchQuery, dispatch),
     goToEntityByID: bindActionCreators(navigate.goToEntityByID, dispatch),
-    openVisualizer: bindActionCreators(lightbox.openVisualizer, dispatch)
+    openVisualizer: bindActionCreators(lightbox.lightboxOpen, dispatch)
   };
 }
 

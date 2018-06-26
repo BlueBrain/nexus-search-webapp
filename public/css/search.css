@@ -1,5 +1,6 @@
 @import './style.css';
 @import './animations.css';
+@import './lightbox.css';
 
 * {
   -webkit-font-smoothing: antialiased;

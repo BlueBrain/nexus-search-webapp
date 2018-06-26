@@ -1,0 +1,89 @@
+.lightbox {
+  padding: 10px 20px 20px 20px;
+  font-size: 100%;
+  color: #999;
+  background: #333;
+  overflow: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+}
+
+.lightbox .details {
+  margin: 0 0 20px 0;
+  padding: 0 0 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.lightbox .details svg {
+  width: 1em;
+  display: inline;
+}
+.lightbox .details path {
+  fill: #bbb;
+}
+
+.lightbox .details .details-logo {
+  float: left;
+  height: 46px;
+  width: 46px;
+  margin: 0 20px 0 0;
+  padding: 0 20px 0 0;
+  line-height: 1;
+  border-right: 1px solid rgba(255,255,255,0.2);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.lightbox .details .details-logo img {
+  widtH: 2em; height: 2em;
+}
+
+.lightbox .details .close {
+  font-size: 2em;
+}
+.lightbox .details .close a {
+  color: grey;
+}
+
+.lightbox .details .headline h1 {
+  color: #bbb;
+  font-size: 14px;
+  margin: 0;
+  font-weight: bold;
+}
+
+.lightbox .viewer {
+  position: relative;
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+  min-width: 300px;
+  min-height: 600px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.8);
+  background-color: #7cffcb;
+  background-image: linear-gradient(315deg, #7cffcb 0%, #74f2ce 74%);
+}
+
+.lightbox .viewer .fullscreen {
+  position: absolute;
+  right: 1em;
+  top: 1em;
+  visibility: hidden;
+}
+
+.lightbox .viewer:hover .fullscreen {
+  visibility: visible;
+}
+
+.fullscreen .fullscreen-icon {
+  width: 2em;
+}
+
+.fullscreen .fullscreen-svg path {
+  fill: grey;
+}
