@@ -7,6 +7,7 @@ ENTRYPOINT ["/sbin/tini", "--"]
 
 WORKDIR /usr/src/app/
 COPY dist/server ./
+COPY node_modules ./node_modules
 
 # Default values for environment variables
 ENV NODE_ENV="production"

@@ -4,7 +4,9 @@ import path from "path";
 
 const STAGE = process.env.NODE_ENV === "production" ? "prod" : "dev";
 let envConfig = {
-  DEFAULT_PORT: 8888
+  ELASTIC_SEARCH_INDEX: process.env.ELASTIC_SEARCH_INDEX || null,
+  SEARCH_PROXY_PORT: process.env.SEARCH_PROXY_PORT || process.env.PORT || 8888,
+  ELASTICSEARCH_CLIENT_URL: process.env.ELASTICSEARCH_CLIENT_URL || null,
 };
 // load ENV variables from env stage configs
 if (STAGE === "dev") {
