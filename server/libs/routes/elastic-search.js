@@ -1,9 +1,9 @@
-import ElasticSearch from "../elastic-search";
-import { to } from "./async";
+import ElasticSearch from "../../elastic-search";
+import { to } from "../async";
 
-export default function generateRoutes(app) {
+export default function generateRoutes(router) {
   Object.keys(ElasticSearch).forEach(endpointName => {
-    app.get(`/${endpointName}`, async (req, res) => {
+    router.get(`/${endpointName}`, async (req, res) => {
       let [error, hits] = await to(ElasticSearch[endpointName](req.query));
       if (error) {
         console.log(error);
@@ -12,4 +12,5 @@ export default function generateRoutes(app) {
       return res.json(hits);
     });
   });
+  return router;
 }
