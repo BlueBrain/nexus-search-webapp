@@ -10,7 +10,6 @@ import SVG from "react-svg";
 
 function goFullscreen(e) {
   e.preventDefault();
-  console.log("fullscreen", document.fullscreenElement);
   if (
     document.fullscreenElement ||
     document.webkitFullscreenElement ||
@@ -72,9 +71,9 @@ const Details = ({ close }) => {
   );
 };
 
-const Viewer = () => {
+const Viewer = ({ children }) => {
   return (
-    <div className="viewer" id="visualizer">
+    <div className="viewer full-height" id="visualizer">
       {fullscreenAvailable && (
         <div className="fullscreen">
           <a href="#" onClick={goFullscreen}>
@@ -86,15 +85,18 @@ const Viewer = () => {
           </a>
         </div>
       )}
+      {children}
     </div>
   );
 };
 
-const LightboxComponent = ({ close }) => {
+const LightboxComponent = ({ close, children }) => {
   return (
     <div className="lightbox">
       <Details close={close} />
-      <Viewer />
+      <Viewer>
+        {children}
+      </Viewer>
     </div>
   );
 };

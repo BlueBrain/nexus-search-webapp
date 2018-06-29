@@ -3,6 +3,7 @@ import { Instance, WithStore } from "@bbp/nexus-react";
 import { navigate } from "../store/actions";
 import Workspace from "./Workspace";
 import Lightbox from "./Lightbox";
+import MorphologyViewer from "./MorphologyViewer";
 import Filters from "./Filters";
 import { Layout } from "antd";
 import qs from "query-string";
@@ -33,7 +34,9 @@ function mapStateToInstanceContainerProps({ instance, routing }) {
 
 const Home = () => (
   <Layout>
-    <Lightbox />
+    <Lightbox>
+      <MorphologyViewer />
+    </Lightbox>
     <Workspace />
     <Filters />
     <WithStore
