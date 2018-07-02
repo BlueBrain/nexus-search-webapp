@@ -102,6 +102,9 @@ ul#search-results {
 .flex.center {
   justify-content: center;
 }
+.flex.single-child {
+  flex-grow: 0;
+}
 .bread-crumb {
   background-color: #fcfdfd;
   font-size: small;
