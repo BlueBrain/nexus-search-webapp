@@ -1,9 +1,11 @@
 import cors from "cors";
 import logger from "./logger";
+import routes from "./routes";
 
 function middleware (app) {
+  logger(app);
   app.use(cors());
-  app.use(logger)
+  routes(app);
 };
 
 export default middleware;
