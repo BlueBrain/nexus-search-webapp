@@ -21,7 +21,6 @@ RUN cp -a index.html index.html.template
 
 # Default values for environment variables
 ENV BASE_PATH="/search"
-ENV APP_NAME="Nexus_Search"
 ENV BASE_URI="https://bbp-nexus.epfl.ch/staging"
 ENV SEARCH_API_URI="https://bbp-nexus.epfl.ch/staging/search-api"
 

@@ -9,7 +9,8 @@
   "homepage": "https://github.com/BlueBrain/nexus-search-webapp#readme",
   "scripts": {
     "build": "export NODE_ENV=production && babel server -d dist/server --presets env && parcel build public/index.html --public-url ./ --out-dir dist/public && envsub --env npm_package_version dist/public/index.html",
-    "build-docker:client": "npm run build && docker build -f docker/client/Dockerfile -t ${npm_package_name} .",
+    "build-docker:client": "npm run build && docker build -f docker/client/Dockerfile -t ${npm_package_name}-client .",
+    "build-docker:server": "npm run build && docker build -f docker/server/Dockerfile -t ${npm_package_name}-server .",
     "dev": "export NODE_ENV=development && babel-watch server/index.js --presets env --watch server/index.js & parcel public/index.html -p 8000",
     "start": "babel-node server/index.js --presets env & parcel public/index.html -p 8000",
     "start-docker": "docker run --rm -p 8000:8000 ${npm_package_name}",

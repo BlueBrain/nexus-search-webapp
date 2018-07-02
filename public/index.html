@@ -15,9 +15,11 @@
     <div id="explorer-app">
     </div>
     <script>
-      window.APP_NAME = '${APP_NAME}';
+      // The base URI that the app will be deployed at, eg. "mynexus.org/search"
       window.BASE_URI = '${BASE_URI}';
+      // The base URI that the companion server will be deployed at, eg. "search.mynexus.org"
       window.SEARCH_API_URI = '${SEARCH_API_URI}';
+      // The path to find this index file once deployed, eg. "/search"
       window.BASE_PATH = '${BASE_PATH}';
     </script>
     <script src="../index.js">
