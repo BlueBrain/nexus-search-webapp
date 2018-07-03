@@ -14,10 +14,9 @@ const PleaseLogin = () => (
       mapDispatchToProps={{}}
     >
       {({ loginURI }) => (
-        <div className="flex center">
+        <div className="flex center single-child">
           <Card
-            className="slide-in"
-            style={{ width: 300, marginTop: "10%", height: "100%" }}
+            style={{ width: 300, marginTop: "10%" }}
             cover={
               <img
                 style={{ padding: "2em 1em", width: 100, margin: "0 auto" }}
