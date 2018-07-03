@@ -15,7 +15,7 @@ The client-side `index.html` document will be transpiled with the ENV vars in th
 to launch the client and server in tandem:
 ``` npm run dev ```
 
-## Produciton
+## Production
 
 You can build the docker files from the project.json npm scripts.
 ``` npm run build-docker:server ```
