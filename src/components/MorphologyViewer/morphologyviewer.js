@@ -238,15 +238,15 @@ class MorphologyViewer {
   }
 
   animate () {
+    requestAnimationFrame(this.animate.bind(this));
     //TODO: check if we can get an instance of tween instead.
     this.cube.rotation.x += 0.1;
 		this.cube.rotation.y += 0.1;
     TWEEN.update();
-    this.render.bind(this);
     if (this.controls){
       this.controls.update();
     }
-    requestAnimationFrame(this.animate.bind(this));
+    this.render();
   };
 
   addLights () {

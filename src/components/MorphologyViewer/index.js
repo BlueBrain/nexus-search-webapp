@@ -1,9 +1,12 @@
 import React from "react";
 import fs from "fs";
+import World from "../../libs/World";
 import MophologyViewer from "./morphologyviewer";
 import MorphologyBuilder from "./morphologybuilder";
-const morphoData = fs.readFileSync(__dirname + "/raw.txt");
-console.log('morpho data', morphoData)
+import Morphology from "./morphology";
+import Utf8ArrayToStr from "../../libs/decoding";
+
+const morphoData = Utf8ArrayToStr(fs.readFileSync(__dirname + "/raw.txt"));
 
 class MorphologyContainer extends React.Component {
   constructor(props) {
@@ -19,13 +22,18 @@ class MorphologyContainer extends React.Component {
   }
   makeVisualizer() {
     if (this.viewContainer) {
-      this.viewer = new MophologyViewer(this.viewContainer);
-      this.viewer.onShow();
-      MorphologyBuilder.displayOnScene(this.viewer.scene,
-        morphoData,
-        this.viewer.initialSetup.bind(this.viewer),
-        this.viewer.updateBoundingBox.bind(this.viewer)
-       );
+      this.world = new World(this.viewContainer);
+      this.world.animate();
+      this.morphology = new Morphology();
+      this.world.scene.webgl.add(this.morphology);
+      this.morphology.load(morphoData);
+      // this.viewer = new MophologyViewer(this.viewContainer);
+      // this.viewer.onShow();
+      // MorphologyBuilder.displayOnScene(this.viewer.scene,
+      //   morphoData,
+      //   this.viewer.initialSetup.bind(this.viewer),
+      //   this.viewer.updateBoundingBox.bind(this.viewer)
+      //  );
     }
   }
   render () {

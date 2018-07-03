@@ -46,13 +46,13 @@ var _ = require('underscore');
                      });
   };
 
-  function loadMorphAsBytes(bytes, displayCallback){
+  function loadMorphAsBytes(b64, displayCallback){
     // TODO get rid of encoding.
-    // var bString = atob(b64);
-    // var bytes = new Uint8Array(bString.length);
-    // for (var i = 0; i < bytes.length; i++){
-    //   bytes[i] = bString.charCodeAt(i);
-    // }
+    var bString = atob(b64);
+    var bytes = new Uint8Array(bString.length);
+    for (var i = 0; i < bString.length; i++){
+      bytes[i] = bString.charCodeAt(i);
+    }
     var reader = new FileReader();
     reader.onloadend = function() {
       displayCallback(reader.result);
@@ -72,7 +72,9 @@ var _ = require('underscore');
   };
   function displayMorphology(inputData, scene, doneCallback, bbCallback, getPointData) {
     var pointData = new Float32Array(inputData);
+    console.log("pointData: ", pointData);
     var count = pointData.length;
+    console.log("pointData LEngth: ", count);
 
     var acceptableTypes = [NeuronPartType.AXON,
                            NeuronPartType.DENDRITE,
@@ -88,8 +90,8 @@ var _ = require('underscore');
     var ofPid = 6;
     var rowLength = 7;
     var rowCount = pointData.length / rowLength;
-    console.log(rowCount);
-    console.log(pointData.length);
+    console.log("rowCount", rowCount);
+    console.log("pointData", pointData.length);
     var allPoints = {};
     for (var i = 0; i < rowCount; i++){
       var offset = i * rowLength;
