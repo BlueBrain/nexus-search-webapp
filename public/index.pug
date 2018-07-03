@@ -11,15 +11,13 @@ html(lang='en')
     link(rel="stylesheet", href="../node_modules/antd/dist/antd.css")
     link(rel="stylesheet" href="./css/search.css")
   body
-    a(href=process.env.BASE_URI) hello!
-    h1=process.env.BASE_URI
     div.pattern
     div#explorer-app
     script.
       // The base URI that the app will be deployed at, eg. "mynexus.org/search"
-      window.BASE_URI = process.env.BASE_URI;
+      window.BASE_URI = "#{process.env.BASE_URI}";
       // The base URI that the companion server will be deployed at, eg. "search.mynexus.org"
-      window.SEARCH_API_URI = process.env.SEARCH_API_URI;
+      window.SEARCH_API_URI = "#{process.env.SEARCH_API_URI}";
       // The path to find this index file once deployed, eg. "/search"
-      window.BASE_PATH = process.env.BASE_PATH;
+      window.BASE_PATH = "#{process.env.BASE_PATH}";
     script(src="../index.js")

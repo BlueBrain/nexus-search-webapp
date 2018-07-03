@@ -9,7 +9,7 @@ const envConfig = dotenv.parse(
     path.resolve(__dirname, `./envs/${STAGE}.env`)))
 
 if (envConfig) {
-  let out = [];
+  let out = ['export'];
   for (let k in envConfig) {
     if (envConfig[k]) {
       out.push(`${k}=${envConfig[k]}`);
