@@ -1,0 +1,36 @@
+{
+  "@type": "Cell",
+  "brainLocation": {
+    "brainRegion": {
+      "@id": "http://api.brain-map.org/api/v2/data/Structure/218",
+      "label": "Primary somatosensory area, nose, layer 1",
+      "shortName": "SSp-n1"
+    }
+  },
+  "cellName": {
+    "label": "n180301"
+  },
+  "contributions": [
+    {
+      "role": {
+        "@id": "kjslfdhlaskhf",
+        "label": "PI"
+      },
+      "fullName": "Michaël Dupont",
+      "affiliation": {
+        "@id": "kjslfdhlaskhf",
+        "label": "Blue Brain Project"
+      }
+    }
+  ],
+  "eType": {
+    "@id": "jsdflajsh",
+    "label": "continuous non-accomidating",
+    "shortName": "cNAC"
+  },
+  "mType": {
+    "@id": "asdfasf",
+    "label": "Layer 1 Pyramidal",
+    "shortName": "L2-PC"
+  }
+}

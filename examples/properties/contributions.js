@@ -23,15 +23,10 @@ export default {
       }
     },
     fullName: {
-      type: "nested",
-      properties: {
-        label: {
-          type: "text",
-          fields: {
-            raw: {
-              type: "keyword"
-            }
-          }
+      type: "text",
+      fields: {
+        raw: {
+          type: "keyword"
         }
       }
     },

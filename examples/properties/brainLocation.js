@@ -19,6 +19,14 @@ export default {
               type: "keyword"
             }
           }
+        },
+        shortName: {
+          type: "text",
+          fields: {
+            raw: {
+              type: "keyword"
+            }
+          }
         }
       }
     }
