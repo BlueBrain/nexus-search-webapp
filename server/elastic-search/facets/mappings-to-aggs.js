@@ -16,6 +16,7 @@ import { get } from "../../libs/object";
       let aggs = Object.keys(property.properties)
         .reduce((memo, propKey) => {
           let keyword = get(['fields', 'raw', 'type'], property.properties[propKey]);
+
           // TODO put into a config
           if (propKey === "@id") {
             return memo;

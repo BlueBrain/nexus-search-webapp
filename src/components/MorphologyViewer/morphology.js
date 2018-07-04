@@ -122,7 +122,7 @@ class Morphology extends THREE.Group {
     geo.addAttribute("position", verticesB);
     geo.computeVertexNormals();
     console.log("TYPE: ", type);
-    let mat = new THREE.MeshLambertMaterial({color: palette[0].hex(), side: THREE.DoubleSide})
+    let mat = new THREE.MeshLambertMaterial({color: 0x000000, side: THREE.DoubleSide})
     let mesh = new THREE.Mesh(geo, mat);
     mesh.type = type;
     this.add(mesh);
