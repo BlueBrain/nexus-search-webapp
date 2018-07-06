@@ -2,22 +2,24 @@ import React from "react";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { Spin, Checkbox, Row, Col } from "antd";
+import { Spin, Checkbox, Row, Col, Popover, AutoComplete, Input, Divider} from "antd";
 import { facets, navigate } from "../../store/actions";
 import qs from "query-string";
 import { truthy } from "../../libs/utils";
+
+const MAX_VISIBLE_FACET_OPTIONS = 5;
 const CheckboxGroup = Checkbox.Group;
 
-const FacetTitle = ({ title, total }) => (
+const FacetTitle = ({ title, total, numFilters }) => (
     // TOOD make a title normalizer?
     <div className="filter-title flex space-between">
     <p>{title.replace(".", " ").replace(".label", "")}</p>
-    <span style={{color: 'rgba(128, 128, 128, 0.58)'}}>{total}</span>
+    <span style={{color: 'rgba(128, 128, 128, 0.58)'}}>{numFilters}{" "}({total})</span>
   </div>
 );
 
-const FacetBody = ({ children }) => (
-  <div className="facet-body">{children}</div>
+const FacetBody = ({ children, style}) => (
+  <div className="facet-body" style={style}>{children}</div>
 );
 
 const Facet = ({ label, value, amount, selected }) => {
@@ -26,20 +28,45 @@ const Facet = ({ label, value, amount, selected }) => {
     <Col span={3}>
       <Checkbox value={value} checked={true}/>
     </Col>
-    <Col span={12}>
+    <Col span={16}>
       {label}
       {value}
     </Col>
-    <Col span={8}>{amount}</Col>
+    <Col span={4}>{amount}</Col>
   </Row>
 );
 }
 const FacetGroup = (facet, onSelect) => {
   const { title, total, facetOptions, selected } = facet;
+  let visibleFacetOptions = facetOptions.slice(0, MAX_VISIBLE_FACET_OPTIONS);
   return (
     <li key={title} className="facet-group">
-      <FacetTitle title={title} total={total} />
+      <Divider orientation="left">{title}</Divider>
+      <FacetTitle title={title} total={total} numFilters={facetOptions.length} />
       <FacetBody>
+        <CheckboxGroup style={{ width: "100%" }} defaultValue={selected} onChange={value => onSelect(title, value)}>
+          {facetOptions && !!facetOptions.length && visibleFacetOptions.map(({ label, value, amount, selected }, index) => (
+            <Facet
+              key={`${label}-${index}`}
+              name={name}
+              value={value}
+              selected={selected}
+              amount={amount}
+            />
+          ))}
+        </CheckboxGroup>
+        {facetOptions.length > MAX_VISIBLE_FACET_OPTIONS && <FacetShowMore facet={facet} onSelect={onSelect}/>}
+      </FacetBody>
+    </li>
+  );
+};
+
+const FacetShowMore = ({facet, onSelect}) => {
+  const { title, total, facetOptions, selected } = facet;
+  const PopoverContent = () => {
+    return (
+      <div>
+      <FacetBody style={{ width: 300}}>
         <CheckboxGroup style={{ width: "100%" }} defaultValue={selected} onChange={value => onSelect(title, value)}>
           {facetOptions && !!facetOptions.length && facetOptions.map(({ label, value, amount, selected }, index) => (
             <Facet
@@ -52,10 +79,17 @@ const FacetGroup = (facet, onSelect) => {
           ))}
         </CheckboxGroup>
       </FacetBody>
-    </li>
-  );
-};
-
+      </div>
+    );
+  }
+  return (
+    <div className="filter-title flex" style={{ justifyContent: "flex-end"}}>
+      <Popover placement="right" title={title} content={<PopoverContent />} trigger="click">
+      <a>See {facetOptions.length - MAX_VISIBLE_FACET_OPTIONS} More ></a>
+      </Popover>
+    </div>
+  )
+}
 // FacetGroup.propTypes = {
 //   onSelect: PropTypes.func.isRequired,
 //   facet: PropTypes.any.isRequired

@@ -14,13 +14,13 @@ class RendererWEBGL extends THREE.WebGLRenderer {
    */
   constructor(
     container,
-    options = { antialias: true, alpha: true, clearColor: 0xf3928e }
+    options = { antialias: true, alpha: true, clearColor: 0xffeecd, opacity: 0.0 }
   ) {
     super(options);
 
     this.setSize(container.offsetWidth, container.offsetHeight);
     this.setPixelRatio(window.devicePixelRatio);
-    this.setClearColor(options.clearColor, 1.0);
+    this.setClearColor(options.clearColor, options.opacity);
     this.domElement.style.width = "100%";
     this.domElement.style.height = "100%";
     container.appendChild(this.domElement);

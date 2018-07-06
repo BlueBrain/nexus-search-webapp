@@ -33,12 +33,12 @@ function mapStateToInstanceContainerProps({ instance, routing }) {
 }
 
 const Home = () => (
-  <Layout>
+  <Layout style={{flexDirection: "row"}}>
     <Lightbox>
       <MorphologyViewer />
     </Lightbox>
-    <Workspace />
     <Filters />
+    <Workspace />
     <WithStore
       mapStateToProps={mapStateToInstanceContainerProps}
       mapDispatchToProps={{

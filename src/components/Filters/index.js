@@ -3,14 +3,15 @@ import { Layout } from 'antd';
 import Types from "./Types";
 import Facets from "./Facets";
 const { Content, Sider } = Layout;
+import DismissableSider from "../DismissableSider";
 
 const FiltersComponent = () => (
-  <Sider id={'filters'} width={300} style={{ background: '#fff', padding: '1em 0'}}>
+  <DismissableSider id="filters" width={300} style={{ background: '#fff', padding: '1em 0'}}>
     <Content>
       <Types />
       <Facets />
     </Content>
-  </Sider>
+  </DismissableSider>
 )
 
 export default FiltersComponent;

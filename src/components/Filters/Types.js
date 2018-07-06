@@ -29,7 +29,7 @@ const TypesComponent = ({ pending, selectedType, types, onHover, onSelect, clear
     {types &&
       types.map(props => Type({ onSelect, selectedType, onHover, ...props }))}
     <div className="filter-title flex space-between">
-      <a onClick={clearFilters}>see more <Icon type="down"/></a>
+      {/* <a onClick={clearFilters}>see more <Icon type="down"/></a> */}
     </div>
   </div>
 );

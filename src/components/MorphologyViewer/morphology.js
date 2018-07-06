@@ -39,7 +39,9 @@ function convertMorphoIntoPointsDictionary (input) {
   let rowLength = 7;
   const pointData = new Float32Array(input);
   const rowCount = pointData.length / rowLength;
-  let allPoints = [];
+  console.log("rowCount", rowCount);
+  console.log("pointData", pointData.length);
+  let allPoints = {};
   for (let i = 0; i < rowCount; i++){
     let offset = i * rowLength;
     allPoints[String(pointData[offset + ofId])] = {
@@ -53,6 +55,18 @@ function convertMorphoIntoPointsDictionary (input) {
     };
   }
   return allPoints;
+}
+
+function loadMorphAsBytes(b64, callback) {
+  // TODO get rid of encoding.
+  let bString = atob(b64);
+  let bytes = new Uint8Array(bString.length);
+  for (let i = 0; i < bString.length; i++) {
+    bytes[i] = bString.charCodeAt(i);
+  }
+  let reader = new FileReader();
+  reader.onloadend = () => callback(reader.result);
+  reader.readAsArrayBuffer(new Blob([bytes]));
 }
 
 /**
@@ -74,30 +88,49 @@ class Morphology extends THREE.Group {
   }
 
   load (b64) {
-    this.loadMorphAsBytes(b64);
+    loadMorphAsBytes(b64, this.renderOnScene.bind(this));
   }
 
-  loadMorphAsBytes(b64) {
-    // TODO get rid of encoding.
-    let bString = atob(b64);
-    let bytes = new Uint8Array(bString.length);
-    for (let i = 0; i < bString.length; i++) {
-      bytes[i] = bString.charCodeAt(i);
-    }
-    let reader = new FileReader();
-    reader.onloadend = () => this.renderOnScene(reader.result)
-    reader.readAsArrayBuffer(new Blob([bytes]));
+  filterPoints (cb) {
+    return Object.keys(this.points).filter(key => cb(this.points[key]));
   }
 
   renderOnScene (results) {
     let points = this.points = convertMorphoIntoPointsDictionary(results);
     acceptableTypes.forEach(type => {
-      let pointsByType = points.filter(point => point.type === type);
+      let pointsByType = this.filterPoints(point => point.type === type);
       this.createDendriteOrAxon(pointsByType, type);
       if (pointsByType.length > 0){
         this.morphTypes.push(type);
       }
     });
+    this.createSomaMesh();
+  }
+
+  createSomaMesh () {
+    const somaData = this.filterPoints(point => point.type === neuronPartType.SOMA);
+    let averageSoma = new THREE.Vector3(0,0,0);
+    somaData.forEach(point => {
+      averageSoma.set(averageSoma.x + point.x,
+        averageSoma.y + point.y,
+        averageSoma.z + point.z);
+    });
+    averageSoma.divideScalar(somaData.length);
+
+    const geo =  new THREE.Geometry();
+    somaData.forEach((point, index) => {
+      let p1 = somaData[index % somaData.length];
+      let p2 = somaData[(index + 1) % somaData.length];
+      geo.vertices.push(
+        new THREE.Vector3(p1.x, p1.y, p1.z),
+        new THREE.Vector3(p2.x, p2.y, p2.z),
+        averageSoma
+      );
+      geo.faces.push(new THREE.Face3(3 * index, 3 * index + 1, 3 * index + 3));
+    });
+    const mat = new THREE.MeshLambertMaterial({color: 0x000000, side: THREE.DoubleSide})
+    const soma = new THREE.Mesh(geo, mat);
+    this.add(soma);
   }
 
   createDendriteOrAxon (points, type) {

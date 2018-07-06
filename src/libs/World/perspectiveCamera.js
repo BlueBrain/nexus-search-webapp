@@ -19,10 +19,12 @@ class Camera extends THREE.PerspectiveCamera {
     const far = options.far || 50000
 
     super(fov, aspect, near, far)
-    this.position.z = 5
+    this.position.z = 300
   }
 
-  update () {}
+  update () {
+    this.rotation.z += 0.2
+  }
 }
 
 export default Camera

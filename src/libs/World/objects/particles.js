@@ -24,7 +24,7 @@ class ObjectCloud extends THREE.Object3D {
     this.size = 75
     this.geometry = [
       new THREE.BoxBufferGeometry(this.size, this.size, this.size),
-      new THREE.ConeBufferGeometry(this.size - 20, this.size, 4, 0)
+      new THREE.ConeBufferGeometry(this.size - 10, this.size, 2, 0)
     ]
 
     for (var i = 0; i < 70; i++) {
@@ -35,7 +35,7 @@ class ObjectCloud extends THREE.Object3D {
       let mesh = new THREE.LineSegments(new THREE.EdgesGeometry(geometry), material)
 
       // Generate random position, rotation and scale
-      let position = new THREE.Vector3(randomInt(-2200, 2200), randomInt(-3500, 3500), randomInt(-1500, 300))
+      let position = new THREE.Vector3(randomInt(-1200, 1200), randomInt(-2500, 2500), randomInt(-1000, 300))
       let rotation = new THREE.Vector3(Math.random() * 2 * Math.PI, Math.random() * 2 * Math.PI, Math.random() * 2 * Math.PI)
       let randomScale = randomFloat(0.05, 0.5)
 
@@ -60,8 +60,8 @@ class ObjectCloud extends THREE.Object3D {
    * @param {number} time Time
    */
   update (time) {
-    this.rotation.y += 0.0002
-    this.rotation.x += 0.0002
+    this.rotation.y += 0.0008
+    this.rotation.x += 0.0008
   }
 }
 

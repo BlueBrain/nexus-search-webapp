@@ -7,7 +7,7 @@ import { Shapes, Spinner } from "@bbp/nexus-react";
 import { query, navigate, lightbox } from "../store/actions";
 import qs from "query-string";
 import { Select, Icon, Radio, Spin } from "antd";
-import GridResults from "./GridResults";
+import * as SearchSnippetCards from "./Cards";
 import icons from "./Icons";
 import SVG from "react-svg";
 
@@ -65,29 +65,13 @@ const SearchToolbar = ({ hits }) => {
   );
 };
 
-const SearchResultsList = ({ results, api, goToEntityByID }) => {
-  return (
-    <ul id="search-results" className="grow">
-      {results.map((result, index) => {
-        return (
-          <li
-            key={`${result._source["@id"]}-${index}`}
-            onClick={() => goToEntityByID(result._source["@id"])}
-          >
-            <Shapes.Relationship value={result._source} api={api} />
-          </li>
-        );
-      })}
-    </ul>
-  );
-};
-
 const SearchResultsGrid = ({ results, api, goToEntityByID, openVisualizer, hoverType }) => {
   return (
     <div id="search-results" className="flex wrap">
       {results.map((result, index) => {
+        let SearchSnippet = SearchSnippetCards[result._source["@type"]] || SearchSnippetCards.Default;
         return (
-          <GridResults
+          <SearchSnippet
             key={`${result._source["@id"]}-${index}`}
             value={result._source}
             openVisualizer={openVisualizer}

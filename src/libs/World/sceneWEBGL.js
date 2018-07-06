@@ -28,8 +28,8 @@ class Scene extends THREE.Scene {
     const ambient = new THREE.AmbientLight(0xf3928e)
     this.add(ambient)
 
-    this.particles = new Particles()
-    this.add(this.particles)
+    // this.particles = new Particles()
+    // this.add(this.particles)
 
     const spot = new THREE.DirectionalLight(0xf3928e, 1.75) // 0xdfebff
     spot.position.set(0, -500, 500)
@@ -46,7 +46,9 @@ class Scene extends THREE.Scene {
    * @return {void}
    */
   render () {
-    // this.stuff.update(this.clock.time)
+    this.children.forEach(child => {
+      if (child.update) { child.update() }
+    })
   }
 }
 

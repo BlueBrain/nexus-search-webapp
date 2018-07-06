@@ -1,6 +1,6 @@
-@import './style.css';
-@import './animations.css';
-@import './lightbox.css';
+@import './style.scss';
+@import './animations.scss';
+@import './components/index.scss';
 
 * {
   -webkit-font-smoothing: antialiased;
@@ -77,11 +77,15 @@ section h2 {
 }
 
 #search-results {
-  align-self: flex-start;
+  grid-row: auto;
+  display: grid;
+  grid-gap: 2em 2em;
+  grid-template-columns: repeat(auto-fill,minmax(250px, 1fr));
+  height: 100%;
 }
 
 .search-toolbar {
-  flex-grow: 0;
+  flex: 0 0 3em;
 }
 
 .ant-layout {
@@ -162,11 +166,9 @@ section .header {
   position: relative;
   background: white;
   border-radius: 3px;
-  width: 250px;
-  max-height: 400px;
+  width: 100%;
   min-height: 300px;
   box-shadow: -1px 1px 4px 0px #abbac95e;
-  margin: 1em;
 }
 
 .result-card .image-preview {

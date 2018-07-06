@@ -1,11 +1,9 @@
 import React from "react";
-import { WithStore, Shapes, CopyToClipboard } from "@bbp/nexus-react";
-import { Layout } from "antd";
-import { Card, Icon, Avatar } from "antd";
+import { WithStore, CopyToClipboard } from "@bbp/nexus-react";
+import { Card, Icon } from "antd";
 import SVG from "react-svg";
-import Logo from "../../public/img/logo.png";
-import Icons from "./Icons";
-import TypeIcon from "./TypeIcon";
+import Icons from "../Icons";
+import TypeIcon from "../TypeIcon";
 import _ from "underscore";
 const { Meta } = Card;
 

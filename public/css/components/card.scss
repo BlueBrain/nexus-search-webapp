@@ -1,0 +1,78 @@
+.result-card {
+  font-size: 0.8em;
+  color: #777;
+  .header {
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    z-index: 2;
+    background: linear-gradient(to top, #7dbae800 0%,#ffffffbd 70%, #ffffff 100%);
+    .top {
+      justify-content: flex-start;
+    }
+    .type-avatar {
+      top: 0; left: 0;
+    }
+    .labels {
+      text-align: left;
+      margin-left: 1em;
+    }
+    .top-label {
+      font-weight: bold;
+    }
+    .name {
+      font-weight: bold;
+      color: #80808061;
+    }
+  }
+  .card-morph {
+    position: absolute;
+    height: 100%; width: 100%;
+    left: 0; top: 0;
+    z-index: 1;
+    .ephys {
+      width: 100%;
+      position: absolute;
+      top: 58%;
+      text-align: center;
+      img {
+        margin: 0 auto;
+        width: 60%;
+        height: 5em;
+        opacity: 0.6;
+      }
+    }
+  }
+  .unemphasized {
+    font-weight: bold;
+    color: #80808061;
+  }
+  .footer {
+    position: absolute;
+    width: 100%;
+    bottom: 0; left: 0;
+    padding: 1em;
+    z-index: 2;
+    background: linear-gradient(to bottom, #7dbae800 0%,#ffffffbd 60%, #ffffff 100%);
+    .mType {
+      font-size: 2em;
+      color: #555;
+    }
+    .brainRegion {
+      font-style: italic;
+    }
+    .eType {
+
+    }
+    .bottom {
+      padding: 2em 0 0;
+      .pi {
+        color: #555;
+        font-weight: bold;
+      }
+    }
+  }
+}

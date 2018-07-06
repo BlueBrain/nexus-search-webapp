@@ -7,6 +7,14 @@ import Controls from "./controls";
 import Camera from "./perspectiveCamera";
 import Emitter from "./helpers/emitter";
 
+const DEFAULT_WORLD_OPTIONS = {
+  clock: Clock,
+  camera: Camera,
+  controls: Controls,
+  sceneWEBGL: SceneWEBGL,
+  rendererWEBGL: RendererWEBGL,
+}
+
 /*
  * 🌎 World class!
  */
@@ -14,32 +22,36 @@ class World {
   /**
    * Constructor function
    * @param {domElement} container - Canvas container
+   * @param {options} worldOptions - cameras and friends
    * @constructor
    */
-  constructor(container) {
+  constructor(container, options={}) {
+    // assign default options
+    options = Object.assign(DEFAULT_WORLD_OPTIONS, options);
+
     // HTML CONTAINER
     this.container = container;
     const width = this.container.offsetWidth;
     const height = this.container.offsetHeight;
 
     // CLOCK ⏰
-    this.clock = new Clock();
+    this.clock = new options.clock();
 
     // RENDER 👨🏻‍🎨
     this.renderer = {
-      webgl: new RendererWEBGL(this.container)
+      webgl: new options.rendererWEBGL(this.container)
       // css3d: new RendererCSS3D(this.container)
     };
 
     // CAMERA 🎥
-    this.camera = new Camera(width, height);
+    this.camera = new options.camera(width, height);
 
     // CONTROLS 🕹
-    this.controls = new Controls(this.camera, this.renderer.webgl);
+    this.controls = new options.controls(this.camera, this.renderer.webgl);
 
     // SCENE 🖼
     this.scene = {
-      webgl: new SceneWEBGL(
+      webgl: new options.sceneWEBGL(
         this.renderer.webgl,
         this.camera,
         this.clock,
@@ -66,7 +78,7 @@ class World {
     this.camera.update(this.clock.delta);
     this.controls.update(this.clock.delta);
     Object.keys(this.renderer).forEach(key => {
-      this.renderer[key].render(this.scene.webgl, this.camera);
+      this.renderer[key].render(this.scene[key], this.camera);
     });
     Object.keys(this.scene).forEach(key => {
       this.scene[key].render();
