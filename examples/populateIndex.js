@@ -33,11 +33,9 @@ const cells = entityFileNames.map(entityPath => {
   return {
     "@id": entityData["@id"],
     "@type": "Cell",
-    brainLocation: {
-      brainRegion: {
-        "@id": entityData.brainLocation.brainRegion["@id"],
-        label: entityData.brainLocation.brainRegion.label
-      }
+    brainRegion: {
+      "@id": entityData.brainLocation.brainRegion["@id"],
+      label: entityData.brainLocation.brainRegion.label
     },
     cellName: {
       label: entityData.name

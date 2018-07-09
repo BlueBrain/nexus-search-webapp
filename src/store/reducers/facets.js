@@ -1,17 +1,8 @@
 import * as types from "../actions/types";
 
-const DEFAULT_FACETS = [
-  {
-    title: "has Attachments",
-    facetOptions: [{
-      label: "png",
-      value: "png",
-      amount: 3
-    }]
-  }
-]
+const DEFAULT_FACETS = [];
 
-export default function query (
+export default function facets (
   state = {
     results: DEFAULT_FACETS,
     pending: false,

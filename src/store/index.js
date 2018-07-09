@@ -1,16 +1,13 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import { routerReducer, routerMiddleware } from 'react-router-redux';
+import { routerReducer } from 'react-router-redux';
 import persistState from 'redux-localstorage';
-import thunk from 'redux-thunk'
-import history from '../libs/history';
 import * as customReducers from './reducers';
+import middleware from "./middleware";
 
 const reducers = combineReducers({
   ...customReducers,
   routing: routerReducer
 })
-
-const middleware = [ thunk, routerMiddleware(history) ]
 
 const reduxStore = createStore(
   reducers,

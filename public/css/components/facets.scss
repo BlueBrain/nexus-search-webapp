@@ -1,0 +1,19 @@
+#facets {
+  ul.facet-subgroup {
+    padding: 0 1em;
+    list-style: none;
+  }
+}
+
+.facet-checkbox {
+  cursor: pointer;
+  transition: all 1s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  border-radius: 2px;
+  padding: 5px;
+  &:hover {
+    background-color: rgba(185, 233, 212, 0.09);
+  }
+  .label {
+    width: 95%;
+  }
+}

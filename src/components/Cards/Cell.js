@@ -62,7 +62,7 @@ const GridResult = ({ value, goToEntityByID, openVisualizer }) => {
                 {has(value, "mType.label") && value.mType.label}
               </div>
               <div className="brainRegion">
-                {value.brainLocation.brainRegion.label}
+                {value.brainRegion.label}
               </div>
               <div className="eType">{value.eType.label}</div>
               <div className="bottom flex space-between">
