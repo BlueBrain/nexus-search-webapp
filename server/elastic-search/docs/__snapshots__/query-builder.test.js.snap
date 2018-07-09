@@ -76,7 +76,7 @@ Object {
                   "path": "brainLocation",
                   "query": Object {
                     "nested": Object {
-                      "path": "brainRegion",
+                      "path": "brainLocation.brainRegion",
                       "query": Object {
                         "bool": Object {
                           "should": Array [
