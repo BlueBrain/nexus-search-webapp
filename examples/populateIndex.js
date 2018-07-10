@@ -3,7 +3,7 @@ import path from "path";
 import elasticsearch from "elasticsearch";
 import config from "../server/libs/config";
 
-const NEOBASE_DIR = "/Users/pirman/Documents/Neobase";
+const NEOBASE_DIR = process.env.NEOBASE_DIR;
 const LIMIT = 1000;
 
 const index = config.ELASTIC_SEARCH_INDEX;

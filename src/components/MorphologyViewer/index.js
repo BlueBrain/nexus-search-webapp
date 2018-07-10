@@ -29,8 +29,8 @@ class MorphologyContainer extends React.Component {
       MorphologyBuilder.displayOnScene(
         this.world.scene.webgl,
         morphoData,
-        () => { console.log("DONE CALLBACK"); },
-        () => { console.log("BB CALLBACK"); }
+        () => { },
+        () => { }
        );
     }
   }

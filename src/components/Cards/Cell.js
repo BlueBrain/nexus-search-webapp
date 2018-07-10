@@ -1,8 +1,5 @@
 import React from "react";
-import { WithStore, CopyToClipboard } from "@bbp/nexus-react";
-import { Card, Icon } from "antd";
-import SVG from "react-svg";
-import Icons from "../Icons";
+import { WithStore } from "@bbp/nexus-react";
 import TypeIcon from "../TypeIcon";
 import FontAwesome from "react-fontawesome";
 import _ from "underscore";
@@ -10,6 +7,28 @@ import MorphologyViewer from "../MorphologyViewer";
 import fakeMorphology from  "../../../public/img/fakeMorpho.png";
 import ephysSummary from "../../../public/img/ephys_summary.png";
 import { has } from "underscore";
+
+
+class MorphoMe extends React.Component {
+  state = { hovered: false };
+  handleHover (status) {
+    this.setState({ hovered: status})
+  }
+  render() {
+    const Presenter =
+      this.state.hovered
+        ? <MorphologyViewer />
+        : <img src={fakeMorphology} style={{ width: "100%", height: "100%" }} />
+    return (
+      <div
+      style={{ width: "100%", height: "100%" }}
+      onMouseEnter={() => this.handleHover(true)} onMouseLeave={() => this.handleHover(false)}>
+        {Presenter}
+      </div>
+    );
+  }
+}
+
 const GridResult = ({ value, goToEntityByID, openVisualizer }) => {
   return (
     <WithStore
@@ -54,8 +73,7 @@ const GridResult = ({ value, goToEntityByID, openVisualizer }) => {
               <div className="ephys">
                 <img src={ephysSummary} />
               </div>
-              <img src={fakeMorphology} style={{ width: "100%", height: "100%" }} />
-              {/* <MorphologyViewer /> */}
+              <MorphoMe />
             </div>
             <div className="footer">
               <div className="mType">

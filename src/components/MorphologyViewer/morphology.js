@@ -39,8 +39,6 @@ function convertMorphoIntoPointsDictionary (input) {
   let rowLength = 7;
   const pointData = new Float32Array(input);
   const rowCount = pointData.length / rowLength;
-  console.log("rowCount", rowCount);
-  console.log("pointData", pointData.length);
   let allPoints = {};
   for (let i = 0; i < rowCount; i++){
     let offset = i * rowLength;

@@ -96,8 +96,6 @@ const palette = palettes({
     var ofPid = 6;
     var rowLength = 7;
     var rowCount = pointData.length / rowLength;
-    console.log("rowCount", rowCount);
-    console.log("pointData", pointData.length);
     var allPoints = {};
     for (var i = 0; i < rowCount; i++){
       var offset = i * rowLength;
@@ -116,9 +114,7 @@ const palette = palettes({
     acceptableTypes.forEach((type) => {
       // TODO: check with underscore.
       var curData = _.filter(allPoints, {'type': type});
-      console.log('type ' + type);
-      console.log('Nb data ' + curData.length);
-      var mesh = createMesh(curData, scene, allPoints, bbCallback, type);
+      createMesh(curData, scene, allPoints, bbCallback, type);
       if (curData.length > 0){
         morphTypes.push(type);
       }

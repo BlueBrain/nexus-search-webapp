@@ -22,11 +22,32 @@
   }
   .label {
     width: 100%;
+    &::before, &::after {
+      display: inline-block;
+      max-width: 50%;
+      overflow: hidden;
+      white-space: pre;
+    }
+
+    &::before {
+      content: attr(data-content-start);
+      text-overflow: ellipsis;
+    }
+
+    &::after {
+      content: attr(data-content-end);
+      text-overflow: clip;
+      direction: rtl;
+    }
   }
   .amount {
     width: 1em;
     text-align: right;
   }
+}
+
+li.facet-subgroup {
+  margin-bottom: 1em;
 }
 
 .ant-popover-inner-content {

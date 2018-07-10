@@ -32,7 +32,7 @@ const FacetSubgroup = (key, subFacet, onSelect) => {
     onSelect(key, value);
   };
   return (
-    <li key={key}>
+    <li key={key} className="facet-subgroup">
       <FacetTitle
         title={key}
         total={total}
