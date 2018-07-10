@@ -6,14 +6,31 @@
 }
 
 .facet-checkbox {
+  width: 100%;
   cursor: pointer;
   transition: all 1s cubic-bezier(0.18, 0.89, 0.32, 1.28);
   border-radius: 2px;
   padding: 5px;
+  display: flex;
   &:hover {
     background-color: rgba(185, 233, 212, 0.09);
   }
+  > span:nth-child(2) {
+    display: flex;
+    flex-grow: 1;
+    width: 90%;
+  }
   .label {
-    width: 95%;
+    width: 100%;
+  }
+  .amount {
+    width: 1em;
+    text-align: right;
+  }
+}
+
+.ant-popover-inner-content {
+  > .subfacet-body {
+    width: 300px;
   }
 }

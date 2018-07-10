@@ -7,3 +7,11 @@
     font-size: 1em;
   }
 }
+
+.ant-checkbox-wrapper + .ant-checkbox-wrapper {
+  margin-left: 0;
+}
+
+.ant-checkbox {
+  top: 3px;
+}
