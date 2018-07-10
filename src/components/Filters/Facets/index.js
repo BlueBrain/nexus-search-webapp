@@ -6,6 +6,7 @@ import { facets, navigate } from "../../../store/actions";
 import FacetsComponent from "./FacetsComponent";
 import getQueryFromUrl from "../../../libs/query";
 import { truthy } from "../../../libs/utils";
+import {resultsToFacetWithSelection} from "../../../store/actions/facetNormalizer";
 
 class FacetContainer extends React.Component {
   state = { facet: {} };
@@ -47,12 +48,13 @@ FacetContainer.propTypes = {
 
 function mapStateToProps({ facets, routing }) {
   const { results } = facets;
+  // TODO map selected type in middleware?
   const { selectedType, selectedFacets, queryTerm } = getQueryFromUrl(routing);
   return {
     selectedType,
     selectedFacets,
     queryTerm,
-    facets: results,
+    facets: resultsToFacetWithSelection(results, selectedFacets),
     ...facets
   };
 }

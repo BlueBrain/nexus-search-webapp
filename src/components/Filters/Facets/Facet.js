@@ -4,17 +4,17 @@ import { Checkbox, Row, Col, Tooltip } from "antd";
 
 const FacetCheckbox = ({ label, value, amount, selected, onClick }) => {
   return (
-    <Row className="facet-checkbox" onClick={() => onClick(value)}>
-      <Col span={3}>
-        <Checkbox value={value} checked={true} />
-      </Col>
-      <Col span={16}>
-        <Tooltip title={label}>
+    <Tooltip title={label}>
+      <Row className="facet-checkbox" onClick={() => onClick(value)}>
+        <Col span={3}>
+          <Checkbox value={value} checked={selected} />
+        </Col>
+        <Col span={16}>
           <div className="label ellipsis">{label}</div>
-        </Tooltip>
-      </Col>
-      <Col span={4}>{amount}</Col>
-    </Row>
+        </Col>
+        <Col span={4}>{amount}</Col>
+      </Row>
+    </Tooltip>
   );
 };
 

@@ -16,12 +16,12 @@ const FacetsPending = () => {
 };
 
 // what to show when facets have been loaded already
-const FacetsFulfilled = (facets, onSelect, selectedFacets) => {
+const FacetsFulfilled = (facets, onSelect) => {
   return (
     <div>
       <ul>
         {facets.map(facet =>
-          FacetGroup(facet.key, facet, onSelect, selectedFacets)
+          FacetGroup(facet.key, facet, onSelect)
         )}
       </ul>
     </div>
@@ -33,12 +33,12 @@ const showFacetsMaybe = (pending, facets) =>
   !pending && facets && !!facets.length;
 
 // Top-level facets component
-const FacetsComponent = ({ facets, pending, selectedFacets, onSelect }) => {
+const FacetsComponent = ({ facets, pending, onSelect }) => {
   return (
     <div id="facets">
       {pending && FacetsPending()}
       {showFacetsMaybe(pending, facets) &&
-        FacetsFulfilled(facets, onSelect, selectedFacets)}
+        FacetsFulfilled(facets, onSelect)}
     </div>
   );
 };
