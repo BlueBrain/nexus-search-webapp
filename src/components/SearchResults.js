@@ -67,7 +67,7 @@ const SearchToolbar = ({ hits }) => {
 
 const SearchResultsGrid = ({ results, api, goToEntityByID, openVisualizer, hoverType }) => {
   return (
-    <div id="search-results" className="flex wrap">
+    <div id="search-results">
       {results.map((result, index) => {
         let SearchSnippet = SearchSnippetCards[result._source["@type"]] || SearchSnippetCards.Default;
         return (
