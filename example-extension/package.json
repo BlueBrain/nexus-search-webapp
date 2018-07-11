@@ -1,0 +1,22 @@
+{
+  "name": "@bbp/nexus-search-extensions-example",
+  "version": "1.0.0",
+  "description": "An example extension that can be used by the Nexus search app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BlueBrain/nexus-search-webapp/tree/extensions"
+  },
+  "author": "BBP",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel-bundler": "^1.9.4"
+  },
+  "dependencies": {
+    "random-emoji": "^1.0.2",
+    "vue": "^2.5.16"
+  }
+}
