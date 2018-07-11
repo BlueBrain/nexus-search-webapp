@@ -2,8 +2,10 @@
   "name": "@bbp/nexus-search-extensions-example",
   "version": "1.0.0",
   "description": "An example extension that can be used by the Nexus search app",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
+    "dev": "parcel src/index.pug",
+    "build": "parcel build src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -13,10 +15,14 @@
   "author": "BBP",
   "license": "ISC",
   "devDependencies": {
-    "parcel-bundler": "^1.9.4"
+    "@vue/component-compiler-utils": "^2.1.0",
+    "parcel-bundler": "^1.9.4",
+    "pug": "^2.0.3",
+    "vue-template-compiler": "^2.5.16"
   },
   "dependencies": {
     "random-emoji": "^1.0.2",
-    "vue": "^2.5.16"
+    "vue": "^2.5.16",
+    "vue-hot-reload-api": "^2.3.0"
   }
 }
