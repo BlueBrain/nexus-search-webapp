@@ -23,11 +23,6 @@ Object {
     "aggs": Object {
       "brainRegion": Object {
         "aggs": Object {
-          "@id": Object {
-            "terms": Object {
-              "field": "brainLocation.brainRegion.@id.raw",
-            },
-          },
           "label": Object {
             "terms": Object {
               "field": "brainLocation.brainRegion.label.raw",
@@ -50,11 +45,6 @@ exports[`mappingToAggs() makes a properly formed agg object 1`] = `
 Object {
   "sex": Object {
     "aggs": Object {
-      "@id": Object {
-        "terms": Object {
-          "field": "sex.@id.raw",
-        },
-      },
       "label": Object {
         "terms": Object {
           "field": "sex.label.raw",
@@ -72,11 +62,6 @@ exports[`mappingToAggs() makes a properly formed agg object with multiple inputs
 Object {
   "sex": Object {
     "aggs": Object {
-      "@id": Object {
-        "terms": Object {
-          "field": "sex.@id.raw",
-        },
-      },
       "label": Object {
         "terms": Object {
           "field": "sex.label.raw",
@@ -89,11 +74,6 @@ Object {
   },
   "species": Object {
     "aggs": Object {
-      "@id": Object {
-        "terms": Object {
-          "field": "species.@id.raw",
-        },
-      },
       "label": Object {
         "terms": Object {
           "field": "species.label.raw",
