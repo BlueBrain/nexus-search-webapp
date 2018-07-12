@@ -1,11 +1,9 @@
 import React from "react";
-import { WithStore, Shapes, CopyToClipboard } from "@bbp/nexus-react";
-import { Layout } from "antd";
-import { Card, Icon, Avatar } from "antd";
+import { WithStore, CopyToClipboard } from "@bbp/nexus-react";
+import { Card, Icon } from "antd";
 import SVG from "react-svg";
-import Logo from "../../public/img/logo.png";
-import Explore from "../../public/img/compass.svg";
-import TypeIcon from "./TypeIcon";
+import Icons from "../Icons";
+import TypeIcon from "../TypeIcon";
 import _ from "underscore";
 const { Meta } = Card;
 
@@ -43,7 +41,7 @@ const Deprecated = deprecated => (
   </div>
 );
 
-const GridResult = ({ value, goToEntityByID }) => {
+const GridResult = ({ value, goToEntityByID, openVisualizer}) => {
   let { distribution } = value;
   let cover = null;
   let files
@@ -95,17 +93,21 @@ const GridResult = ({ value, goToEntityByID }) => {
         <div>
           <div className="btn-wrapper">
             <button className="emphasized" onClick={() => goToEntityByID(value['@id'])}>
-              <Icon type="eye-o" /> Open Preview
+            <SVG
+                path={Icons.preview}
+                svgClassName="svg-explorer"
+                className="preview"
+              /><span>Open Preview</span>
             </button>
           </div>
           <div className="btn-wrapper">
-            <button>
+            <button onClick={() => openVisualizer()}>
               <SVG
-                path={Explore}
+                path={Icons.eye}
                 svgClassName="svg-explorer"
-                className="explorer"
-              />{" "}
-              View Explorer
+                className="visualizer"
+              />
+              <span>Visualizer</span>
             </button>
           </div>
         </div>

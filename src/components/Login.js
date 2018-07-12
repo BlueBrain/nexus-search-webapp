@@ -37,11 +37,4 @@ const Login = () => (
   </div>
 );
 
-        // <Auth.Container
-        //   name={name}
-        //   authenticate={() => authenticate(window.location.href)}
-        //   logout={logout}
-        //   loginURI={loginURI}
-        // />
-
 export default Login;

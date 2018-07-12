@@ -35,7 +35,15 @@ function makeDocsQuery(query={ filter:null, type:null, q:null }) {
         return { term: { [propertyName]: filterTerm } };
       });
 
-      let path = key.split('.');
+      // For nested queries, every part of the path needs to contain
+      // its ancestors, as in "grandparent.parent.value"
+      let path = key.split('.').reduce((previous, current) => {
+        const parentLabel = previous[previous.length - 1] || null;
+        const currentLabel = parentLabel ? `${parentLabel}.${current}` : current;
+        previous.push(currentLabel);
+        return previous;
+      }, []);
+
       return path.reverse().reduce((memo, level, index) => {
         if (index === 0) {
           memo = {

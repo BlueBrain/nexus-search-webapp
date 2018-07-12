@@ -16,13 +16,14 @@ async function getAggsFromMapping (client, index) {
  * @returns {object} an elastic search query object
  */
 async function makeFacetQuery({ q, type }, client, index) {
+  let aggs = await getAggsFromMapping(client, index);
   let params = {
     query: {
       bool: {
         must: []
       }
     },
-    aggs: await getAggsFromMapping(client, index)
+    aggs
   };
   if (q) {
     params.query.bool.must.push({

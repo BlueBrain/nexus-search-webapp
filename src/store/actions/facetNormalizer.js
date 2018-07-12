@@ -1,35 +1,55 @@
-import { flatten, compact } from "underscore";
+import {mapObj} from "../../libs/utils";
 
-const PATH_SEPERATOR = "."
+function mapFacets (selectedFacets) {
+  let map = mapObj(selectedFacets, (obj, key) => {
+    let [groupName, subgroupName] = key.split('.');
+    return {
+      key: groupName,
+      filters: { [subgroupName]: obj }
+    }
+  });
+  return map.reduce((memo, selectedFilter) => {
+    memo[selectedFilter.key] = selectedFilter.filters;
+    return memo;
+  }, {});
+}
 
-function makeFacetsFromAggs (o, path) {
-  return compact(flatten(Object.keys(o).map(key => {
-    let newPath = path ? path + PATH_SEPERATOR + key : key;
-    let currentObject = o[key];
-    let isObject = currentObject === Object(currentObject)
-    if (isObject && currentObject.buckets) {
-      return {
-        title: newPath,
-        total: currentObject.buckets.reduce((total, bucket) => total += bucket.doc_count, 0),
-        facetOptions: currentObject.buckets.map(bucket => {
-          return {
-            label: bucket.key,
-            value: bucket.key,
-            amount: bucket.doc_count
-          };
+export const facetNormalizer = function (response, selectedFacets) {
+  let selected = mapFacets(selectedFacets);
+  return Object.keys(response)
+    .filter(key => !!response[key].doc_count)
+    .sort((a, b) => response[b].doc_count - response[a].doc_count)
+    .map(key => {
+      let filter = response[key];
+      if (selected[key]) {
+        Object.keys(selected[key]).forEach(selectedKey => {
+          filter[selectedKey].buckets.map(bucket => {
+            if (selected[key][selectedKey].indexOf(bucket.key) >= 0) {
+              bucket.selected = true;
+            }
+            return bucket;
+          })
         })
       }
-    } else if (isObject && typeof currentObject.buckets === "undefined") {
-      return makeFacetsFromAggs(currentObject, newPath)
-    } else {
-      return null;
+      filter.key = key;
+      return filter
+    });
+}
+
+export const resultsToFacetWithSelection = function (facetResults, selectedFacets) {
+  let selected = mapFacets(selectedFacets);
+  return facetResults.map(filter => {
+    let key = filter.key
+    if (selected[key]) {
+      Object.keys(selected[key]).forEach(selectedKey => {
+        filter[selectedKey].buckets.map(bucket => {
+          if (selected[key][selectedKey].indexOf(bucket.key) >= 0) {
+            bucket.selected = true;
+          }
+          return bucket;
+        })
+      })
     }
-  })))
+    return filter;
+  })
 }
-
-function facetNormalizer(response) {
-  return makeFacetsFromAggs(response)
-    .sort((a, b) => b.total - a.total);
-}
-
-export default facetNormalizer;

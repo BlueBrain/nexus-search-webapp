@@ -26,3 +26,7 @@ export const truthy = function(obj) {
   }
   return obj;
 };
+
+export const mapObj = function(obj, cb) {
+  return Object.keys(obj).map(key => cb(obj[key], key));
+}

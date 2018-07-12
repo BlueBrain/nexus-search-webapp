@@ -6,6 +6,7 @@ import pickReducer from "./pick";
 import queryReducer from "./query";
 import facetsReducer from "./facets";
 import typesReducer from "./types";
+import lightboxReducer from "./lightbox";
 import {
   auth as authModule,
   searchBar as searchBarModule,
@@ -23,3 +24,4 @@ export const searchResults = searchResultsModule.reducer;
 export const query = queryReducer;
 export const facets = facetsReducer;
 export const types = typesReducer;
+export const lightbox = lightboxReducer;

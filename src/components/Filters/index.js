@@ -2,15 +2,16 @@ import React from "react";
 import { Layout } from 'antd';
 import Types from "./Types";
 import Facets from "./Facets";
-const { Content, Sider } = Layout;
+import DismissableSider from "../DismissableSider";
+const { Content } = Layout;
 
 const FiltersComponent = () => (
-  <Sider id={'filters'} width={300} style={{ background: '#fff', padding: '1em 0'}}>
-    <Content>
+  <DismissableSider id="filters">
+    <Content style={{ padding: "1em 0 0"}}>
       <Types />
       <Facets />
     </Content>
-  </Sider>
+  </DismissableSider>
 )
 
 export default FiltersComponent;
