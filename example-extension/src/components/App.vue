@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <button v-on:click="randomEmoji">
-      <h1>{{ message }}</h1>
+      <h1>{{ message }} {{msg.data}}</h1>
     </button>
   </div>
 </template>
@@ -14,7 +14,8 @@ function randomizeEmoji () {
 }
 
 export default {
-  name: 'App',
+  name: "App",
+  props: ["msg"],
   data: () => {
     return {
       message: randomizeEmoji()
