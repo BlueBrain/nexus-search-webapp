@@ -15,7 +15,7 @@ export default function query (
       return Object.assign({}, state, {
         pending: true,
         error: null,
-        results: [],
+        // results: [],
         hits: 0
       });
 
