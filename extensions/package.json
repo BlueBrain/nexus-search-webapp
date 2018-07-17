@@ -1,0 +1,65 @@
+{
+  "name": "@bbp/nexus-search-extensions-example",
+  "version": "1.0.1",
+  "description": "An example extension that can be used by the Nexus search app",
+  "main": "dist/main.js",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "npx webpack --config webpack.build-config.js --mode production",
+    "lint": "vue-cli-service lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BlueBrain/nexus-search-webapp/tree/extensions"
+  },
+  "author": "BBP",
+  "license": "ISC",
+  "dependencies": {
+    "random-emoji": "^1.0.2",
+    "vue": "^2.5.16",
+    "iview": "^2.14.3"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.0.0-rc.4",
+    "@vue/cli-plugin-eslint": "^3.0.0-rc.4",
+    "@vue/cli-service": "^3.0.0-rc.4",
+    "@vue/eslint-config-airbnb": "^3.0.0-rc.4",
+    "node-sass": "^4.9.0",
+    "sass-loader": "^7.0.3",
+    "vue-template-compiler": "^2.5.16",
+    "webpack-cli": "^3.0.8"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "@vue/airbnb"
+    ],
+    "rules": {
+      "indent": "off",
+      "vue/script-indent": [
+        "error",
+        2,
+        {
+          "baseIndent": 1
+        }
+      ]
+    },
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}

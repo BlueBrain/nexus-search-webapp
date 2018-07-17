@@ -1,16 +1,13 @@
-#Example Extension
 
-Display a random emoji!
-
-You can use this as boilerplate to create your own extension for the search app.
+# Nexus search webapp extension
 
 ## Development
 
 install your dependencies
-```npm i```
+```npm install```
 
-run the parcel webserver so you can develop the extension independently!
-```npm run dev```
+run the webserver so you can develop the extension independently!
+```npm run serve```
 
 ### Link with Search App
 
@@ -30,8 +27,3 @@ you may need to use ```npm run build``` before the search app can properly use y
 
 package the app with
 ```npm run build```
-
-## Caveats
-
-- extension styling should be loaded via JS
-
