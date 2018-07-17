@@ -3,7 +3,6 @@ import { Divider } from "antd";
 import FacetSubGroup from "./SubGroup";
 
 const FacetGroup = (key, facet, onSelect) => {
-
   let facetGroupSelect = (subGroupKey, value) => onSelect(key + "." + subGroupKey, value)
   let subGroupKeys = Object.keys(facet)
   .filter(key => key !== "doc_count" && key !== "key")

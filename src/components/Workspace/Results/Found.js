@@ -10,13 +10,13 @@ const ResultsFound = ({ pending, results, hits, pageParams, listType }) => {
   }
   return (
     <React.Fragment>
-      <Spin spinning={pending} size="large">
+      <Spin spinning={pending} size="large" wrapperClassName={"big-loader"} delay={200} >
         <div id="search-results" className={listType.toLowerCase()}>
           <MySlectedListFormatType results={results} />
         </div>
       </Spin>
       {hits - results.length > 0 &&
-        Paginate({ totalPages: hits / pageParams.pageSize, ...pageParams })}
+        Paginate({ totalPages: Math.floor(hits / pageParams.pageSize), ...pageParams })}
     </React.Fragment>
   );
 };

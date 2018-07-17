@@ -29,7 +29,7 @@ class ResultsContainer extends React.Component {
       this.search();
     }
   }
-  handlePageClick({ selected }) {
+  handlePageClick({selected}) {
     const from = Math.ceil(selected * this.pageSize);
     this.setState({ from, selected }, () => this.search(this.props));
   }

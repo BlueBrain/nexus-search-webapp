@@ -49,11 +49,13 @@ FacetContainer.propTypes = {
 function mapStateToProps({ facets, routing }) {
   const { results } = facets;
   // TODO map selected type in middleware?
-  const { selectedType, selectedFacets, queryTerm } = getQueryFromUrl(routing);
+  const { selectedType, selectedFacets, queryTerm, filter } = getQueryFromUrl(routing);
+  console.log("update props?", {selectedFacets});
   return {
     selectedType,
     selectedFacets,
     queryTerm,
+    filter,
     facets: resultsToFacetWithSelection(results, selectedFacets),
     ...facets
   };

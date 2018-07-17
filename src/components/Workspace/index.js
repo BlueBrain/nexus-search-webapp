@@ -1,8 +1,9 @@
 import React from "react";
 import Toolbar from "./Toolbar";
 import Results from "./Results";
+import InfoBoxes from "./InfoBoxes";
 
-const DEFAULT_LIST_TYPE_VALUE = "Table";
+const DEFAULT_LIST_TYPE_VALUE = "Grid";
 
 class WorkspaceContainer extends React.PureComponent {
   state = {
@@ -21,6 +22,7 @@ class WorkspaceContainer extends React.PureComponent {
 const Workspace = ({ listType, handleListTypeChange }) => (
   <section id="workspace" className="column full flex space-between">
     <div className="center grow full full-height">
+      <InfoBoxes />
       <Toolbar listType={listType} handleListTypeChange={handleListTypeChange} />
       <Results listType={listType} />
     </div>

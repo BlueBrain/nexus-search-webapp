@@ -15,6 +15,7 @@ const FacetTitle = ({ title, total, numFilters }) => (
 );
 
 const FacetSubgroup = (key, subFacet, onSelect) => {
+  console.log({subFacet})
   // TODO sanity check this!
   if (subFacet.doc_count) {
     throw new Error("This nested facet could not be rendered", subFacet);

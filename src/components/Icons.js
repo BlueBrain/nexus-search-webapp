@@ -9,6 +9,7 @@ import notFound from "../../public/img/search-not-found.svg";
 import preview from "../../public/img/preview.svg";
 import eye from "../../public/img/eye.svg";
 import fullscreen from "../../public/img/full-screen.svg";
+import lightbulb from "../../public/img/lightbulb.svg";
 
 export default {
   fullscreen,
@@ -21,5 +22,6 @@ export default {
   person,
   cube,
   notFound,
-  neuron
+  neuron,
+  lightbulb
 }

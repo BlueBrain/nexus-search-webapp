@@ -55,6 +55,7 @@
     "react-responsive-modal": "^3.1.0",
     "react-router": "^4.3.1",
     "react-router-redux": "^5.0.0-alpha.9",
+    "react-spring": "^5.4.0",
     "react-svg": "^4.1.8",
     "react-tabs": "^2.2.2",
     "react-tooltip": "^3.6.1",
