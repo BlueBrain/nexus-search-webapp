@@ -20,7 +20,7 @@ const FiltersBoxComponent = (props) => {
               {filter[key].map(selectedFilterName => {
                 return (
                   <a key={selectedFilterName} className="selected-subfilter" onClick={() => removeFacet(key, selectedFilterName)}>
-                   <span className="subfilter-label">{selectedFilterName}</span>
+                   <div className="subfilter-label"><span>{selectedFilterName}</span></div>
                    <span className="close"><Icon type="close" /></span>
                   </a>
                 );

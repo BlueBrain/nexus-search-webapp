@@ -1,5 +1,5 @@
 import * as types from "./types";
-import qs from 'query-string';
+import qs from "query-string";
 
 export default {
   fetchTypes,
@@ -51,20 +51,20 @@ function fetchTypes(query) {
 
 function fetchTypesStarted() {
   return {
-    type: types.FETCH_TYPES_STARTED
+    type: types.FETCH_STARTED_TYPES
   };
 }
 
 function fetchTypesFulfilled(data) {
   return {
-    type: types.FETCH_TYPES_FULFILLED,
+    type: types.FETCH_FULTILLED_TYPES,
     payload: data
   };
 }
 
 function fetchTypesFailed(error) {
   return {
-    type: types.FETCH_TYPES_FAILED,
+    type: types.FETCH_FAILED_TYPES,
     error: error
   };
 }

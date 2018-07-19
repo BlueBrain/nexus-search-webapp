@@ -1,12 +1,12 @@
-import {mapObj} from "../../libs/utils";
+import { mapObj } from "../../libs/utils";
 
-function mapFacets (selectedFacets) {
+function mapFacets(selectedFacets) {
   let map = mapObj(selectedFacets, (obj, key) => {
-    let [groupName, subgroupName] = key.split('.');
+    let [groupName, subgroupName] = key.split(".");
     return {
       key: groupName,
       filters: { [subgroupName]: obj }
-    }
+    };
   });
   return map.reduce((memo, selectedFilter) => {
     memo[selectedFilter.key] = selectedFilter.filters;
@@ -14,42 +14,55 @@ function mapFacets (selectedFacets) {
   }, {});
 }
 
-export const facetNormalizer = function (response, selectedFacets) {
-  let selected = mapFacets(selectedFacets);
-  return Object.keys(response)
-    .filter(key => !!response[key].doc_count)
-    .sort((a, b) => response[b].doc_count - response[a].doc_count)
-    .map(key => {
-      let filter = response[key];
-      if (selected[key]) {
-        Object.keys(selected[key]).forEach(selectedKey => {
-          filter[selectedKey].buckets.map(bucket => {
-            if (selected[key][selectedKey].indexOf(bucket.key) >= 0) {
-              bucket.selected = true;
-            }
-            return bucket;
-          })
-        })
-      }
-      filter.key = key;
-      return filter
-    });
-}
+// export const facetNormalizer = function(response, selectedFacets) {
+//   let selected = mapFacets(selectedFacets);
+//   return Object.keys(response)
+//     .filter(key => !!response[key].doc_count)
+//     .sort((a, b) => response[b].doc_count - response[a].doc_count)
+//     .map(key => {
+//       let filter = response[key];
+//       if (selected[key]) {
+//         Object.keys(selected[key]).forEach(selectedKey => {
+//           filter[selectedKey].buckets.map(bucket => {
+//             if (selected[key][selectedKey].indexOf(bucket.key) >= 0) {
+//               bucket.selected = true;
+//             } else {
+//               bucket.selected = false;
+//             }
+//             return bucket;
+//           });
+//         });
+//       }
+//       filter.key = key;
+//       return filter;
+//     });
+// };
 
-export const resultsToFacetWithSelection = function (facetResults, selectedFacets) {
+export const resultsToFacetWithSelection = function(
+  facetResults,
+  selectedFacets
+) {
+  console.log({facetResults})
   let selected = mapFacets(selectedFacets);
-  return facetResults.map(filter => {
-    let key = filter.key
-    if (selected[key]) {
-      Object.keys(selected[key]).forEach(selectedKey => {
-        filter[selectedKey].buckets.map(bucket => {
-          if (selected[key][selectedKey].indexOf(bucket.key) >= 0) {
+  facetResults.forEach(filter => {
+    let key = filter.key;
+    Object.keys(filter)
+      .filter(key => key !== "doc_count" && key !== "key")
+      .forEach(subGroupKey => {
+        let subGroup = filter[subGroupKey];
+        subGroup.buckets.map(bucket => {
+          if (
+            selected[key] &&
+            selected[key][subGroupKey] &&
+            selected[key][subGroupKey].indexOf(bucket.key) >= 0
+          ) {
             bucket.selected = true;
+          } else {
+            bucket.selected = false;
           }
           return bucket;
-        })
-      })
-    }
-    return filter;
-  })
-}
+        });
+      });
+  });
+  return facetResults;
+};

@@ -7,18 +7,6 @@ import getQueryFromUrl from "../../../libs/query";
 import TypesComponent from "./TypesComponent";
 
 class TypesContainer extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  componentDidMount() {
-    this.props.fetchTypes(this.props.query);
-  }
-  componentDidUpdate (props) {
-    // TODO move to middleware?
-    if (props.query !== this.props.query) {
-      this.props.fetchTypes(this.props.query);
-    }
-  }
   onSelect (value) {
     this.props.updateQuery({ type: value });
   }

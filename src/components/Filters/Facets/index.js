@@ -8,26 +8,11 @@ import getQueryFromUrl from "../../../libs/query";
 import { truthy } from "../../../libs/utils";
 import {resultsToFacetWithSelection} from "../../../store/actions/facetNormalizer";
 
-class FacetContainer extends React.Component {
-  state = { facet: {} };
-  componentDidMount() {
-    this.props.fetchFacets(this.props.selectedType, this.props.queryTerm);
-  }
-  componentDidUpdate (props) {
-    // TODO move fetchFacets to middleware?
-    if (props.selectedType !== this.props.selectedType) {
-      this.props.fetchFacets(this.props.selectedType, this.props.queryTerm);
-    }
-    if (props.queryTerm !== this.props.queryTerm) {
-      this.props.fetchFacets(this.props.selectedType, this.props.queryTerm);
-    }
-  }
+class FacetContainer extends React.PureComponent {
   onSelect (key, value) {
-    let { facet } = this.state;
-    facet[key] = value;
-    this.setState({ facet: truthy(facet) }, () => {
-      this.props.updateQuery({ filter: this.state.facet });
-    });
+    let filter = this.props.selectedFacets;
+    filter[key] = value;
+    this.props.updateQuery({ filter });
   }
   render() {
     const onSelect = this.onSelect.bind(this);
@@ -50,13 +35,12 @@ function mapStateToProps({ facets, routing }) {
   const { results } = facets;
   // TODO map selected type in middleware?
   const { selectedType, selectedFacets, queryTerm, filter } = getQueryFromUrl(routing);
-  console.log("update props?", {selectedFacets});
   return {
     selectedType,
     selectedFacets,
     queryTerm,
     filter,
-    facets: resultsToFacetWithSelection(results, selectedFacets),
+    facets: results,
     ...facets
   };
 }

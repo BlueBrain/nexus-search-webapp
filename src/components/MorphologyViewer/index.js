@@ -34,6 +34,9 @@ class MorphologyContainer extends React.Component {
        );
     }
   }
+  componentWillUnmount () {
+    this.world.destroy();
+  }
   render () {
     return (
       <div id="mophology-viewer" className="morpho-viz full-height" ref={this.setViewContainer}>

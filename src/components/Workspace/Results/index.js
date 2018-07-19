@@ -15,20 +15,20 @@ class ResultsContainer extends React.Component {
     };
     this.pageSize = this.props.pageSize || DEFAULT_PAGE_SIZE;
   }
-  componentDidMount() {
-    this.search();
-  }
-  componentDidUpdate(props) {
-    if (props.query !== this.props.query) {
-      this.search();
-    }
-    if (props.type !== this.props.type) {
-      this.search();
-    }
-    if (props.filter !== this.props.filter) {
-      this.search();
-    }
-  }
+  // componentDidMount() {
+  //   this.search();
+  // }
+  // componentDidUpdate(props) {
+  //   if (props.query !== this.props.query) {
+  //     this.search();
+  //   }
+  //   if (props.type !== this.props.type) {
+  //     this.search();
+  //   }
+  //   if (props.filter !== this.props.filter) {
+  //     this.search();
+  //   }
+  // }
   handlePageClick({selected}) {
     const from = Math.ceil(selected * this.pageSize);
     this.setState({ from, selected }, () => this.search(this.props));

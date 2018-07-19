@@ -1,5 +1,5 @@
 import * as types from "./types";
-import qs from 'query-string';
+import qs from "query-string";
 
 export default {
   fetchQuery,
@@ -15,22 +15,20 @@ function fetchQuery({ query, size, from, type, filter }) {
     const searchAPI = elasticSearchAPI + "/docs";
     dispatch(fetchQueryStarted());
     // TODO make query change
-    return fetch(searchAPI + "?" + qs.stringify({ q: query, size, from, type, filter }))
+    return fetch(
+      searchAPI + "?" + qs.stringify({ q: query, size, from, type, filter })
+    )
       .then(response => {
         if (response.ok) {
           return response.json();
         }
         throw new Error(
-          `Encountered HTTP error ${
-            response.status
-          }. Query is not available.`
+          `Encountered HTTP error ${response.status}. Query is not available.`
         );
       })
       .then(response => {
         dispatch(
-          fetchQueryFulfilled(
-            { hits: response.total, results: response.hits }
-          )
+          fetchQueryFulfilled({ hits: response.total, results: response.hits })
         );
       })
       .catch(error => {
@@ -42,20 +40,20 @@ function fetchQuery({ query, size, from, type, filter }) {
 
 function fetchQueryStarted() {
   return {
-    type: types.FETCH_QUERY_STARTED
+    type: types.FETCH_STARTED_QUERY
   };
 }
 
 function fetchQueryFulfilled(data) {
   return {
-    type: types.FETCH_QUERY_FULFILLED,
+    type: types.FETCH_FULFILLED_QUERY,
     payload: data
   };
 }
 
 function fetchQueryFailed(error) {
   return {
-    type: types.FETCH_QUERY_FAILED,
+    type: types.FETCH_FAILED_QUERY,
     error: error
   };
 }

@@ -5,7 +5,7 @@ const DEFAULT_FACETS = [];
 export default function facets (
   state = {
     results: DEFAULT_FACETS,
-    pending: false,
+    pending: true,
     error: null,
   },
   action
@@ -23,6 +23,10 @@ export default function facets (
       return Object.assign({}, state, {
         pending: false,
         error: null,
+      });
+
+    case types.FACETS_NORMALIZED:
+      return Object.assign({}, state, {
         results: action.payload,
       });
 

@@ -53,7 +53,6 @@ function makeColumnsFromDataSource(results) {
       render: renderEntry
     };
   });
-  console.log({ columns });
   return columns;
 }
 
@@ -69,7 +68,6 @@ const TableComponent = ({ results }) => {
 class TableContainer extends React.PureComponent {
   render() {
     const { results } = this.props;
-    console.log({ results });
     return TableComponent({ results });
   }
 }

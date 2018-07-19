@@ -35,14 +35,6 @@ class App extends Component {
   constructor(props) {
     super(props);
   }
-  componentDidMount() {
-    this.props.authenticate(window.location.href);
-    this.props.startListeningToRequests();
-    this.props.reconcileRoutes();
-  }
-  componentDidUpdate(props) {
-    this.props.reconcileRoutes();
-  }
   render() {
     const { base } = this.props.config;
     const content = this.props.isAuthenticated
@@ -59,9 +51,6 @@ class App extends Component {
 
 App.propTypes = {
   config: PropTypes.any.isRequired,
-  reconcileRoutes: PropTypes.func.isRequired,
-  authenticate: PropTypes.func.isRequired,
-  startListeningToRequests: PropTypes.func.isRequired,
   children: PropTypes.element,
   isAuthenticated: PropTypes.bool
 };
@@ -76,12 +65,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    startListeningToRequests: bindActionCreators(
-      loading.startListeningToRequests,
-      dispatch
-    ),
     authenticate: bindActionCreators(auth.authenticate, dispatch),
-    reconcileRoutes: bindActionCreators(navigate.reconcileRoutes, dispatch)
   };
 }
 
