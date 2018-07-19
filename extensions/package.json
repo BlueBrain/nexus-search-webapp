@@ -4,7 +4,7 @@
   "description": "An example extension that can be used by the Nexus search app",
   "main": "dist/main.js",
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "dev": "vue-cli-service serve",
     "build": "npx webpack --config webpack.build-config.js --mode production",
     "lint": "vue-cli-service lint"
   },
@@ -15,7 +15,6 @@
   "author": "BBP",
   "license": "ISC",
   "dependencies": {
-    "random-emoji": "^1.0.2",
     "vue": "^2.5.16",
     "iview": "^2.14.3"
   },

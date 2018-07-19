@@ -1,5 +1,5 @@
 
-import createExtension from './../../tools/component-wrapper';
+import createExtension from '@/tools/component-wrapper';
 
 import testEntityComponents from './test';
 

@@ -1,4 +1,5 @@
 
+/* eslint-disable-next-line */
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
@@ -38,6 +39,6 @@ module.exports = {
     ],
   },
   plugins: [
-  	new VueLoaderPlugin(),
+    new VueLoaderPlugin(),
   ],
 };

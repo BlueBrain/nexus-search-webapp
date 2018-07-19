@@ -1,3 +1,4 @@
+
 <template>
   <Layout>
     <Header class="header">
@@ -59,7 +60,7 @@
                 :autosize="true"
                 placeholder="Extension parameters in JSON format"
                 @on-change="onParamsChange"
-              ></i-input>
+              />
             </div>
           </Card>
         </i-col>
@@ -81,10 +82,11 @@
   </Layout>
 </template>
 
-<script>
-  import extensions from './components/extensions';
 
-  import ExtensionViewer from './components/extension-viewer.vue';
+<script>
+  import extensions from '@/components/extensions';
+
+  import ExtensionViewer from '@/components/extension-viewer.vue';
 
   export default {
     name: 'app',
@@ -149,5 +151,4 @@
     border: 1px solid #ed3f14;
     box-shadow: 0 0 0 2px #ed3f1433
   }
-
 </style>
