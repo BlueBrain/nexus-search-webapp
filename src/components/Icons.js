@@ -10,6 +10,8 @@ import preview from "../../public/img/preview.svg";
 import eye from "../../public/img/eye.svg";
 import fullscreen from "../../public/img/full-screen.svg";
 import lightbulb from "../../public/img/lightbulb.svg";
+import connectionError from "../../public/img/connection-error.svg";
+import bug from "../../public/img/bug.svg";
 
 export default {
   fullscreen,
@@ -23,5 +25,7 @@ export default {
   cube,
   notFound,
   neuron,
+  bug,
+  connectionError,
   lightbulb
 }

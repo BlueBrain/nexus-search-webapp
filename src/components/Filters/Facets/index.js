@@ -5,10 +5,11 @@ import { connect } from "react-redux";
 import { facets, navigate } from "../../../store/actions";
 import FacetsComponent from "./FacetsComponent";
 import getQueryFromUrl from "../../../libs/query";
-import { truthy } from "../../../libs/utils";
-import {resultsToFacetWithSelection} from "../../../store/actions/facetNormalizer";
 
 class FacetContainer extends React.PureComponent {
+  componentDidMount () {
+    this.props.fetchFacets();
+  }
   onSelect (key, value) {
     let filter = this.props.selectedFacets;
     filter[key] = value;

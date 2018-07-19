@@ -6,6 +6,6 @@ import routeChanging from "./logging";
 import fetching from "./fetching";
 import errorReporting from "./errorReporting";
 
-const middleware = [ thunk, routerMiddleware(history), errorReporting, logging, routeChanging, fetching ]
+const middleware = [ thunk, routerMiddleware(history), logging, routeChanging, fetching, errorReporting ]
 
 export default middleware;
