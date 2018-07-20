@@ -34,7 +34,6 @@ const showFacetsMaybe = (pending, facets) =>
 
 // Top-level facets component
 const FacetsComponent = ({ facets, pending, onSelect }) => {
-  console.log({facets})
   return (
     <div id="facets">
       {pending && FacetsPending()}

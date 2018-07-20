@@ -9,13 +9,14 @@ export default {
   updateHoverType
 };
 
-function fetchTypes(query) {
+function fetchTypes() {
   return (dispatch, getState) => {
     let state = getState();
-    const { elasticSearchAPI, uiConfig, routing } = state.config;
+    const { q } = state.search;
+    const { elasticSearchAPI, uiConfig } = state.config;
     const typesAPI = elasticSearchAPI + "/types";
     dispatch(fetchTypesStarted());
-    return fetch(typesAPI + "?" + qs.stringify({ q: query }))
+    return fetch(typesAPI + "?" + qs.stringify({ q }))
       .then(response => {
         if (response.ok) {
           return response.json();

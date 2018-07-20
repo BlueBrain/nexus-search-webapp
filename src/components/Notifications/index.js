@@ -1,5 +1,7 @@
 import errors from "./errors"
-console.log(errors)
+import messages from "./messages"
+
 export default {
-  errors
+  errors,
+  messages
 }

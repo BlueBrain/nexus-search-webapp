@@ -2,18 +2,27 @@ import React from "react";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { facets, navigate } from "../../../store/actions";
+import { facets, search } from "../../../store/actions";
 import FacetsComponent from "./FacetsComponent";
-import getQueryFromUrl from "../../../libs/query";
+import { isEqual } from "underscore"
 
 class FacetContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.fetchFacets();
   }
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.query !== this.props.query ||
+      prevProps.type !== this.props.type ||
+      !isEqual(prevProps.selectedFilter, this.props.selectedFilter)
+    ) {
+      this.props.fetchFacets();
+    }
+  }
   onSelect (key, value) {
-    let filter = this.props.selectedFacets;
+    let filter = this.props.selectedFilter;
     filter[key] = value;
-    this.props.updateQuery({ filter });
+    this.props.updateSearchParams({ filter });
   }
   render() {
     const onSelect = this.onSelect.bind(this);
@@ -23,8 +32,8 @@ class FacetContainer extends React.PureComponent {
 
 FacetContainer.propTypes = {
   fetchFacets: PropTypes.func.isRequired,
-  updateQuery: PropTypes.func.isRequired,
-  selectedFacets: PropTypes.any,
+  updateSearchParams: PropTypes.func.isRequired,
+  selectedFilter: PropTypes.any,
   selectedType: PropTypes.string,
   queryTerm: PropTypes.string,
   facets: PropTypes.any,
@@ -32,15 +41,13 @@ FacetContainer.propTypes = {
   error: PropTypes.any
 };
 
-function mapStateToProps({ facets, routing }) {
+function mapStateToProps({ facets, search }) {
   const { results } = facets;
-  // TODO map selected type in middleware?
-  const { selectedType, selectedFacets, queryTerm, filter } = getQueryFromUrl(routing);
   return {
-    selectedType,
-    selectedFacets,
-    queryTerm,
-    filter,
+    selectedType: search.type,
+    // This is strange...
+    selectedFilter: {...search.filter},
+    queryTerm: search.q,
     facets: results,
     ...facets
   };
@@ -48,7 +55,7 @@ function mapStateToProps({ facets, routing }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateQuery: bindActionCreators(navigate.updateQuery, dispatch),
+    updateSearchParams: bindActionCreators(search.assignSearchParams, dispatch),
     fetchFacets: bindActionCreators(facets.fetchFacets, dispatch)
   };
 }

@@ -1,6 +1,6 @@
 import * as types from "./types";
 import qs from "query-string";
-import { resultsToFacetWithSelection } from "./facetNormalizer";
+import { facetNormalizer, resultsToFacetWithSelection } from "./facetNormalizer";
 import getQueryFromUrl from "../../libs/query";
 
 export default {
@@ -11,15 +11,16 @@ export default {
   normalizeFacets
 };
 
-function fetchFacets(type, query) {
+function fetchFacets() {
   return (dispatch, getState) => {
     let state = getState();
+    const { q, type} = state.search;
     const { elasticSearchAPI } = state.config;
     const facetsAPI = elasticSearchAPI + "/facets";
     // const { selectedFacets } = getQueryFromUrl(state.routing);
     dispatch(fetchFacetsStarted());
     // TODO make query change
-    return fetch(facetsAPI + "?" + qs.stringify({ type, q: query }))
+    return fetch(facetsAPI + "?" + qs.stringify({ type, q }))
       .then(response => {
         if (response.ok) {
           return response.json();
@@ -29,7 +30,7 @@ function fetchFacets(type, query) {
         );
       })
       .then(response => {
-        normalizeFacets(response)(dispatch, getState);
+        normalizeFacets(facetNormalizer(response))(dispatch, getState);
       })
       .catch(error => {
         console.error(error);
@@ -40,9 +41,9 @@ function fetchFacets(type, query) {
 
 function normalizeFacets (response) {
   return (dispatch, getState) => {
-    const { selectedFacets } = getQueryFromUrl(getState().routing);
+    const {search} = getState()
     dispatch(
-      facetsNormalized(resultsToFacetWithSelection(response, selectedFacets))
+      facetsNormalized(resultsToFacetWithSelection(response, search.filter))
     );
     dispatch(
       fetchFacetsFulfilled()

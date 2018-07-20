@@ -4,6 +4,7 @@ import { Spin } from "antd";
 import ListFormats from "./Format";
 
 const ResultsFound = ({ pending, results, hits, pageParams, listType }) => {
+  console.log(pending, results)
   const MySlectedListFormatType = ListFormats[listType];
   if (!MySlectedListFormatType) {
     throw new Error("There is no list format component of type: " + listType);

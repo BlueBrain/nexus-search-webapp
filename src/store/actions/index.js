@@ -5,6 +5,7 @@ import loadingActions from "./loading";
 import queryActions from "./query";
 import facetsActions from "./facets";
 import lightboxActions from "./lightbox";
+import searchActions from './search';
 import {
   auth as authModule,
   searchBar as searchBarModule,
@@ -21,3 +22,4 @@ export const types = typeActions;
 export const query = queryActions;
 export const facets = facetsActions;
 export const lightbox = lightboxActions;
+export const search = searchActions;

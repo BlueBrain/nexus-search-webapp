@@ -1,6 +1,6 @@
 import * as types from "./types";
 import qs from "query-string";
-
+import {truthy} from "../../libs/utils";
 export default {
   fetchQuery,
   fetchQueryStarted,
@@ -8,15 +8,17 @@ export default {
   fetchQueryFailed
 };
 
-function fetchQuery({ query, size, from, type, filter }) {
+function fetchQuery() {
   return (dispatch, getState) => {
     let state = getState();
-    const { elasticSearchAPI, uiConfig, routing } = state.config;
+    const { elasticSearchAPI } = state.config;
+    const { q, size, from, type, filter } = state.search;
     const searchAPI = elasticSearchAPI + "/docs";
+    let params = truthy({ q, size, from, type, filter});
+    if (params.filter) { params.filter = JSON.stringify(params.filter); }
     dispatch(fetchQueryStarted());
-    // TODO make query change
     return fetch(
-      searchAPI + "?" + qs.stringify({ q: query, size, from, type, filter })
+      searchAPI + "?" + qs.stringify(params)
     )
       .then(response => {
         if (response.ok) {

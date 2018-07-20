@@ -9,7 +9,7 @@ const description = <div>
 </div>
 
 const connectionError = {
-  message: "Something went when reaching out to the backend.",
+  message: "Something went wrong when reaching out to the backend.",
   description,
   icon: <div style={{ width: "2em", marginRight: "1em"}}>
   <SVG

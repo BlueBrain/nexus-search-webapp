@@ -12,14 +12,14 @@ export default function facets (
 ) {
   switch (action.type) {
 
-    case types.FETCH_FACETS_STARTED:
+    case types.FETCH_STARTED_FACETS:
       return Object.assign({}, state, {
         pending: true,
         error: null,
         results: [],
       });
 
-    case types.FETCH_FACETS_FULFILLED:
+    case types.FETCH_FULFILLED_FACETS:
       return Object.assign({}, state, {
         pending: false,
         error: null,
@@ -30,7 +30,7 @@ export default function facets (
         results: action.payload,
       });
 
-    case types.FETCH_FACETS_FAILED:
+    case types.FETCH_FAILED_FACETS:
       return Object.assign({}, state, {
         pending: false,
         results: [],

@@ -1,4 +1,5 @@
 import errors from "./errors";
+import messages from "./messages";
 
 const DEFAULT_NOTIFICATION_CONFIG = {
   placement: 'bottomRight',
@@ -7,5 +8,6 @@ const DEFAULT_NOTIFICATION_CONFIG = {
 }
 
 export default {
-  errors: errors(DEFAULT_NOTIFICATION_CONFIG)
+  errors: errors(DEFAULT_NOTIFICATION_CONFIG),
+  messages: messages(DEFAULT_NOTIFICATION_CONFIG)
 }

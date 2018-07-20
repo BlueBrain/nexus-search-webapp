@@ -62,7 +62,7 @@ const TableComponent = ({ results }) => {
   const tableOptions = {
     pagination: false
   };
-  return <Table dataSource={dataSource} columns={columns} {...tableOptions} />;
+  return <Table rowKey={record => record['@id']} dataSource={dataSource} columns={columns} {...tableOptions} />;
 };
 
 class TableContainer extends React.PureComponent {

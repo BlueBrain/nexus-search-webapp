@@ -12,7 +12,7 @@ const fetchingMiddleware = store => next => action => {
     store.dispatch(loading.requestResolved)
     notifications.errors.connectionError();
   }
-  next(action);
+  return next(action);
 }
 
 export default fetchingMiddleware;
