@@ -3,11 +3,10 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { Icon } from "antd";
-import getQueryFromUrl from "../../../../libs/query";
-import { navigate } from "../../../../store/actions";
+import { search } from "../../../../store/actions";
 
 const FiltersBoxComponent = (props) => {
-  let { onDismiss, filter, selectedType, queryTerm, removeFacet } = props;
+  let { onDismiss, filter, type, q, removeFacet } = props;
   return (
     <div className="info-box filters-box">
       <a className="close" onClick={onDismiss}><span>Clear All{" "}</span><Icon type="close" /></a>
@@ -41,11 +40,11 @@ class FiltersBoxContainer extends React.PureComponent {
     if (filter[key].length === 0) {
       delete filter[key];
     }
-    this.props.updateQuery({ filter })
+    this.props.updateSearchParams({ filter })
   }
   handleDismiss () {
     this.props.onDismiss();
-    this.props.updateQuery({ type: null, filter: null, query:null });
+    this.props.updateSearchParams({ type: null, filter: {}, query: null });
   }
   render() {
     const onDismiss = this.handleDismiss.bind(this);
@@ -55,21 +54,22 @@ class FiltersBoxContainer extends React.PureComponent {
 }
 
 FiltersBoxContainer.propTypes = {
+  updateSearchParams: PropTypes.func.isRequired,
   onDismiss: PropTypes.func.isRequired,
 };
 
-function mapStateToProps({ routing }) {
-  const { selectedType, queryTerm, selectedFacets } = getQueryFromUrl(routing);
+function mapStateToProps({ search }) {
+  const { q, type, filter } = search;
   return {
-    selectedType,
-    queryTerm,
-    filter: selectedFacets
+    type,
+    q,
+    filter: {...filter}
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateQuery: bindActionCreators(navigate.updateQuery, dispatch),
+    updateSearchParams: bindActionCreators(search.assignSearchParams, dispatch),
   };
 }
 

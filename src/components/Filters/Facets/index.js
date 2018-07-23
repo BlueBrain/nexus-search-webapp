@@ -45,7 +45,7 @@ function mapStateToProps({ facets, search }) {
   const { results } = facets;
   return {
     selectedType: search.type,
-    // This is strange...
+    // This is strange... a new object must be created or else it won't trigger an update
     selectedFilter: {...search.filter},
     queryTerm: search.q,
     facets: results,

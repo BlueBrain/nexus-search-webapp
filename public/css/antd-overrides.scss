@@ -17,6 +17,9 @@
 }
 .ant-notification {
   width: 500px;
+  .ant-notification-notice-message {
+    color: rgba(0, 0, 0, 0.65);
+  }
   .ant-notification-notice-with-icon .ant-notification-notice-message {
     margin-left: 4.5em;
   }

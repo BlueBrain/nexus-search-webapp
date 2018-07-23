@@ -12,9 +12,11 @@ class ResultsContainer extends Component {
     this.search();
   }
   componentDidUpdate(prevProps) {
+    console.log({prevProps})
     if (
       prevProps.query !== this.props.query ||
       prevProps.type !== this.props.type ||
+      prevProps.from !== this.props.from ||
       !isEqual(prevProps.filter, this.props.filter)
     ) {
       this.search();
@@ -22,7 +24,8 @@ class ResultsContainer extends Component {
   }
   handlePageClick({selected}) {
     const from = Math.ceil(selected * this.props.pageSize);
-    this.assignSearchParams({ from });
+    this.setState({ selected });
+    this.props.updateSearchParams({ from });
   }
   search() {
     this.props.search();
@@ -30,7 +33,7 @@ class ResultsContainer extends Component {
   render() {
     let { selected } = this.state;
     return Results(this.props, {
-      pageSize: this.pageSize,
+      pageSize: this.props.pageSize,
       selected,
       handlePageClick: this.handlePageClick.bind(this)
     });
@@ -45,17 +48,19 @@ ResultsContainer.propTypes = {
   pageSize: PropTypes.number,
   filter: PropTypes.any,
   api: PropTypes.string.isRequired,
+  from: PropTypes.number.isRequired,
   listType: PropTypes.string.isRequired
 };
 
 function mapStateToProps({ config, query, search }) {
-  const { q, type, filter} = search;
+  const { q, type, filter, size, from } = search;
   return {
-    pageSize: search.size,
+    pageSize: size,
     api: config.api,
     results: query.results,
     hits: query.hits,
     pending: query.pending,
+    from,
     query: q,
     type,
     // why!

@@ -28,7 +28,6 @@ function assignSearchParamsThunk (params) {
       let newURL = `${path}?${queryString}`;
       dispatch(push(newURL));
     }
-    dispatch(updateSearchQueryParams(updatedParams));
   };
 }
 

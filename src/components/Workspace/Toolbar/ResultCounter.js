@@ -1,9 +1,13 @@
 import React from "react";
+import { Spin, Icon } from 'antd';
 
-const ResultCounter = ({ resultCount }) => {
+const spinIcon = <Icon type="loading" spin />;
+
+const ResultCounter = ({ pending, resultCount }) => {
   return (
     <div>
-      <p>{!!resultCount && <span>{resultCount} results found</span>}</p>
+      {pending && <span><Spin indicator={spinIcon} />{"   "}results found</span>}
+      {!pending && !!resultCount && <span>{resultCount} results found</span>}
     </div>
   );
 };

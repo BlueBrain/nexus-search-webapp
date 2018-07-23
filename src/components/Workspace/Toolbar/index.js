@@ -10,8 +10,8 @@ const RadioGroup = Radio.Group;
 class ToolbarContainer extends React.PureComponent {
   render() {
     let handleListTypeChange = e => { this.props.handleListTypeChange(e.target.value) };
-    let { listType, resultCount } = this.props;
-    return Toolbar({ resultCount, listType, handleListTypeChange });
+    let { pending, listType, resultCount } = this.props;
+    return Toolbar({ pending, resultCount, listType, handleListTypeChange });
   }
 }
 
@@ -19,18 +19,20 @@ ToolbarContainer.propTypes = {
   handleListTypeChange: PropTypes.func.isRequired,
   resultCount: PropTypes.number.isRequired,
   listType: PropTypes.string.isRequired,
+  pending: PropTypes.bool.isRequired
 };
 
 function mapStateToProps({ query }) {
   return {
     resultCount: query.hits,
+    pending: query.pending
   };
 }
 
-const Toolbar = ({ resultCount, listType, handleListTypeChange }) => {
+const Toolbar = ({ pending, resultCount, listType, handleListTypeChange }) => {
   return (
     <div className="search-toolbar flex space-between">
-      <ResultCounter resultCount={resultCount} />
+      <ResultCounter resultCount={resultCount} pending={pending} />
       <div className="">
         <RadioGroup onChange={handleListTypeChange} defaultValue={listType}>
           <RadioButton value="Grid">

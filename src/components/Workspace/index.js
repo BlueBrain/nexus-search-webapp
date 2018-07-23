@@ -23,8 +23,10 @@ const Workspace = ({ listType, handleListTypeChange }) => (
   <section id="workspace" className="column full flex space-between">
     <div className="center grow full full-height">
       <InfoBoxes />
-      <Toolbar listType={listType} handleListTypeChange={handleListTypeChange} />
-      <Results listType={listType} />
+      <div>
+        <Toolbar listType={listType} handleListTypeChange={handleListTypeChange} />
+        <Results listType={listType} />
+      </div>
     </div>
   </section>
 );

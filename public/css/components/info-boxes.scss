@@ -2,10 +2,19 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  z-index: 1;
+  max-height: 1000px;
+  height: auto;
+  overflow: hidden;
+  position: relative;
+  transition: max-height 1s ease-in;
+  &:empty {
+    max-height: 0;
+  }
   > li {
-    min-height: 0;
-    height: 0;
-    margin: 0;
+    position: relative;
+    height: auto;
+    margin: 1em 0;
   }
 }
 

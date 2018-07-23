@@ -4,14 +4,13 @@ import { Spin } from "antd";
 import ListFormats from "./Format";
 
 const ResultsFound = ({ pending, results, hits, pageParams, listType }) => {
-  console.log(pending, results)
   const MySlectedListFormatType = ListFormats[listType];
   if (!MySlectedListFormatType) {
     throw new Error("There is no list format component of type: " + listType);
   }
   return (
     <React.Fragment>
-      <Spin spinning={pending} size="large" wrapperClassName={"big-loader"} delay={200} >
+      <Spin spinning={pending} size="large" wrapperClassName={"big-loader"}>
         <div id="search-results" className={listType.toLowerCase()}>
           <MySlectedListFormatType results={results} />
         </div>

@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Transition, config } from "react-spring";
-import getQueryFromUrl from "../../../libs/query";
 import Boxes from "./Boxes";
+import { isEqual } from "underscore"
 
 class InfoBoxListContainer extends React.PureComponent {
   constructor() {
@@ -28,11 +28,10 @@ class InfoBoxListContainer extends React.PureComponent {
       infoBoxes
     });
   }
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps(prevProps) {
     if (
-      props.filter &&
-      props.filter !== this.props.filter &&
-      Object.keys(props.filter).length > 0
+      prevProps.filter &&
+      Object.keys(prevProps.filter).length > 0
     ) {
       this.appendBox("Filters");
     } else {
@@ -57,12 +56,12 @@ class InfoBoxListContainer extends React.PureComponent {
 
 InfoBoxListContainer.propTypes = {};
 
-function mapStateToProps({ routing }) {
-  const { selectedType, queryTerm, selectedFacets } = getQueryFromUrl(routing);
+function mapStateToProps({ search }) {
+  const { q, type, filter } = search;
   return {
-    selectedType,
-    queryTerm,
-    filter: selectedFacets
+    q,
+    type,
+    filter: {...filter}
   };
 }
 
@@ -72,9 +71,9 @@ const InfoBoxListComponent = ({ infoBoxes }) => {
       <Transition
         config={config.wobbly}
         keys={infoBoxes.map(item => item.key)}
-        from={{ opacity: 0, height: 0, marginTop: 0, marginBottom: 0}}
-        enter={{ opacity: 1, height: "auto", marginTop: 16, marginBottom: 16 }}
-        leave={{ opacity: 0, height: 0, marginTop: 0, marginBottom: 0, pointerEvents: "none" }}
+        from={{ opacity: 0, right: -100 }}
+        enter={{ opacity: 1, right: 0 }}
+        leave={{ opacity: 0, right: -100, pointerEvents: "none" }}
       >
         {infoBoxes.map((entry, index) => styles => {
           return <li key={entry.key + "-" + index} style={styles}>{entry.component}</li>;

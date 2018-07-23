@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import ReactPaginate from "react-paginate";
 
 const Paginate = ({ totalPages, selected, handlePageClick }) => {
+  console.log("paginate", totalPages, selected, handlePageClick)
   return (
     <ReactPaginate
       containerClassName="pagination column-footer"
