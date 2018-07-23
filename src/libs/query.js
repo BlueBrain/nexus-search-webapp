@@ -7,6 +7,6 @@ export default (search=window.location.search) => {
     type,
     q,
     filter,
-    from
+    from: Number(from)
   }
 }

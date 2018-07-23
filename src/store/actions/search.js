@@ -2,6 +2,7 @@ import * as types from "./types";
 import qs from "query-string";
 import {truthy} from "../../libs/utils";
 import { push } from "react-router-redux";
+import { isEmpty } from "underscore";
 
 export default {
   assignSearchParams: assignSearchParamsThunk,
@@ -11,7 +12,7 @@ export default {
 function assignSearchParamsThunk (params) {
   return (dispatch, getState) => {
     let { routing, search } = getState();
-    let updatedParams = truthy(Object.assign(search, params, { filter: params.filter || {} }));
+    let updatedParams = truthy(Object.assign(search, params));
     if (updatedParams.filter) {
       Object.keys(updatedParams.filter).forEach(key => {
         let filterKey = updatedParams.filter[key]
@@ -20,6 +21,10 @@ function assignSearchParamsThunk (params) {
         }
       })
     }
+    // if (!isEmpty(updatedParams.filter) && updatedParams.from > 0) {
+    //   // every time filter is updated, remove the pagination settings to default
+    //   updatedParams.from = 0;
+    // }
     let URLParams = { ...updatedParams };
     if (URLParams.filter) { URLParams.filter = JSON.stringify(URLParams.filter); }
     let path = routing.location.pathname;

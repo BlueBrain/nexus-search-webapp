@@ -22,7 +22,9 @@ class FacetContainer extends React.PureComponent {
   onSelect (key, value) {
     let filter = this.props.selectedFilter;
     filter[key] = value;
-    this.props.updateSearchParams({ filter });
+    // reset pagination after selecting new filters
+    // because we dont know how many entries we would get
+    this.props.updateSearchParams({ filter, from: 0 });
   }
   render() {
     const onSelect = this.onSelect.bind(this);
