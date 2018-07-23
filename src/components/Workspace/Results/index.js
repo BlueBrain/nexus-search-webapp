@@ -7,12 +7,10 @@ import { query, search } from "../../../store/actions";
 import { isEqual } from "underscore"
 
 class ResultsContainer extends Component {
-  state = { selected: null };
   componentDidMount() {
     this.search();
   }
   componentDidUpdate(prevProps) {
-    console.log({prevProps})
     if (
       prevProps.query !== this.props.query ||
       prevProps.type !== this.props.type ||
@@ -24,17 +22,15 @@ class ResultsContainer extends Component {
   }
   handlePageClick({selected}) {
     const from = Math.ceil(selected * this.props.pageSize);
-    this.setState({ selected });
     this.props.updateSearchParams({ from });
   }
   search() {
     this.props.search();
   }
   render() {
-    let { selected } = this.state;
     return Results(this.props, {
       pageSize: this.props.pageSize,
-      selected,
+      selected: Math.floor(this.props.from / this.props.pageSize),
       handlePageClick: this.handlePageClick.bind(this)
     });
   }
