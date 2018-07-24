@@ -8,6 +8,7 @@ let envConfig = {
   SEARCH_API_BASE_PATH: process.env.SEARCH_API_BASE_PATH || "",
   SEARCH_PROXY_PORT: process.env.SEARCH_PROXY_PORT || process.env.PORT || 8888,
   ELASTICSEARCH_CLIENT_URL: process.env.ELASTICSEARCH_CLIENT_URL || null,
+  STATIC_DATA_FOLDER: process.env.STATIC_DATA_FOLDER || path.resolve(__dirname + '../../../scripts/morpho-service/data')
 };
 // load ENV variables from env stage configs
 if (STAGE === "dev") {

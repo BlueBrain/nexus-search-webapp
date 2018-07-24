@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Transition, config } from "react-spring";
 import Boxes from "./Boxes";
-import { isEqual } from "underscore"
 
 class InfoBoxListContainer extends React.PureComponent {
   constructor() {
@@ -17,7 +16,7 @@ class InfoBoxListContainer extends React.PureComponent {
       return memo;
     }, {});
     this.state = {
-      infoBoxes: [this.infoBoxDict["GettingStarted"]]
+      infoBoxes: [this.infoBoxDict["GettingStarted"], this.infoBoxDict["InProgress"]]
     };
   }
   handleDismiss(keyToDismiss) {

@@ -1,0 +1,18 @@
+.ephys {
+  width: 100%;
+  height: 9.5em;
+  position: absolute;
+  top: 52%;
+  text-align: center;
+  padding: 0.5em;
+  background-color: transparent;
+  canvas, img {
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    mix-blend-mode: overlay;
+    // background-color:blue;
+    // opacity: 0.6;
+    image-rendering: crisp-edges;
+  }
+}

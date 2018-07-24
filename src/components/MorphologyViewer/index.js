@@ -4,10 +4,12 @@ import World from "../../libs/World";
 import MorphologyBuilder from "./morphologybuilder";
 import Morphology from "./morphology";
 import Utf8ArrayToStr from "../../libs/decoding";
+import { has } from "underscore";
 
-const morphoData = Utf8ArrayToStr(fs.readFileSync(__dirname + "/raw.txt"));
+// const morphoData = Utf8ArrayToStr(fs.readFileSync(__dirname + "/test.txt"));
 
 class MorphologyContainer extends React.Component {
+  state = { morphoData: null }
   constructor(props) {
     super(props);
     this.viewContainer = React.createRef();
@@ -16,16 +18,25 @@ class MorphologyContainer extends React.Component {
 
     this.setViewContainer = element => {
       this.viewContainer = element;
-      this.makeVisualizer();
     };
   }
+  async componentDidMount () {
+    if (this.props.morphology && this.props.morphology.distribution && this.props.morphology.distribution.fileName) {
+      let response = await fetch("http://localhost:9999/data/" + this.props.morphology.distribution.fileName + ".text");
+      let morphoData = await response.text();
+      this.setState({ morphoData });
+    }
+  }
+  componentDidUpdate () {
+    if (!this.world) {
+      this.makeVisualizer();
+    }
+  }
   makeVisualizer() {
-    if (this.viewContainer) {
+    let { morphoData } = this.state;
+    if (this.viewContainer && morphoData) {
       this.world = new World(this.viewContainer);
       this.world.animate();
-      // this.morphology = new Morphology();
-      // this.world.scene.webgl.add(this.morphology);
-      // tshis.morphology.load(morphoData);
       MorphologyBuilder.displayOnScene(
         this.world.scene.webgl,
         morphoData,
@@ -35,7 +46,9 @@ class MorphologyContainer extends React.Component {
     }
   }
   componentWillUnmount () {
-    this.world.destroy();
+    if (this.world) {
+      this.world.destroy();
+    }
   }
   render () {
     return (

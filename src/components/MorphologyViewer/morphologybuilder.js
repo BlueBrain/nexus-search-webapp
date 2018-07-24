@@ -17,7 +17,7 @@ const palette = palettes({
                                                 opacity: 0.5, transparent: true});
   var BLUEMAT = new THREE.MeshBasicMaterial({color: 0x000000, side: THREE.DoubleSide});
   var REDMAT = new THREE.MeshBasicMaterial({color: 0x000000, side: THREE.DoubleSide});
-  var MAGMAT = new THREE.MeshLambertMaterial({color: 0xff00ff, side: THREE.DoubleSide});
+  var MAGMAT = new THREE.MeshLambertMaterial({color: 0xf6b0e7, side: THREE.DoubleSide});
   var YELLOWMAT = new THREE.MeshLambertMaterial({color: 0xffff00, side: THREE.DoubleSide});
   var GREENMAT = new THREE.MeshLambertMaterial({color: 0x00ff00, side: THREE.DoubleSide});
 

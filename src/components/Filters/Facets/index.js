@@ -45,11 +45,12 @@ FacetContainer.propTypes = {
 
 function mapStateToProps({ facets, search }) {
   const { results } = facets;
+  const { filter, type, q } = search;
   return {
-    selectedType: search.type,
+    type,
     // This is strange... a new object must be created or else it won't trigger an update
-    selectedFilter: {...search.filter},
-    queryTerm: search.q,
+    selectedFilter: {...filter},
+    query: q,
     facets: results,
     ...facets
   };

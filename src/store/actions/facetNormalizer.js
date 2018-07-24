@@ -24,18 +24,6 @@ export const facetNormalizer = function(response) {
     .sort((a, b) => response[b].doc_count - response[a].doc_count)
     .map(key => {
       let filter = response[key];
-      // if (selected[key]) {
-      //   Object.keys(selected[key]).forEach(selectedKey => {
-      //     filter[selectedKey].buckets.map(bucket => {
-      //       if (selected[key][selectedKey].indexOf(bucket.key) >= 0) {
-      //         bucket.selected = true;
-      //       } else {
-      //         bucket.selected = false;
-      //       }
-      //       return bucket;
-      //     });
-      //   });
-      // }
       filter.key = key;
       return filter;
     });
@@ -43,9 +31,10 @@ export const facetNormalizer = function(response) {
 
 export const resultsToFacetWithSelection = function(
   facetResults,
-  selectedFacets={}
+  selectedFacets={},
+  facetBlacklist=[]
 ) {
-  console.log({facetResults})
+  console.log("pre", { facetResults })
   let selected = mapFacets(selectedFacets);
   facetResults.forEach(filter => {
     let key = filter.key;
@@ -53,7 +42,13 @@ export const resultsToFacetWithSelection = function(
       .filter(key => key !== "doc_count" && key !== "key")
       .forEach(subGroupKey => {
         let subGroup = filter[subGroupKey];
+        // no aggregation buckets, so no filters
         if (!subGroup.buckets) { return };
+        // the client has opted to not show this agg option
+        if (facetBlacklist.indexOf(subGroupKey) >= 0) {
+          delete filter[subGroupKey];
+          return;
+        }
         subGroup.buckets.map(bucket => {
           if (
             selected[key] &&
@@ -68,5 +63,6 @@ export const resultsToFacetWithSelection = function(
         });
       });
   });
+  console.log("post", { facetResults })
   return facetResults;
 };
