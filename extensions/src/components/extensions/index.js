@@ -1,10 +1,16 @@
-
+/**
+ * Defines the interface between nexus-search-app and extensions
+ */
 import createExtension from '@/tools/component-wrapper';
 
 import testEntityComponents from './test';
+import meModelComponents from './me-model';
+import eModelComponents from './e-model';
 
 const entityComponents = {
   test: testEntityComponents,
+  meModel: meModelComponents,
+  eModel: eModelComponents,
 };
 
 /**
