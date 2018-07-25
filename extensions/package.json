@@ -15,8 +15,9 @@
   "author": "BBP",
   "license": "ISC",
   "dependencies": {
-    "vue": "^2.5.16",
-    "iview": "^2.14.3"
+    "axios": "^0.18.0",
+    "iview": "^2.14.3",
+    "vue": "^2.5.16"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-rc.4",
