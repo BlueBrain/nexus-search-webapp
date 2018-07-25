@@ -1,4 +1,5 @@
 import React, { PureComponent } from "react";
+import { find } from "underscore";
 
 function process (canvasElement, image) {
   if (!canvasElement) { return; }
@@ -23,7 +24,7 @@ function process (canvasElement, image) {
     px = data32[i];                                // pixel
 
     // is white? then knock it out
-    if (px === 0xffffffff) data32[i] = px = 0;
+    // if (px === 0xffffffff) data32[i] = px = 0;
 
     // extract alpha channel from a pixel
     // px = px & 0xff000000;                          // little-endian: ABGR
@@ -37,37 +38,57 @@ function process (canvasElement, image) {
   ctx.putImageData(idata, 0, 0);
 }
 
+const BEST_TRACE = "IDrest"
+
+function getBestTrace (traces) {
+  let best = find(traces, trace => trace.stimulus && trace.stimulus.label === BEST_TRACE);
+  if (best) { return best; }
+  return traces[0];
+}
+
+function getPreviewFromTrace (trace) {
+  return trace.previewImage.thumbnail.url;
+}
+
 class EphysPreview extends PureComponent {
-  state = { show: false, img: null }
-  constructor (props) {
-    super(props);
-    this.viewContainer = React.createRef();
-  }
-  componentDidMount () {
-    // this.processImage();
-  }
-  setViewContainer (element) {
-    this.viewContainer = element;
+  state = { src: null, trace: null }
+  // constructor (props) {
+  //   super(props);
+  //   this.viewContainer = React.createRef();
+  // }
+  componentDidMount() {
     this.processImage();
   }
+  componentDidUpdate() {
+    this.processImage();
+  }
+  // setViewContainer (element) {
+  //   this.viewContainer = element;
+  //   this.processImage();
+  // }
   processImage () {
-    this.image = new Image();
-    this.image.crossOrigin = "";
-    this.image.onload = () => {
-      // this.setState({ show: true, img: this.image.src })
-      this.setState({ show: true }, process(this.viewContainer, this.image));
+    let trace = getBestTrace(this.props.traces);
+    let src = getPreviewFromTrace(trace);
+    let image = new Image();
+    image.crossOrigin = "";
+    image.onload = () => {
+      this.setState({ src, trace })
+      // this.setState({ show: true }, process(this.viewContainer, this.image));
     };
-    this.image.onerror = () => this.setState({ show: false });
-    this.image.src = this.props.previewImage;
+    image.onerror = () => this.setState({ src: null });
+    image.src = src
   }
   render() {
-    let { show, img } = this.state;
+    let { src, trace } = this.state;
     return (
-      <div className={`ephys ${show && "fade-in"}`} style={{ zIndex: 1 }}>
-        {/* {show &&
-          <img src={this.props.previewImage} />
-        } */}
-        <canvas ref={this.setViewContainer.bind(this)}></canvas>}
+      <div className="ephys" style={{ zIndex: 1 }}>
+        {src &&
+          <div className="stimulus fade-in slow">
+            <div className="label">{trace.stimulus && trace.stimulus.label}</div>
+            <img src={src} />
+          </div>
+        }
+        {/* <canvas ref={this.setViewContainer.bind(this)}></canvas>} */}
       </div>
     );
   }

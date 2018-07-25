@@ -1,3 +1,18 @@
+.fade {
+  opacity: 0;
+  &.in {
+    animation-name: fadeIn;
+    animation-timing-function: cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    animation-iteration-count: 1;
+    animation-delay: 0.2s;
+    animation-duration: 0.7s;
+    animation-fill-mode: forwards;
+  }
+  &.slow {
+    animation-delay: 0.5s;
+    animation-duration: 1.5s;
+  }
+}
 .fade-in {
   opacity: 0;
   animation-name: fadeIn;
@@ -6,6 +21,10 @@
   animation-delay: 0.2s;
   animation-duration: 0.7s;
   animation-fill-mode: forwards;
+  &.slow {
+    animation-delay: 0.5s;
+    animation-duration: 1.5s;
+  }
 }
 
 .slide-in {
@@ -41,4 +60,21 @@
   100% {
     opacity: 1;
   }
+}
+
+@keyframes pulse-me {
+	0%{
+		transform: scale(0.5);
+		opacity: 0;
+	}
+	50%{
+		opacity: 0.1;
+	}
+	70%{
+		opacity: 0.03;
+	}
+	100%{
+		transform: scale(3);
+		opacity: 0;
+	}
 }

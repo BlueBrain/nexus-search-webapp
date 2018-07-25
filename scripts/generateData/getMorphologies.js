@@ -43,13 +43,14 @@ export default function getMorphologies (documents) {
           let data = dataArr[index];
           let cellName = extractCellName(data.name);
           let doc = documents[cellName];
+          let fileName = name + ".text";
           if (doc) {
             doc.morphology = {
               "@id": data["@id"],
               name: data.name,
               distribution: {
                 mediaType: "application/zip",
-                fileName: name,
+                fileName,
                 url: `https://bbpteam.epfl.ch/public/nmc-portal-data-O1.v6/experimental-morphology-downloads/${
                   data.name
                 }.zip`

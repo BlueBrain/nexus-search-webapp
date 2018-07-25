@@ -1,12 +1,8 @@
 import React from "react";
-import fs from "fs";
 import World from "../../libs/World";
 import MorphologyBuilder from "./morphologybuilder";
-import Morphology from "./morphology";
-import Utf8ArrayToStr from "../../libs/decoding";
-import { has } from "underscore";
-
-// const morphoData = Utf8ArrayToStr(fs.readFileSync(__dirname + "/test.txt"));
+import SVG from "react-svg";
+import icons from "../Icons";
 
 class MorphologyContainer extends React.Component {
   state = { morphoData: null }
@@ -21,8 +17,8 @@ class MorphologyContainer extends React.Component {
     };
   }
   async componentDidMount () {
-    if (this.props.morphology && this.props.morphology.distribution && this.props.morphology.distribution.fileName) {
-      let response = await fetch("http://localhost:9999/data/" + this.props.morphology.distribution.fileName + ".text");
+    if (this.props.morphologySrc) {
+      let response = await fetch("http://localhost:9999/data/" + this.props.morphologySrc);
       let morphoData = await response.text();
       this.setState({ morphoData });
     }
@@ -36,11 +32,14 @@ class MorphologyContainer extends React.Component {
     let { morphoData } = this.state;
     if (this.viewContainer && morphoData) {
       this.world = new World(this.viewContainer);
+      this.world.renderer.webgl.domElement.className += "fade";
       this.world.animate();
       MorphologyBuilder.displayOnScene(
         this.world.scene.webgl,
         morphoData,
-        () => { },
+        () => {
+          this.world.renderer.webgl.domElement.className += " in";
+        },
         () => { }
        );
     }
@@ -51,8 +50,21 @@ class MorphologyContainer extends React.Component {
     }
   }
   render () {
+    let loaded = !!this.state.morphoData;
     return (
-      <div id="mophology-viewer" className="morpho-viz full-height" ref={this.setViewContainer}>
+      <div id="mophology-viewer" className="morpho-viz full-height">
+        {!loaded &&
+          <div style={{ width: "6em", margin: "0 auto", marginTop: "10em" }}>
+            <SVG
+                path={icons.neuron}
+                svgClassName="neuron-svg"
+                className="neuron-icon loading"
+              />
+          </div>
+        }
+        {loaded &&
+          <div className="full-height" ref={this.setViewContainer}></div>
+        }
       </div>
     );
   }

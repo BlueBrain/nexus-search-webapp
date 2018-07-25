@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { WithStore } from "@bbp/nexus-react";
 import TypeIcon from "../../TypeIcon";
 import FontAwesome from "react-fontawesome";
@@ -27,7 +27,6 @@ const GridResult = ({ value, goToEntityByID, openVisualizer }) => {
         const myType = _.find(types, type => {
           return type.value === mostRelevantType;
         });
-        const previewImage = value.traces[0].previewImage.full.url;
         return (
           <Perspectivizer>
             {({ active }) => (
@@ -43,14 +42,18 @@ const GridResult = ({ value, goToEntityByID, openVisualizer }) => {
                     )}
                   </div>
                   <div className="labels">
-                    <div className="top-label">Rattus norvegicus</div>
-                    <div className="bottom-label">Wister Han</div>
+                    {value.subject &&
+                      <Fragment>
+                        <div className="top-label">{value.subject.species.label}</div>
+                        <div className="bottom-label">{value.subject.strain.label}</div>
+                      </Fragment>
+                    }
                   </div>
                 </div>
                 <div className="name">{value.cellName.label}</div>
               </div>
               <div className="card-morph">
-                <EphysPreview previewImage={previewImage}/>
+                <EphysPreview traces={value.traces}/>
                 <MorphologyPreview hovered={active} value={value} />
               </div>
               <div className="footer">
