@@ -32,6 +32,7 @@
 
               <i-select
                 placeholder="Extension"
+                v-model="selectedExtensionName"
                 @on-change="onExtensionChange"
               >
                 <i-option
@@ -84,9 +85,11 @@
 
 
 <script>
-  import extensions from '@/components/extensions';
+  import get from 'lodash/get';
 
+  import extensions from '@/components/extensions';
   import ExtensionViewer from '@/components/extension-viewer.vue';
+  import storage from '@/services/storage';
 
   export default {
     name: 'app',
@@ -95,10 +98,11 @@
         paramsJsonStr: '{}',
         paramsJsonValid: true,
         params: {},
-        selectedEntityType: '',
         entityTypes: extensions.listAvailableEntityTypes(),
         entityExtensions: [],
         CurrentExtension: null,
+        selectedExtensionName: '',
+        selectedEntityType: '',
       };
     },
     components: {
@@ -108,12 +112,32 @@
       onEntityTypeChange(entityType) {
         this.CurrentExtension = null;
         this.entityExtensions = extensions.getByEntityType(entityType);
+        this.onExtensionChange(); // select default extension
+      },
+      onExtensionChange(extensionName) {
+        let selectedExtensionObj = null;
+        if (!extensionName) { // select the first one as default
+          selectedExtensionObj = get(this, 'entityExtensions[0]');
+        } else {
+          selectedExtensionObj = this.entityExtensions
+            .find(extension => extension.props.name === extensionName);
+        }
+        this.CurrentExtension = selectedExtensionObj;
+        this.selectedExtensionName = selectedExtensionObj.props.name;
+        this.loadSavedParam();
+      },
+      loadSavedParam() {
+        const savedParams = storage
+          .getStoredProps(this.selectedEntityType, this.selectedExtensionName);
+        this.paramsJsonStr = JSON.stringify(savedParams);
+        this.onParamsChange();
       },
       onParamsChange() {
         let params;
         try {
           params = JSON.parse(this.paramsJsonStr);
           this.paramsJsonValid = true;
+          this.saveExtensionProps(params);
         } catch (error) {
           params = {};
           this.paramsJsonValid = false;
@@ -121,9 +145,8 @@
 
         this.params = params;
       },
-      onExtensionChange(extensionName) {
-        this.CurrentExtension = this.entityExtensions
-          .find(extension => extension.props.name === extensionName);
+      saveExtensionProps(params) {
+        storage.saveExtProps(this.selectedEntityType, this.selectedExtensionName, params);
       },
     },
   };
