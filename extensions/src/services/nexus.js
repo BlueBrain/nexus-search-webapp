@@ -53,7 +53,7 @@ function removePropPrefixes(src) {
  */
 async function fetchEntity(idUrl, normConf = {}, changeCb = () => {}) {
   const { data: prefixedEntity } = await http.get(idUrl);
-  const entity = removePropPrefixes(prefixedEntity);;
+  const entity = removePropPrefixes(prefixedEntity);
   changeCb(entity);
 
   const nestedEntityFetches = [];
@@ -74,6 +74,6 @@ async function fetchEntity(idUrl, normConf = {}, changeCb = () => {}) {
 }
 
 
-export {
+export default {
   fetchEntity,
 };
