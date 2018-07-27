@@ -3,8 +3,6 @@ import express from "express";
 import elasticSearch from "./elastic-search";
 import config from "../config";
 import fs from "fs";
-import express from "express";
-import config from "./config";
 
 const router = express.Router();
 
