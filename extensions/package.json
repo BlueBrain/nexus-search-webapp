@@ -17,6 +17,8 @@
   "dependencies": {
     "axios": "^0.18.0",
     "iview": "^2.14.3",
+    "localforage": "^1.7.2",
+    "lodash": "^4.17.10",
     "vue": "^2.5.16"
   },
   "devDependencies": {
