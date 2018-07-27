@@ -2,7 +2,7 @@
  * Defines the interface between nexus-search-app and extensions
  */
 import createExtension from '@/tools/component-wrapper';
-import { setToken } from '@/services/http';
+import http from '@/services/http';
 
 import testEntityComponents from './test';
 import meModelComponents from './me-model';
@@ -41,7 +41,7 @@ function listAvailableEntityTypes() {
  * @param {string} token - Bearer token (with Bearer string included)
  */
 function setAuthToken(token) {
-  setToken(token);
+  http.setToken(token);
 }
 
 export default {

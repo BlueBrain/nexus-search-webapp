@@ -12,7 +12,7 @@ function setToken(token) {
   http.defaults.headers.common.Authorization = token;
 }
 
-export {
+export default {
   setToken,
   http,
 };
