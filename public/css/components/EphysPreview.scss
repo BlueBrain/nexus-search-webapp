@@ -1,5 +1,5 @@
 .ephys {
-  width: 100%;
+  width: 240px; height: 100px;
   height: 9.5em;
   position: absolute;
   top: 50%;
@@ -26,7 +26,7 @@
       width: 100%;
       height: 100%;
       mix-blend-mode: overlay;
-      opacity: 0.8;
+      // opacity: 0.8;
       image-rendering: crisp-edges;
     }
     &:hover {
@@ -34,7 +34,7 @@
         opacity: 0;
       }
       canvas, img {
-        opacity: 1;
+        // opacity: 1;
       }
     }
   }

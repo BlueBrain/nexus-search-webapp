@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import CursorPosition from "react-cursor-position";
 import { throttle } from "underscore";
 
-const DEFUALT_MAX_ROTATION_DEG = 30;
+const DEFUALT_MAX_ROTATION_DEG = 15;
 const THROTTLE_IN_MS = 10;
 
 const PerspectivizerComponent = ({ children, rotation, active }) => (

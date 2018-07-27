@@ -5,8 +5,7 @@ import FontAwesome from "react-fontawesome";
 import _ from "underscore";
 import Perspectivizer from "../../Animations/Perspectivizer";
 import { has } from "underscore";
-import EphysPreview from "./EphysPreview";
-import MorphologyPreview from "./MorphologyPreview";
+import Preview from "./Preview";
 
 const GridResult = ({ value, goToEntityByID, openVisualizer }) => {
   return (
@@ -52,10 +51,7 @@ const GridResult = ({ value, goToEntityByID, openVisualizer }) => {
                 </div>
                 <div className="name">{value.cellName.label}</div>
               </div>
-              <div className="card-morph">
-                <EphysPreview traces={value.traces}/>
-                <MorphologyPreview hovered={active} value={value} />
-              </div>
+              <Preview value={value}/>
               <div className="footer">
                 <div className="mType">
                   {has(value, "mType.label") && value.mType.label}

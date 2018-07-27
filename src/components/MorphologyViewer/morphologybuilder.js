@@ -14,14 +14,23 @@ const palette = palettes({
   ...COLOR_SETTINGS
 });
 
-  var BLACKMAT = new THREE.MeshBasicMaterial({color: 0x000000,
-                                                side: THREE.DoubleSide,
-                                                opacity: 0.5, transparent: true});
-  var BLUEMAT = new THREE.MeshBasicMaterial({color: 0x000000, side: THREE.DoubleSide});
-  var REDMAT = new THREE.MeshBasicMaterial({color: 0x000000, side: THREE.DoubleSide});
-  var MAGMAT = new THREE.MeshLambertMaterial({color: 0x000000, side: THREE.DoubleSide});
-  var YELLOWMAT = new THREE.MeshLambertMaterial({color: 0x000000, side: THREE.DoubleSide});
-  var GREENMAT = new THREE.MeshLambertMaterial({color: 0x000000, side: THREE.DoubleSide});
+  // var BLACKMAT = new THREE.MeshBasicMaterial({color: 0x000000,
+  //                                               side: THREE.DoubleSide,
+  //                                               opacity: 0.5, transparent: true});
+  // var BLUEMAT = new THREE.MeshBasicMaterial({color: 0x000000, side: THREE.DoubleSide});
+  // var REDMAT = new THREE.MeshBasicMaterial({color: 0x000000, side: THREE.DoubleSide});
+  // var MAGMAT = new THREE.MeshLambertMaterial({color: 0x000000, side: THREE.DoubleSide});
+  // var YELLOWMAT = new THREE.MeshLambertMaterial({color: 0x000000, side: THREE.DoubleSide});
+  // var GREENMAT = new THREE.MeshLambertMaterial({color: 0x000000, side: THREE.DoubleSide});
+
+  var BLACKMAT = new THREE.MeshLambertMaterial({color: 0x000000,
+    side: THREE.DoubleSide,
+    opacity: 0.5, transparent: true});
+var BLUEMAT = new THREE.MeshLambertMaterial({color: 0x0000ff, side: THREE.DoubleSide});
+var REDMAT = new THREE.MeshLambertMaterial({color: 0xff0000, side: THREE.DoubleSide});
+var MAGMAT = new THREE.MeshLambertMaterial({color: 0xff00ff, side: THREE.DoubleSide});
+var YELLOWMAT = new THREE.MeshLambertMaterial({color: 0xffff00, side: THREE.DoubleSide});
+var GREENMAT = new THREE.MeshLambertMaterial({color: 0x00ff00, side: THREE.DoubleSide});
 
   var NeuronPartType = {
     UNDEFINED: 0,

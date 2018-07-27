@@ -1,11 +1,12 @@
 import React from "react";
+import { connect } from "react-redux";
+import SVG from "react-svg";
 import World from "../../libs/World";
 import MorphologyBuilder from "./morphologybuilder";
-import SVG from "react-svg";
 import icons from "../Icons";
 
 class MorphologyContainer extends React.Component {
-  state = { morphoData: null }
+  state = { morphoData: null, error: null }
   constructor(props) {
     super(props);
     this.viewContainer = React.createRef();
@@ -18,9 +19,13 @@ class MorphologyContainer extends React.Component {
   }
   async componentDidMount () {
     if (this.props.morphologySrc) {
-      let response = await fetch("http://localhost:9999/data/" + this.props.morphologySrc);
-      let morphoData = await response.text();
-      this.setState({ morphoData });
+      let response = await fetch(this.props.staticContentLocation + "/" + this.props.morphologySrc);
+      if (response.status < 400) {
+        let morphoData = await response.text();
+        this.setState({ morphoData });
+      } else {
+        this.setState({ error: "failed to load morphology" })
+      }
     }
   }
   componentDidUpdate () {
@@ -51,9 +56,10 @@ class MorphologyContainer extends React.Component {
   }
   render () {
     let loaded = !!this.state.morphoData;
+    let error = this.state.error;
     return (
       <div id="mophology-viewer" className="morpho-viz full-height">
-        {!loaded &&
+        {!loaded && !error &&
           <div style={{ width: "6em", margin: "0 auto", marginTop: "10em" }}>
             <SVG
                 path={icons.neuron}
@@ -62,7 +68,17 @@ class MorphologyContainer extends React.Component {
               />
           </div>
         }
-        {loaded &&
+        {
+          error &&
+          <div style={{ width: "6em", margin: "0 auto", marginTop: "10em" }}>
+            <SVG
+                path={icons.neuron}
+                svgClassName="neuron-svg"
+                className="neuron-icon"
+              />
+          </div>
+        }
+        {loaded && !error &&
           <div className="full-height" ref={this.setViewContainer}></div>
         }
       </div>
@@ -70,5 +86,12 @@ class MorphologyContainer extends React.Component {
   }
 }
 
+function mapStateToProps({ config }) {
+  return {
+    staticContentLocation: config.staticContentLocation
+  };
+}
 
-export default MorphologyContainer;
+export default connect(
+  mapStateToProps
+)(MorphologyContainer);

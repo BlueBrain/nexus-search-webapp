@@ -1,16 +1,13 @@
 .fade {
   opacity: 0;
+  transition: opacity 0.7s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  transition-delay: 0.2s;
   &.in {
-    animation-name: fadeIn;
-    animation-timing-function: cubic-bezier(0.18, 0.89, 0.32, 1.28);
-    animation-iteration-count: 1;
-    animation-delay: 0.2s;
-    animation-duration: 0.7s;
-    animation-fill-mode: forwards;
+    opacity: 1;
   }
   &.slow {
-    animation-delay: 0.5s;
-    animation-duration: 1.5s;
+    transition-delay: 0.5s;
+    transition-duration: 1.5s;
   }
 }
 .fade-in {
