@@ -36,7 +36,7 @@
                 @on-change="onExtensionChange"
               >
                 <i-option
-                  v-for="entityExtension of entityExtensions"
+                  v-for="entityExtension of extensions"
                   :value="entityExtension.props.name"
                   :key="entityExtension.props.name"
                 >
@@ -99,7 +99,7 @@
         paramsJsonValid: true,
         params: {},
         entityTypes: extensions.listAvailableEntityTypes(),
-        entityExtensions: [],
+        extensions: [],
         CurrentExtension: null,
         selectedExtensionName: '',
         selectedEntityType: '',
@@ -109,52 +109,47 @@
       'extension-viewer': ExtensionViewer,
     },
     methods: {
-      compactComboName(extType, extName) {
-        const mergedName = `${extType}:${extName}`;
-        return mergedName.replace(/ /g, '').toLowerCase();
+      extKey(extType, extName) {
+        return `${extType}:${extName}`;
       },
-      onEntityTypeChange(entityType) {
-        this.CurrentExtension = null;
-        this.entityExtensions = extensions.getByEntityType(entityType);
 
-        // select the first one as default
-        const firstExtension = head(this.entityExtensions);
-        const firstExtensionName = firstExtension.props.name;
-        this.onExtensionChange(firstExtensionName);
+      onEntityTypeChange(entityType) {
+        this.extensions = extensions.getByEntityType(entityType);
+        this.selectedExtensionName = head(this.extensions).props.name;
+        this.onExtensionChange(this.selectedExtensionName);
       },
+
       async onExtensionChange(extensionName) {
-        const selectedExtensionObj = this.entityExtensions
+        const selectedExtensionObj = this.extensions
           .find(extension => extension.props.name === extensionName);
 
-        await this.loadSavedParam(this.selectedEntityType, extensionName);
-        this.CurrentExtension = selectedExtensionObj;
-        this.selectedExtensionName = selectedExtensionObj.props.name;
-      },
-      async loadSavedParam(extType, extName) {
-        const extensionComboName = this.compactComboName(extType, extName);
-        const savedProps = await localforage.getItem(extensionComboName);
-        this.paramsJsonStr = JSON.stringify(savedProps || {});
+        await this.loadParams(this.selectedEntityType, extensionName);
         this.onParamsChange();
+        this.CurrentExtension = selectedExtensionObj;
       },
+
+      async loadParams(extType, extName) {
+        const extKey = this.extKey(extType, extName);
+        const savedProps = await localforage.getItem(extKey);
+        this.paramsJsonStr = JSON.stringify(savedProps || {});
+      },
+
+      saveExtensionProps(params) {
+        const extKey = this.extKey(this.selectedEntityType, this.selectedExtensionName);
+        localforage.setItem(extKey, params);
+      },
+
       onParamsChange() {
-        let params;
+        let params = {};
         try {
           params = JSON.parse(this.paramsJsonStr);
           this.paramsJsonValid = true;
           this.saveExtensionProps(params);
         } catch (error) {
-          params = {};
           this.paramsJsonValid = false;
         }
 
         this.params = params;
-      },
-      saveExtensionProps(params) {
-        const extensionComboName = this.compactComboName(
-          this.selectedEntityType,
-          this.selectedExtensionName,
-        );
-        localforage.setItem(extensionComboName, params);
       },
     },
   };
