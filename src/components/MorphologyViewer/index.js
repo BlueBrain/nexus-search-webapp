@@ -1,13 +1,12 @@
 import React from "react";
-import fs from "fs";
+import { connect } from "react-redux";
+import SVG from "react-svg";
 import World from "../../libs/World";
 import MorphologyBuilder from "./morphologybuilder";
-import Morphology from "./morphology";
-import Utf8ArrayToStr from "../../libs/decoding";
-
-const morphoData = Utf8ArrayToStr(fs.readFileSync(__dirname + "/raw.txt"));
+import icons from "../Icons";
 
 class MorphologyContainer extends React.Component {
+  state = { morphoData: null, error: null }
   constructor(props) {
     super(props);
     this.viewContainer = React.createRef();
@@ -16,31 +15,83 @@ class MorphologyContainer extends React.Component {
 
     this.setViewContainer = element => {
       this.viewContainer = element;
-      this.makeVisualizer();
     };
   }
+  async componentDidMount () {
+    if (this.props.morphologySrc) {
+      let response = await fetch(this.props.staticContentLocation + "/" + this.props.morphologySrc);
+      if (response.status < 400) {
+        let morphoData = await response.text();
+        this.setState({ morphoData });
+      } else {
+        this.setState({ error: "failed to load morphology" })
+      }
+    }
+  }
+  componentDidUpdate () {
+    if (!this.world) {
+      this.makeVisualizer();
+    }
+  }
   makeVisualizer() {
-    if (this.viewContainer) {
+    let { morphoData } = this.state;
+    if (this.viewContainer && morphoData) {
       this.world = new World(this.viewContainer);
+      this.world.renderer.webgl.domElement.className += "fade";
       this.world.animate();
-      // this.morphology = new Morphology();
-      // this.world.scene.webgl.add(this.morphology);
-      // tshis.morphology.load(morphoData);
       MorphologyBuilder.displayOnScene(
         this.world.scene.webgl,
         morphoData,
-        () => { },
+        () => {
+          this.world.renderer.webgl.domElement.className += " in";
+        },
         () => { }
        );
     }
   }
+  componentWillUnmount () {
+    if (this.world) {
+      this.world.destroy();
+    }
+  }
   render () {
+    let loaded = !!this.state.morphoData;
+    let error = this.state.error;
     return (
-      <div id="mophology-viewer" className="morpho-viz full-height" ref={this.setViewContainer}>
+      <div id="mophology-viewer" className="morpho-viz full-height">
+        {!loaded && !error &&
+          <div style={{ width: "6em", margin: "0 auto", marginTop: "10em" }}>
+            <SVG
+                path={icons.neuron}
+                svgClassName="neuron-svg"
+                className="neuron-icon loading"
+              />
+          </div>
+        }
+        {
+          error &&
+          <div style={{ width: "6em", margin: "0 auto", marginTop: "10em" }}>
+            <SVG
+                path={icons.neuron}
+                svgClassName="neuron-svg"
+                className="neuron-icon"
+              />
+          </div>
+        }
+        {loaded && !error &&
+          <div className="full-height" ref={this.setViewContainer}></div>
+        }
       </div>
     );
   }
 }
 
+function mapStateToProps({ config }) {
+  return {
+    staticContentLocation: config.staticContentLocation
+  };
+}
 
-export default MorphologyContainer;
+export default connect(
+  mapStateToProps
+)(MorphologyContainer);

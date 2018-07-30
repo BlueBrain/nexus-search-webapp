@@ -1,25 +1,23 @@
 import * as types from "../actions/types";
 
-export default function query (
+export default function docs (
   state = {
     results: [],
-    pending: false,
+    pending: true,
     error: null,
     hits: 0
   },
   action
 ) {
   switch (action.type) {
-
-    case types.FETCH_QUERY_STARTED:
+    case types.FETCH_STARTED_QUERY:
       return Object.assign({}, state, {
         pending: true,
         error: null,
-        results: [],
         hits: 0
       });
 
-    case types.FETCH_QUERY_FULFILLED:
+    case types.FETCH_FULFILLED_QUERY:
       return Object.assign({}, state, {
         pending: false,
         error: null,
@@ -27,7 +25,7 @@ export default function query (
         hits: action.payload.hits
       });
 
-    case types.FETCH_QUERY_FAILED:
+    case types.FETCH_FAILED_QUERY:
       return Object.assign({}, state, {
         pending: false,
         results: [],

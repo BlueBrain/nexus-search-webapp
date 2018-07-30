@@ -1,0 +1,20 @@
+.notification-svg {
+  width: 100%;
+  margin: 0;
+  filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.2));
+  path {
+    fill: #f6b0e7;
+  }
+  &.error {
+    path {
+      fill: #ff9b598a;
+    }
+  }
+}
+.notification-icon {
+  color: #f6b0e7;
+  text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+  &.error {
+    fill: #ff9b598a;
+  }
+}

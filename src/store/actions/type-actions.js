@@ -1,5 +1,5 @@
 import * as types from "./types";
-import qs from 'query-string';
+import qs from "query-string";
 
 export default {
   fetchTypes,
@@ -9,13 +9,14 @@ export default {
   updateHoverType
 };
 
-function fetchTypes(query) {
+function fetchTypes() {
   return (dispatch, getState) => {
     let state = getState();
-    const { elasticSearchAPI, uiConfig, routing } = state.config;
+    const { q } = state.search;
+    const { elasticSearchAPI, uiConfig } = state.config;
     const typesAPI = elasticSearchAPI + "/types";
     dispatch(fetchTypesStarted());
-    return fetch(typesAPI + "?" + qs.stringify({ q: query }))
+    return fetch(typesAPI + "?" + qs.stringify({ q }))
       .then(response => {
         if (response.ok) {
           return response.json();
@@ -51,20 +52,20 @@ function fetchTypes(query) {
 
 function fetchTypesStarted() {
   return {
-    type: types.FETCH_TYPES_STARTED
+    type: types.FETCH_STARTED_TYPES
   };
 }
 
 function fetchTypesFulfilled(data) {
   return {
-    type: types.FETCH_TYPES_FULFILLED,
+    type: types.FETCH_FULTILLED_TYPES,
     payload: data
   };
 }
 
 function fetchTypesFailed(error) {
   return {
-    type: types.FETCH_TYPES_FAILED,
+    type: types.FETCH_FAILED_TYPES,
     error: error
   };
 }

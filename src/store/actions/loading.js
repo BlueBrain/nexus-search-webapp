@@ -1,33 +1,10 @@
 import * as types from './types';
 
 export default {
-  startListeningToRequests,
+  requestMade,
+  requestResolved
 }
 
-const wrapFetch = (requestMade, requestResolved) => {
-  const fetch = global.fetch
-  global.fetch = function () {
-    const args = arguments
-    return new Promise((resolve, reject) => {
-      requestMade()
-      fetch(...args)
-        .then(response => {
-          requestResolved()
-          resolve(response)
-        })
-        .catch(error => {
-          requestResolved()
-          reject(error)
-        })
-    })
-  }
-}
-
-function startListeningToRequests() {
-  return dispatch => {
-    wrapFetch(() => dispatch(requestMade()), () => dispatch(requestResolved()));
-  }
-}
 
 function requestMade() {
   return {

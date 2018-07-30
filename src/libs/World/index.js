@@ -66,7 +66,7 @@ class World {
    * @return {void}
    */
   animate() {
-    requestAnimationFrame(this.animate.bind(this));
+    this.animationFrameRequest = requestAnimationFrame(this.animate.bind(this));
     this.render();
   }
 
@@ -103,6 +103,20 @@ class World {
    */
   mouseMove(x, y) {
     Emitter.emit("mousemove", x, y);
+  }
+
+  destroy () {
+    if (this.animationFrameRequest) {
+      cancelAnimationFrame(this.animationFrameRequest);
+    }
+    this.camera = null;
+    this.controls = null;
+    Object.keys(this.renderer).forEach(key => {
+      this.renderer[key] = null;
+    });
+    Object.keys(this.scene).forEach(key => {
+      this.scene[key] = null
+    });
   }
 }
 

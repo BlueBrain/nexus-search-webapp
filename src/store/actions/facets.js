@@ -1,24 +1,25 @@
 import * as types from "./types";
 import qs from "query-string";
-import {facetNormalizer} from "./facetNormalizer";
-import getQueryFromUrl from "../../libs/query";
+import { facetNormalizer, resultsToFacetWithSelection } from "./facetNormalizer";
 
 export default {
   fetchFacets,
   fetchFacetsStarted,
   fetchFacetsFulfilled,
-  fetchFacetsFailed
+  fetchFacetsFailed,
+  normalizeFacets
 };
 
-function fetchFacets(type, query) {
+function fetchFacets() {
   return (dispatch, getState) => {
     let state = getState();
+    const { q, type } = state.search;
     const { elasticSearchAPI } = state.config;
     const facetsAPI = elasticSearchAPI + "/facets";
-    const { selectedFacets } = getQueryFromUrl(state.routing);
+    // const { selectedFacets } = getQueryFromUrl(state.routing);
     dispatch(fetchFacetsStarted());
     // TODO make query change
-    return fetch(facetsAPI + "?" + qs.stringify({ type, q: query }))
+    return fetch(facetsAPI + "?" + qs.stringify({ type, q }))
       .then(response => {
         if (response.ok) {
           return response.json();
@@ -28,7 +29,7 @@ function fetchFacets(type, query) {
         );
       })
       .then(response => {
-        dispatch(fetchFacetsFulfilled(facetNormalizer(response, selectedFacets)));
+        normalizeFacets(facetNormalizer(response))(dispatch, getState);
       })
       .catch(error => {
         console.error(error);
@@ -37,22 +38,40 @@ function fetchFacets(type, query) {
   };
 }
 
-function fetchFacetsStarted() {
+function normalizeFacets (response) {
+  return (dispatch, getState) => {
+    const {search, config} = getState()
+    dispatch(
+      facetsNormalized(resultsToFacetWithSelection(response, search.filter, config.uiConfig.filters.ignore))
+    );
+    dispatch(
+      fetchFacetsFulfilled()
+    );
+  }
+}
+
+function facetsNormalized(data) {
   return {
-    type: types.FETCH_FACETS_STARTED
+    type: types.FACETS_NORMALIZED,
+    payload: data
   };
 }
 
-function fetchFacetsFulfilled(data) {
+function fetchFacetsStarted() {
   return {
-    type: types.FETCH_FACETS_FULFILLED,
-    payload: data
+    type: types.FETCH_STARTED_FACETS
+  };
+}
+
+function fetchFacetsFulfilled() {
+  return {
+    type: types.FETCH_FULFILLED_FACETS,
   };
 }
 
 function fetchFacetsFailed(error) {
   return {
-    type: types.FETCH_FACETS_FAILED,
+    type: types.FETCH_FAILED_FACETS,
     error: error
   };
 }

@@ -2,32 +2,29 @@ import React from "react";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { facets, navigate } from "../../../store/actions";
+import { facets, search } from "../../../store/actions";
 import FacetsComponent from "./FacetsComponent";
-import getQueryFromUrl from "../../../libs/query";
-import { truthy } from "../../../libs/utils";
-import {resultsToFacetWithSelection} from "../../../store/actions/facetNormalizer";
+import { isEqual } from "underscore"
 
-class FacetContainer extends React.Component {
-  state = { facet: {} };
+class FacetContainer extends React.PureComponent {
   componentDidMount() {
-    this.props.fetchFacets(this.props.selectedType, this.props.queryTerm);
+    this.props.fetchFacets();
   }
-  componentDidUpdate (props) {
-    // TODO move fetchFacets to middleware?
-    if (props.selectedType !== this.props.selectedType) {
-      this.props.fetchFacets(this.props.selectedType, this.props.queryTerm);
-    }
-    if (props.queryTerm !== this.props.queryTerm) {
-      this.props.fetchFacets(this.props.selectedType, this.props.queryTerm);
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.query !== this.props.query ||
+      prevProps.type !== this.props.type ||
+      !isEqual(prevProps.selectedFilter, this.props.selectedFilter)
+    ) {
+      this.props.fetchFacets();
     }
   }
   onSelect (key, value) {
-    let { facet } = this.state;
-    facet[key] = value;
-    this.setState({ facet: truthy(facet) }, () => {
-      this.props.updateQuery({ filter: this.state.facet });
-    });
+    let filter = this.props.selectedFilter;
+    filter[key] = value;
+    // reset pagination after selecting new filters
+    // because we dont know how many entries we would get
+    this.props.updateSearchParams({ filter, from: 0 });
   }
   render() {
     const onSelect = this.onSelect.bind(this);
@@ -37,8 +34,8 @@ class FacetContainer extends React.Component {
 
 FacetContainer.propTypes = {
   fetchFacets: PropTypes.func.isRequired,
-  updateQuery: PropTypes.func.isRequired,
-  selectedFacets: PropTypes.any,
+  updateSearchParams: PropTypes.func.isRequired,
+  selectedFilter: PropTypes.any,
   selectedType: PropTypes.string,
   queryTerm: PropTypes.string,
   facets: PropTypes.any,
@@ -46,22 +43,22 @@ FacetContainer.propTypes = {
   error: PropTypes.any
 };
 
-function mapStateToProps({ facets, routing }) {
+function mapStateToProps({ facets, search }) {
   const { results } = facets;
-  // TODO map selected type in middleware?
-  const { selectedType, selectedFacets, queryTerm } = getQueryFromUrl(routing);
+  const { filter, type, q } = search;
   return {
-    selectedType,
-    selectedFacets,
-    queryTerm,
-    facets: resultsToFacetWithSelection(results, selectedFacets),
+    type,
+    // This is strange... a new object must be created or else it won't trigger an update
+    selectedFilter: {...filter},
+    query: q,
+    facets: results,
     ...facets
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateQuery: bindActionCreators(navigate.updateQuery, dispatch),
+    updateSearchParams: bindActionCreators(search.assignSearchParams, dispatch),
     fetchFacets: bindActionCreators(facets.fetchFacets, dispatch)
   };
 }

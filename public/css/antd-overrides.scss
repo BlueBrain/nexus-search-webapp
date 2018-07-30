@@ -13,5 +13,21 @@
 }
 
 .ant-checkbox {
-  top: 6px;
+  top: 3px;
+}
+.ant-notification {
+  width: 500px;
+  .ant-notification-notice-message {
+    color: rgba(0, 0, 0, 0.65);
+  }
+  .ant-notification-notice-with-icon .ant-notification-notice-message {
+    margin-left: 4.5em;
+  }
+  .ant-notification-notice-with-icon .ant-notification-notice-description {
+    margin-top: 1em;
+    margin-left: 0;
+  }
+  .ant-notification-notice-icon {
+    left: 1em;
+  }
 }

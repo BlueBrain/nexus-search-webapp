@@ -1,12 +1,12 @@
 import qs from "query-string";
 
-export default routing => {
-  const selectedType = qs.parse(routing.location.search).type;
-  const queryTerm = qs.parse(routing.location.search).q;
-  const selectedFacets = JSON.parse(qs.parse(routing.location.search).filter || "{}");
+export default (search=window.location.search) => {
+  let { type=null, q=null, filter="{}", from=0 } = qs.parse(search);
+  filter = JSON.parse(filter);
   return {
-    selectedType,
-    selectedFacets,
-    queryTerm
+    type,
+    q,
+    filter,
+    from: Number(from)
   }
 }

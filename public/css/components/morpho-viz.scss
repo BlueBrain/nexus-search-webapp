@@ -1,0 +1,47 @@
+@import "../animations";
+
+@mixin circle($circleSize){
+  width: $circleSize;
+  height: $circleSize;
+  -webkit-border-radius: $circleSize/2;
+     -moz-border-radius: $circleSize/2;
+          border-radius: $circleSize/2;
+}
+
+.morpho-viz {
+  cursor: move; /* fallback if grab cursor is unsupported */
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+
+.neuron-icon.loading {
+  // @include circle(6em);
+	// background: #f6b0e7;
+	position: relative;
+	&:before,
+	&:after {
+		content: '';
+		@include circle(6em);
+		background-color: #f6b0e7;
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		margin: auto;
+		transform: scale(0.1);
+		transform-origin: center center;
+		animation: pulse-me 1s linear infinite;
+	}
+	&:after{
+		animation-delay: 0.5s;
+	}
+}
+.neuron-svg {
+  // filter: drop-shadow(5px 5px 7px rgba(0, 0, 0, 0.3));
+  opacity: 0.2;
+  path, rect {
+    fill: #f6b0e7 !important;
+  }
+}

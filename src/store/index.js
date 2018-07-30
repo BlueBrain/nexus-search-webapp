@@ -19,4 +19,15 @@ const reduxStore = createStore(
   )
 )
 
+if (module.hot) {
+  module.hot.accept('./reducers', () => {
+    let customReducers = require('./reducers');
+    let finalReducer = {
+      ...customReducers,
+      routing: routerReducer
+    };
+    store.replaceReducer(combineReducers(finalReducer));
+  })
+}
+
 export default reduxStore;

@@ -33,18 +33,6 @@
     height: 100%; width: 100%;
     left: 0; top: 0;
     z-index: 1;
-    .ephys {
-      width: 100%;
-      position: absolute;
-      top: 58%;
-      text-align: center;
-      img {
-        margin: 0 auto;
-        width: 60%;
-        height: 5em;
-        opacity: 0.6;
-      }
-    }
   }
   .unemphasized {
     font-weight: bold;

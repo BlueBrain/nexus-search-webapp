@@ -1,14 +1,12 @@
 import { routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk'
 import history from '../../libs/history';
+import logging from "./logging";
+import routeChanging from "./routeChanging";
+import fetching from "./fetching";
+import errorReporting from "./errorReporting";
+import auth from "./auth";
 
-
-const testMiddleware = store => next => action => {
-  console.log("myFakeMiddleware: ", action.type)
-  next(action);
-}
-
-const middleware = [ thunk, routerMiddleware(history), testMiddleware ]
-
+const middleware = [ thunk, routerMiddleware(history), logging, routeChanging, fetching, auth, errorReporting ]
 
 export default middleware;

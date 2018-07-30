@@ -5,28 +5,32 @@ const DEFAULT_FACETS = [];
 export default function facets (
   state = {
     results: DEFAULT_FACETS,
-    pending: false,
+    pending: true,
     error: null,
   },
   action
 ) {
   switch (action.type) {
 
-    case types.FETCH_FACETS_STARTED:
+    case types.FETCH_STARTED_FACETS:
       return Object.assign({}, state, {
         pending: true,
         error: null,
         results: [],
       });
 
-    case types.FETCH_FACETS_FULFILLED:
+    case types.FETCH_FULFILLED_FACETS:
       return Object.assign({}, state, {
         pending: false,
         error: null,
+      });
+
+    case types.FACETS_NORMALIZED:
+      return Object.assign({}, state, {
         results: action.payload,
       });
 
-    case types.FETCH_FACETS_FAILED:
+    case types.FETCH_FAILED_FACETS:
       return Object.assign({}, state, {
         pending: false,
         results: [],

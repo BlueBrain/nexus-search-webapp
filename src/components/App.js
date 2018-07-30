@@ -10,6 +10,7 @@ import { Lines } from "@bbp/nexus-react";
 import Loader from "./Loader";
 import PleaseLogin from "./PleaseLogIn";
 import { auth } from "../store/actions";
+import qs from "qs";
 
 const { Content, Footer } = Layout;
 
@@ -35,19 +36,17 @@ class App extends Component {
   constructor(props) {
     super(props);
   }
-  componentDidMount() {
-    this.props.authenticate(window.location.href);
-    this.props.startListeningToRequests();
-    this.props.reconcileRoutes();
-  }
-  componentDidUpdate(props) {
-    this.props.reconcileRoutes();
-  }
   render() {
     const { base } = this.props.config;
-    const content = this.props.isAuthenticated
+    let { noAuth } = qs.parse(window.location.search.replace("?", ""));
+    let content;
+    if (noAuth) {
+      content = AuthenticatedContent(this.props.children, base);
+    } else {
+      content = this.props.isAuthenticated
       ? AuthenticatedContent(this.props.children, base)
       : PleaseLogin();
+    }
     return (
       <React.Fragment>
         <Lines />
@@ -59,9 +58,6 @@ class App extends Component {
 
 App.propTypes = {
   config: PropTypes.any.isRequired,
-  reconcileRoutes: PropTypes.func.isRequired,
-  authenticate: PropTypes.func.isRequired,
-  startListeningToRequests: PropTypes.func.isRequired,
   children: PropTypes.element,
   isAuthenticated: PropTypes.bool
 };
@@ -76,12 +72,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    startListeningToRequests: bindActionCreators(
-      loading.startListeningToRequests,
-      dispatch
-    ),
     authenticate: bindActionCreators(auth.authenticate, dispatch),
-    reconcileRoutes: bindActionCreators(navigate.reconcileRoutes, dispatch)
   };
 }
 

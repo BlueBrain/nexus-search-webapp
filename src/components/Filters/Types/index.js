@@ -2,31 +2,29 @@ import React from "react";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { types, navigate } from "../../../store/actions";
-import getQueryFromUrl from "../../../libs/query";
+import { types, search } from "../../../store/actions";
 import TypesComponent from "./TypesComponent";
 
 class TypesContainer extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   componentDidMount() {
-    this.props.fetchTypes(this.props.query);
+    this.props.fetchTypes();
   }
-  componentDidUpdate (props) {
-    // TODO move to middleware?
-    if (props.query !== this.props.query) {
-      this.props.fetchTypes(this.props.query);
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.query !== this.props.query ||
+      prevProps.selectedType !== this.props.selectedType
+    ) {
+      this.props.fetchTypes();
     }
   }
   onSelect (value) {
-    this.props.updateQuery({ type: value });
+    this.props.updateSearchParams({ type: value });
   }
   onHover (value) {
     this.props.hoverType(value);
   }
   clearFilters () {
-    this.props.updateQuery({ type: null, filter: null, query:null });
+    this.props.updateSearchParams({ type: null, filter: null, q: null });
   }
   render() {
     const { pending, error, types, selectedType } = this.props;
@@ -39,7 +37,7 @@ class TypesContainer extends React.Component {
 
 TypesContainer.propTypes = {
   fetchTypes: PropTypes.func.isRequired,
-  updateQuery: PropTypes.func.isRequired,
+  updateSearchParams: PropTypes.func.isRequired,
   pending: PropTypes.bool.isRequired,
   error: PropTypes.any,
   query: PropTypes.string,
@@ -47,12 +45,11 @@ TypesContainer.propTypes = {
   types: PropTypes.any.isRequired
 };
 
-function mapStateToProps({ types: typeData, routing }) {
+function mapStateToProps({ types: typeData, search }) {
   const { pending, error, types } = typeData;
-  const { selectedType, queryTerm } = getQueryFromUrl(routing);
   return {
-    query: queryTerm,
-    selectedType,
+    query: search.q,
+    selectedType: search.type,
     pending,
     error,
     types
@@ -61,7 +58,7 @@ function mapStateToProps({ types: typeData, routing }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateQuery: bindActionCreators(navigate.updateQuery, dispatch),
+    updateSearchParams: bindActionCreators(search.assignSearchParams, dispatch),
     fetchTypes: bindActionCreators(types.fetchTypes, dispatch),
     hoverType: bindActionCreators(types.updateHoverType, dispatch)
   };

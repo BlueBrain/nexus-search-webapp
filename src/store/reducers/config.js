@@ -18,6 +18,7 @@ const initialState = {
   appLocation,
   loginURI: LOGIN_URI,
   elasticSearchAPI: SEARCH_API_URI,
+  staticContentLocation: SEARCH_API_URI + "/data",
   uiConfig: require("../../configs")
 };
 
