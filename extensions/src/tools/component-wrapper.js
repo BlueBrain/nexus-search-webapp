@@ -18,7 +18,7 @@ function createExtension(component) {
     /**
      * @property {ExtensionProps}
      */
-    static get props() { return component.props; }
+    static get attrs() { return component.attrs; }
 
     /**
      * Create extension instance from Vue.js component

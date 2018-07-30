@@ -3,7 +3,7 @@
   <div>
     <h3>Analysis Component</h3>
     <div
-      v-for="(analysis) in analysisList"
+      v-for="analysis in analysisList"
       :key="analysis.url"
       class="analysis-container"
     >
@@ -21,13 +21,12 @@
   import mockup from './analysis-mock.json';
 
   export default {
-    name: 'test-emoji-extension',
+    name: 'analysis-component',
     props: ['entityId'],
     computed: {
       analysisList() {
         // TODO replace with real data
-        const entityToSearch = this.entityId;
-        return mockup[entityToSearch];
+        return mockup[this.entityId];
       },
     },
   };

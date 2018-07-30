@@ -13,8 +13,8 @@ const extParams = {...};
 const entityType = 'nsg:Morphology';
 const Extensions = extensions.getByEntityType(entityType);
 
-// Access Extension properties via .props
-const extensionNames = Extensions.map(Extension => Extension.props.name);
+// Access Extension attributes via .attrs
+const extensionNames = Extensions.map(Extension => Extension.attrs.name);
 
 // Create extension instances
 const extInstances = Extensions

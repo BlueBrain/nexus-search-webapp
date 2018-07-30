@@ -37,10 +37,10 @@
               >
                 <i-option
                   v-for="entityExtension of extensions"
-                  :value="entityExtension.props.name"
-                  :key="entityExtension.props.name"
+                  :value="entityExtension.attrs.name"
+                  :key="entityExtension.attrs.name"
                 >
-                  {{ entityExtension.props.name }}
+                  {{ entityExtension.attrs.name }}
                 </i-option>
               </i-select>
 
@@ -115,13 +115,13 @@
 
       onEntityTypeChange(entityType) {
         this.extensions = extensions.getByEntityType(entityType);
-        this.selectedExtensionName = head(this.extensions).props.name;
+        this.selectedExtensionName = head(this.extensions).attrs.name;
         this.onExtensionChange(this.selectedExtensionName);
       },
 
       async onExtensionChange(extensionName) {
         const selectedExtensionObj = this.extensions
-          .find(extension => extension.props.name === extensionName);
+          .find(extension => extension.attrs.name === extensionName);
 
         await this.loadParams(this.selectedEntityType, extensionName);
         this.onParamsChange();

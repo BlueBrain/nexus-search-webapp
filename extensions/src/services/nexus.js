@@ -6,6 +6,15 @@ import last from 'lodash/last';
 import http from './http';
 
 
+const idAttributeMap = {
+  uuid: 0,
+  schemaVersion: 1,
+  instanceType: 2,
+  domain: 3,
+  organization: 4,
+};
+
+
 /**
  * Returns object with prefix free properties
  *
@@ -73,7 +82,33 @@ async function fetchEntity(idUrl, normConf = {}, changeCb = () => {}) {
   return Promise.all(nestedEntityFetches).then(() => entity);
 }
 
+/**
+ * Return attribute for a given nexus instance id
+ *
+ * @param {*} id         Nexus instance id
+ * @param {*} attribute  Attribute to retreive, e.g.: instanceType, domain, etc.
+ *                         See constant `idAttributeMap` for available options.
+ *
+ * @example
+ * ```
+ *   const id = https://nexus.local/v0/data/brainsim/sim/morphology/v0.1.1/uuid
+ *   const instanceType = nexus.getIdAttribute(nexusId, 'instanceType');
+ *   assert.equal(instanceType, 'morphology');
+ * ```
+ */
+function getIdAttribute(id, attribute) {
+  if (!id) throw new Error('No id has been provided');
+
+  if (idAttributeMap[attribute] === undefined) {
+    throw new Error(`Attribute ${attribute} is not defined in attribute map. Wrong spelling?`);
+  }
+
+  const attributeIndex = idAttributeMap[attribute];
+  return id.split('/').reverse()[attributeIndex];
+}
+
 
 export default {
   fetchEntity,
+  getIdAttribute,
 };
