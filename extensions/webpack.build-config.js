@@ -1,4 +1,6 @@
 
+const path = require('path');
+
 /* eslint-disable-next-line */
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
@@ -41,4 +43,9 @@ module.exports = {
   plugins: [
     new VueLoaderPlugin(),
   ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src/'),
+    },
+  },
 };
