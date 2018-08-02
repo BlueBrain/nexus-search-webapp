@@ -4,7 +4,8 @@ export default {
   fetchInstance,
   fetchInstanceStarted,
   fetchInstanceFulfilled,
-  fetchInstanceFailed
+  fetchInstanceFailed,
+  setUseModalInstance
 };
 
 function fetchInstance(docID) {
@@ -51,5 +52,11 @@ function fetchInstanceFailed(error) {
   return {
     type: types.FETCH_FAILED_INSTANCE,
     error: error
+  };
+}
+
+function setUseModalInstance() {
+  return {
+    type: types.SET_USE_MODAL_INSTANCE
   };
 }

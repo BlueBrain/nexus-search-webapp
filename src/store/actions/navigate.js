@@ -42,6 +42,7 @@ const goToSearch = query => {
 const goToDetailsPageByID = id => {
   return (dispatch, getState) => {
     const basename = getState().router.location.basename || "";
+    dispatch(instanceActions.setUseModalInstance());
     dispatch(push(`${basename}/docs/${id}`));
   };
 };
@@ -62,16 +63,6 @@ const goDown = () => {
   };
 };
 
-const reconcileRoutes = () => {
-  return (dispatch, getState) => {
-    const { router } = getState();
-    const instanceID =  qs.parse(router.location.search).instance;
-    if (instanceID) {
-      dispatch(instanceActions.fetchInstance());
-    }
-  };
-};
-
 const fetchListFailed = (error, entity) => {
   error.entity = entity;
   return {
@@ -83,7 +74,6 @@ const fetchListFailed = (error, entity) => {
 export default {
   navigate,
   goDown,
-  reconcileRoutes,
   fetchListFailed,
   goToDetailsPageByID,
   goToSearch,

@@ -10,7 +10,6 @@ import { Lines } from "@bbp/nexus-react";
 import Loader from "./Loader";
 import PleaseLogin from "./PleaseLogIn";
 import { auth } from "../store/actions";
-import qs from "qs";
 
 const { Content, Footer } = Layout;
 
@@ -33,24 +32,14 @@ const AuthenticatedContent = (children, base) => (
 );
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-  componentWillReceiveProps (newProps) {
-    console.log("APPPPP", { newProps });
+  componentDidMount () {
+    this.props.authenticate(window.location.href)
   }
   render() {
-    console.log("rendering APP", this.props)
     const { base } = this.props.config;
-    let { noAuth } = qs.parse(window.location.search.replace("?", ""));
-    let content;
-    if (noAuth) {
-      content = AuthenticatedContent(this.props.children, base);
-    } else {
-      content = this.props.isAuthenticated
+    let content = this.props.isAuthenticated
       ? AuthenticatedContent(this.props.children, base)
       : PleaseLogin();
-    }
     return (
       <React.Fragment>
         <Lines />
@@ -62,14 +51,12 @@ class App extends Component {
 
 App.propTypes = {
   config: PropTypes.any.isRequired,
-  children: PropTypes.element,
   isAuthenticated: PropTypes.bool
 };
 
 function mapStateToProps(state) {
   return {
     config: state.config,
-    location: state.router.location,
     isAuthenticated: !!state.auth.token
   };
 }

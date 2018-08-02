@@ -7,7 +7,6 @@ import { instance, types } from  "../../store/actions";
 import DetailsViewComponent from "./DetailsComponent";
 import { getProp } from "../../libs/utils";
 
-
 class DetailsViewContainer extends PureComponent {
   componentDidMount () {
     let id = getProp(this.props, "match.params.id");
@@ -20,16 +19,16 @@ class DetailsViewContainer extends PureComponent {
       this.props.fetchTypes();
     }
   }
-  render() {
-    const { pending, error, data, types } = this.props;
-    return DetailsViewComponent({ pending, error, data, types });
+  render( ) {
+    return <DetailsViewComponent {...this.props} />;
   }
 }
 
 DetailsViewContainer.propTypes = {
   pending: PropTypes.bool.isRequired,
   data: PropTypes.any,
-  error: PropTypes.any
+  error: PropTypes.any,
+  useModal: PropTypes.bool.isRequired
 };
 
 function mapStateToProps({ instance, types }) {

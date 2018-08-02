@@ -39,6 +39,7 @@ class MorphologyContainer extends React.Component {
       this.world = new World(this.viewContainer);
       this.world.renderer.webgl.domElement.className += "fade";
       this.world.animate();
+      // TODO create cancellable promise to reduce memory leak
       MorphologyBuilder.displayOnScene(
         this.world.scene.webgl,
         morphoData,

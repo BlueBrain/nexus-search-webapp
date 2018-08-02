@@ -7,7 +7,7 @@ import Extensions from "./Extensions";
 const DetailsFrame = props => {
   let { data, types } = props;
   return (
-    <div>
+    <div id="details">
       <Row gutter={16} style={{ padding: "1em 0"}}>
         <Col span={14}>
           <div style={{ height: "700px"}}>
