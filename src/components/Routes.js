@@ -1,6 +1,9 @@
 import React, { Component, Fragment } from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { goBack } from "connected-react-router";
 import { Route, Switch } from "react-router";
-import App from "./App";
+import AuthWrapper from "./AuthWrapper";
 import Home from "./Home";
 import Details from "./Details";
 import WithModal from "./WithModal";
@@ -31,7 +34,7 @@ class Routes extends Component {
   }
 
   render() {
-    const { location } = this.props;
+    const { location, goBack } = this.props;
     const isModal = !!(
       location.state &&
       location.state.modal &&
@@ -40,17 +43,40 @@ class Routes extends Component {
 
     let DetailsWithModal = WithModal(Details);
     return (
-      <App>
+      <AuthWrapper>
         <Fragment>
           <Switch location={isModal ? this.previousLocation : location}>
             <Route exact path="/" component={Home} />
-            <Route path="/docs/:id" component={Details} />
+            <Route path="/docs/:id" component={props => {
+              return (
+              <section className="column full flex">
+                <div className="centered-content">
+                  <Details {...props}/>
+                </div>
+              </section>
+            )
+            }} />
           </Switch>
-          {isModal ? <Route path="/docs/:id" component={DetailsWithModal} /> : null}
+          {isModal ? <Route path="/docs/:id" component={props => {
+            return <DetailsWithModal onCancel={() => goBack() } {...props} />;
+          }} /> : null}
         </Fragment>
-      </App>
+      </AuthWrapper>
     );
   }
 }
 
-export default Routes;
+function mapStateToProps() {
+  return {};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    goBack: bindActionCreators(goBack, dispatch)
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Routes);

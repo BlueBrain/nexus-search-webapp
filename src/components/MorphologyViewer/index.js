@@ -4,9 +4,25 @@ import SVG from "react-svg";
 import World from "../../libs/World";
 import MorphologyBuilder from "./morphologybuilder";
 import icons from "../Icons";
+import { makeCancelable } from "../../libs/promise";
+
+function getStaticData(url) {
+  return new Promise((resolve, reject) => {
+    fetch(url)
+      .then(response => {
+        if (response.status < 400) {
+          return response.text();
+        } else {
+          throw new Error("failed to load morphology");
+        }
+      })
+      .then(resolve)
+      .catch(reject);
+  });
+}
 
 class MorphologyContainer extends React.Component {
-  state = { morphoData: null, error: null }
+  state = { morphoData: null, error: null };
   constructor(props) {
     super(props);
     this.viewContainer = React.createRef();
@@ -17,28 +33,40 @@ class MorphologyContainer extends React.Component {
       this.viewContainer = element;
     };
   }
-  async componentDidMount () {
+  componentDidMount() {
     if (this.props.morphologySrc) {
-      let response = await fetch(this.props.staticContentLocation + "/" + this.props.morphologySrc);
-      if (response.status < 400) {
-        let morphoData = await response.text();
-        this.setState({ morphoData });
-      } else {
-        this.setState({ error: "failed to load morphology" })
-      }
+      this.fetchDataPromise = makeCancelable(getStaticData(
+        this.props.staticContentLocation + "/" + this.props.morphologySrc
+      ));
+      this.fetchDataPromise.promise
+        .then(morphoData => {
+          this.setState({ morphoData });
+        })
+        .catch(error => {
+          this.setState({ error: error.message });
+        });
     }
   }
-  componentDidUpdate () {
+  componentWillUnmount() {
+    if (this.fetchDataPromise) {
+      this.fetchDataPromise.cancel();
+    }
+    if (this.world) {
+      this.world.destroy();
+    }
+  }
+  componentDidUpdate() {
     if (!this.world) {
       this.makeVisualizer();
     } else {
       this.shouldRender();
     }
   }
-  shouldRender () {
-    console.log("should I render?", this.props.hovering)
-    if (!this.world) { return; }
-    if (this.props.hovering) {
+  shouldRender() {
+    if (!this.world) {
+      return;
+    }
+    if (this.props.shouldRender) {
       this.world.unPause();
     } else {
       this.world.pause();
@@ -58,45 +86,38 @@ class MorphologyContainer extends React.Component {
           this.world.renderer.webgl.domElement.className += " in";
           setTimeout(() => {
             this.shouldRender();
-          }, 700)
+          }, 700);
         },
-        () => {
-        }
-       );
+        () => {}
+      );
     }
   }
-  componentWillUnmount () {
-    if (this.world) {
-      this.world.destroy();
-    }
-  }
-  render () {
+  render() {
     let loaded = !!this.state.morphoData;
     let error = this.state.error;
     return (
       <div id="mophology-viewer" className="morpho-viz full-height">
-        {!loaded && !error &&
-          <div style={{ width: "6em", margin: "0 auto", marginTop: "10em" }}>
-            <SVG
+        {!loaded &&
+          !error && (
+            <div style={{ width: "6em", margin: "0 auto", marginTop: "10em" }}>
+              <SVG
                 path={icons.neuron}
                 svgClassName="neuron-svg"
                 className="neuron-icon loading"
               />
-          </div>
-        }
-        {
-          error &&
+            </div>
+          )}
+        {error && (
           <div style={{ width: "6em", margin: "0 auto", marginTop: "10em" }}>
             <SVG
-                path={icons.neuron}
-                svgClassName="neuron-svg"
-                className="neuron-icon"
-              />
+              path={icons.neuron}
+              svgClassName="neuron-svg"
+              className="neuron-icon"
+            />
           </div>
-        }
-        {loaded && !error &&
-          <div className="full-height" ref={this.setViewContainer}></div>
-        }
+        )}
+        {loaded &&
+          !error && <div className="full-height" ref={this.setViewContainer} />}
       </div>
     );
   }
@@ -108,6 +129,4 @@ function mapStateToProps({ config }) {
   };
 }
 
-export default connect(
-  mapStateToProps
-)(MorphologyContainer);
+export default connect(mapStateToProps)(MorphologyContainer);

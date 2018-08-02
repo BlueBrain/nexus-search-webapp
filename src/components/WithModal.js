@@ -9,6 +9,7 @@ function WithModal(Component) {
     }
     handleCancel = () => {
       this.setState({ visible: false });
+      this.props.onCancel();
     };
     render() {
       return (

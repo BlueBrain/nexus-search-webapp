@@ -5,13 +5,9 @@ import DetailsFrame from "./Frame";
 const Details = props => {
   let { pending, error, data, types } = props;
   return (
-    // <section className="column full flex">
-      <Spin spinning={pending} size="large" wrapperClassName={"big-loader"}>
-        {/* <div className="centered-content"> */}
-          {!pending && data && DetailsFrame({ data, types })}
-        {/* </div> */}
-      </Spin>
-    // </section>
+    <Spin spinning={pending} size="large" wrapperClassName={"big-loader"}>
+        {!pending && data && DetailsFrame({ data, types })}
+    </Spin>
   );
 }
 

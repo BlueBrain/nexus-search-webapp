@@ -11,7 +11,7 @@ const DetailsFrame = props => {
       <Row gutter={16} style={{ padding: "1em 0"}}>
         <Col span={14}>
           <div style={{ height: "700px"}}>
-            <MorphologyPreview onHover={() => {}} value={data}/>
+            <MorphologyPreview onHover={() => {}} value={data} shouldRender/>
           </div>
         </Col>
         <Col span={10}>
