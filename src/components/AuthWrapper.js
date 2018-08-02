@@ -13,9 +13,9 @@ import { auth } from "../store/actions";
 
 const { Content, Footer } = Layout;
 
-const AuthenticatedContent = (children, appPath) => (
+const AuthenticatedContent = (children) => (
   <Layout>
-    {Header(appPath)}
+    {Header()}
     <Loader />
     <Content className="middle">{children}</Content>
     <Footer>
@@ -36,9 +36,8 @@ class App extends Component {
     this.props.authenticate(window.location.href)
   }
   render() {
-    const { appPath } = this.props.config;
     let content = this.props.isAuthenticated
-      ? AuthenticatedContent(this.props.children, appPath)
+      ? AuthenticatedContent(this.props.children)
       : PleaseLogin();
     return (
       <React.Fragment>
@@ -50,13 +49,11 @@ class App extends Component {
 }
 
 App.propTypes = {
-  config: PropTypes.any.isRequired,
   isAuthenticated: PropTypes.bool
 };
 
 function mapStateToProps(state) {
   return {
-    config: state.config,
     isAuthenticated: !!state.auth.token
   };
 }

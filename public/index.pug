@@ -20,6 +20,4 @@ html(lang='en')
       window.SEARCH_API_URI = "#{process.env.SEARCH_API_URI}" || "${SEARCH_API_URI}";
       // The path to find this index file once deployed, eg. "/search"
       window.BASE_PATH = "#{process.env.BASE_PATH}" || "${BASE_PATH}";
-      // The path to find static content, eg. "search.mynexus.org/data"
-      window.STATIC_CONTENT_URI = "#{process.env.STATIC_CONTENT_URI}" || "${STATIC_CONTENT_URI}";
     script(src="../index.js")
