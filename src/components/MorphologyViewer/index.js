@@ -31,6 +31,17 @@ class MorphologyContainer extends React.Component {
   componentDidUpdate () {
     if (!this.world) {
       this.makeVisualizer();
+    } else {
+      this.shouldRender();
+    }
+  }
+  shouldRender () {
+    console.log("should I render?", this.props.hovering)
+    if (!this.world) { return; }
+    if (this.props.hovering) {
+      this.world.unPause();
+    } else {
+      this.world.pause();
     }
   }
   makeVisualizer() {
@@ -45,8 +56,12 @@ class MorphologyContainer extends React.Component {
         morphoData,
         () => {
           this.world.renderer.webgl.domElement.className += " in";
+          setTimeout(() => {
+            this.shouldRender();
+          }, 700)
         },
-        () => { }
+        () => {
+        }
        );
     }
   }

@@ -10,7 +10,7 @@ class MorphologyPreview extends PureComponent {
     }
   }
   render() {
-    let { value } = this.props;
+    let { value, hovering } = this.props;
     const divStyle = {
       position: "absolute",
       top: 0,
@@ -37,7 +37,7 @@ class MorphologyPreview extends PureComponent {
                 onMouseLeave={() => this.handleOnHover(false)}
                 onMouseEnter={() => this.handleOnHover(true)}
               >
-                <MorphologyViewer morphologySrc={morphologySrc} />
+                <MorphologyViewer morphologySrc={morphologySrc} hovering={hovering}/>
               </div>
             )}
             {!morphologySrc && (

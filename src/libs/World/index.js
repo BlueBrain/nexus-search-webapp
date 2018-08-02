@@ -75,6 +75,7 @@ class World {
    * @return {void}
    */
   render() {
+    if (this.isPaused) { return; }
     this.camera.update(this.clock.delta);
     this.controls.update(this.clock.delta);
     Object.keys(this.renderer).forEach(key => {
@@ -103,6 +104,14 @@ class World {
    */
   mouseMove(x, y) {
     Emitter.emit("mousemove", x, y);
+  }
+
+  pause () {
+    this.isPaused = true;
+  }
+
+  unPause () {
+    this.isPaused = false;
   }
 
   destroy () {
