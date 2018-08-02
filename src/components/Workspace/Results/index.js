@@ -59,6 +59,7 @@ function mapStateToProps({ config, query, search }) {
     from,
     query: q,
     type,
+
     // why!
     filter: {...filter}
   };

@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { bindActionCreators } from "redux";
 import { WithStore } from "@bbp/nexus-react";
 import TypeIcon from "../../TypeIcon";
 import FontAwesome from "react-fontawesome";
@@ -6,8 +7,9 @@ import _ from "underscore";
 import Perspectivizer from "../../Animations/Perspectivizer";
 import { has } from "underscore";
 import Preview from "./Preview";
+import InspectLink from "./InspectLink";
 
-const GridResult = ({ value, goToEntityByID, openVisualizer }) => {
+const GridResult = ({ value, id }) => {
   return (
     <WithStore
       mapStateToProps={({ types }) => ({
@@ -34,6 +36,7 @@ const GridResult = ({ value, goToEntityByID, openVisualizer }) => {
               style={myType && { borderTop: `1px solid ${myType.color}` }}
             >
               <div className="header">
+                <InspectLink id={id} />
                 <div className="top flex">
                   <div className="type-avatar">
                     {myType && (

@@ -2,7 +2,12 @@
 export const REQUEST_MADE = 'REQUEST_MADE'
 export const REQUEST_RESOLVED = 'REQUEST_RESOLVED'
 
-//Query to instance Fetching
+//Fetch a single document from ES
+export const FETCH_STARTED_INSTANCE = "FETCH_STARTED_INSTANCE"
+export const FETCH_FULFILLED_INSTANCE = "FETCH_FULFILLED_INSTANCE"
+export const FETCH_FAILED_INSTANCE = "FETCH_FAILED_INSTANCE"
+
+//Search query taking in consideriation filters and everything
 export const FETCH_STARTED_QUERY = "FETCH_STARTED_QUERY"
 export const FETCH_FULFILLED_QUERY = "FETCH_FULFILLED_QUERY"
 export const FETCH_FAILED_QUERY = "FETCH_FAILED_QUERY"

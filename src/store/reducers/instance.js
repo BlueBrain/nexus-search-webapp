@@ -7,31 +7,23 @@ export default function instance (state = {
 }, action) {
   switch (action.type) {
 
-    case types.FETCH_INSTANCE_STARTED:
+    case types.FETCH_STARTED_INSTANCE:
       return Object.assign({}, state, {
         pending: true,
         data: null
       });
 
-    case types.FETCH_INSTANCE_FULFILLED:
+    case types.FETCH_FULFILLED_INSTANCE:
       return Object.assign({}, state, {
         pending: false,
         data: action.payload
       });
 
-    case types.FETCH_INSTANCE_FAILED:
+    case types.FETCH_FAILED_INSTANCE:
       return Object.assign({}, state, {
         pending: false,
         data: null,
         error: action.error
-      });
-
-    case types.INSTANCE_LINKS_ADDED:
-      return Object.assign({}, state, {
-        data: {
-          ...state.data,
-          resolvedLinks: action.payload
-        }
       });
 
     default:

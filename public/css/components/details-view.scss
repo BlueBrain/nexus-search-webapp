@@ -1,0 +1,21 @@
+.centered-content {
+  width: 1184px;
+  margin: -10px auto;
+  padding: 5em 2em;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+#details {
+  .toolbar {
+    padding: 1em;
+  }
+  .type-svg {
+    height: 3em;
+  }
+}
+
+.justify-center {
+  justify-content: center;
+  align-items: center;
+}

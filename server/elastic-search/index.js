@@ -5,6 +5,7 @@ import facets from "./facets";
 import docs from "./docs";
 import * as errors from "./errors";
 import queryFactory from "./queryFactory";
+import getInstanceFactory from "./getInstance";
 
 const index = config.ELASTIC_SEARCH_INDEX;
 const host = config.ELASTICSEARCH_CLIENT_URL;
@@ -24,7 +25,8 @@ if (!host) {
 const ENDPOINTS = {
   types: queryFactory(client, index, types.queryBuilder, types.normalizer),
   facets: queryFactory(client, index, facets.queryBuilder, facets.normalizer),
-  docs: queryFactory(client, index, docs.queryBuilder, docs.normalizer)
+  docs: queryFactory(client, index, docs.queryBuilder, docs.normalizer),
+  instances: getInstanceFactory(client, index)
 };
 
 export default ENDPOINTS;

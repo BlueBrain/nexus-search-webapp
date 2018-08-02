@@ -39,9 +39,10 @@ const goToSearch = query => {
   };
 };
 
-const goToEntityByID = id => {
-  return (dispatch) => {
-    dispatch(updateQuery({ instance: id }));
+const goToDetailsPageByID = id => {
+  return (dispatch, getState) => {
+    const basename = getState().routing.location.basename || "";
+    dispatch(push(`${basename}/docs/${id}`));
   };
 };
 
@@ -84,7 +85,7 @@ export default {
   goDown,
   reconcileRoutes,
   fetchListFailed,
-  goToEntityByID,
+  goToDetailsPageByID,
   goToSearch,
   updateQuery
 };

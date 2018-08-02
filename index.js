@@ -2,10 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { AppContainer } from "react-hot-loader";
 import { Provider } from "react-redux";
-import { Route, Switch } from "react-router";
+import { Route, Switch, IndexRoute } from "react-router";
 import { ConnectedRouter } from "react-router-redux";
 import App from "./src/components/App";
 import Home from "./src/components/Home";
+import Details from "./src/components/Details";
 import store from "./src/store";
 import history from "./src/libs/history";
 
@@ -15,7 +16,8 @@ ReactDOM.render(
       <ConnectedRouter history={history}>
         <App>
           <Switch>
-            <Route path="/*" component={Home} />
+            <Route exact={true} path="/" component={Home} />
+            <Route path="/docs/:id" component={Details} />
           </Switch>
         </App>
       </ConnectedRouter>

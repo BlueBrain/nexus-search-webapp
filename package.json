@@ -73,7 +73,6 @@
     "three": "^0.86.0",
     "three-trackballcontrols": "0.0.7",
     "underscore": "^1.9.1",
-    "underscore.get": "^0.2.9",
     "unzip": "^0.1.11"
   },
   "devDependencies": {

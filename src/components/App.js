@@ -36,7 +36,11 @@ class App extends Component {
   constructor(props) {
     super(props);
   }
+  componentWillReceiveProps (newProps) {
+    console.log("APPPPP", { newProps });
+  }
   render() {
+    console.log("rendering APP", this.props)
     const { base } = this.props.config;
     let { noAuth } = qs.parse(window.location.search.replace("?", ""));
     let content;

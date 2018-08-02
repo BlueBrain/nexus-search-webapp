@@ -14,8 +14,8 @@ const Grid = ({ results }) => {
           <SearchSnippet
             key={`${result._source["@id"]}-${index}`}
             value={result._source}
+            id={result._id}
             openVisualizer={() => {}}
-            goToEntityByID={() => {}}
           />
         );
       })}
