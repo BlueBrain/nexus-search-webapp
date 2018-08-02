@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { AppContainer } from "react-hot-loader";
 import { Provider } from "react-redux";
 import { Route, Switch, IndexRoute } from "react-router";
-import { ConnectedRouter } from "react-router-redux";
+import { ConnectedRouter } from 'connected-react-router'
 import App from "./src/components/App";
 import Home from "./src/components/Home";
 import Details from "./src/components/Details";

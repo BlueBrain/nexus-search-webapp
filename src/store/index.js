@@ -1,16 +1,16 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import { routerReducer } from 'react-router-redux';
+import { connectRouter } from 'connected-react-router'
 import persistState from 'redux-localstorage';
 import * as customReducers from './reducers';
 import middleware from "./middleware";
+import history from "../libs/history";
 
 const reducers = combineReducers({
-  ...customReducers,
-  routing: routerReducer
+  ...customReducers
 })
 
 const reduxStore = createStore(
-  reducers,
+  connectRouter(history)(reducers),
   compose(
     persistState('auth'),
     applyMiddleware(
@@ -23,10 +23,9 @@ if (module.hot) {
   module.hot.accept('./reducers', () => {
     let customReducers = require('./reducers');
     let finalReducer = {
-      ...customReducers,
-      routing: routerReducer
+      ...customReducers
     };
-    store.replaceReducer(combineReducers(finalReducer));
+    store.replaceReducer(connectRouter(history)(combineReducers(finalReducer)));
   })
 }
 

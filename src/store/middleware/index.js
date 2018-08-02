@@ -1,4 +1,4 @@
-import { routerMiddleware } from 'react-router-redux';
+import { routerMiddleware } from 'connected-react-router'
 import thunk from 'redux-thunk'
 import history from '../../libs/history';
 import logging from "./logging";

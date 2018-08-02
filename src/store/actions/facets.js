@@ -16,7 +16,6 @@ function fetchFacets() {
     const { q, type } = state.search;
     const { elasticSearchAPI } = state.config;
     const facetsAPI = elasticSearchAPI + "/facets";
-    // const { selectedFacets } = getQueryFromUrl(state.routing);
     dispatch(fetchFacetsStarted());
     // TODO make query change
     return fetch(facetsAPI + "?" + qs.stringify({ type, q }))

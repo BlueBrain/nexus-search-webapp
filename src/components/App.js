@@ -69,7 +69,7 @@ App.propTypes = {
 function mapStateToProps(state) {
   return {
     config: state.config,
-    location: state.routing.location,
+    location: state.router.location,
     isAuthenticated: !!state.auth.token
   };
 }

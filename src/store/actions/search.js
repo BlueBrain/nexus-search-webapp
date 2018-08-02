@@ -1,7 +1,7 @@
 import * as types from "./types";
 import qs from "query-string";
 import {truthy} from "../../libs/utils";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import { isEmpty } from "underscore";
 
 export default {
@@ -11,7 +11,7 @@ export default {
 
 function assignSearchParamsThunk (params) {
   return (dispatch, getState) => {
-    let { routing, search } = getState();
+    let { router, search } = getState();
     let updatedParams = truthy(Object.assign(search, params));
     if (updatedParams.filter) {
       Object.keys(updatedParams.filter).forEach(key => {
@@ -27,7 +27,7 @@ function assignSearchParamsThunk (params) {
     // }
     let URLParams = { ...updatedParams };
     if (URLParams.filter) { URLParams.filter = JSON.stringify(URLParams.filter); }
-    let path = routing.location.pathname;
+    let path = router.location.pathname;
     let queryString = qs.stringify(URLParams);
     if (queryString) {
       let newURL = `${path}?${queryString}`;

@@ -33,8 +33,8 @@ class SearchBarContainer extends React.Component {
   }
 }
 
-function mapStateToProps({ routing }) {
-  let queryParams = qs.parse(routing.location.search);
+function mapStateToProps({ router }) {
+  let queryParams = qs.parse(router.location.search);
   const query = queryParams? queryParams.q : null;
   return {
     query
