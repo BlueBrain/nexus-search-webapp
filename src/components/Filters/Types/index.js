@@ -24,7 +24,7 @@ class TypesContainer extends React.Component {
     this.props.hoverType(value);
   }
   clearFilters () {
-    this.props.updateSearchParams({ type: null, filter: null, q: null });
+    this.props.updateSearchParams({ type: null, filter: null, q: null, sort: null });
   }
   render() {
     const { pending, error, types, selectedType } = this.props;

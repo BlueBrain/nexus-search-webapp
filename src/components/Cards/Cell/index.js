@@ -1,13 +1,12 @@
 import React, { Fragment } from "react";
-import { bindActionCreators } from "redux";
 import { WithStore } from "@bbp/nexus-react";
 import TypeIcon from "../../TypeIcon";
-import FontAwesome from "react-fontawesome";
-import _ from "underscore";
+import { find } from "underscore";
 import Perspectivizer from "../../Animations/Perspectivizer";
-import { has } from "underscore";
+import { getProp } from "../../../libs/utils";
 import Preview from "./Preview";
 import InspectLink from "./InspectLink";
+import Contributions from "./Contributions";
 
 const GridResult = ({ value, id }) => {
   return (
@@ -25,7 +24,7 @@ const GridResult = ({ value, id }) => {
         const typeArray = Array.isArray(value["@type"])
           ? value["@type"]
           : [value["@type"]];
-        const myType = _.find(types, type => {
+        const myType = find(types, type => {
           return type.value === mostRelevantType;
         });
         return (
@@ -57,22 +56,12 @@ const GridResult = ({ value, id }) => {
               <Preview value={value}/>
               <div className="footer">
                 <div className="mType">
-                  {has(value, "mType.label") && value.mType.label}
+                  {getProp(value, "mType.label") && value.mType.label}
                 </div>
                 <div className="brainRegion">{value.brainRegion.label}</div>
                 <div className="eType">{value.eType.label}</div>
                 <div className="bottom flex space-between">
-                  <div>
-                    {has(value, "contributions") && (
-                      <React.Fragment>
-                        <FontAwesome name={"user"} />{" "}
-                        <span className="pi">
-                          {value.contributions[0].fullName}
-                        </span>
-                        {value.contributions.length > 1 && <span>{" "}+ {value.contributions.length -1} more</span>}
-                      </React.Fragment>
-                    )}
-                  </div>
+                  <Contributions contributions={getProp(value, "contributions")} />
                   <div className="unemphasized">Experimental</div>
                 </div>
               </div>

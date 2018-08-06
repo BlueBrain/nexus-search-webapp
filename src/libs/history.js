@@ -1,6 +1,8 @@
-import createHistory from 'history/createBrowserHistory'
+import { createBrowserHistory } from 'history'
 
-const APP_PATH = window.BASE_PATH.startsWith('$') ? '' : window.BASE_PATH;
-const history = createHistory({ basename: APP_PATH })
+const APP_PATH = window.BASE_PATH.startsWith('$') ? '' : window.BASE_PATH + "/";
+const history = createBrowserHistory({
+  basename: APP_PATH,
+})
 
 export default history;

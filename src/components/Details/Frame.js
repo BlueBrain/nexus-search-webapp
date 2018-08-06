@@ -28,6 +28,12 @@ const DetailsFrame = props => {
           <Extensions />
         </Col>
       </Row>
+      <Divider>Similar</Divider>
+      <Row gutter={16} style={{ padding: "1em 0"}}>
+        <Col span={24}>
+        <div style={{ height: "700px", background: "orange"}} />
+        </Col>
+      </Row>
     </div>
   );
 }

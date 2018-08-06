@@ -21,12 +21,17 @@ function assignSearchParamsThunk (params) {
         }
       })
     }
-    // if (!isEmpty(updatedParams.filter) && updatedParams.from > 0) {
-    //   // every time filter is updated, remove the pagination settings to default
-    //   updatedParams.from = 0;
-    // }
+    if (updatedParams.sort) {
+      Object.keys(updatedParams.sort).forEach(key => {
+        let filterKey = updatedParams.sort[key]
+        if (!filterKey.length) {
+          delete updatedParams.sort[key];
+        }
+      })
+    }
     let URLParams = { ...updatedParams };
     if (URLParams.filter) { URLParams.filter = JSON.stringify(URLParams.filter); }
+    if (URLParams.sort) { URLParams.sort = JSON.stringify(URLParams.sort); }
     let path = router.location.pathname;
     let queryString = qs.stringify(URLParams);
     if (queryString) {

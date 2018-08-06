@@ -12,10 +12,11 @@ function fetchQuery() {
   return (dispatch, getState) => {
     let state = getState();
     const { elasticSearchAPI } = state.config;
-    const { q, size, from, type, filter } = state.search;
+    const { q, size, from, type, filter, sort } = state.search;
     const searchAPI = elasticSearchAPI + "/docs";
-    let params = truthy({ q, size, from, type, filter});
+    let params = truthy({ q, size, from, type, filter, sort});
     if (params.filter) { params.filter = JSON.stringify(params.filter); }
+    if (params.sort) { params.sort = JSON.stringify(params.sort); }
     dispatch(fetchQueryStarted());
     return fetch(
       searchAPI + "?" + qs.stringify(params)

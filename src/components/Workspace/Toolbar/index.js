@@ -38,9 +38,9 @@ const Toolbar = ({ pending, resultCount, listType, handleListTypeChange }) => {
           <RadioButton value="Grid">
             <Icon type="appstore-o" />
           </RadioButton>
-          <RadioButton value="Panel">
+          {/* <RadioButton value="Panel">
             <Icon type="appstore-o" />
-          </RadioButton>
+          </RadioButton> */}
           <RadioButton value="Table">
             <Icon type="profile" />
           </RadioButton>

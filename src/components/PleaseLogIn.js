@@ -1,12 +1,13 @@
 import React from "react";
 import { WithStore } from "@bbp/nexus-react";
 import { Layout } from "antd";
-import { Card, Icon, Avatar } from "antd";
+import { Card, Icon } from "antd";
+import { Lines } from "@bbp/nexus-react";
 import Logo from "../../public/img/logo.png";
-const { Meta } = Card;
 
 const PleaseLogin = () => (
   <Layout style={{width: '100%'}}>
+    <Lines/>
     <WithStore
       mapStateToProps={({ config }) => ({
         loginURI: config.loginURI

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -6,7 +6,7 @@ import Results from "./ResultsComponent";
 import { query, search } from "../../../store/actions";
 import { isEqual } from "underscore"
 
-class ResultsContainer extends Component {
+class ResultsContainer extends PureComponent {
   componentDidMount() {
     this.search();
   }
@@ -15,7 +15,8 @@ class ResultsContainer extends Component {
       prevProps.query !== this.props.query ||
       prevProps.type !== this.props.type ||
       prevProps.from !== this.props.from ||
-      !isEqual(prevProps.filter, this.props.filter)
+      !isEqual(prevProps.filter, this.props.filter) ||
+      !isEqual(prevProps.sort, this.props.sort)
     ) {
       this.search();
     }
@@ -39,6 +40,7 @@ class ResultsContainer extends Component {
 ResultsContainer.propTypes = {
   search: PropTypes.func.isRequired,
   results: PropTypes.any,
+  sort: PropTypes.any,
   hits: PropTypes.number,
   pending: PropTypes.bool,
   pageSize: PropTypes.number,
@@ -49,7 +51,7 @@ ResultsContainer.propTypes = {
 };
 
 function mapStateToProps({ config, query, search }) {
-  const { q, type, filter, size, from } = search;
+  const { q, type, filter, size, from, sort } = search;
   return {
     pageSize: size,
     api: config.api,
@@ -57,6 +59,7 @@ function mapStateToProps({ config, query, search }) {
     hits: query.hits,
     pending: query.pending,
     from,
+    sort: {...sort},
     query: q,
     type,
 

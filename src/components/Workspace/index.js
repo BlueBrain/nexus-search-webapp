@@ -1,20 +1,18 @@
-import React from "react";
+import React, { PureComponent } from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { search } from "../../store/actions";
 import Toolbar from "./Toolbar";
 import Results from "./Results";
 import InfoBoxes from "./InfoBoxes";
 
-const DEFAULT_LIST_TYPE_VALUE = "Grid";
-
-class WorkspaceContainer extends React.PureComponent {
-  state = {
-    listType: DEFAULT_LIST_TYPE_VALUE
-  };
+class WorkspaceContainer extends PureComponent {
   handleListTypeChange (listType) {
-    this.setState({ listType })
+    this.props.updateSearchParams({ listType });
   }
   render() {
     let handleListTypeChange = this.handleListTypeChange.bind(this);
-    let { listType } = this.state;
+    let { listType } = this.props;
     return Workspace({ listType, handleListTypeChange });
   }
 }
@@ -31,4 +29,21 @@ const Workspace = ({ listType, handleListTypeChange }) => (
   </section>
 );
 
-export default WorkspaceContainer;
+function mapStateToProps({ search }) {
+  const { listType } = search;
+  return {
+    listType
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    updateSearchParams: bindActionCreators(search.assignSearchParams, dispatch)
+  };
+}
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WorkspaceContainer);

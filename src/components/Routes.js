@@ -3,10 +3,13 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { goBack } from "connected-react-router";
 import { Route, Switch } from "react-router";
-import AuthWrapper from "./AuthWrapper";
+import PrivateRoute from "./PrivateRoute";
 import Home from "./Home";
 import Details from "./Details";
 import WithModal from "./WithModal";
+import PleaseLogin from "./PleaseLogIn";
+import { auth } from "../store/actions";
+import Layout from "./Layout";
 
 class Routes extends Component {
   // We can pass a location to <Switch/> that will tell it to
@@ -22,6 +25,9 @@ class Routes extends Component {
   // location and pass it to Switch, so it will think the location
   // is still `/` even though its `/docs/2`.
   previousLocation = this.props.location;
+  UNSAFE_componentWillMount() {
+    this.props.authenticate(window.location.href);
+  }
   componentWillUpdate(nextProps) {
     const { location } = this.props;
     // set previousLocation if props.location is not modal
@@ -43,27 +49,37 @@ class Routes extends Component {
 
     let DetailsWithModal = WithModal(Details);
     return (
-      <AuthWrapper>
-        <Fragment>
-          <Switch location={isModal ? this.previousLocation : location}>
-            <Route exact path="/" component={Home} />
-            <Route path="/docs/:id" component={props => {
-              return (
-              <section className="column full flex">
-                <div className="centered-content">
-                  <Details {...props}/>
-                </div>
-              </section>
-            )
-            }} />
-          </Switch>
-          {isModal ? <Route path="/docs/:id" component={props => {
-            return <DetailsWithModal onCancel={() => goBack() } {...props} />;
-          }} /> : null}
-        </Fragment>
-      </AuthWrapper>
+      <Fragment>
+        <Switch location={isModal ? this.previousLocation : location}>
+          <PrivateRoute exact path="/" component={Home} />
+          <PrivateRoute path="/docs/:id" component={props => {
+            return (
+              <Layout>
+                <section className="column full flex">
+                  <div className="centered-content">
+                    <Details {...props}/>
+                  </div>
+                </section>
+              </Layout>
+          )
+          }} />
+          <Route path="/login" component={PleaseLogin} />
+          <Route component={NoMatch} />
+        </Switch>
+        {isModal ? <PrivateRoute path="/docs/:id" component={props => {
+          return <DetailsWithModal onCancel={() => goBack() } {...props} />;
+        }} /> : null}
+      </Fragment>
     );
   }
+}
+
+const NoMatch = ({ location }) => {
+  return (
+    <div>
+      <h1>Not found</h1>
+    </div>
+  )
 }
 
 function mapStateToProps() {
@@ -72,7 +88,8 @@ function mapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
   return {
-    goBack: bindActionCreators(goBack, dispatch)
+    goBack: bindActionCreators(goBack, dispatch),
+    authenticate: bindActionCreators(auth.authenticate, dispatch)
   };
 }
 

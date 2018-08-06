@@ -44,7 +44,7 @@ class FiltersBoxContainer extends React.PureComponent {
   }
   handleDismiss () {
     this.props.onDismiss();
-    this.props.updateSearchParams({ type: null, filter: {}, query: null });
+    this.props.updateSearchParams({ type: null, filter: null, query: null, sort: null });
   }
   render() {
     const onDismiss = this.handleDismiss.bind(this);
