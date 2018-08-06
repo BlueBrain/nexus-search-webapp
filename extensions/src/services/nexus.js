@@ -6,7 +6,7 @@ import last from 'lodash/last';
 import http from './http';
 
 
-const idAttributeMap = {
+const ID_ATTRIBUTE_INDEX = {
   uuid: 0,
   schemaVersion: 1,
   instanceType: 2,
@@ -85,25 +85,24 @@ async function fetchEntity(idUrl, normConf = {}, changeCb = () => {}) {
 /**
  * Return attribute for a given nexus instance id
  *
- * @param {*} id         Nexus instance id
- * @param {*} attribute  Attribute to retreive, e.g.: instanceType, domain, etc.
- *                         See constant `idAttributeMap` for available options.
+ * @param {*} id              Nexus instance id
+ * @param {*} attributeIndex  Index of attribute to retreive.
+ *                              See constant `ID_ATTRIBUTE_INDEX` for available options.
  *
  * @example
  * ```
  *   const id = https://nexus.local/v0/data/brainsim/sim/morphology/v0.1.1/uuid
- *   const instanceType = nexus.getIdAttribute(nexusId, 'instanceType');
+ *   const instanceType = nexus.getIdAttribute(nexusId, nexus.ID_ATTRIBUTE_INDEX.instanceType);
  *   assert.equal(instanceType, 'morphology');
  * ```
  */
-function getIdAttribute(id, attribute) {
+function getIdAttribute(id, attributeIndex) {
   if (!id) throw new Error('No id has been provided');
 
-  if (idAttributeMap[attribute] === undefined) {
-    throw new Error(`Attribute ${attribute} is not defined in attribute map. Wrong spelling?`);
+  if (attributeIndex === undefined) {
+    throw new Error('Attribute index is not defined');
   }
 
-  const attributeIndex = idAttributeMap[attribute];
   return id.split('/').reverse()[attributeIndex];
 }
 
@@ -111,4 +110,5 @@ function getIdAttribute(id, attribute) {
 export default {
   fetchEntity,
   getIdAttribute,
+  ID_ATTRIBUTE_INDEX,
 };

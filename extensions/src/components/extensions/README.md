@@ -10,8 +10,8 @@ const containerEl = ...;
 // Params to pass to extension instance
 const extParams = {...};
 
-const entityType = 'nsg:Morphology';
-const Extensions = extensions.getByEntityType(entityType);
+const entityId = 'https://domain.com/api/org/domain/memodel/ver/uuid';
+const Extensions = extensions.getByEntityId(entityId);
 
 // Access Extension attributes via .attrs
 const extensionNames = Extensions.map(Extension => Extension.attrs.name);

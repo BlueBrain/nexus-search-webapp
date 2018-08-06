@@ -73,6 +73,7 @@
       >
         <h3 slot="title">Extension</h3>
         <extension-viewer
+          :id="CurrentExtension.attrs.name"
           class="viewer"
           :Extension="CurrentExtension"
           :ext-params="params"
@@ -114,7 +115,8 @@
       },
 
       onEntityTypeChange(entityType) {
-        this.extensions = extensions.getByEntityType(entityType);
+        const entityId = this.genEntityIdByType(entityType);
+        this.extensions = extensions.getByEntityId(entityId);
         this.selectedExtensionName = head(this.extensions).attrs.name;
         this.onExtensionChange(this.selectedExtensionName);
       },
@@ -132,6 +134,10 @@
         const extKey = this.extKey(extType, extName);
         const savedProps = await localforage.getItem(extKey);
         this.paramsJsonStr = JSON.stringify(savedProps || {});
+      },
+
+      genEntityIdByType(type) {
+        return `https://domain/api/data/org/domain/${type}/ver/uuid`;
       },
 
       saveExtensionProps(params) {

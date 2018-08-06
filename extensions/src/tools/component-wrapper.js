@@ -9,14 +9,14 @@ import Vue from 'vue';
  */
 
 /**
- * @typedef {Object} ExtensionProps
+ * @typedef {Object} ExtensionAttrs
  * @property {string} name - User friendly name of the extension
  */
 
-function createExtension(component) {
+function createExtension(component, defaultParams) {
   class Extension {
     /**
-     * @property {ExtensionProps}
+     * @property {ExtensionAttrs}
      */
     static get attrs() { return component.attrs; }
 
@@ -31,9 +31,11 @@ function createExtension(component) {
       const mountElement = document.createElement('div');
       rootElement.appendChild(mountElement);
 
+      const componentParams = Object.assign({}, defaultParams, params);
+
       this.component = new Vue({
         el: mountElement,
-        render: h => h(component.VueComponent, { props: params }),
+        render: h => h(component.VueComponent, { props: componentParams }),
       });
     }
 

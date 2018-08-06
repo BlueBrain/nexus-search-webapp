@@ -31,7 +31,7 @@
     },
     methods: {
       getBlueNaasUrl() {
-        const uuid = nexus.getIdAttribute(this.entityId, 'uuid');
+        const uuid = nexus.getIdAttribute(this.entityId, nexus.ID_ATTRIBUTE_INDEX.uuid);
         return `${config.externalApps.blueNaasBaseUrl}/${uuid}`;
       },
       getAnalysisNotebookUrl() {
