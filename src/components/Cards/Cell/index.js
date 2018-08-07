@@ -7,6 +7,19 @@ import { getProp } from "../../../libs/utils";
 import Preview from "./Preview";
 import InspectLink from "./InspectLink";
 import Contributions from "./Contributions";
+import { Icon } from "antd";
+
+function DownloadLink ({ url, children }) {
+  if (url) {
+    return (
+      <a href={url} download>
+        {children}
+      </a>
+    );
+  } else {
+    return null
+  }
+}
 
 const GridResult = ({ value, id }) => {
   return (
@@ -40,6 +53,14 @@ const GridResult = ({ value, id }) => {
                     {myType && (
                       <TypeIcon color={myType.color} iconURL={myType.icon} />
                     )}
+                  </div>
+                  <div className={`action-buttons ${active ? "active" : ""}`}>
+                    <InspectLink id={value["@id"]}>
+                      <Icon type="eye-o" style={{ fontSize: 16 }}/>
+                    </InspectLink>
+                    <DownloadLink url={getProp(value, "distribution.url")}>
+                      <Icon type="cloud-download-o" style={{ fontSize: 16 }}/>
+                    </DownloadLink>
                   </div>
                   <div className="labels">
                     {value.subject &&

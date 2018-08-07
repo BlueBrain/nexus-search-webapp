@@ -10,6 +10,7 @@ import WithModal from "./WithModal";
 import PleaseLogin from "./PleaseLogIn";
 import { auth } from "../store/actions";
 import Layout from "./Layout";
+import NotFound from "./NotFound";
 
 class Routes extends Component {
   // We can pass a location to <Switch/> that will tell it to
@@ -27,6 +28,7 @@ class Routes extends Component {
   previousLocation = this.props.location;
   UNSAFE_componentWillMount() {
     this.props.authenticate(window.location.href);
+    console.log("attempting to authenticate", window.location.href);
   }
   componentWillUpdate(nextProps) {
     const { location } = this.props;
@@ -64,7 +66,7 @@ class Routes extends Component {
           )
           }} />
           <Route path="/login" component={PleaseLogin} />
-          <Route component={NoMatch} />
+          <Route component={NotFound} />
         </Switch>
         {isModal ? <PrivateRoute path="/docs/:id" component={props => {
           return <DetailsWithModal onCancel={() => goBack() } {...props} />;
@@ -72,14 +74,6 @@ class Routes extends Component {
       </Fragment>
     );
   }
-}
-
-const NoMatch = ({ location }) => {
-  return (
-    <div>
-      <h1>Not found</h1>
-    </div>
-  )
 }
 
 function mapStateToProps() {

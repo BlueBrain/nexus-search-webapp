@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import App from "./src/components/App";
 import store from "./src/store";
 import history from "./src/libs/history";
-
+console.log(window.location);
 const render = () => {
   ReactDOM.render(
     <AppContainer>

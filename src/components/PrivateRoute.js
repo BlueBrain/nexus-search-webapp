@@ -1,28 +1,13 @@
-import React, { Component, Fragment } from "react";
+import React, { PureComponent, Fragment } from "react";
 import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Redirect, Route } from "react-router";
 
-const Stuff = ({ isAuthenticated, ...props }) => {
-  console.log("this ist stuff", isAuthenticated, props);
-  return (
-    isAuthenticated ? (
-      <Component {...props} />
-    ) : (
-      <Redirect
-        to={{
-          pathname: "/login",
-          state: { from: props.location }
-        }}
-      />
-    )
-  )
-}
-
-class PrivateRoute extends Component {
+class PrivateRoute extends PureComponent {
   render() {
-    let { component, isAuthenticated, ...rest } = this.props
+    let { component, isAuthenticated, search, ...rest } = this.props
+    console.log("privateRoute rendering", search);
     let Component = component;
     return (
       <Route
@@ -33,7 +18,7 @@ class PrivateRoute extends Component {
           ) : (
             <Redirect
               to={{
-                pathname: "/login",
+                pathname: "/login" ,
                 state: { from: props.location }
               }}
             />
@@ -50,6 +35,7 @@ PrivateRoute.propTypes = {
 
 function mapStateToProps(state) {
   return {
+    search: state.router.location.search,
     isAuthenticated: !!state.auth.token
   };
 }

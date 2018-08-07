@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 
 class InspectLink extends PureComponent {
   render() {
-    const { id } = this.props;
+    const { id, children } = this.props;
     return (
       <Link
         key={id}
         to={{
           pathname: `/docs/${id}`,
           state: { modal: true }
-        }}>Inspect</Link>
+        }}>{children}</Link>
     );
   }
 }

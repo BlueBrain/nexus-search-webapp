@@ -103,11 +103,6 @@ const renderType = (key, types) => entry => {
       return defaultEntry(entry);
     break;
   }
-  // if (entry["@type"] === Cell) {
-  //   return (
-  //     <TypeIcon iconUrl
-  //   )
-  // }
 }
 
 function makeColumnsFromDataSource(results, sort, types) {

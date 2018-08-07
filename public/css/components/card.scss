@@ -10,11 +10,42 @@
     justify-content: space-between;
     z-index: 2;
     background: linear-gradient(to top, #7dbae800 0%,#ffffffbd 70%, #ffffff 100%);
+    .action-buttons {
+      z-index: 1;
+      position: absolute;
+      a {
+        position: absolute;
+        left: 2px; top: 20px;
+        transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+        opacity: 0;
+        padding: 1em;
+        background-color:white;
+        box-shadow: -1px 1px 4px 0px #abbac95e;
+        border-radius: 1em;
+        text-align: left;
+        display: block;
+        // width: 10em;
+        &:nth-child(2) {
+          top: 4em;
+          transition-delay: 0.1s;
+        }
+      }
+      &.active {
+        a {
+          opacity: 1;
+          top: 5em;
+          &:nth-child(2) {
+            top: 10em;
+          }
+        }
+      }
+    }
     .top {
       justify-content: flex-start;
     }
     .type-avatar {
       top: 0; left: 0;
+      z-index: 2;
     }
     .labels {
       text-align: left;
