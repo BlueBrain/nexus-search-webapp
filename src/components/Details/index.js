@@ -20,7 +20,7 @@ class DetailsViewContainer extends PureComponent {
     }
   }
   render( ) {
-    return <DetailsViewComponent {...this.props} />;
+    return <DetailsViewComponent {...this.props} id={getProp(this.props, "match.params.id")} />;
   }
 }
 

@@ -3,11 +3,21 @@ import { Row, Col, Divider } from "antd";
 import MorphologyPreview from "../Cards/Cell/MorphologyPreview";
 import Summary from "./Summary";
 import Extensions from "./Extensions";
+import MoreLikeThis from "./MoreLikeThis";
+import {Helmet} from "react-helmet";
 
 const DetailsFrame = props => {
-  let { data, types } = props;
+  let { data, types, id } = props;
+  const description = `
+    Cell from brainRegion ${data.brainRegion.label}, eType ${data.eType.label}, sampled from
+    a ${data.subject.sex.label} ${data.subject.species.label}
+  `
   return (
     <div id="details">
+        <Helmet>
+            <title>{`Nexus Search | Cell ${data.cellName.label}`}</title>
+            <meta name="description" content={description} />
+        </Helmet>
       <Row gutter={16} style={{ padding: "1em 0"}}>
         <Col span={14}>
           <div style={{ height: "700px"}}>
@@ -31,7 +41,7 @@ const DetailsFrame = props => {
       <Divider>Similar</Divider>
       <Row gutter={16} style={{ padding: "1em 0"}}>
         <Col span={24}>
-        <div style={{ height: "700px", background: "orange"}} />
+          <MoreLikeThis id={id}/>
         </Col>
       </Row>
     </div>

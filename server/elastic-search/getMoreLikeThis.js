@@ -25,7 +25,7 @@ export default function getInstanceFactory(client, index) {
     const params = {
       index,
       type: "doc",
-      size: 5,
+      size: 3,
       body: {
         query: {
           more_like_this: {
@@ -44,6 +44,6 @@ export default function getInstanceFactory(client, index) {
     if (error) {
       throw new Errors.ElasticSearchError(error);
     }
-    return docs
+    return docs.hits.hits
   };
 }

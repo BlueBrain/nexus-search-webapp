@@ -1,10 +1,11 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import SVG from "react-svg";
 import World from "../../libs/World";
 import MorphologyBuilder from "./morphologybuilder";
 import icons from "../Icons";
 import { makeCancelable } from "../../libs/promise";
+import { Helmet} from "react-helmet";
 
 function getStaticData(url) {
   return new Promise((resolve, reject) => {
@@ -95,6 +96,12 @@ class MorphologyContainer extends React.Component {
   render() {
     let loaded = !!this.state.morphoData;
     let error = this.state.error;
+    let image
+    if (loaded && this.world) {
+      image = new Image();
+      image.id = "pic"
+      image.src = this.world.renderer.webgl.domElement.toDataURL();
+    }
     return (
       <div id="mophology-viewer" className="morpho-viz full-height">
         {!loaded &&
@@ -117,7 +124,14 @@ class MorphologyContainer extends React.Component {
           </div>
         )}
         {loaded &&
-          !error && <div className="full-height" ref={this.setViewContainer} />}
+          !error &&
+          <Fragment>
+              <Helmet>
+                { image && <meta property="og:image" content={image.src} /> }
+              </Helmet>
+            <div className="full-height" ref={this.setViewContainer} />
+            </Fragment>
+          }
       </div>
     );
   }
