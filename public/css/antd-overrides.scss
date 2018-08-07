@@ -11,7 +11,10 @@
 .ant-checkbox-wrapper + .ant-checkbox-wrapper {
   margin-left: 0;
 }
-
+.ant-table-thead > tr > th {
+  font-weight: normal;
+  color: rgba(0, 0, 0, 0.75);
+}
 .ant-checkbox {
   top: 3px;
 }

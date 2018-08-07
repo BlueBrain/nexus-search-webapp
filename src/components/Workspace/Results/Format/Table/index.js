@@ -5,9 +5,11 @@ import { connect } from "react-redux";
 import { Table, Icon } from "antd";
 import { Link } from "react-router-dom";
 import Contributions from "../../../../Cards/Cell/Contributions";
+import TypeIcon from "../../../../TypeIcon";
 import { search } from "../../../../../store/actions";
 import { toTitleCase, toSpacedWords } from "../../../../../libs/string";
 import { getProp } from "../../../../../libs/utils";
+import { find } from "underscore";
 
 const blacklistedKeys = ["@id", "traces"];
 // TODO get from SCHEMA
@@ -56,13 +58,46 @@ const defaultEntry = entry => {
   }
   return <span></span>
 }
-const renderType = key => entry => {
+
+function Category ({ type }) {
+  return (
+    <div className="flex">
+    <div className="type-avatar">
+      {type && (
+        <TypeIcon color={type.color} iconURL={type.icon} />
+      )}
+    </div>
+    <div>{ type.label }</div>
+    </div>
+  );
+}
+
+function Subject ({ subject }) {
+  return (
+    <div className="subject flex column">
+      <div className="species">{getProp(subject, "species.label")}</div>
+      <div className="strain">{getProp(subject, "strain.label")}</div>
+      <div className="sex">({getProp(subject, "sex.label")})</div>
+    </div>
+  );
+}
+
+const renderType = (key, types) => entry => {
   switch (key) {
     case "contributions":
       return <Contributions contributions={entry} />
     break;
     case "distribution":
       return <Download url={getProp(entry, "url")}  />
+    break;
+    case "subject":
+      return <Subject subject={entry}/>
+    break;
+    case "@type":
+      const myType = find(types, type => {
+        return type.value === entry;
+      });
+      return myType ? <Category type={myType}/> : null;
     break;
     default:
       return defaultEntry(entry);
@@ -75,7 +110,7 @@ const renderType = key => entry => {
   // }
 }
 
-function makeColumnsFromDataSource(results, sort) {
+function makeColumnsFromDataSource(results, sort, types) {
   let keysWhitelist = Object.keys(results[0]).filter(
     key => blacklistedKeys.indexOf(key) === -1
   );
@@ -91,7 +126,7 @@ function makeColumnsFromDataSource(results, sort) {
       sorter: nonSortableKeys.indexOf(key) === -1,
       sortOrder: sortField && sortField === key ? sort.order + "end" : null,
       key,
-      render: renderType(key)
+      render: renderType(key, types)
     };
   });
   // Add actions panel
@@ -115,9 +150,9 @@ function makeColumnsFromDataSource(results, sort) {
   return columns;
 }
 
-const TableComponent = ({ results, handleTableChange, sort }) => {
+const TableComponent = ({ results, handleTableChange, sort, types }) => {
   const dataSource = makeDataSourceFromResults(results);
-  const columns = makeColumnsFromDataSource(dataSource, sort);
+  const columns = makeColumnsFromDataSource(dataSource, sort, types);
   const tableOptions = {
     pagination: false
   };
@@ -136,9 +171,9 @@ class TableContainer extends React.PureComponent {
     })
   }
   render() {
-    const { results, sort } = this.props;
+    const { results, sort, types } = this.props;
     const handleTableChange = this.handleTableChange.bind(this);
-    return TableComponent({ results, handleTableChange, sort });
+    return TableComponent({ results, handleTableChange, sort, types });
   }
 }
 
@@ -146,9 +181,10 @@ TableContainer.propTypes = {
   results: PropTypes.any
 };
 
-function mapStateToProps({ search }) {
+function mapStateToProps({ search, types }) {
   return {
-    sort: { ...search.sort}
+    sort: { ...search.sort},
+    types: types.types
   };
 }
 

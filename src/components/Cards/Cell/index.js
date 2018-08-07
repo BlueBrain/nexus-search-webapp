@@ -35,7 +35,6 @@ const GridResult = ({ value, id }) => {
               style={myType && { borderTop: `1px solid ${myType.color}` }}
             >
               <div className="header">
-                <InspectLink id={id} />
                 <div className="top flex">
                   <div className="type-avatar">
                     {myType && (
