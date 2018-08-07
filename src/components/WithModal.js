@@ -15,7 +15,7 @@ function WithModal(Component) {
       return (
         <Modal
           width={960}
-          style={{ top: window.scrollY + 20 }}
+          style={{ top: window.scrollY + 20, height: "3000px" }}
           title={this.props.title}
           visible={this.state.visible}
           onCancel={this.handleCancel}

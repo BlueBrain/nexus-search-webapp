@@ -27,6 +27,18 @@ function makeDataSourceFromResults(results) {
   });
 }
 
+function Download ({ url }) {
+  if (url) {
+    return (
+      <a href={url} download>
+        <Icon type="cloud-download-o" style={{ fontSize: "2em" }} />
+      </a>
+    );
+  } else {
+    return <span></span>
+  }
+}
+
 const defaultEntry = entry => {
   if (!entry) {
     return <span></span>;
@@ -49,6 +61,9 @@ const renderType = key => entry => {
     case "contributions":
       return <Contributions contributions={entry} />
     break;
+    case "distribution":
+      return <Download url={getProp(entry, "url")}  />
+    break;
     default:
       return defaultEntry(entry);
     break;
@@ -66,7 +81,6 @@ function makeColumnsFromDataSource(results, sort) {
   );
   let columns = keysWhitelist.map(key => {
     let title = toTitleCase(toSpacedWords(key));
-    console.log(title, key, labelMapping[key])
     if (labelMapping[key]) {
       title = toTitleCase(toSpacedWords(labelMapping[key].label));
     }
