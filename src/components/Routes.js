@@ -27,8 +27,8 @@ class Routes extends Component {
   // is still `/` even though its `/docs/2`.
   previousLocation = this.props.location;
   UNSAFE_componentWillMount() {
-    this.props.authenticate(window.location.href);
     console.log("attempting to authenticate", window.location.href);
+    this.props.authenticate(window.location.href);
   }
   componentWillUpdate(nextProps) {
     const { location } = this.props;
