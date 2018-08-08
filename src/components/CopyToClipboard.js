@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import styled from 'styled-jss';
 import PropTypes from 'prop-types';
 import { CopyToClipboard as Copy} from 'react-copy-to-clipboard';
