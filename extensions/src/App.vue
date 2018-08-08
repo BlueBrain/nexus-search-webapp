@@ -1,3 +1,4 @@
+
 <template>
   <Layout>
     <Header class="header">
@@ -31,14 +32,15 @@
 
               <i-select
                 placeholder="Extension"
+                v-model="selectedExtensionName"
                 @on-change="onExtensionChange"
               >
                 <i-option
-                  v-for="entityExtension of entityExtensions"
-                  :value="entityExtension.props.name"
-                  :key="entityExtension.props.name"
+                  v-for="entityExtension of extensions"
+                  :value="entityExtension.attrs.name"
+                  :key="entityExtension.attrs.name"
                 >
-                  {{ entityExtension.props.name }}
+                  {{ entityExtension.attrs.name }}
                 </i-option>
               </i-select>
 
@@ -59,7 +61,7 @@
                 :autosize="true"
                 placeholder="Extension parameters in JSON format"
                 @on-change="onParamsChange"
-              ></i-input>
+              />
             </div>
           </Card>
         </i-col>
@@ -71,6 +73,7 @@
       >
         <h3 slot="title">Extension</h3>
         <extension-viewer
+          :id="CurrentExtension.attrs.name"
           class="viewer"
           :Extension="CurrentExtension"
           :ext-params="params"
@@ -81,10 +84,13 @@
   </Layout>
 </template>
 
-<script>
-  import extensions from './components/extensions';
 
-  import ExtensionViewer from './components/extension-viewer.vue';
+<script>
+  import localforage from 'localforage';
+  import head from 'lodash/head';
+
+  import extensions from '@/components/extensions';
+  import ExtensionViewer from '@/components/extension-viewer.vue';
 
   export default {
     name: 'app',
@@ -93,35 +99,63 @@
         paramsJsonStr: '{}',
         paramsJsonValid: true,
         params: {},
-        selectedEntityType: '',
         entityTypes: extensions.listAvailableEntityTypes(),
-        entityExtensions: [],
+        extensions: [],
         CurrentExtension: null,
+        selectedExtensionName: '',
+        selectedEntityType: '',
       };
     },
     components: {
       'extension-viewer': ExtensionViewer,
     },
     methods: {
-      onEntityTypeChange(entityType) {
-        this.CurrentExtension = null;
-        this.entityExtensions = extensions.getByEntityType(entityType);
+      extKey(extType, extName) {
+        return `${extType}:${extName}`;
       },
+
+      onEntityTypeChange(entityType) {
+        const entityId = this.genEntityIdByType(entityType);
+        this.extensions = extensions.getByEntityId(entityId);
+        this.selectedExtensionName = head(this.extensions).attrs.name;
+        this.onExtensionChange(this.selectedExtensionName);
+      },
+
+      async onExtensionChange(extensionName) {
+        const selectedExtensionObj = this.extensions
+          .find(extension => extension.attrs.name === extensionName);
+
+        await this.loadParams(this.selectedEntityType, extensionName);
+        this.onParamsChange();
+        this.CurrentExtension = selectedExtensionObj;
+      },
+
+      async loadParams(extType, extName) {
+        const extKey = this.extKey(extType, extName);
+        const savedProps = await localforage.getItem(extKey);
+        this.paramsJsonStr = JSON.stringify(savedProps || {});
+      },
+
+      genEntityIdByType(type) {
+        return `https://domain/api/data/org/domain/${type}/ver/uuid`;
+      },
+
+      saveExtensionProps(params) {
+        const extKey = this.extKey(this.selectedEntityType, this.selectedExtensionName);
+        localforage.setItem(extKey, params);
+      },
+
       onParamsChange() {
-        let params;
+        let params = {};
         try {
           params = JSON.parse(this.paramsJsonStr);
           this.paramsJsonValid = true;
+          this.saveExtensionProps(params);
         } catch (error) {
-          params = {};
           this.paramsJsonValid = false;
         }
 
         this.params = params;
-      },
-      onExtensionChange(extensionName) {
-        this.CurrentExtension = this.entityExtensions
-          .find(extension => extension.props.name === extensionName);
       },
     },
   };
@@ -149,5 +183,4 @@
     border: 1px solid #ed3f14;
     box-shadow: 0 0 0 2px #ed3f1433
   }
-
 </style>

@@ -4,7 +4,7 @@
   "description": "An example extension that can be used by the Nexus search app",
   "main": "dist/main.js",
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "dev": "vue-cli-service serve",
     "build": "npx webpack --config webpack.build-config.js --mode production",
     "lint": "vue-cli-service lint"
   },
@@ -15,19 +15,22 @@
   "author": "BBP",
   "license": "ISC",
   "dependencies": {
-    "random-emoji": "^1.0.2",
-    "vue": "^2.5.16",
-    "iview": "^2.14.3"
+    "axios": "^0.18.0",
+    "iview": "^3.0.0",
+    "jso": "^4.1.0",
+    "localforage": "^1.7.2",
+    "lodash": "^4.17.10",
+    "vue": "^2.5.16"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.0-rc.4",
-    "@vue/cli-plugin-eslint": "^3.0.0-rc.4",
-    "@vue/cli-service": "^3.0.0-rc.4",
-    "@vue/eslint-config-airbnb": "^3.0.0-rc.4",
+    "@vue/cli-plugin-babel": "^3.0.0-rc.10",
+    "@vue/cli-plugin-eslint": "^3.0.0-rc.10",
+    "@vue/cli-service": "^3.0.0-rc.10",
+    "@vue/eslint-config-airbnb": "^3.0.0-rc.10",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.3",
     "vue-template-compiler": "^2.5.16",
-    "webpack-cli": "^3.0.8"
+    "webpack-cli": "^3.1.0"
   },
   "eslintConfig": {
     "root": true,

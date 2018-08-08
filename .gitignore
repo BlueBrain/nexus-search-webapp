@@ -149,6 +149,7 @@ GitHub.sublime-settings
 .DS_Store
 node_modules
 /dist
+/extensions/dist
 
 # local env files
 .env.local
