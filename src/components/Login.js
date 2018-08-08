@@ -2,7 +2,7 @@ import React from "react";
 import { Auth, WithStore } from "@bbp/nexus-react";
 import { auth } from "../store/actions";
 import { Avatar, Button, Menu, Dropdown, Icon  } from 'antd';
-import { CopyToClipboard as Copy} from 'react-copy-to-clipboard';
+import CopyToClipboard from "./CopyToClipboard";
 
 const userMenu = (logout, token) => (
   <Menu>
@@ -10,9 +10,9 @@ const userMenu = (logout, token) => (
       <a target="_blank" rel="noopener noreferrer"><Icon type="setting" />{' '}settings</a>
     </Menu.Item>
     <Menu.Item key="0" disabled={true}>
-    <Copy text={token}>
+    <CopyToClipboard text={"copy token to clipboard"} value={token}>
       <a target="_blank" rel="noopener noreferrer"><Icon type="copy" />{' '}copy token{' '}</a>
-    </Copy>
+    </CopyToClipboard>
     </Menu.Item>
     <Menu.Divider />
     <Menu.Item key="3"><a href="#" onClick={logout}><Icon type="logout" />{' '}logout</a></Menu.Item>

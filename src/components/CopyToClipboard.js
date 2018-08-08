@@ -10,7 +10,7 @@ const COPY_TEXT = ['copied!', 'copy details'];
 
 const CopyBlock = styled('small')({
   cursor: 'pointer',
-  fontSize: '1.2em',
+  fontSize: '1em',
   '& span': {
     transition: 'color 200ms'
   },
@@ -33,8 +33,8 @@ class CopyToClipboard extends React.Component {
       }, COPY_REVERT_DURATION)
     }
     render() {
-      const { value, text, icon } = this.props;
-      const id = 'copy' + value.toString().replace(' ', '-') + Math.random();
+      const { value, text, icon, children } = this.props;
+      const id = 'copy' + value.toString().replace(' ', '-');
       const { copied } = this.state
       const [textCopied, textCopy] = COPY_TEXT
 
@@ -48,15 +48,11 @@ class CopyToClipboard extends React.Component {
               />
               <Copy
                   text={value}
+                  data-for={id}
+                data-tip
                   onCopy={this.onCopy.bind(this)}
               >
-                  <FontAwesome
-                      data-for={id}
-                      data-tip
-                      className={ copied ? 'copied' : ''}
-                      name={icon || 'paste'}
-                      style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
-                  />
+                {children}
               </Copy>
           </CopyBlock>
       );
