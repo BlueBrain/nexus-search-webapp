@@ -7,7 +7,7 @@ const SEARCH_API_URI = window.SEARCH_API_URI.startsWith("$")
   : window.SEARCH_API_URI;
 const API_PATH = `${BASE_URI}/v0`;
 const PAGE_SIZE = 20;
-const appLocation = window.location.origin + APP_PATH;
+const appLocation = window.location.origin + APP_PATH + "/";
 const LOGIN_URI = `${API_PATH}/oauth2/authorize?redirect=${appLocation}`;
 
 const initialState = {
