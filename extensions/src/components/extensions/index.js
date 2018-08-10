@@ -6,10 +6,10 @@
 import createExtension from '@/tools/component-wrapper';
 import nexus from '@/services/nexus';
 import http from '@/services/http';
+import get from "lodash/get"
 
 import meModelComponents from './me-model';
 import eModelComponents from './e-model';
-
 
 const entityComponents = {
   meModel: meModelComponents,
@@ -27,8 +27,7 @@ const entityComponents = {
 function getByEntityId(entityId) {
   const entityType = nexus.getIdAttribute(entityId, nexus.ID_ATTRIBUTE_INDEX.instanceType);
   const extensionParams = { entityId };
-
-  return entityComponents[entityType]
+  return get(entityComponents, entityType, [])
     .map(component => createExtension(component, extensionParams));
 }
 
