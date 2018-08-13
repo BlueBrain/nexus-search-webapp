@@ -3,10 +3,11 @@
  * Defines the interface between nexus-search-app and extensions
  */
 
+import get from 'lodash/get';
+
 import createExtension from '@/tools/component-wrapper';
 import nexus from '@/services/nexus';
 import http from '@/services/http';
-import get from "lodash/get"
 
 import meModelComponents from './me-model';
 import eModelComponents from './e-model';

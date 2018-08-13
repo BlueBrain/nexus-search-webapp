@@ -1,7 +1,6 @@
 
 <template>
   <div>
-    <h3>Analysis Component</h3>
     <div
       v-for="analysis in analysisList"
       :key="analysis.url"
@@ -25,8 +24,8 @@
     props: ['entityId'],
     computed: {
       analysisList() {
-        // TODO replace with real data
-        return mockup[this.entityId];
+        // TODO: replace with real data
+        return mockup.eModel;
       },
     },
   };
