@@ -6,12 +6,12 @@ export default [{
   VueComponent: AnalysisComponent,
   attrs: {
     name: 'Analysis',
-    iconName: 'bar-chart',
+    iconType: 'bar-chart',
   },
 }, {
   VueComponent: ToolsComponent,
   attrs: {
     name: 'Tools',
-    iconName: 'tool',
+    iconType: 'tool',
   },
 }];

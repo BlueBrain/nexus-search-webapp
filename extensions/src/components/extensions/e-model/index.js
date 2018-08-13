@@ -9,18 +9,18 @@ export default [{
   VueComponent: AnalysisComponent,
   attrs: {
     name: 'Analysis',
-    iconName: 'bar-chart',
+    iconType: 'bar-chart',
   },
 }, {
   VueComponent: ValidationsComponent,
   attrs: {
     name: 'Validations',
-    iconName: 'safety',
+    iconType: 'safety',
   },
 }, {
   VueComponent: ToolsComponent,
   attrs: {
     name: 'Tools',
-    iconName: 'tool',
+    iconType: 'tool',
   },
 }];
