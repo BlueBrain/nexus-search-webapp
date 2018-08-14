@@ -1,8 +1,6 @@
 
 <template>
-  <div>
-    <h3>Validations</h3>
-  </div>
+  <div></div>
 </template>
 
 

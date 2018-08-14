@@ -15,6 +15,7 @@ const Extensions = extensions.getByEntityId(entityId);
 
 // Access Extension attributes via .attrs
 const extensionNames = Extensions.map(Extension => Extension.attrs.name);
+const extensionIconTypes = Extensions.map(Extension => Extension.attrs.iconType);
 
 // Create extension instances
 const extInstances = Extensions

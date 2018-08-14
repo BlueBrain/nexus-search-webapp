@@ -11,6 +11,7 @@ import Vue from 'vue';
 /**
  * @typedef {Object} ExtensionAttrs
  * @property {string} name - User friendly name of the extension
+ * @property {string} iconType - Type of the icon, see https://ant.design/components/icon/
  */
 
 function createExtension(component, defaultParams) {
