@@ -6,9 +6,9 @@ import CopyToClipboard from "./CopyToClipboard";
 
 const userMenu = (logout, token) => (
   <Menu>
-    <Menu.Item key="0" disabled={true}>
+    {/* <Menu.Item key="0" disabled={true}>
       <a target="_blank" rel="noopener noreferrer"><Icon type="setting" />{' '}settings</a>
-    </Menu.Item>
+    </Menu.Item> */}
     <Menu.Item key="0" disabled={true}>
     <CopyToClipboard text={"copy token to clipboard"} value={token}>
       <a target="_blank" rel="noopener noreferrer"><Icon type="copy" />{' '}copy token{' '}</a>

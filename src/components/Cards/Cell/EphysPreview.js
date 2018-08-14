@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import { find } from "underscore";
-
+import {getProp} from "../../../libs/utils"
 const BEST_TRACE = "IDrest"
 
 function getBestTrace (traces) {
@@ -10,7 +10,7 @@ function getBestTrace (traces) {
 }
 
 function getPreviewFromTrace (trace) {
-  return trace.previewImage.thumbnail.url;
+  return getProp(trace, "previewImage.thumbnail.url");
 }
 
 class EphysPreview extends PureComponent {
@@ -25,6 +25,7 @@ class EphysPreview extends PureComponent {
   processImage () {
     let trace = getBestTrace(this.props.traces);
     let src = getPreviewFromTrace(trace);
+    if (!src) { return };
     let image = new Image();
     image.crossOrigin = "";
     image.onload = () => {

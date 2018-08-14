@@ -34,17 +34,21 @@ export const resultsToFacetWithSelection = function(
   selectedFacets={},
   facetBlacklist=[]
 ) {
-  console.log("pre", { facetResults })
   let selected = mapFacets(selectedFacets);
+  facetResults = facetResults.filter(filter => {
+    let key = filter.key;
+
+    return facetBlacklist.indexOf(key) < 0
+  })
   facetResults.forEach(filter => {
     let key = filter.key;
+
     Object.keys(filter)
-      .filter(key => key !== "doc_count" && key !== "key")
-      .forEach(subGroupKey => {
+    .filter(key => key !== "doc_count" && key !== "key")
+    .forEach(subGroupKey => {
         let subGroup = filter[subGroupKey];
         // no aggregation buckets, so no filters
         if (!subGroup.buckets) { return };
-        // the client has opted to not show this agg option
         if (facetBlacklist.indexOf(subGroupKey) >= 0) {
           delete filter[subGroupKey];
           return;
@@ -63,6 +67,5 @@ export const resultsToFacetWithSelection = function(
         });
       });
   });
-  console.log("post", { facetResults })
   return facetResults;
 };

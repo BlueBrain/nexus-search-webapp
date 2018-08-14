@@ -35,7 +35,7 @@ const DetailsFrame = props => {
       <Divider>Extensions</Divider>
       <Row gutter={16} style={{ padding: "1em 0"}}>
         <Col span={24}>
-          <Extensions />
+          <Extensions data={data}/>
         </Col>
       </Row>
       <Divider>Similar</Divider>

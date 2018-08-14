@@ -1,23 +1,55 @@
-import React, { Fragment } from "react";
+import React, { PureComponent } from "react";
+import extensions from '@bbp/nexus-search-extensions-example';
 import { Tabs, Icon } from "antd";
+
+console.log({extensions});
 
 const TabPane = Tabs.TabPane;
 
-const Extensions = props => {
+class ExtensionsContainer extends PureComponent {
+  extensions = []
+  constructor(props) {
+    super(props);
+    this.viewContainer = React.createRef();
 
-  return (
-    <div>
+    this.viewContainer = null;
+
+    this.setViewContainer = element => {
+      this.viewContainer = element;
+    };
+  }
+  initiateExtension (ref, Extension) {
+    this.extensions.push(new Extension(ref));
+  }
+  componentWillUnmount () {
+    this.extensions.forEach(extension => extension.destroy());
+  }
+  render () {
+    let { data } = this.props;
+    const entityId = data["@id"];
+    let type = "eModel";
+    const Extensions = extensions.getByEntityId(`https://domain/api/data/org/domain/${type}/ver/uuid`);
+    console.log({ entityId });
+    return (
+      <div>
       <Tabs
           defaultActiveKey="1"
           tabPosition={"left"}
           style={{ height: 300 }}
-        >
-          <TabPane tab={<span><Icon type="area-chart" />Analysis</span>} key="1">Content of tab 1</TabPane>
-          <TabPane tab={<span><Icon type="like-o" />Verification</span>} key="2">Content of tab 2</TabPane>
-          <TabPane tab={<span><Icon type="coffee" />Awesome</span>} key="3">Content of tab 3</TabPane>
+        >{
+          Extensions.map(Extension => {
+            return (
+              <TabPane tab={<span><Icon type="area-chart" />{Extension.attrs.name}</span>} key={Extension.attrs.name}>
+                <div ref={ref => this.initiateExtension(ref, Extension)}>
+                </div>
+              </TabPane>
+            );
+          })
+        }
         </Tabs>
     </div>
-  );
+    );
+  }
 }
 
-export default Extensions;
+export default ExtensionsContainer;
