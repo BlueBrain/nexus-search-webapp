@@ -13,7 +13,8 @@ const Grid = ({ results }) => {
         return (
           <SearchSnippet
             key={`${result._source["@id"]}-${index}`}
-            value={result._source}
+            // TODO remove this assignment when urls are resolvable within nexus
+            value={Object.assign(result._source, { _id: result._id })}
             id={result._id}
             openVisualizer={() => {}}
           />

@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Row, Col } from "antd";
+import { Row, Col, Divider } from "antd";
 import TypeIcon from "../TypeIcon";
 import { find } from "underscore";
 import { getProp } from "../../libs/utils";

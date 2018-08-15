@@ -4,13 +4,14 @@ import MorphologyPreview from "../Cards/Cell/MorphologyPreview";
 import Summary from "./Summary";
 import Extensions from "./Extensions";
 import MoreLikeThis from "./MoreLikeThis";
+import { getProp } from "../../libs/utils"
 import {Helmet} from "react-helmet";
 
 const DetailsFrame = props => {
   let { data, types, id } = props;
   const description = `
-    Cell from brainRegion ${data.brainRegion.label}, eType ${data.eType.label}, sampled from
-    a ${data.subject.sex.label} ${data.subject.species.label}
+    Cell from brainRegion ${getProp(data, "brainRegion.label")}, eType ${getProp(data, "eType.label")}, sampled from
+    a ${getProp(data, "subject.sex.label")} ${getProp(data, "subject.species.label")}
   `
   return (
     <div id="details">

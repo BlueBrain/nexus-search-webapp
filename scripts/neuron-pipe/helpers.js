@@ -1,6 +1,6 @@
 
-import queryString from 'query-string';
-import fetch from 'node-fetch';
+import queryString from 'querystring';
+import fetch from 'node-fetch'
 
 /**
  * Checks if custom path to API has been added
@@ -90,5 +90,6 @@ function fetchWithToken(uri, access_token) {
 }
 
 export {
+  fetchWithToken,
   getInstancesList
 }

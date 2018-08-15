@@ -54,7 +54,7 @@ class PerspectivizerContainer extends React.PureComponent {
     if (this.props.isPositionOutside) {
       return this.resetRotation();
     }
-    if (this.props.isActive && this.props.position.x !== prevProps.position.x) {
+    if (!this.props.disabled && this.props.isActive && this.props.position.x !== prevProps.position.x) {
       this.updateRotation();
     }
   }

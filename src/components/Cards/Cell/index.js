@@ -41,7 +41,7 @@ const GridResult = ({ value, id }) => {
           return type.value === mostRelevantType;
         });
         return (
-          <Perspectivizer>
+          <Perspectivizer disabled>
             {({ active }) => (
               <div
               className="result-card"
@@ -55,7 +55,10 @@ const GridResult = ({ value, id }) => {
                     )}
                   </div>
                   <div className={`action-buttons ${active ? "active" : ""}`}>
-                    <InspectLink id={value["@id"]}>
+                    {
+                      // TODO change this ID when nexus links are resolvable
+                    }
+                    <InspectLink id={value["_id"]}>
                       <Icon type="eye-o" style={{ fontSize: 16 }}/>
                     </InspectLink>
                     <DownloadLink url={getProp(value, "distribution.url")}>

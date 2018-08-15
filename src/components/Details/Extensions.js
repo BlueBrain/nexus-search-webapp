@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import extensions from '@bbp/nexus-search-extensions-example';
+import extensions from '@bbp/nexus-search-extensions';
 import { Tabs, Icon } from "antd";
 
 console.log({extensions});
@@ -33,13 +33,14 @@ class ExtensionsContainer extends PureComponent {
     return (
       <div>
       <Tabs
-          defaultActiveKey="1"
+          defaultActiveKey={Extensions[0].attrs.name}
           tabPosition={"left"}
-          style={{ height: 300 }}
+          style={{ minHeight: 300 }}
         >{
           Extensions.map(Extension => {
+            console.log(Extension.attrs);
             return (
-              <TabPane tab={<span><Icon type="area-chart" />{Extension.attrs.name}</span>} key={Extension.attrs.name}>
+              <TabPane tab={<span><Icon type={Extension.attrs.iconType || "area-chart"} />{Extension.attrs.name}</span>} key={Extension.attrs.name}>
                 <div ref={ref => this.initiateExtension(ref, Extension)}>
                 </div>
               </TabPane>
