@@ -24,7 +24,6 @@ class MoreLikeThis extends PureComponent {
   async componentDidMount () {
     try {
       let items = await getMoreLikeThis(this.props.api, this.props.id);
-      console.log({items})
       this.setState({ items, pending: false });
     } catch (error) {
       console.error(error);

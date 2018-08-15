@@ -7,7 +7,6 @@ import { Redirect, Route } from "react-router";
 class PrivateRoute extends PureComponent {
   render() {
     let { component, isAuthenticated, search, ...rest } = this.props
-    console.log("privateRoute rendering", search);
     let Component = component;
     return (
       <Route

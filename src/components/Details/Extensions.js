@@ -2,8 +2,6 @@ import React, { PureComponent } from "react";
 import extensions from '@bbp/nexus-search-extensions';
 import { Tabs, Icon } from "antd";
 
-console.log({extensions});
-
 const TabPane = Tabs.TabPane;
 
 class ExtensionsContainer extends PureComponent {
@@ -29,7 +27,6 @@ class ExtensionsContainer extends PureComponent {
     const entityId = data["@id"];
     let type = "eModel";
     const Extensions = extensions.getByEntityId(`https://domain/api/data/org/domain/${type}/ver/uuid`);
-    console.log({ entityId });
     return (
       <div>
       <Tabs
@@ -38,7 +35,6 @@ class ExtensionsContainer extends PureComponent {
           style={{ minHeight: 300 }}
         >{
           Extensions.map(Extension => {
-            console.log(Extension.attrs);
             return (
               <TabPane tab={<span><Icon type={Extension.attrs.iconType || "area-chart"} />{Extension.attrs.name}</span>} key={Extension.attrs.name}>
                 <div ref={ref => this.initiateExtension(ref, Extension)}>

@@ -5,7 +5,6 @@ function WithModal(Component) {
   return class WithModalContainer extends PureComponent {
     state = { visible: true };
     componentDidMount = () => {
-      console.log("my Modal: ", this.props, this.state, window.scrollY);
     }
     handleCancel = () => {
       this.setState({ visible: false });
