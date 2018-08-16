@@ -7,7 +7,7 @@ import get from 'lodash/get';
 
 import createExtension from '@/tools/component-wrapper';
 import nexus from '@/services/nexus';
-import http from '@/services/http';
+import { setToken } from '@/services/http';
 
 import meModelComponents from './me-model';
 import eModelComponents from './e-model';
@@ -48,7 +48,7 @@ function listAvailableEntityTypes() {
  * @param {string} token - Bearer token (with Bearer string included)
  */
 function setAuthToken(token) {
-  http.setToken(token);
+  setToken(token);
 }
 
 export default {

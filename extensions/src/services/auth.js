@@ -2,7 +2,7 @@
 import { JSO } from 'jso';
 
 import config from '@/config';
-import http from './http';
+import { setToken } from './http';
 
 
 const client = new JSO({
@@ -17,7 +17,7 @@ function init() {
   client.callback();
 
   const authorization = client.getToken();
-  authorization.then(session => http.setToken(`Bearer ${session.access_token}`));
+  authorization.then(session => setToken(`Bearer ${session.access_token}`));
 
   return authorization;
 }
