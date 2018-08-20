@@ -12,7 +12,7 @@ const reducers = combineReducers({
 const reduxStore = createStore(
   connectRouter(history)(reducers),
   compose(
-    persistState('auth'),
+    persistState(['auth', 'infobox']),
     applyMiddleware(
         ...middleware
     )

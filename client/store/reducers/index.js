@@ -7,6 +7,7 @@ import facetsReducer from "./facets";
 import typesReducer from "./types";
 import lightboxReducer from "./lightbox";
 import searchReducer from "./search";
+import infoboxReducer from "./infobox";
 import {
   auth as authModule,
   searchBar as searchBarModule,
@@ -25,3 +26,4 @@ export const facets = facetsReducer;
 export const types = typesReducer;
 export const lightbox = lightboxReducer;
 export const search = searchReducer;
+export const infobox = infoboxReducer;

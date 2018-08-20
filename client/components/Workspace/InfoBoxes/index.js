@@ -3,83 +3,72 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Transition, config } from "react-spring";
 import Boxes from "./Boxes";
+import { bindActionCreators } from "redux";
+import { infobox as boxActions } from "@client/store/actions";
 
 class InfoBoxListContainer extends React.PureComponent {
-  constructor() {
-    super();
-    this.infoBoxDict = Object.keys(Boxes).reduce((memo, key) => {
-      const Component = Boxes[key];
-      memo[key] = {
-        key,
-        component: <Component onDismiss={() => this.handleDismiss(key)} />
-      };
-      return memo;
-    }, {});
-    this.state = {
-      infoBoxes: [this.infoBoxDict["GettingStarted"], this.infoBoxDict["InProgress"]]
-    };
-  }
-  handleDismiss(keyToDismiss) {
-    const infoBoxes = this.state.infoBoxes.filter(
-      entry => entry.key !== keyToDismiss
-    );
-    this.setState({
-      infoBoxes
-    });
-  }
-  componentWillReceiveProps(prevProps) {
-    if (
-      prevProps.filter &&
-      Object.keys(prevProps.filter).length > 0
-    ) {
-      this.appendBox("Filters");
-    } else {
-      this.handleDismiss("Filters");
-    }
-  }
-  appendBox(keyToAppend) {
-    if (
-      this.state.infoBoxes.filter(entry => keyToAppend === entry.key).length ===
-      0
-    ) {
-      let infoBoxes = this.state.infoBoxes;
-      infoBoxes.push(this.infoBoxDict[keyToAppend]);
-      this.setState({ infoBoxes });
-    }
+  componentDidUpdate(prevProps) {
+    // if (
+    //   prevProps.filter &&
+    //   Object.keys(prevProps.filter).length > 0
+    // ) {
+    //   this.props.add("Filters");
+    // } else {
+    //   this.props.remove("Filters");
+    // }
   }
   render() {
-    const { infoBoxes } = this.state;
-    return InfoBoxListComponent({ infoBoxes });
+    const { infoBoxes, remove: handleDismiss } = this.props;
+    return InfoBoxListComponent({
+      infoBoxes,
+      handleDismiss
+    });
   }
 }
 
 InfoBoxListContainer.propTypes = {};
 
-function mapStateToProps({ search }) {
+function mapStateToProps({ search, infobox }) {
   const { q, type, filter } = search;
   return {
     q,
     type,
-    filter: {...filter}
+    filter: { ...filter },
+    infoBoxes: infobox.messages
   };
 }
 
-const InfoBoxListComponent = ({ infoBoxes }) => {
+const InfoBoxListComponent = ({ infoBoxes, handleDismiss }) => {
   return (
     <ul id="info-boxes">
       <Transition
         config={config.wobbly}
-        keys={infoBoxes.map(item => item.key)}
+        keys={infoBoxes}
         from={{ opacity: 0, right: -100 }}
         enter={{ opacity: 1, right: 0 }}
         leave={{ opacity: 0, right: -100, pointerEvents: "none" }}
       >
-        {infoBoxes.map((entry, index) => styles => {
-          return <li key={entry.key + "-" + index} style={styles}>{entry.component}</li>;
+        {infoBoxes.map((key, index) => styles => {
+          const Box = Boxes[key];
+          return (
+            <li key={key + "-" + index} style={styles}>
+              <Box onDismiss={() => handleDismiss(key)} />
+            </li>
+          );
         })}
       </Transition>
     </ul>
   );
 };
 
-export default connect(mapStateToProps)(InfoBoxListContainer);
+function mapDispatchToProps(dispatch) {
+  return {
+    add: bindActionCreators(boxActions.addInfobox, dispatch),
+    remove: bindActionCreators(boxActions.removeInfobox, dispatch)
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(InfoBoxListContainer);

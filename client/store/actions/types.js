@@ -32,4 +32,7 @@ export const LIGHTBOX_CLOSE = "LIGHTBOX_CLOSE"
 //Search
 export const ASSIGN_SEARCH_QUERY_PARAMS = "ASSIGN_SEARCH_QUERY_PARAMS"
 
+//InfoBoxes
+export const ADD_INFOBOX = "ADD_INFOBOX";
+export const REMOVE_INFOBOX = "REMOVE_INFOBOX";
 
