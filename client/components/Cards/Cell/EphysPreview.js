@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import { find } from "underscore";
 import { getProp } from "@libs/utils";
-import { getDistributionFromInstance } from "../../../libs/distributions";
+import { getDistributionFromInstance } from "@client/libs/distributions";
 import PrivateImage from "../../PrivateImage";
 import WithNexusInstance from "../../WithNexusInstance";
 

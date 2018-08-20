@@ -2,7 +2,8 @@ import React, { PureComponent } from "react";
 import MorphologyViewer from "../../MorphologyViewer";
 import SVG from "react-svg";
 import icons from "../../Icons";
-import { getDistributionFromInstance } from "../../../libs/distributions";
+import { getDistributionFromInstance } from "@client/libs/distributions";
+import { getProp } from "@libs/utils";
 import WithNexusInstance from "../../WithNexusInstance";
 
 class MorphologyPreview extends PureComponent {

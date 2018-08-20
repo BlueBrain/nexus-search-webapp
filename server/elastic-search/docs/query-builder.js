@@ -46,9 +46,16 @@ function makeDocsQuery(
   if (q) {
     params.query.bool.must.push({
       query_string: {
-        query: `(${query.q}* OR ${query.q}~)`
+        // fields : ["eType*", "label", "subject.*", "@id.*", "@type.*", "brainLocation.*", "name"],
+        query: `(${query.q}~ OR ${query.q}*)`
       }
     });
+    params.highlight = {
+      fields: {
+        "*": {}
+      },
+      require_field_match: false
+    }
   }
   if (type) {
     params.query.bool.must.push({
@@ -102,7 +109,7 @@ function makeDocsQuery(
       });
     }
   }
-  console.log(JSON.stringify(params, null, 2))
+  console.log(JSON.stringify(params, null, 2));
   return params;
 }
 
