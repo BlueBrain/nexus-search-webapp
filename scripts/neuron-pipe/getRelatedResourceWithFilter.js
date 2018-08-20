@@ -1,4 +1,5 @@
 import fetch from "node-fetch";
+
 function makeQuery(startingResourceURI, targetResourceType, context) {
   const query = {
     // "@context": context,
@@ -21,10 +22,10 @@ function makeQuery(startingResourceURI, targetResourceType, context) {
   return query;
 }
 
-function getRelatedResourceTypeByID(config, id, targetResourceType) {
+function getRelatedResourceTypeByID(config, id, targetResourceType, queryMaker=makeQuery) {
   return new Promise((resolve, reject) => {
     const { token, base, org, domain, context, schema, ver } = config;
-    let query = makeQuery(id, targetResourceType);
+    let query = queryMaker(id, targetResourceType);
     let filters = encodeURI(JSON.stringify(query));
     let queryURL = base + "/data/" + org + "?fields=all&filter=" + filters + "&context=" + context;
     let options = {
@@ -33,7 +34,7 @@ function getRelatedResourceTypeByID(config, id, targetResourceType) {
         "Content-Type": "application/json"
       }
     };
-    // console.log({queryURL})
+    console.log({queryURL})
     return fetch(queryURL, options)
       .then(response => {
         if (response.status > 308) {
@@ -45,7 +46,11 @@ function getRelatedResourceTypeByID(config, id, targetResourceType) {
       .then(response => {
         return resolve(response);
       })
-      .catch(reject);
+      .catch(error => {
+        console.log("error getting related resource");
+        console.log(error);
+        reject(error);
+      });
   });
 }
 

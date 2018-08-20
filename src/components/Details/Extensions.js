@@ -17,7 +17,9 @@ class ExtensionsContainer extends PureComponent {
     };
   }
   initiateExtension (ref, Extension) {
-    this.extensions.push(new Extension(ref));
+    if (ref) {
+      this.extensions.push(new Extension(ref));
+    }
   }
   componentWillUnmount () {
     this.extensions.forEach(extension => extension.destroy());

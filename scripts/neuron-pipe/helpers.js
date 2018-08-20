@@ -1,6 +1,5 @@
-
-import queryString from 'querystring';
-import fetch from 'node-fetch'
+import queryString from "querystring";
+import fetch from "node-fetch";
 
 /**
  * Checks if custom path to API has been added
@@ -21,12 +20,12 @@ function checkPath(API_PATH) {
  * @param {Object} options - Object containing URL params
  * @returns {string}
  */
-function buildURI(base, uriParts, options={}) {
+function buildURI(base, uriParts, options = {}) {
   const uri = uriParts
-  .filter(uriPart => uriPart !== undefined)
-  .reduce((prev, current) => {
-    return `${prev}/${current}`;
-  }, base);
+    .filter(uriPart => uriPart !== undefined)
+    .reduce((prev, current) => {
+      return `${prev}/${current}`;
+    }, base);
   const params = queryString.stringify(options);
   return `${uri}?${params}`;
 }
@@ -40,9 +39,15 @@ function buildURI(base, uriParts, options={}) {
  * @param {string} access_token - access_token recieved via OAuth
  * @returns {Promise<Object>}
  */
-function getInstancesList(parts = [], options = {}, API_PATH, fetchAll, access_token) {
+function getInstancesList(
+  parts = [],
+  options = {},
+  API_PATH,
+  fetchAll,
+  access_token
+) {
   const path = checkPath(API_PATH);
-  const uri = buildURI(path, ['data', ...parts], options);
+  const uri = buildURI(path, ["data", ...parts], options);
   return fetchWrapper(uri, {}, fetchAll, access_token);
 }
 
@@ -57,26 +62,26 @@ function getInstancesList(parts = [], options = {}, API_PATH, fetchAll, access_t
 function fetchWrapper(url, result, fetchAll, access_token) {
   fetchAll = Boolean(fetchAll);
   return fetchWithToken(url, access_token)
-  .then(response => {
-    console.log(response.status);
-    if (response.ok) {
-      return response.json();
-    }
-    throw new Error(`Error occured while fetching ${url}`);
-  })
-  .then(({ total, results, links}) => {
-    result.total = total;
-    result.results = result.results || [];
-    result.results = result.results.concat(results);
-    result.links = Object.assign({}, result.links, links);
-    if (fetchAll && links.next) {
-      return fetchWrapper(links['next'], result, fetchAll, access_token);
-    }
-    return result;
-  })
-  .catch(err => {
-    console.error(err);
-  });
+    .then(response => {
+      console.log(response.status);
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(`Error occured while fetching ${url}`);
+    })
+    .then(({ total, results, links }) => {
+      result.total = total;
+      result.results = result.results || [];
+      result.results = result.results.concat(results);
+      result.links = Object.assign({}, result.links, links);
+      if (fetchAll && links.next) {
+        return fetchWrapper(links["next"], result, fetchAll, access_token);
+      }
+      return result;
+    })
+    .catch(err => {
+      console.error(err);
+    });
 }
 
 /**
@@ -84,12 +89,33 @@ function fetchWrapper(url, result, fetchAll, access_token) {
  * @param {string} uri - actual url for request
  * @param {string} access_token - access_token recieved via OAuth
  */
-function fetchWithToken(uri, access_token) {
-  const requestOptions = access_token? { headers: { "Authorization": "Bearer "+ access_token } }: {};
-  return fetch(uri, requestOptions);
+function fetchWithToken(uri, access_token, options = {}) {
+  const requestOptions = access_token
+    ? {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + access_token
+        }
+      }
+    : {};
+  console.log(`fetch ${uri}...`);
+  return fetch(uri, Object.assign(options, requestOptions))
+    .then(response => {
+      return Promise.resolve(response);
+    })
+    .catch(error => {
+      console.log("fetchWithToken error");
+      console.log(error.message);
+      Promise.reject(error);
+    });
+  // try {
+  //   let response = await fetch(uri, Object.assign(options, requestOptions));
+  //   return Promise.resolve(response)
+
+  // } catch(error) {
+  //   console.log("OMGGGG")
+  //   console.log(error);
+  // }
 }
 
-export {
-  fetchWithToken,
-  getInstancesList
-}
+export { fetchWithToken, fetchWrapper, getInstancesList };

@@ -81,8 +81,8 @@ const GridResult = ({ value, id }) => {
                 <div className="mType">
                   {getProp(value, "mType.label") && value.mType.label}
                 </div>
-                <div className="brainRegion">{value.brainRegion.label}</div>
-                <div className="eType">{value.eType.label}</div>
+                <div className="brainRegion">{getProp(value, "brainRegion.label")}</div>
+                <div className="eType">{getProp(value, "eType.label")}</div>
                 <div className="bottom flex space-between">
                   <Contributions contributions={getProp(value, "contributions")} />
                   <div className="unemphasized">Experimental</div>

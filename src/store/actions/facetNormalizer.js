@@ -1,4 +1,5 @@
 import { mapObj } from "../../libs/utils";
+import { findWhere } from "underscore";
 
 function mapFacets(selectedFacets) {
   try {
@@ -14,7 +15,7 @@ function mapFacets(selectedFacets) {
       return memo;
     }, {});
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 }
 
@@ -29,28 +30,37 @@ export const facetNormalizer = function(response) {
     });
 };
 
-export const resultsToFacetWithSelection = function(
-  facetResults,
-  selectedFacets={},
-  facetBlacklist=[]
-) {
-  let selected = mapFacets(selectedFacets);
-  facetResults = facetResults.filter(filter => {
-    let key = filter.key;
+function getBuckets (filterGroup, parentKey) {
+  return Object.keys(filterGroup)
+  .filter(key => key !== "doc_count" && key !== "key")
+  .reduce((memo, key) => {
+    let subGroup = filterGroup[key];
+    if (!subGroup.buckets) {
+      let subBuckets = getBuckets(subGroup, key) || {};
+      return memo = Object.assign(memo, subBuckets)
+    }
+    memo[parentKey ? parentKey + "." + key : key] = subGroup;
+    return memo
+  }, {});
+}
 
-    return facetBlacklist.indexOf(key) < 0
-  })
-  facetResults.forEach(filter => {
+function flattenFiltersBySubgroup (facets, group) {
+  facets.push(Object.assign(group, getBuckets(group)));
+  return facets;
+}
+
+function addSelectedToFacet (filter, selected, facetBlacklist, path) {
     let key = filter.key;
 
     Object.keys(filter)
-    .filter(key => key !== "doc_count" && key !== "key")
-    .forEach(subGroupKey => {
+      .filter(key => key !== "doc_count" && key !== "key")
+      .forEach(subGroupKey => {
         let subGroup = filter[subGroupKey];
-        // no aggregation buckets, so no filters
-        if (!subGroup.buckets) { return };
         if (facetBlacklist.indexOf(subGroupKey) >= 0) {
           delete filter[subGroupKey];
+          return;
+        }
+        if (!subGroup.buckets) {
           return;
         }
         subGroup.buckets.map(bucket => {
@@ -66,6 +76,20 @@ export const resultsToFacetWithSelection = function(
           return bucket;
         });
       });
-  });
+}
+
+export const resultsToFacetWithSelection = function(
+  facetResults,
+  selectedFacets = {},
+  facetBlacklist = []
+) {
+  let selected = mapFacets(selectedFacets);
+  facetResults
+    .filter(filter => {
+      let key = filter.key;
+      return facetBlacklist.indexOf(key) < 0;
+    })
+    .reduce(flattenFiltersBySubgroup, [])
+    .forEach(filter => addSelectedToFacet(filter, selected, facetBlacklist));
   return facetResults;
 };

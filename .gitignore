@@ -6,3 +6,4 @@ envs/*.env
 .vscode
 coverage/
 .ocp-port-forwarding.js
+*/**.text

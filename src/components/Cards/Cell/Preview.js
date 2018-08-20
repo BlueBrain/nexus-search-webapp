@@ -12,7 +12,9 @@ class Preview extends PureComponent {
     let { value } = this.props;
     return (
       <div className="card-morph">
-        <EphysPreview traces={value.traces} disabled={hoveringOverMorph}/>
+        {value.traces &&
+          <EphysPreview traces={value.traces} disabled={hoveringOverMorph}/>
+        }
         <MorphologyPreview onHover={this.handlehoverOverMorph.bind(this)} value={value} shouldRender={hoveringOverMorph}/>
       </div>
     );

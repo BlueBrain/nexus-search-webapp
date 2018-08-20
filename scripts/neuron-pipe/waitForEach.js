@@ -1,7 +1,19 @@
+
+const asyncTick = () => {
+  return new Promise(resolve => {
+    process.nextTick(resolve);
+  });
+}
+
 const promiseReduce = (funcs, startData) =>
   funcs.reduce(
     (promise, func) =>
-      promise.then(result => Promise.all(result.map(doc => func(doc)))),
+      promise.then(result => Promise.all(result.map(doc => {
+          return asyncTick()
+          .then(() => {
+            return func(doc)
+          })
+      }))),
     Promise.resolve(startData)
   );
 

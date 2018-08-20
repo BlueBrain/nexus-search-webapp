@@ -71,6 +71,7 @@ morphologyBuilder.displayOnScene = function(
 ) {
   let doneCallback = once(done);
   loadMorphAsBytes(data, function(result) {
+    console.log({result});
     return displayMorphology(
       result,
       scene,
@@ -83,7 +84,9 @@ morphologyBuilder.displayOnScene = function(
 
 function loadMorphAsBytes(b64, displayCallback) {
   // TODO get rid of encoding.
-  var bString = atob(b64);
+  let [tag, data] = b64.split(",");
+  console.log({tag}, {data})
+  var bString = atob(data);
   var bytes = new Uint8Array(bString.length);
   for (var i = 0; i < bString.length; i++) {
     bytes[i] = bString.charCodeAt(i);

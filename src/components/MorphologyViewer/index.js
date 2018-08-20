@@ -5,22 +5,8 @@ import World from "../../libs/World";
 import MorphologyBuilder from "./morphologybuilder";
 import icons from "../Icons";
 import { makeCancelable } from "../../libs/promise";
-import { Helmet} from "react-helmet";
-
-function getStaticData(url) {
-  return new Promise((resolve, reject) => {
-    fetch(url)
-      .then(response => {
-        if (response.status < 400) {
-          return response.text();
-        } else {
-          throw new Error("failed to load morphology");
-        }
-      })
-      .then(resolve)
-      .catch(reject);
-  });
-}
+import fetchProtectedData from "../../libs/fetchProtectedData";
+import { Helmet } from "react-helmet";
 
 class MorphologyContainer extends React.Component {
   state = { morphoData: null, error: null };
@@ -35,15 +21,15 @@ class MorphologyContainer extends React.Component {
     };
   }
   componentDidMount() {
-    if (this.props.morphologySrc) {
-      this.fetchDataPromise = makeCancelable(getStaticData(
-        this.props.staticContentLocation + "/" + this.props.morphologySrc
-      ));
+    const { morphologySrc, token } = this.props;
+    if (morphologySrc) {
+      this.fetchDataPromise = makeCancelable(fetchProtectedData.asBase64(morphologySrc, token));
       this.fetchDataPromise.promise
         .then(morphoData => {
           this.setState({ morphoData });
         })
         .catch(error => {
+          console.error(error);
           this.setState({ error: error.message });
         });
     }
@@ -96,10 +82,10 @@ class MorphologyContainer extends React.Component {
   render() {
     let loaded = !!this.state.morphoData;
     let error = this.state.error;
-    let image
+    let image;
     if (loaded && this.world) {
       image = new Image();
-      image.id = "pic"
+      image.id = "pic";
       image.src = this.world.renderer.webgl.domElement.toDataURL();
     }
     return (
@@ -124,22 +110,22 @@ class MorphologyContainer extends React.Component {
           </div>
         )}
         {loaded &&
-          !error &&
-          <Fragment>
+          !error && (
+            <Fragment>
               <Helmet>
-                { image && <meta property="og:image" content={image.src} /> }
+                {image && <meta property="og:image" content={image.src} />}
               </Helmet>
-            <div className="full-height" ref={this.setViewContainer} />
+              <div className="full-height" ref={this.setViewContainer} />
             </Fragment>
-          }
+          )}
       </div>
     );
   }
 }
 
-function mapStateToProps({ config }) {
+function mapStateToProps({ config, auth }) {
   return {
-    staticContentLocation: config.staticContentLocation
+    token: auth.token
   };
 }
 
