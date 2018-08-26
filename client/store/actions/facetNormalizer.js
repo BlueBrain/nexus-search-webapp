@@ -91,11 +91,11 @@ export const resultsToFacetWithSelection = function(
 ) {
   let selected = mapFacets(selectedFacets);
   facetResults
-    .filter(filter => {
-      let key = filter.key;
-      return facetBlacklist.indexOf(key) < 0;
-    })
     .reduce(flattenFiltersBySubgroup, [])
     .forEach(filter => addSelectedToFacet(filter, selected, facetBlacklist));
-  return facetResults;
+  return facetResults.filter(filter => {
+    let key = filter.key;
+    console.log(key, facetBlacklist.indexOf(key) < 0);
+    return facetBlacklist.indexOf(key) < 0;
+  });
 };

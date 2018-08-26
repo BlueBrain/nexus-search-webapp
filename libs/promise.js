@@ -25,6 +25,10 @@ export const to = async function to(promise) {
   }
 };
 
+export const asyncTimeout = timeInMS => {
+  return new Promise(resolve => setTimeout(resolve, timeInMS));
+};
+
 export const asyncTick = () => {
   return new Promise(resolve => {
     process.nextTick(resolve);

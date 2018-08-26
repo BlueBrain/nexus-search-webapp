@@ -2,7 +2,7 @@ export default {
   "@context":
     "https://bbp-nexus.epfl.ch/staging/v1/contexts/nexus/core/resource/v0.4.0",
   "@type": "nxv:Project",
-  base: "http://created.by.kenny",
+  base: "http://created.by.kenny/",
   name: "Search Project",
   prefixMappings: [
     {

@@ -1,0 +1,18 @@
+.download-list {
+  max-height: 80vh;
+  height: auto;
+  overflow-y: scroll;
+}
+
+button.download {
+  text-align: center;
+  width: 100px;
+  padding-top: inherit;
+  &.ant-btn-primary {
+    width: auto;
+    padding: 0 1em;
+  }
+  .ant-spin {
+    margin-top: 4px;
+  }
+}

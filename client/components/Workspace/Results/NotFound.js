@@ -11,7 +11,7 @@ const ResultsNotFound = () => {
           svgClassName="nothing-found-svg"
           className="nothing-found-icon"
         />
-        <h3>Nothing matching your query was found</h3>
+        <h3>No results could be found.</h3>
       </div>
     </div>
   );

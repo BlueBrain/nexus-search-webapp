@@ -137,6 +137,9 @@ export default {
         "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/",
       schema: "http://schema.org/",
       dcat: "http://www.w3.org/ns/dcat#",
+      "searchCell": {
+        "@id": "nxv:SearchCell"
+      },
       "1Point": {
         "@id": "nsg:1Point"
       },

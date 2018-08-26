@@ -34,3 +34,12 @@
     left: 1em;
   }
 }
+.ant-list-item:nth-child(even) {
+  background-color:#80808008;
+}
+.ant-list-item {
+  padding: 1em;
+}
+.ant-modal-body {
+  padding: 0;
+}

@@ -8,18 +8,18 @@ import Preview from "./Preview";
 import InspectLink from "./InspectLink";
 import Contributions from "./Contributions";
 import { Icon } from "antd";
-
-function DownloadLink ({ url, children }) {
-  if (url) {
-    return (
-      <a href={url} download>
-        {children}
-      </a>
-    );
-  } else {
-    return null
-  }
-}
+import Download from "../../Download";
+// function DownloadLink ({ url, children }) {
+//   if (url) {
+//     return (
+//       <a href={url} download>
+//         {children}
+//       </a>
+//     );
+//   } else {
+//     return null
+//   }
+// }
 
 const GridResult = ({ value, id }) => {
   return (
@@ -55,21 +55,18 @@ const GridResult = ({ value, id }) => {
                     )}
                   </div>
                   <div className={`action-buttons ${active ? "active" : ""}`}>
-                    {
-                      // TODO change this ID when nexus links are resolvable
-                    }
-                    <InspectLink id={value["_id"]}>
+                    <InspectLink id={value["@id"]}>
                       <Icon type="eye-o" style={{ fontSize: 16 }}/>
                     </InspectLink>
-                    <DownloadLink url={getProp(value, "distribution.url")}>
-                      <Icon type="cloud-download-o" style={{ fontSize: 16 }}/>
-                    </DownloadLink>
+                    <Download files={getProp(value, "files")} name={getProp(value, "cellName.label", "Cell")}>
+                      <a><Icon type="cloud-download-o" style={{ fontSize: 16 }}/></a>
+                    </Download>
                   </div>
                   <div className="labels">
                     {value.subject &&
                       <Fragment>
-                        <div className="top-label">{value.subject.species.label}</div>
-                        <div className="bottom-label">{value.subject.strain.label}</div>
+                        <div className="top-label">{getProp(value, "subject.species.label")}</div>
+                        <div className="bottom-label">{getProp(value, "subject.strain.label")}</div>
                       </Fragment>
                     }
                   </div>
@@ -85,7 +82,7 @@ const GridResult = ({ value, id }) => {
                 <div className="eType">{getProp(value, "eType.label")}</div>
                 <div className="bottom flex space-between">
                   <Contributions contributions={getProp(value, "contributions")} />
-                  <div className="unemphasized">Experimental</div>
+                  <div className="unemphasized">{getProp(value, "studyType.label")}</div>
                 </div>
               </div>
             </div>

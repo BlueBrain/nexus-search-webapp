@@ -2,13 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as SearchSnippetCards from "../../../Cards";
+import { getProp } from "@libs/utils";
 
-const Grid = ({ results }) => {
+const Grid = ({ results, types }) => {
   return (
     <React.Fragment>
       {results.map((result, index) => {
+        let resultType = getProp(result, "_source.@type");
+        let typeLabel = getProp(types[resultType] || {}, "label");
         let SearchSnippet =
-          SearchSnippetCards[result._source["@type"]] ||
+          SearchSnippetCards[typeLabel] ||
           SearchSnippetCards.Default;
         return (
           <SearchSnippet
@@ -26,17 +29,21 @@ const Grid = ({ results }) => {
 
 class GridContainer extends React.PureComponent {
   render() {
-    const { results } = this.props;
-    return Grid({ results });
+    const { results, types } = this.props;
+    return Grid({ results, types });
   }
 }
 
 GridContainer.propTypes = {
-  results: PropTypes.any
+  results: PropTypes.any,
+  types: PropTypes.any
 };
 
-function mapStateToProps({}) {
-  return {};
+function mapStateToProps({ config }) {
+  let { types } = config.uiConfig;
+  return {
+    types
+  };
 }
 
 export default connect(mapStateToProps)(GridContainer);

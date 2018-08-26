@@ -8,7 +8,7 @@ class InspectLink extends PureComponent {
       <Link
         key={id}
         to={{
-          pathname: `/docs/${encodeURI(id)}`,
+          pathname: `/docs/${id}`,
           state: { modal: true }
         }}>{children}</Link>
     );

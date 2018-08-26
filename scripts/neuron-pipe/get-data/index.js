@@ -1,17 +1,17 @@
-import getConfig from "./config";
-import getResources from "./getResources";
-import file from "./file";
-import { to } from "libs/promise";
-import waitForEach from "../../../libs/waitForEach";
+import getConfig from "../config";
+import getResources from "../getResources";
+import file from "../file";
+import { to, waitForEach } from "libs/promise";
 import processDoc from "./processDoc";
-import fetchResourceById from "./fetchResourceById";
-import getRelatedResourceWithFilter from "./getRelatedResourceWithFilter";
-import trimMetaData from "./trimMetaData";
-import pushToNexus from "./pushToNexus";
+import fetchResourceById from "../fetchResourceById";
+import getRelatedResourceWithFilter from "../getRelatedResourceWithFilter";
+import trimMetaData from "../trimMetaData";
+import pushToNexus from "../pushToNexus";
+import flattenDownloadables from "../flattenDownloadables";
 require("dns-cache")(10000);
 
 const [, , stage, push] = process.argv;
-const config = getConfig(stage);
+const config = getConfig("get-data", stage);
 
 const {
   TOKEN: token,
@@ -42,7 +42,14 @@ async function fetch() {
     waitForEach(getResources(easyConfig), [
       processDoc,
       async doc => {
-        return await fetchResourceById(doc, "subject", "wasDerivedFrom", token);
+        console.log(doc);
+        let subject = await fetchResourceById(
+          doc,
+          easyConfig.token,
+          doc => doc.wasDerivedFrom[0]["@id"]
+        );
+        doc.subject = subject;
+        return doc;
       },
       async doc => {
         doc.studyType = { label: "Experimental" };
@@ -90,6 +97,7 @@ async function fetch() {
         });
         return doc;
       },
+      async doc => await flattenDownloadables(doc),
       // async doc => await fetchMorphology(doc, easyConfig),
       // async doc => await morphoParser(doc, easyConfig)
       async doc => await pushToNexus(doc, easyConfig)
@@ -101,6 +109,7 @@ async function fetch() {
       "no docs found for some reason, maybe there was an auth error, check your token"
     );
   }
+  console.log("found " + docs.length + " docs");
   console.log("finished, writing to file");
   file.write("Cells", docs);
 }
