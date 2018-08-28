@@ -1,8 +1,9 @@
 
-import AnalysisComponent from '@/components/shared/analysis-component.vue';
+// TODO: Show validation component when
+// validation data will be present in nexus
 
+import AnalysisComponent from './analysis.vue';
 import ToolsComponent from './tools.vue';
-import ValidationsComponent from './validations.vue';
 
 
 export default [{
@@ -10,12 +11,6 @@ export default [{
   attrs: {
     name: 'Analysis',
     iconType: 'bar-chart',
-  },
-}, {
-  VueComponent: ValidationsComponent,
-  attrs: {
-    name: 'Validations',
-    iconType: 'safety',
   },
 }, {
   VueComponent: ToolsComponent,

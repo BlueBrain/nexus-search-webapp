@@ -2,7 +2,8 @@
 /**
  * Nexus client module
  *
- * @module  nexus
+ * @module nexus
+ * @todo normalization config array filter
  */
 
 import isObject from 'lodash/isObject';
@@ -17,12 +18,17 @@ import http from './http';
 
 
 const ID_ATTRIBUTE_INDEX = {
-  uuid: 0,
-  schemaVersion: 1,
-  instanceType: 2,
-  domain: 3,
-  organization: 4,
+  uuid: [0, 1],
+  schemaVersion: [1, 2],
+  instanceType: [2, 3],
+  domain: [3, 4],
+  organization: [4, 5],
+  resource: [5, 6],
+  apiVer: [6, 7],
+  baseUrl: [7],
 };
+
+const QUERY_PARAMS = ['q', 'filter', 'from', 'size', 'deprecated', 'fields'];
 
 
 /**
@@ -91,6 +97,7 @@ function mapByPath(sourceObj, iteratorPathStr) {
 
   const keyPath = first(iteratorPaths);
   const iteratee = get(sourceObj, trim(keyPath, '.'));
+  if (!isArray(iteratee)) return [];
 
   return iteratee.reduce((acc, iter) => acc.concat(mapByPath(iter, iteratorPaths.slice(1).join('[]'))), []);
 }
@@ -99,7 +106,7 @@ function mapByPath(sourceObj, iteratorPathStr) {
  * Loads content of nexus entity with given id, it's linked entities and
  * returns normalized object according to provided configuration.
  *
- * @param {string} idUrl        Nexus entity id.
+ * @param {String} idUrl        Nexus entity id.
  * @param {Object} [normConf]   Normalization config, describes desired structure
  *                                for normalized entity to return. Each property
  *                                represents a lodash-like path to connected entityId.
@@ -154,9 +161,87 @@ async function fetchEntity(idUrl, normConf = {}, changeCb = () => {}) {
 }
 
 /**
+ * Query nexus and normalize result with given parameters
+ *
+ * @param {Object} query                     Object describing query config
+ * @param {Object} query.params              Object containing nexus id attributes
+ *                                             to assemble query url. Can be created
+ *                                             by calling `getIdAttributes` on a particular id.
+ * @param {String} query.params.baseUrl
+ * @param {String} query.params.apiVer
+ * @param {String} query.params.resource
+ * @param {String} query.params.org
+ * @param {String} query.params.domain
+ * @param {String} query.params.instanceType
+ * @param {String} query.params.schemaVer
+ *
+ * @param {String} query.q                   Nexus full text search query string
+ * @param {Object} query.filter              Nexus filter expression object
+ * @param {Number} query.from                Nexus listing pagination param
+ * @param {Number} query.size                Nexus listing paginotion param
+ * @param {String} query.fields              Nexus search fields param
+ * @param {Boolean} query.deprecated         Nexus search deprecation status param
+ *
+ * @param {Object} normConf                  See `fetchEntity` method
+ * @param {Function} changeCb                See `fetchEntity` method
+ */
+function queryBy(query, normConf = {}, changeCb = () => {}) {
+  const { params } = query;
+  const schemaUrl = [
+    params.baseUrl,
+    params.apiVer,
+    params.resource,
+    params.organization,
+    params.domain,
+    params.instanceType,
+    params.schemaVer,
+  ].join('/');
+
+  const queryString = QUERY_PARAMS
+    .filter(param => query[param])
+    .map(param => `${param}=${param === 'filter' ? JSON.stringify(query[param]) : query[param]}`)
+    .join('&');
+
+  const queryUrl = `${schemaUrl}?${queryString}`;
+  return fetchEntity(queryUrl, normConf, changeCb);
+}
+
+/**
+ * With given nexus id returns an object composed of id attributes
+ * and their corresponding values.
+ *
+ * @param {String} id Nexus instance id
+ *
+ * @example
+ * const id = 'https://nexus.epfl.ch/staging/v0/data/sscortex/sim/emodel/v0.1.1/2a188538-71e5';
+ * const expectedIdAttributes = {
+ *   baseUrl: 'https://nexus.epfl.ch/staging',
+ *   apiVer: 'v0',
+ *   resource: 'data',
+ *   organization: 'sscortex',
+ *   domain: 'sim',
+ *   instanceType: 'emodel',
+ *   schemaVersion: 'v0.1.1',
+ *   uuid: '2a188538-71e5',
+ * };
+ * assert.deepEqual(nexus.getIdAttributes(id), expectedIdAttributes);
+ */
+function getIdAttributes(id) {
+  const idAttributeNames = Object.keys(ID_ATTRIBUTE_INDEX);
+  const attributes = idAttributeNames.reduce((acc, idAttributeName) => {
+    const attrObj = {
+      [idAttributeName]: this.getIdAttribute(id, ID_ATTRIBUTE_INDEX[idAttributeName]),
+    };
+    return Object.assign(acc, attrObj);
+  }, {});
+
+  return attributes;
+}
+
+/**
  * Return attribute for a given nexus instance id
  *
- * @param {*} id              Nexus instance id
+ * @param {String} id         Nexus instance id
  * @param {*} attributeIndex  Index of attribute to retreive.
  *                              See constant `ID_ATTRIBUTE_INDEX` for available options.
  *
@@ -172,12 +257,19 @@ function getIdAttribute(id, attributeIndex) {
     throw new Error('Attribute index is not defined');
   }
 
-  return id.split('/').reverse()[attributeIndex];
+  return trim(id, '/')
+    .split('/')
+    .reverse()
+    .slice(...attributeIndex)
+    .reverse()
+    .join('/');
 }
 
 
 export default {
   fetchEntity,
+  queryBy,
   getIdAttribute,
+  getIdAttributes,
   ID_ATTRIBUTE_INDEX,
 };

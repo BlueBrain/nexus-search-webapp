@@ -10,7 +10,6 @@ const config = {
     blueNaasBaseUrl: 'https://blue-naas.humanbrainproject.eu/#/uuid',
     useCaseWizardBaseUrl: 'https://bbp.epfl.ch/public/dev.usecases-wizard/index.html#/entitydashboard',
   },
-
 };
 
 export default config;
