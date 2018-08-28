@@ -15,6 +15,7 @@ function confirmImageExists (imageSrc) {
 }
 
 function tracesWithImages (traces) {
+  console.log({tracesWithImages: traces})
   return traces
     .filter(trace => !!getProp(trace, "previewImage.full.url"))
     .reduce((memo, trace) => {
@@ -51,6 +52,7 @@ function makeOptions (traces) {
 }
 
 function makeDefaultTraceSweep (traces) {
+  console.log({traces});
   // get default type, even if the cases are mixed up
   let stimulusTypes = Object.keys(traces);
   let bestStimulusTypeIndex = stimulusTypes.map(type => type.toLowerCase()).indexOf(BEST_TRACE.toLowerCase());
@@ -133,8 +135,9 @@ class EphysPreview extends PureComponent {
 
 function WithFormattedTraces(Component) {
   return ({ traces, ...props }) => {
+    let formattedTraces = tracesWithImages(traces);
     return (
-      <Component traces={tracesWithImages(traces)} {...props}/>
+      <Component traces={formattedTraces} {...props}/>
     );
   }
 }

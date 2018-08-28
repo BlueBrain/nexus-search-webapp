@@ -51,6 +51,11 @@ function getInstancesList(
   return fetchWrapper(uri, {}, fetchAll, access_token);
 }
 
+const asyncTimeout = time =>
+  new Promise((resolve, reject) => {
+    setTimeout(resolve, time);
+  });
+
 /**
  * Wrapper around native fetch to pass all params
  * @param {string} url - actual url for request
@@ -61,9 +66,13 @@ function getInstancesList(
  */
 function fetchWrapper(url, result, fetchAll, access_token) {
   fetchAll = Boolean(fetchAll);
-  return fetchWithToken(url, access_token)
+  return asyncTimeout(1000)
+    .then(() => {
+      return fetchWithToken(url, access_token);
+    })
     .then(response => {
       console.log(response.status);
+      console.log(response.statusText);
       if (response.ok) {
         return response.json();
       }

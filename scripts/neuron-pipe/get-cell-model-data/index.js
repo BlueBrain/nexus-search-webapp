@@ -5,7 +5,6 @@ import { to } from "libs/promise";
 import waitForEach from "../../../libs/waitForEach";
 import processDoc from "./processDoc";
 import fetchResourceById from "../fetchResourceById";
-import morphoParser from "./morphoParser";
 import pushToNexus from "../pushToNexus";
 import flattenDownloadables from "../flattenDownloadables";
 require("dns-cache")(10000);
@@ -91,18 +90,18 @@ async function fetch() {
         doc.attribution = [attribution];
         return doc;
       },
-      async doc => {
-        let morphology = await fetchResourceById(
-          doc,
-          easyConfig.token,
-          doc => doc.wasDerivedFrom[0]["@id"]
-        );
-        doc.morphology = [morphology];
-        return doc;
-      },
+      // async doc => {
+      //   let morphology = await fetchResourceById(
+      //     doc,
+      //     easyConfig.token,
+      //     doc => doc.wasDerivedFrom[0]["@id"]
+      //   );
+      //   doc.morphology = [morphology];
+      //   return doc;
+      // },
       async doc => await flattenDownloadables(doc),
       // async doc => await morphoParser(doc, easyConfig)
-      // async doc => await pushToNexus(doc, easyConfig)
+      async doc => await pushToNexus(doc, easyConfig)
     ])
   );
   if (!docs) {
@@ -113,7 +112,7 @@ async function fetch() {
   }
   console.log("found " + docs.length + " docs");
   console.log("finished, writing to file");
-  file.write("Cells", docs);
+  file.write("CellModels", docs);
 }
 
 async function pushDocs() {

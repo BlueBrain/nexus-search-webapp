@@ -6,7 +6,7 @@ export default function generateRoutes(router) {
     // regex is basically match all points such as /docs or /instances
     // as well as matching /docs/UUID and /instances/UUID
     router.get(`/${endpointName}(\/:id)?`, async (req, res) => {
-      let [error, hits] = await to(ElasticSearch[endpointName](req.query, req.params));
+      let [error, hits] = await to(ElasticSearch[endpointName](req.query, req.params, req.headers));
       if (error) {
         console.log(error);
         return res.status(500).send();

@@ -28,13 +28,15 @@ DetailsViewContainer.propTypes = {
   pending: PropTypes.bool.isRequired,
   data: PropTypes.any,
   error: PropTypes.any,
-  useModal: PropTypes.bool.isRequired
+  useModal: PropTypes.bool.isRequired,
+  token: PropTypes.string.isRequired
 };
 
-function mapStateToProps({ instance, types }) {
+function mapStateToProps({ instance, types, auth }) {
   return {
     types: types.types,
-    ...instance
+    ...instance,
+    token: auth.token
   };
 }
 

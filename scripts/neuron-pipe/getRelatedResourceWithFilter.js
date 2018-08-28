@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+import {fetchWrapper} from "./helpers";
 
 function makeQuery(startingResourceURI, targetResourceType, context) {
   const query = {
@@ -35,14 +35,7 @@ function getRelatedResourceTypeByID(config, id, targetResourceType, queryMaker=m
       }
     };
     console.log({queryURL})
-    return fetch(queryURL, options)
-      .then(response => {
-        if (response.status > 308) {
-          console.log(response.status, response.statusText);
-          return reject(response.statusText);
-        }
-        return response.json();
-      })
+    return fetchWrapper(queryURL, {}, true, token)
       .then(response => {
         return resolve(response);
       })

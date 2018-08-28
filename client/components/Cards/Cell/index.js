@@ -40,6 +40,8 @@ const GridResult = ({ value, id }) => {
         const myType = find(types, type => {
           return type.value === mostRelevantType;
         });
+        const studyType = getProp(value, "studyType.label");
+        const isInSilico = studyType === "In Silico";
         return (
           <Perspectivizer disabled>
             {({ active }) => (
@@ -49,15 +51,14 @@ const GridResult = ({ value, id }) => {
             >
               <div className="header">
                 <div className="top flex">
+                <InspectLink id={value["@id"]}>
                   <div className="type-avatar">
                     {myType && (
-                      <TypeIcon color={myType.color} iconURL={myType.icon} />
+                        <TypeIcon color={myType.color} iconURL={myType.icon} />
                     )}
                   </div>
+                  </InspectLink>
                   <div className={`action-buttons ${active ? "active" : ""}`}>
-                    <InspectLink id={value["@id"]}>
-                      <Icon type="eye-o" style={{ fontSize: 16 }}/>
-                    </InspectLink>
                     <Download files={getProp(value, "files")} name={getProp(value, "cellName.label", "Cell")}>
                       <a><Icon type="cloud-download-o" style={{ fontSize: 16 }}/></a>
                     </Download>
@@ -82,7 +83,10 @@ const GridResult = ({ value, id }) => {
                 <div className="eType">{getProp(value, "eType.label")}</div>
                 <div className="bottom flex space-between">
                   <Contributions contributions={getProp(value, "contributions")} />
-                  <div className="unemphasized">{getProp(value, "studyType.label")}</div>
+                  {isInSilico &&
+                    <div className="in-silico-banner"></div>
+                  }
+                  <div className={`unemphasized study-type ${isInSilico ? "in-silico" : "experimental"}`}>{studyType}</div>
                 </div>
               </div>
             </div>

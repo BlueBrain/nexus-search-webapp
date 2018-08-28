@@ -25,18 +25,20 @@ class ExtensionsContainer extends PureComponent {
     this.extensions.forEach(extension => extension.destroy());
   }
   render () {
-    let { data } = this.props;
+    let { data, token } = this.props;
     const entityId = data["@id"];
-    let type = "eModel";
-    const Extensions = extensions.getByEntityId(`https://domain/api/data/org/domain/${type}/ver/uuid`);
+    console.log(data);
+    const Extensions = extensions.getByEntityId(entityId);
+    extensions.setAuthToken(`Bearer ${token}`);
     return (
       <div>
       <Tabs
-          defaultActiveKey={Extensions[0].attrs.name}
+          defaultActiveKey={Extensions.length ? Extensions[0].attrs.name : null}
           tabPosition={"left"}
           style={{ minHeight: 300 }}
         >{
           Extensions.map(Extension => {
+            console.log({Extension});
             return (
               <TabPane tab={<span><Icon type={Extension.attrs.iconType || "area-chart"} />{Extension.attrs.name}</span>} key={Extension.attrs.name}>
                 <div ref={ref => this.initiateExtension(ref, Extension)}>

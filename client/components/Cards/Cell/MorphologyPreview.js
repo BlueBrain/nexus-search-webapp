@@ -22,9 +22,12 @@ class MorphologyPreview extends PureComponent {
       height: "100%"
     };
     let morphology = getProp(value, "morphology", [{}]);
+    if (!Array.isArray(morphology)) {
+      morphology = [morphology];
+    }
     let previewInstanceID = getProp(morphology[0] || {}, "image.@id");
     return (
-      <div style={{ width: "100%", height: "100%" }}>
+      <div className="morpho-preview" style={{ width: "100%", height: "100%" }}>
         {previewInstanceID &&
           <WithNexusInstance
           instanceID={previewInstanceID}

@@ -8,10 +8,12 @@ import getRelatedResourceWithFilter from "../getRelatedResourceWithFilter";
 import trimMetaData from "../trimMetaData";
 import pushToNexus from "../pushToNexus";
 import flattenDownloadables from "../flattenDownloadables";
-require("dns-cache")(10000);
+import { getProp } from "@libs/utils";
+require("dns-cache")(100000);
 
 const [, , stage, push] = process.argv;
 const config = getConfig("get-data", stage);
+console.log(config);
 
 const {
   TOKEN: token,
@@ -43,12 +45,15 @@ async function fetch() {
       processDoc,
       async doc => {
         console.log(doc);
-        let subject = await fetchResourceById(
-          doc,
-          easyConfig.token,
-          doc => doc.wasDerivedFrom[0]["@id"]
-        );
-        doc.subject = subject;
+        let subject = getProp(doc, "wasDerivedFrom.@id");
+        if (subject) {
+          let subjectResult = await fetchResourceById(
+            doc,
+            easyConfig.token,
+            doc => subject
+          );
+          doc.subject = subjectResult;
+        }
         return doc;
       },
       async doc => {
@@ -95,6 +100,13 @@ async function fetch() {
           morpho = trimMetaData(morpho.source);
           return morpho;
         });
+        return doc;
+      },
+      async doc => {
+        doc["@id"] = doc["@id"].replace(
+          "https://bbp.epfl.ch/nexus/v0/data/bbp/experiment/patchedcell/v0.1.0/",
+          "pc:"
+        );
         return doc;
       },
       async doc => await flattenDownloadables(doc),

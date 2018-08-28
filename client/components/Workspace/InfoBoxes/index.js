@@ -5,17 +5,22 @@ import { Transition, config } from "react-spring";
 import Boxes from "./Boxes";
 import { bindActionCreators } from "redux";
 import { infobox as boxActions } from "@client/store/actions";
+import { isEqual } from "underscore";
 
 class InfoBoxListContainer extends React.PureComponent {
+  updateFilterBox() {
+    if (this.props.filter && Object.keys(this.props.filter).length > 0) {
+      this.props.add("Filters");
+    } else {
+      this.props.remove("Filters");
+    }
+  }
+  componentDidMount() {
+    this.updateFilterBox();
+  }
   componentDidUpdate(prevProps) {
-    // if (
-    //   prevProps.filter &&
-    //   Object.keys(prevProps.filter).length > 0
-    // ) {
-    //   this.props.add("Filters");
-    // } else {
-    //   this.props.remove("Filters");
-    // }
+    let same = isEqual(prevProps.filter, this.props.filter);
+    if (!same) { this.updateFilterBox() }
   }
   render() {
     const { infoBoxes, remove: handleDismiss } = this.props;

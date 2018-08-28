@@ -140,6 +140,9 @@ export default {
       "searchCell": {
         "@id": "nxv:SearchCell"
       },
+      "ionChannel": {
+        "@id": "nxv:ionChannel"
+      },
       "1Point": {
         "@id": "nsg:1Point"
       },

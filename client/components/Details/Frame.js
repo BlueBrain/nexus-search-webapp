@@ -8,7 +8,7 @@ import { getProp } from "@libs/utils"
 import {Helmet} from "react-helmet";
 
 const DetailsFrame = props => {
-  let { data, types, id } = props;
+  let { data, types, id, token } = props;
   const description = `
     Cell from brainRegion ${getProp(data, "brainRegion.label")}, eType ${getProp(data, "eType.label")}, sampled from
     a ${getProp(data, "subject.sex.label")} ${getProp(data, "subject.species.label")}
@@ -16,7 +16,7 @@ const DetailsFrame = props => {
   return (
     <div id="details">
         <Helmet>
-            <title>{`Nexus Search | Cell ${data.cellName.label}`}</title>
+            <title>{`Nexus Search | Cell ${getProp(data, "cellName.label")}`}</title>
             <meta name="description" content={description} />
         </Helmet>
       <Row gutter={16} style={{ padding: "1em 0"}}>
@@ -36,7 +36,7 @@ const DetailsFrame = props => {
       <Divider>Extensions</Divider>
       <Row gutter={16} style={{ padding: "1em 0"}}>
         <Col span={24}>
-          <Extensions data={data}/>
+          <Extensions data={data} token={token}/>
         </Col>
       </Row>
       <Divider>Similar</Divider>

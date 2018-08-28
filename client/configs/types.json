@@ -2,5 +2,9 @@
   "nxv:SearchCell": {
     "icon": "neuron",
     "label": "Cell"
+  },
+  "nxv:IonChannel": {
+    "icon": "neuron",
+    "label": "Ion Channel"
   }
 }

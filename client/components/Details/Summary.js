@@ -29,14 +29,14 @@ const Summary = props => {
           <div className="labels">
             {data.subject &&
               <Fragment>
-                <div className="top-label">{data.subject.species.label}</div>
-                <div className="bottom-label">{data.subject.strain.label}</div>
+                <div className="top-label">{getProp(data, "subject.species.label")}</div>
+                <div className="bottom-label">{getProp(data, "subject.strain.label")}</div>
               </Fragment>
             }
           </div>
         </Col>
         <Col span={4}>
-          <div className="name">{data.cellName.label}</div>
+          <div className="name">{getProp(data, "cellName.label")}</div>
         </Col>
       </Row>
       <Row gutter={16}>
@@ -63,7 +63,7 @@ const Summary = props => {
       <Row gutter={16}>
         <Col span={24}>
             <ul>
-              {getProp(data, "contributions").map(contribution => {
+              {getProp(data, "contributions", []).map(contribution => {
                 return (
                   <li key={contribution["@id"]}>
                     <FontAwesome name={"user"} />{" "}
@@ -78,7 +78,7 @@ const Summary = props => {
       </Row>
       <Row gutter={16}>
         <Col span={24}>
-          <TraceViewer traces={data.traces} />
+          {/* <TraceViewer traces={data.traces} /> */}
         </Col>
       </Row>
     </div>

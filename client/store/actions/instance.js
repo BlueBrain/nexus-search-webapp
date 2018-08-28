@@ -10,23 +10,26 @@ export default {
 
 function fetchInstance(docID) {
   return (dispatch, getState) => {
-    let state = getState();
+    const state = getState();
     const { elasticSearchAPI } = state.config;
+    const { token } = state.auth;
     const documentURL = elasticSearchAPI + "/instances/" + docID;
     dispatch(fetchInstanceStarted());
-    return fetch(documentURL)
+    return fetch(documentURL, {
+      headers: { Authorization: `Bearer ${token}`}
+    })
       .then(response => {
         if (response.ok) {
           return response.json();
         }
         throw new Error(
-          `Encountered HTTP error ${response.status}. Instance is not available.`
+          `Encountered HTTP error ${
+            response.status
+          }. Instance is not available.`
         );
       })
       .then(response => {
-        dispatch(
-          fetchInstanceFulfilled(response._source)
-        );
+        dispatch(fetchInstanceFulfilled(response));
       })
       .catch(error => {
         console.error(error);

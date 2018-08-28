@@ -9,16 +9,16 @@ export default function infoboxReducer(
   let messageKey = action.payload;
   switch (action.type) {
     case types.ADD_INFOBOX:
-    console.log(messageKey);
-    if (state.messages.filter(key => messageKey === key).length === 0) {
-        let newState = Array.from(state.messages);
-        newState.push(messageKey);
-        return newState;
+      if (state.messages.filter(key => messageKey === key).length === 0) {
+        let newMessages = Array.from(state.messages);
+        newMessages.push(messageKey);
+        return {
+          messages: newMessages
+        }
       }
       return state;
 
     case types.REMOVE_INFOBOX:
-    console.log(messageKey);
       return {
         messages: state.messages.filter(key => key !== messageKey)
       };

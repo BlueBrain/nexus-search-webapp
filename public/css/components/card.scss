@@ -46,6 +46,7 @@
     .type-avatar {
       top: 0; left: 0;
       z-index: 2;
+      pointer-events: none;
     }
     .labels {
       text-align: left;
@@ -75,7 +76,24 @@
     bottom: 0; left: 0;
     padding: 1em;
     z-index: 2;
+    overflow: hidden;
     background: linear-gradient(to bottom, #7dbae800 0%,#ffffffbd 60%, #ffffff 100%);
+    .in-silico-banner {
+      background-color: #00c4ff;
+      width: 6em;
+      position: absolute;
+      right: -28px;
+      bottom: -66px;
+      z-index: 0;
+      transform: rotateZ(54deg);
+      height: 16em;
+    }
+    .study-type {
+      z-index:1;
+      &.in-silico {
+        color: white;
+      }
+    }
     .mType {
       font-size: 2em;
       color: #555;

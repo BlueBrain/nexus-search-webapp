@@ -1,18 +1,18 @@
-import getConfig from "../get-data/config";
+import getConfig from "../config";
 import { to } from "@libs/promise";
-import {fetchWithToken} from "../get-data/helpers";
+import {fetchWithToken} from "../helpers";
 import projectPayload from "./project";
 import contextPayload from "./context";
 
-require("dns-cache")(10000);
+require("dns-cache")(100000);
 
-const DEFAULT_PROJECT_NAME="search_test";
+const DEFAULT_PROJECT_NAME="search_test-2";
 
 //must be curi
 const DEFAULT_CONTEXT_NAME="base:neuroshapes";
 
 const [, , stage, projectName=DEFAULT_PROJECT_NAME, contextName=DEFAULT_CONTEXT_NAME] = process.argv;
-const config = getConfig(stage);
+const config = getConfig(null,stage);
 
 const {
   TOKEN: token,

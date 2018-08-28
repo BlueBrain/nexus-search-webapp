@@ -1,5 +1,6 @@
 import * as Errors from "./errors";
 import { to } from "../libs/async";
+import fetch from "node-fetch";
 
 const DEFAULT_PARAMS = {
   id: null
@@ -23,14 +24,16 @@ export default function getInstanceFactory(
    * @param {object} query elastic search client instance
    * @returns {Promise} fetchQuery
    */
-  return async function getInstance(query, requestParams= DEFAULT_PARAMS) {
+  return async function getInstance(query, requestParams=DEFAULT_PARAMS, headers) {
     let error, docs;
     const params = {
-      index,
-      type: "doc",
-      id: requestParams.id
+      headers: {
+        Authorization: headers.authorization
+      }
     };
-    [error, docs] = await to(client.get(params));
+    //TODO remove hardcoded path when new API is up
+    let url = "https://bbp-nexus.epfl.ch/staging/v1/resources/kenny/search_test/resource/" + requestParams.id;
+    [error, docs] = await to(fetch(url, params).then(res => res.json()));
     if (error) { throw new Errors.ElasticSearchError(error); }
     return docs
   };
