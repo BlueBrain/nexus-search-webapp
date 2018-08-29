@@ -7,6 +7,7 @@ import processDoc from "./processDoc";
 import fetchResourceById from "../fetchResourceById";
 import pushToNexus from "../pushToNexus";
 import flattenDownloadables from "../flattenDownloadables";
+import getRelatedResourceWithFilter from "../getRelatedResourceWithFilter";
 require("dns-cache")(10000);
 
 const [, , stage, push] = process.argv;
@@ -57,19 +58,49 @@ async function fetch() {
         return doc;
       },
       async doc => {
+        let [eType, mTypeWithLayer] = doc.name.split("_");
+        let layer = mTypeWithLayer.match(/L(\d)+/g)[0];
+        let [,mType] = mTypeWithLayer.split(layer);
         doc.studyType = { label: "In Silico" };
+        doc.eType = {
+          label: eType,
+        }
+        doc.mType = {
+        label: mType
+        }
+        doc.layer = {
+          label: layer
+        }
         return doc;
       },
       // async doc => {
       //   let response = await getRelatedResourceWithFilter(
       //     easyConfig,
       //     doc["@id"],
-      //     "nsg:Trace"
+      //     "nsg:EModelBuilding",
+      //     (startingResourceURI, targetResourceType, context) => {
+      //       const query = {
+      //         // "@context": context,
+      //         // filter: {
+      //           op: "and",
+      //           value: [
+      //             {
+      //               op: "eq",
+      //               path: "prov:generated",
+      //               value: startingResourceURI
+      //             },
+      //             {
+      //               op: "eq",
+      //               path: "rdf:type",
+      //               value: targetResourceType
+      //             }
+      //           ]
+      //         // }
+      //       };
+      //       return query;
+      //     }
       //   );
-      //   doc.traces = response.results.map(trace => {
-      //     trace = trimMetaData(trace.source);
-      //     return trace;
-      //   });
+      //   doc.generatedFrom = response;
       //   return doc;
       // },
       async doc => {

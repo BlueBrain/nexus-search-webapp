@@ -30,6 +30,11 @@ export default {
       namespace:
         "https://bbp-nexus.epfl.ch/staging/v0/data/somatosensorycortexproject/simulation/emodel/v0.1.1/",
       prefix: "em"
+    },
+    {
+      namespace:
+        "https://bbp-nexus.epfl.ch/staging/v0/data/ionchannel/experiment/ionchannelgene/v0.1.0/",
+      prefix: "icg"
     }
   ]
 };

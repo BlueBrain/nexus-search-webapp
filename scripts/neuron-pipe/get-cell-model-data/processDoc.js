@@ -6,7 +6,7 @@ export default async doc => {
   doc = trimMetaData(doc.source);
   doc["@context"]  = CONTEXT_ID;
   doc["@type"] = DOC_TYPE;
-  doc["@id"] = doc["@id"].replace(
+  doc.searchID = doc["@id"].replace(
     "https://bbp-nexus.epfl.ch/staging/v0/data/somatosensorycortexproject/simulation/emodel/v0.1.1/",
     "em:"
   );

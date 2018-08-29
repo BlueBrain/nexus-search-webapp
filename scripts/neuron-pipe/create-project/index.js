@@ -6,7 +6,7 @@ import contextPayload from "./context";
 
 require("dns-cache")(100000);
 
-const DEFAULT_PROJECT_NAME="search_test-2";
+const DEFAULT_PROJECT_NAME="search_test-3";
 
 //must be curi
 const DEFAULT_CONTEXT_NAME="base:neuroshapes";

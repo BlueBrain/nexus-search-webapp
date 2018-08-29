@@ -1,4 +1,5 @@
 import * as types from "./types";
+import { auth } from "./index";
 
 export default {
   fetchInstance,
@@ -29,6 +30,16 @@ function fetchInstance(docID) {
         );
       })
       .then(response => {
+        // TODO migrate ES client handling to client not server;
+        if (response.code) {
+          console.log(response.code);
+          switch(response.code) {
+            case "UnauthorizedAccess":
+              dispatch(auth.authenticate(window.location.href));
+            break;
+          }
+          throw new Error("Bad response from server");
+        }
         dispatch(fetchInstanceFulfilled(response));
       })
       .catch(error => {

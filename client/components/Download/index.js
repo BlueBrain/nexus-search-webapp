@@ -30,8 +30,8 @@ class DownloadContainer extends React.Component {
     const { children, files, name } = this.props;
     const { visible, confirmLoading, ModalText } = this.state;
     return (
-      <div>
-        <div onClick={this.showModal}>{children}</div>
+      <div className="downloader">
+        <div className="downloader-clicker"onClick={this.showModal}>{children}</div>
         <Modal
           title={`Associated files for ${name}`}
           visible={visible}
