@@ -64,11 +64,11 @@ const asyncTimeout = time =>
  * @param {string} access_token - access_token recieved via OAuth
  * @returns {Promise<Object>}
  */
-function fetchWrapper(url, result, fetchAll, access_token) {
+function fetchWrapper(url, result, fetchAll, access_token, options) {
   fetchAll = Boolean(fetchAll);
   return asyncTimeout(1000)
     .then(() => {
-      return fetchWithToken(url, access_token);
+      return fetchWithToken(url, access_token, options);
     })
     .then(response => {
       console.log(response.status);
@@ -107,8 +107,12 @@ function fetchWithToken(uri, access_token, options = {}) {
         }
       }
     : {};
-  console.log(`fetch ${uri}...`);
-  return fetch(uri, Object.assign(options, requestOptions))
+  let formattedOptions = Object.assign(options, requestOptions);
+  console.log(`${formattedOptions.method || "GET"} ${uri}`);
+  if (formattedOptions.body) {
+    console.log(formattedOptions.body);
+  }
+  return fetch(uri, formattedOptions)
     .then(response => {
       return Promise.resolve(response);
     })

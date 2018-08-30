@@ -1,4 +1,4 @@
-import elasticsearch from "elasticsearch";
+import Client from "./client";
 import config from "../libs/config";
 import types from "./types";
 import facets from "./facets";
@@ -11,7 +11,7 @@ import getMoreLikeThisFactory from "./getMoreLikeThis";
 
 const index = config.ELASTIC_SEARCH_INDEX;
 const host = config.ELASTICSEARCH_CLIENT_URL;
-const client = new elasticsearch.Client({ host });
+const client = new Client({ host });
 
 if (!index) {
   throw new errors.InvalidConfigError(

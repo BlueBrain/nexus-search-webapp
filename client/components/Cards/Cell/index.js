@@ -9,6 +9,7 @@ import InspectLink from "./InspectLink";
 import Contributions from "./Contributions";
 import { Icon } from "antd";
 import Download from "../../Download";
+import {eTypes, mTypes} from "../../../../consts";
 // function DownloadLink ({ url, children }) {
 //   if (url) {
 //     return (
@@ -77,10 +78,10 @@ const GridResult = ({ value, id }) => {
               <Preview value={value}/>
               <div className="footer">
                 <div className="mType">
-                  {getProp(value, "mType.label") && value.mType.label}
+                  {getProp(value, "mType.label") && mTypes[getProp(value, "mType.label")]}
                 </div>
                 <div className="brainRegion">{getProp(value, "brainRegion.label")}</div>
-                <div className="eType">{getProp(value, "eType.label")}</div>
+                <div className="eType">{getProp(value, "eType.label") && eTypes[getProp(value, "eType.label")]}</div>
                 <div className="bottom flex space-between">
                   <Contributions contributions={getProp(value, "contributions")} />
                   {isInSilico &&

@@ -6,8 +6,9 @@ import waitForEach from "../../../libs/waitForEach";
 import processDoc from "./processDoc";
 import fetchResourceById from "../fetchResourceById";
 import pushToNexus from "../pushToNexus";
+import trimMetaData from "../trimMetaData";
 import flattenDownloadables from "../flattenDownloadables";
-import getRelatedResourceWithFilter from "../getRelatedResourceWithFilter";
+import getRelatedResourceWithFilter from "../getRelatedResourceWithFilterBody";
 require("dns-cache")(10000);
 
 const [, , stage, push] = process.argv;
@@ -38,6 +39,7 @@ let easyConfig = {
 };
 
 async function fetch() {
+  console.log(easyConfig);
   let [error, docs] = await to(
     waitForEach(getResources(easyConfig), [
       processDoc,
@@ -68,41 +70,39 @@ async function fetch() {
         doc.mType = {
         label: mType
         }
-        doc.layer = {
-          label: layer
-        }
+        doc.brainRegion.layer = layer
         return doc;
       },
-      // async doc => {
-      //   let response = await getRelatedResourceWithFilter(
-      //     easyConfig,
-      //     doc["@id"],
-      //     "nsg:EModelBuilding",
-      //     (startingResourceURI, targetResourceType, context) => {
-      //       const query = {
-      //         // "@context": context,
-      //         // filter: {
-      //           op: "and",
-      //           value: [
-      //             {
-      //               op: "eq",
-      //               path: "prov:generated",
-      //               value: startingResourceURI
-      //             },
-      //             {
-      //               op: "eq",
-      //               path: "rdf:type",
-      //               value: targetResourceType
-      //             }
-      //           ]
-      //         // }
-      //       };
-      //       return query;
-      //     }
-      //   );
-      //   doc.generatedFrom = response;
-      //   return doc;
-      // },
+      async doc => {
+        let response = await getRelatedResourceWithFilter(
+          easyConfig,
+          doc["@id"],
+          "prov:SoftwareAgent",
+          (startingResourceURI, targetResourceType, context) => {
+            const query = {
+              "@context": context,
+              filter: {
+                op: "and",
+                "value": [
+                  {
+                    "path": "rdf:type",
+                    "op": "eq",
+                    "value": targetResourceType
+                  },
+                  {
+                    "path": "^prov:wasAssociatedWith / prov:generated",
+                    "op": "eq",
+                    "value": startingResourceURI
+                  }
+                ]
+              }
+            };
+            return query;
+          }
+        );
+        doc.generatedFrom = trimMetaData(response);
+        return doc;
+      },
       async doc => {
         let modelScript = await fetchResourceById(
           doc,

@@ -40,6 +40,7 @@ let easyConfig = {
 };
 
 async function fetch() {
+  console.log(easyConfig);
   let [error, docs] = await to(
     waitForEach(getResources(easyConfig), [
       processDoc,

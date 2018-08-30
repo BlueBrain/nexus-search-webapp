@@ -12,6 +12,7 @@ const COLOR_SETTINGS = {
  * @returns {Array} types
  */
 function normalizer (docs) {
+  console.log("types docs", docs);
   let types = docs.aggregations["@types"].buckets;
   // TODO move to client?
   let palette = palettes({

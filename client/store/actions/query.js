@@ -12,6 +12,7 @@ function fetchQuery() {
   return (dispatch, getState) => {
     let state = getState();
     const { elasticSearchAPI } = state.config;
+    const { token } = state.auth;
     const { q, size, from, type, filter, sort } = state.search;
     const searchAPI = elasticSearchAPI + "/docs";
     let params = truthy({ q, size, from, type, filter, sort});
@@ -19,7 +20,10 @@ function fetchQuery() {
     if (params.sort) { params.sort = JSON.stringify(params.sort); }
     dispatch(fetchQueryStarted());
     return fetch(
-      searchAPI + "?" + qs.stringify(params)
+      searchAPI + "?" + qs.stringify(params),
+      {
+        headers: { Authorization: `Bearer ${token}`}
+      }
     )
       .then(response => {
         if (response.ok) {

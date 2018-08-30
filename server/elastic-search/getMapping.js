@@ -23,13 +23,13 @@ export default function getMappingFactory(
    * @param {object} query elastic search client instance
    * @returns {Promise} fetchQuery
    */
-  return async function getMapping(query, requestParams= DEFAULT_PARAMS) {
+  return async function getMapping(query, requestParams= DEFAULT_PARAMS, headers) {
     let error, docs;
     const params = {
       index,
       type: "doc",
     };
-    [error, docs] = await to(client.indices.getMapping(params));
+    [error, docs] = await to(client.indices.getMapping(params, headers));
     if (error) { throw new Errors.ElasticSearchError(error); }
     return docs
   };

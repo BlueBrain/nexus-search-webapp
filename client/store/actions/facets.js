@@ -13,12 +13,16 @@ export default {
 function fetchFacets() {
   return (dispatch, getState) => {
     let state = getState();
+    const { token } = state.auth;
     const { q, type } = state.search;
     const { elasticSearchAPI } = state.config;
     const facetsAPI = elasticSearchAPI + "/facets";
     dispatch(fetchFacetsStarted());
     // TODO make query change
-    return fetch(facetsAPI + "?" + qs.stringify({ type, q }))
+    return fetch(facetsAPI + "?" + qs.stringify({ type, q }),
+    {
+      headers: { Authorization: `Bearer ${token}`}
+    })
       .then(response => {
         if (response.ok) {
           return response.json();

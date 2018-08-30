@@ -13,10 +13,13 @@ function fetchTypes() {
   return (dispatch, getState) => {
     let state = getState();
     const { q } = state.search;
+    const { token } = state.auth;
     const { elasticSearchAPI, uiConfig } = state.config;
     const typesAPI = elasticSearchAPI + "/types";
     dispatch(fetchTypesStarted());
-    return fetch(typesAPI + "?" + qs.stringify({ q }))
+    return fetch(typesAPI + "?" + qs.stringify({ q }), {
+      headers: { Authorization: `Bearer ${token}`}
+    })
       .then(response => {
         if (response.ok) {
           return response.json();

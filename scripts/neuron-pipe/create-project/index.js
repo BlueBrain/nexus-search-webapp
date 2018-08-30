@@ -6,7 +6,7 @@ import contextPayload from "./context";
 
 require("dns-cache")(100000);
 
-const DEFAULT_PROJECT_NAME="search_test-3";
+const DEFAULT_PROJECT_NAME="search_test";
 
 //must be curi
 const DEFAULT_CONTEXT_NAME="base:neuroshapes";
@@ -55,12 +55,13 @@ async function createContext() {
     body: JSON.stringify(contextPayload)
   }
   let response = await fetchWithToken(`${v1Base}/resources/${v1Org}/${projectName}/resources/${contextName}`, token, options);
+  console.log(v1Org, v1Project);
   console.log(`${response.status} `, response.statusText)
 }
 
 void (async function main() {
   try {
-    await createProject();
+    // await createProject();
     await createContext();
   } catch (error) {
     console.log(error);
