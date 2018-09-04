@@ -1,4 +1,5 @@
 import mappingToAggs from "./mappings-to-aggs";
+import { to } from "@libs/promise";
 
 async function getAggsFromMapping (client, index, headers) {
   let mapping = await client.indices.getMapping({
@@ -16,7 +17,8 @@ async function getAggsFromMapping (client, index, headers) {
  * @returns {object} an elastic search query object
  */
 async function makeFacetQuery({ q, type }, client, index, headers) {
-  let aggs = await getAggsFromMapping(client, index, headers);
+  let [error, aggs] = await to(getAggsFromMapping(client, index, headers));
+  if (error) { return Promise.reject(error)}
   let params = {
     query: {
       bool: {

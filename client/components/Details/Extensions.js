@@ -1,4 +1,5 @@
 import React, { PureComponent } from "react";
+import { connect } from "react-redux";
 import extensions from '@bbp/nexus-search-extensions';
 import { Tabs, Icon } from "antd";
 
@@ -27,7 +28,6 @@ class ExtensionsContainer extends PureComponent {
   render () {
     let { data, token } = this.props;
     const entityId = data["@id"];
-    console.log(data);
     const Extensions = extensions.getByEntityId(entityId);
     extensions.setAuthToken(`Bearer ${token}`);
     return (
@@ -38,7 +38,6 @@ class ExtensionsContainer extends PureComponent {
           style={{ minHeight: 300 }}
         >{
           Extensions.map(Extension => {
-            console.log({Extension});
             return (
               <TabPane tab={<span><Icon type={Extension.attrs.iconType || "area-chart"} />{Extension.attrs.name}</span>} key={Extension.attrs.name}>
                 <div ref={ref => this.initiateExtension(ref, Extension)}>
@@ -53,4 +52,13 @@ class ExtensionsContainer extends PureComponent {
   }
 }
 
-export default ExtensionsContainer;
+
+function mapStateToProps({ auth }) {
+  return {
+    token: auth.token
+  }
+}
+
+export default connect(
+  mapStateToProps
+)(ExtensionsContainer);

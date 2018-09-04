@@ -22,8 +22,17 @@ class InvalidConfigError extends Error {
   }
 }
 
+// For when the token is invalid
+class UnauthorizedError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'UnauthorizedError';
+  }
+}
+
 export {
   ElasticSearchError,
   QueryBuilderError,
+  UnauthorizedError,
   InvalidConfigError
 }

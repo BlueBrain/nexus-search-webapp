@@ -52,7 +52,7 @@ const GridResult = ({ value, id }) => {
             >
               <div className="header">
                 <div className="top flex">
-                <InspectLink id={value["@id"]}>
+                <InspectLink id={value["searchID"]}>
                   <div className="type-avatar">
                     {myType && (
                         <TypeIcon color={myType.color} iconURL={myType.icon} />
@@ -78,7 +78,7 @@ const GridResult = ({ value, id }) => {
               <Preview value={value}/>
               <div className="footer">
                 <div className="mType">
-                  {getProp(value, "mType.label") && mTypes[getProp(value, "mType.label")]}
+                  {getProp(value, "mType.label") && mTypes[getProp(value, "mType.label").toLowerCase()]}
                 </div>
                 <div className="brainRegion">{getProp(value, "brainRegion.label")}</div>
                 <div className="eType">{getProp(value, "eType.label") && eTypes[getProp(value, "eType.label")]}</div>

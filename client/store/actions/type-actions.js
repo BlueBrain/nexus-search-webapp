@@ -1,5 +1,6 @@
 import * as types from "./types";
 import qs from "query-string";
+import { auth } from "./index";
 
 export default {
   fetchTypes,
@@ -24,6 +25,9 @@ function fetchTypes() {
         if (response.ok) {
           return response.json();
         }
+        if (response.status === 401) {
+          return dispatch(auth.logout({ reason: "invalid" }));
+        }
         throw new Error(
           `Encountered HTTP error ${
             response.status
@@ -31,6 +35,7 @@ function fetchTypes() {
         );
       })
       .then(response => {
+        if (!response) { return; }
         dispatch(
           fetchTypesFulfilled(
             response.map(({ key, doc_count, color }) => {

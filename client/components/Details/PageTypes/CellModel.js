@@ -1,10 +1,14 @@
 import React from "react";
-import { Button, Icon } from "antd";
+import { Button, Icon, Row, Col, Divider } from "antd";
+import moment from "moment";
 import { getProp } from "@libs/utils";
 import TypeIcon from "../../NewTypeIcon";
 import MorphologyPreview from "../../Cards/Cell/MorphologyPreview";
 import Download from "../../Download";
-import moment from "moment";
+import {eTypes, mTypes} from "../../../../consts";
+import Extensions from "../Extensions";
+import TraceViewer from "../../TraceViewer";
+import BrainRegionLink from "../../BrainRegionLink";
 
 const DEFAULT_CELL_MODEL_NAME = "Cell Model";
 function getUUIDFromAtID(instance) {
@@ -35,6 +39,16 @@ function attributionLine(instance) {
       <Icon type="user-add" /> by <a href={`mailto:${email}`}>{name}</a> on{" "}
       <span className="date">{date}</span>
     </h2>
+  );
+}
+
+function softwareLine(instance) {
+  let name = getProp(instance, "software.name")
+  let version = getProp(instance, "software.version");
+  return (
+    <p>
+      <Icon type="code" /> generated using <em>{name}</em> v{version}
+    </p>
   );
 }
 
@@ -85,7 +99,7 @@ function Hero({ instance }) {
           <MorphologyPreview onHover={() => {}} value={instance} shouldRender />
         </picture>
       </div>
-      {files.length && (
+      {files && files.length && (
         <div className="detail-attachments">
           <h3>
             <Icon type="paper-clip" />{" "}
@@ -112,7 +126,55 @@ function Details({ instance }) {
   let brainRegion = getProp(instance, "brainRegion.label");
   return (
     <div className="more-details">
-      <h2>{brainRegion}</h2>
+      <Row>
+        <Col span={16}>
+          <h2 className="mType">
+            {getProp(instance, "mType.label") && mTypes[getProp(instance, "mType.label").toLowerCase()]} ({getProp(instance, "brainRegion.layer")})
+          </h2>
+          <div className="eType">{getProp(instance, "eType.label") && eTypes[getProp(instance, "eType.label")]}</div>
+          <div className="brainRegion"><BrainRegionLink region={getProp(instance, "brainRegion.label")} /></div>
+          {softwareLine(instance)}
+        </Col>
+        <Col span={8}>
+          <Divider>
+            Provenance
+          </Divider>
+          <ul>
+            <li><em>Ephys</em> derived from 13 <a>Cells</a>
+              <ul>
+              <li><a>CA123123</a></li>
+              <li><a>CA123123</a></li>
+              <li><a>CA123123</a></li>
+              <li><a>CA123123</a></li>
+            </ul>
+            </li>
+            <li><em>Morphology</em> derived from 1 <a>Cell</a>
+            <ul>
+            <li><a>CA123123</a></li>
+          </ul>
+            </li>
+          </ul>
+          <Divider>
+            Similar cells by <em>Brain Region</em>
+          </Divider>
+          <ul>
+            <li><a>CA123123</a></li>
+            <li><a>CA123123</a></li>
+            <li><a>CA123123</a></li>
+            <li><a>CA123123</a></li>
+          </ul>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={24}>
+        <Divider>Extensions</Divider>
+          <Extensions data={instance} />
+          <div className="secondary-hero" style={{marginTop: "1em", width: "100%"}}>
+          <TraceViewer />
+        </div>
+        </Col>
+      </Row>
+
     </div>
   )
 }
@@ -122,7 +184,7 @@ export default function CellModelDetailsPage(instance) {
   return (
     <article id="details">
       <Header instance={instance} />
-      <Hero instance={instance} />x
+      <Hero instance={instance} />
       <Details instance={instance} />
     </article>
   );

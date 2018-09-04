@@ -34,6 +34,9 @@ export default function queryFactory(
   return async function fetchQuery(query = DEFAULT_PARAMS, requestParams=DEFAULT_PARAMS, headers) {
     let error, body, docs;
     [error, body] = await to(queryBuilder(query, client, index, headers));
+    if (error && error.message === "unauthorized") {
+      throw new Errors.UnauthorizedError(error);
+    }
     if (error) { throw new Errors.QueryBuilderError(error); }
     const params = {
       size: query.size,
@@ -43,6 +46,9 @@ export default function queryFactory(
       body
     };
     [error, docs] = await to(client.search(params, headers));
+    if (error && error.message === "unauthorized") {
+      throw new Errors.UnauthorizedError(error);
+    }
     if (error) { throw new Errors.ElasticSearchError(error); }
     return normalizer(docs);
   };

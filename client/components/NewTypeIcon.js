@@ -20,7 +20,8 @@ class TypeIconContainer extends React.Component {
   render() {
     let selectedTypes = this.props.types.filter(type => {
       let [, value] = type.value.split(":");
-      return this.props.type.indexOf(value) >= 0;
+      value = value.toLowerCase();
+      return this.props.type.toLowerCase().indexOf(value) >= 0;
     });
     let selectedTypeObject = selectedTypes.length
       ? selectedTypes[0]

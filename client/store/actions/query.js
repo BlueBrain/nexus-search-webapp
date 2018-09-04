@@ -1,6 +1,8 @@
 import * as types from "./types";
 import qs from "query-string";
 import {truthy} from "@libs/utils";
+import { auth } from "./index";
+
 export default {
   fetchQuery,
   fetchQueryStarted,
@@ -26,17 +28,23 @@ function fetchQuery() {
       }
     )
       .then(response => {
+        console.log({response})
         if (response.ok) {
           return response.json();
+        }
+        if (response.status === 401) {
+          return dispatch(auth.logout({ reason: "invalid" }));
         }
         throw new Error(
           `Encountered HTTP error ${response.status}. Query is not available.`
         );
       })
       .then(response => {
-        dispatch(
-          fetchQueryFulfilled({ hits: response.total, results: response.hits })
-        );
+        if (response) {
+          dispatch(
+            fetchQueryFulfilled({ hits: response.total, results: response.hits })
+          );
+        }
       })
       .catch(error => {
         console.error(error);

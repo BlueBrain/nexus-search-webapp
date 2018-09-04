@@ -25,6 +25,9 @@ export default class Client {
         fetch(url, options)
         .then(response => {
           console.log(response.status);
+          if (response.status === 401) {
+            return reject(new Error("unauthorized"))
+          }
           return response.json();
         })
         .then(result => {
@@ -56,6 +59,9 @@ export default class Client {
       fetch(url, options)
       .then(response => {
         console.log(response.status);
+        if (response.status === 401) {
+          return reject(new Error("unauthorized"))
+        }
         return response.json();
       })
       .then(result => {

@@ -1,5 +1,6 @@
 import * as types from "./types";
 import qs from "query-string";
+import { auth } from "./index";
 import { facetNormalizer, resultsToFacetWithSelection } from "./facetNormalizer";
 
 export default {
@@ -27,12 +28,17 @@ function fetchFacets() {
         if (response.ok) {
           return response.json();
         }
+        if (response.status === 401) {
+          return dispatch(auth.logout({ reason: "invalid" }));
+        }
         throw new Error(
           `Encountered HTTP error ${response.status}. Query is not available.`
         );
       })
       .then(response => {
-        normalizeFacets(facetNormalizer(response))(dispatch, getState);
+        if (response) {
+          normalizeFacets(facetNormalizer(response))(dispatch, getState);
+        }
       })
       .catch(error => {
         console.error(error);
