@@ -1,6 +1,6 @@
 import React from "react";
 import { Spin } from "antd";
-import * as pageTypes from "./pageTypes";
+import * as pageTypes from "./pageTypes/index.js";
 
 const DEFAULT_PAGE_TYPE = "CellModel";
 
