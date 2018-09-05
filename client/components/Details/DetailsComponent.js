@@ -1,6 +1,6 @@
 import React from "react";
 import { Spin } from "antd";
-import * as pageTypes from "./pageTypes/index.js";
+import detailsPageComponent from "./pageTypes/CellModel";
 
 const DEFAULT_PAGE_TYPE = "CellModel";
 
@@ -10,7 +10,7 @@ function getPageType (instanceData) {
 
 const Details = props => {
   let { pending, error, data} = props;
-  const DetailsPageComponent = pageTypes[getPageType(data)];
+  const DetailsPageComponent = detailsPageComponent; // pageTypes[getPageType(data)];
   return (
     <div style={{minHeight: "100vh"}}>
       <Spin spinning={pending} size="large" wrapperClassName={"big-loader"}>
