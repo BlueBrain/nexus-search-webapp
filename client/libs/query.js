@@ -1,6 +1,6 @@
 import qs from "query-string";
 
-const DEFAULT_PAGE_SIZE = 20;
+const DEFAULT_PAGE_SIZE = 15;
 const DEFAULT_LIST_TYPE = "Grid";
 
 export default (search = window.location.search) => {

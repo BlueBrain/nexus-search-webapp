@@ -19,7 +19,7 @@ const HeaderComponent = () => (
         <h1>Search</h1>
       </Link>
     </div>
-    <SearchBar />
+    {/* <SearchBar /> */}
     <Login />
   </header>
   </div>

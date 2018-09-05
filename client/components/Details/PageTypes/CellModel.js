@@ -34,12 +34,12 @@ function attributionLine(instance) {
     getProp(instance, "wasAttributedTo.familyName");
   let email = getProp(instance, "wasAttributedTo.email");
   let date = moment(getProp(instance, "dateCreated")).format("MMM Do YYYY");
-  return (
+  return getProp(instance, "wasAttributedTo") ? (
     <h2>
       <Icon type="user-add" /> by <a href={`mailto:${email}`}>{name}</a> on{" "}
       <span className="date">{date}</span>
     </h2>
-  );
+  ) : null ;
 }
 
 function softwareLine(instance) {
@@ -95,9 +95,11 @@ function Hero({ instance }) {
   return (
     <div className="hero">
       <div className="detail-hero">
-        <picture style={{ height: "600px" }}>
-          <MorphologyPreview onHover={() => {}} value={instance} shouldRender />
-        </picture>
+        {getProp(instance, "morphology").length &&
+          <picture style={{ height: "600px" }}>
+            <MorphologyPreview onHover={() => {}} value={instance} shouldRender />
+          </picture>
+        }
       </div>
       {files && files.length && (
         <div className="detail-attachments">

@@ -1,8 +1,7 @@
 import getConfig from "../config";
 import getResources from "../getResources";
 import file from "../file";
-import { to } from "libs/promise";
-import waitForEach from "../../../libs/waitForEach";
+import { to, waitForEach } from "@libs/promise";
 import processDoc from "./processDoc";
 import fetchResourceById from "../fetchResourceById";
 import pushToNexus from "../pushToNexus";
@@ -62,15 +61,18 @@ async function fetch() {
       async doc => {
         let [eType, mTypeWithLayer] = doc.name.split("_");
         let layer = mTypeWithLayer.match(/L(\d)+/g)[0];
-        let [,mType] = mTypeWithLayer.split(layer);
+        let [, mType] = mTypeWithLayer.split(layer);
         doc.studyType = { label: "In Silico" };
         doc.eType = {
-          label: eType,
-        }
+          label: eType
+        };
         doc.mType = {
-        label: mType
+          label: mType
+        };
+        if (layer === "L23") {
+          layer = "L2/3";
         }
-        doc.brainRegion.layer = layer
+        doc.brainRegion.layer = layer;
         return doc;
       },
       async doc => {
@@ -83,16 +85,16 @@ async function fetch() {
               "@context": context,
               filter: {
                 op: "and",
-                "value": [
+                value: [
                   {
-                    "path": "rdf:type",
-                    "op": "eq",
-                    "value": targetResourceType
+                    path: "rdf:type",
+                    op: "eq",
+                    value: targetResourceType
                   },
                   {
-                    "path": "^prov:wasAssociatedWith / prov:generated",
-                    "op": "eq",
-                    "value": startingResourceURI
+                    path: "^prov:wasAssociatedWith / prov:generated",
+                    op: "eq",
+                    value: startingResourceURI
                   }
                 ]
               }
@@ -100,7 +102,9 @@ async function fetch() {
             return query;
           }
         );
-        doc.generatedFrom = trimMetaData(response);
+        let generatedFrom =
+          response.total > 0 ? response.results[0].resultId : null;
+        doc.generatedFrom = generatedFrom;
         return doc;
       },
       async doc => {
@@ -113,23 +117,33 @@ async function fetch() {
         return doc;
       },
       async doc => {
+        let generatedFrom = await fetchResourceById(
+          doc,
+          easyConfig.token,
+          doc => doc.generatedFrom
+        );
+        doc.software = generatedFrom;
+        return doc;
+      },
+      async doc => {
         let attribution = await fetchResourceById(
           doc,
           easyConfig.token,
           doc => doc.wasAttributedTo["@id"]
         );
-        doc.attribution = [attribution];
+        attribution.fullName =
+          attribution.givenName + " " + attribution.familyName;
+        doc.contributions = [attribution];
         return doc;
       },
-      // async doc => {
-      //   let morphology = await fetchResourceById(
-      //     doc,
-      //     easyConfig.token,
-      //     doc => doc.wasDerivedFrom[0]["@id"]
-      //   );
-      //   doc.morphology = [morphology];
-      //   return doc;
-      // },
+      async doc => {
+        doc.subject.species = doc.subject.species.label;
+        doc.cellTypes = {
+          eType: doc.eType.label,
+          mType: doc.mType.label
+        };
+        return doc;
+      },
       async doc => await flattenDownloadables(doc),
       // async doc => await morphoParser(doc, easyConfig)
       async doc => await pushToNexus(doc, easyConfig)

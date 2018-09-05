@@ -110,7 +110,7 @@ function fetchWithToken(uri, access_token, options = {}) {
   let formattedOptions = Object.assign(options, requestOptions);
   console.log(`${formattedOptions.method || "GET"} ${uri}`);
   if (formattedOptions.body) {
-    console.log(formattedOptions.body);
+    console.log("formattedOptions", formattedOptions.body);
   }
   return fetch(uri, formattedOptions)
     .then(response => {

@@ -1,8 +1,10 @@
 import * as types from "../actions/types";
 
+const DEFAULT_MESSAGES = []; //["GettingStarted", "InProgress"]
+
 export default function infoboxReducer(
   state = {
-    messages: ["GettingStarted", "InProgress"]
+    messages: DEFAULT_MESSAGES
   },
   action
 ) {

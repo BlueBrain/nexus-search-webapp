@@ -3,10 +3,11 @@ import { to } from "@libs/promise";
 import {fetchWithToken} from "../helpers";
 import projectPayload from "./project";
 import contextPayload from "./context";
+import file from "../file";
 
 require("dns-cache")(100000);
 
-const DEFAULT_PROJECT_NAME="search_test";
+const DEFAULT_PROJECT_NAME="search";
 
 //must be curi
 const DEFAULT_CONTEXT_NAME="base:neuroshapes";
@@ -44,6 +45,7 @@ async function createProject() {
     method: "PUT",
     body: JSON.stringify(projectPayload)
   }
+  file.write("Project", projectPayload);
   let response = await fetchWithToken(`${v1Base}/projects/${v1Org}/${projectName}`, token, options);
   console.log(`${response.status} `, response.statusText)
 }
@@ -54,6 +56,7 @@ async function createContext() {
     method: "PUT",
     body: JSON.stringify(contextPayload)
   }
+  file.write("Context", contextPayload);
   let response = await fetchWithToken(`${v1Base}/resources/${v1Org}/${projectName}/resources/${contextName}`, token, options);
   console.log(v1Org, v1Project);
   console.log(`${response.status} `, response.statusText)

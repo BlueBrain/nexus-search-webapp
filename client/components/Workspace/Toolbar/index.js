@@ -41,7 +41,7 @@ const Toolbar = ({ pending, resultCount, listType, handleListTypeChange }) => {
           {/* <RadioButton value="Panel">
             <Icon type="appstore-o" />
           </RadioButton> */}
-          <RadioButton value="Table">
+          <RadioButton value="Table" disabled>
             <Icon type="profile" />
           </RadioButton>
         </RadioGroup>

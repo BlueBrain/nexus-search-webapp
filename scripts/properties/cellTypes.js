@@ -1,7 +1,7 @@
 export default {
   type: "nested",
   properties: {
-    "@id": {
+    mType: {
       type: "text",
       fields: {
         raw: {
@@ -9,15 +9,7 @@ export default {
         }
       }
     },
-    label: {
-      type: "text",
-      fields: {
-        raw: {
-          type: "keyword"
-        }
-      }
-    },
-    shortName: {
+    eType: {
       type: "text",
       fields: {
         raw: {

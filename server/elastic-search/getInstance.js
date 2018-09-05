@@ -33,7 +33,7 @@ export default function getInstanceFactory(
     };
     //TODO remove hardcoded path when new API is up
     // TODO make check for bad token
-    let url = "https://bbp-nexus.epfl.ch/staging/v1/resources/kenny/search_test/resource/" + requestParams.id;
+    let url = "https://bbp-nexus.epfl.ch/staging/v1/resources/kenny/search/resource/" + requestParams.id;
     [error, docs] = await to(fetch(url, params).then(res => res.json()));
     if (error) { throw new Errors.ElasticSearchError(error); }
     return docs

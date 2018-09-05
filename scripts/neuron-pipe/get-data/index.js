@@ -13,7 +13,6 @@ require("dns-cache")(100000);
 
 const [, , stage, push] = process.argv;
 const config = getConfig("get-data", stage);
-console.log(config);
 
 const {
   TOKEN: token,
@@ -45,7 +44,6 @@ async function fetch() {
     waitForEach(getResources(easyConfig), [
       processDoc,
       async doc => {
-        console.log(doc);
         let subject = getProp(doc, "wasDerivedFrom.@id");
         if (subject) {
           let subjectResult = await fetchResourceById(
@@ -62,15 +60,50 @@ async function fetch() {
         return doc;
       },
       async doc => {
-        let response = await getRelatedResourceWithFilter(
-          easyConfig,
-          doc["@id"],
-          "nsg:Trace"
-        );
-        doc.traces = response.results.map(trace => {
-          trace = trimMetaData(trace.source);
-          return trace;
-        });
+        // let response = await getRelatedResourceWithFilter(
+        //   easyConfig,
+        //   doc["@id"],
+        //   "nsg:Trace"
+        // );
+        // doc.traces = response.results.map(trace => {
+        //   trace = trimMetaData(trace.source);
+        //   return trace;
+        // });
+        doc.traces = [];
+        return doc;
+      },
+      async doc => {
+        let label = doc.brainRegion.label;
+        let layerIndex = label.indexOf("layer");
+        if (layerIndex >= 0) {
+          let layerName = label.slice(layerIndex, label.length);
+          switch (layerName) {
+            case "layer I":
+              doc.brainRegion.layer = "L1";
+              break;
+            case "layer II":
+              doc.brainRegion.layer = "L2";
+              break;
+            case "layer II/III":
+              doc.brainRegion.layer = "L2/3";
+              break;
+            case "layer III":
+              doc.brainRegion.layer = "L3";
+              break;
+            case "layer IV":
+              doc.brainRegion.layer = "L4";
+              break;
+            case "layer V":
+              doc.brainRegion.layer = "L5";
+              break;
+            case "layer VI":
+              doc.brainRegion.layer = "L6";
+              break;
+            case "layer VIa":
+              doc.brainRegion.layer = "L6a";
+              break;
+          }
+        }
         return doc;
       },
       async doc => {
@@ -104,10 +137,21 @@ async function fetch() {
         return doc;
       },
       async doc => {
-        doc["@id"] = doc["@id"].replace(
-          "https://bbp.epfl.ch/nexus/v0/data/bbp/experiment/patchedcell/v0.1.0/",
-          "pc:"
-        );
+        console.log(doc.subject);
+        if (!doc.subject) { return doc; }
+        doc.subject.species = getProp(doc, "subject.species.label")
+        doc.subject.sex = getProp(doc, "subject.sex.label")
+        doc.subject.strain = getProp(doc, "subject.strain.label")
+        doc.cellTypes = {
+          eType: getProp(doc, "eType.label"),
+          mType: getProp(doc, "mType.label")
+        }
+        if (doc.cellTypes.eType === "null" || doc.cellTypes.eType === null) {
+          delete doc.cellTypes.eType;
+        }
+        if (doc.cellTypes.mType === "null" || doc.cellTypes.mType === null) {
+          delete doc.cellTypes.mType;
+        }
         return doc;
       },
       async doc => await flattenDownloadables(doc),

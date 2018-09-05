@@ -78,8 +78,7 @@
     z-index: 2;
     overflow: hidden;
     background: linear-gradient(to bottom, #7dbae800 0%,#ffffffbd 60%, #ffffff 100%);
-    .in-silico-banner {
-      background-color: #00c4ff;
+    .banner {
       width: 6em;
       position: absolute;
       right: -28px;
@@ -87,12 +86,16 @@
       z-index: 0;
       transform: rotateZ(54deg);
       height: 16em;
+      &.in-silico {
+        background-color: #00c4ff;
+      }
+      &.experimental {
+        background-color: #90eac3;
+      }
     }
     .study-type {
       z-index:1;
-      &.in-silico {
-        color: white;
-      }
+      color: white;
     }
     .mType {
       font-size: 2em;

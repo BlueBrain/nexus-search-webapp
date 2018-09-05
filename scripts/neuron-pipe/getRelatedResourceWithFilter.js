@@ -27,7 +27,7 @@ function getRelatedResourceTypeByID(config, id, targetResourceType, queryMaker=m
     const { token, base, org, domain, context, schema, ver } = config;
     let query = queryMaker(id, targetResourceType);
     let filters = encodeURI(JSON.stringify(query));
-    let queryURL = base + "/data/" + org + "?fields=all&filter=" + filters + "&context=" + context;
+    let queryURL = base + "/data/?fields=all&filter=" + filters + "&context=" + context;
     let options = {
       headers: {
         Authorization: "Bearer " + token,

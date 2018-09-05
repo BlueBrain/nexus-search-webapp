@@ -1,17 +1,23 @@
 import React from "react";
 import { connect } from "react-redux";
 import Dygraph from "dygraphs";
-import trace from "./trace.json";
+import trace from "./trace2.json";
 
 class TraceContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.viewContainer = React.createRef();
+    this.voltageContainer = React.createRef();
+    this.voltageContainer = null;
 
-    this.viewContainer = null;
+    this.currentContainer = React.createRef();
+    this.currentContainer = null;
 
-    this.setViewContainer = element => {
-      this.viewContainer = element;
+    this.setVoltageContainer = element => {
+      this.voltageContainer = element;
+      this.createGraph(element)
+    };
+    this.setCurrentContainer = element => {
+      this.currentContainer = element;
       this.createGraph(element)
     };
   }
@@ -19,23 +25,32 @@ class TraceContainer extends React.Component {
     if (!element) {
       return;
     }
-    let g = new Dygraph(
-      // containing div
-      element,
 
-      // CSV or path to a CSV file.
-      "Time,mV\n" + trace.reduce((memo, val, index) => {
-        if (index % 2 === 0) {
-          memo += val;
-        } else {
-          memo += `,${val}\n`;
-        }
-        return memo;
-      }, "")
-    );
+    let csvHeader = "Time," + Object.keys(trace).join(",") + "\n";
+    console.log({csvHeader});
+    let voltageTime
+    // let g = new Dygraph(
+    //   // containing div
+    //   element,
+
+    //   // CSV or path to a CSV file.
+    //   "Time," + trace.reduce((memo, val, index) => {
+    //     if (index % 2 === 0) {
+    //       memo += val;
+    //     } else {
+    //       memo += `,${val}\n`;
+    //     }
+    //     return memo;
+    //   }, "")
+    // );
   }
   render() {
-    return <div ref={this.setViewContainer} />;
+    return (
+      <div>
+        <div ref={this.setVoltageContainer} />
+        <div ref={this.setCurrentContainer} />
+      </div>
+    );
   }
 }
 

@@ -137,11 +137,14 @@ export default {
         "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/",
       schema: "http://schema.org/",
       dcat: "http://www.w3.org/ns/dcat#",
-      "em": "https://bbp-nexus.epfl.ch/staging/v0/data/somatosensorycortexproject/simulation/emodel/v0.1.1/",
-      "pc": "https://bbp.epfl.ch/nexus/v0/data/bbp/experiment/patchedcell/v0.1.0/",
-      "icg": "https://bbp-nexus.epfl.ch/staging/v0/data/ionchannel/experiment/ionchannelgene/v0.1.0/",
       "searchCell": {
         "@id": "nxv:SearchCell"
+      },
+      "searchIonChannel": {
+          "@id": "nxv:SearchIonChannel"
+      },
+      "searchIonChannelCell": {
+          "@id": "nxv:SearchIonChannelCell"
       },
       "ionChannel": {
         "@id": "nxv:ionChannel"

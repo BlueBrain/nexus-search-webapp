@@ -85,9 +85,12 @@ const GridResult = ({ value, id }) => {
                 <div className="bottom flex space-between">
                   <Contributions contributions={getProp(value, "contributions")} />
                   {isInSilico &&
-                    <div className="in-silico-banner"></div>
+                    <div className="banner in-silico"></div>
                   }
-                  <div className={`unemphasized study-type ${isInSilico ? "in-silico" : "experimental"}`}>{studyType}</div>
+                  {!isInSilico &&
+                    <div className="banner experimental"></div>
+                  }
+                  <div className="unemphasized study-type">{studyType === "Experimental" ? "Exper." : studyType}</div>
                 </div>
               </div>
             </div>

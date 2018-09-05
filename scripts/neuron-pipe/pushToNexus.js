@@ -14,7 +14,8 @@ export default async (doc, config) => {
         body
       })
     );
-    console.log(doc["@id"], status, Number(status), "\n");
+    console.log(doc["@id"], status, "\n");
+    // console.log("STATUS", status, queryURL, JSON.stringify(doc, null, 2))
     let code = responsePayload.code;
     if (error) {
       throw error;
@@ -24,11 +25,11 @@ export default async (doc, config) => {
         throw new Error("broken connection");
       case "AlreadyExists":
         console.log("some conflict we have to resolve...")
-        let resourceURL = queryURL + "/" + doc["@id"];
+        let resourceURL = queryURL + "/" + doc.searchID;
         let [error, status, payload] = await withStatus(
           fetchWithToken(resourceURL, token)
         );
-        console.log(error, status, payload);
+        console.log("afterGet", error, status, payload);
         if (!payload) {
           throw new Error("cannot update: " + resourceURL);
         }
@@ -36,13 +37,14 @@ export default async (doc, config) => {
         if (!rev) {
           throw new Error("cannot update, no revision: " + resourceURL);
         }
-        let updateURL = queryURL + doc["@id"] + "?rev=" + rev;
+        let updateURL = queryURL + "/" + doc.searchID + "?rev=" + rev;
         [error, status, payload] = await withStatus(
           fetchWithToken(updateURL, token, {
             method: "PUT",
             body
           })
         );
+        console.log("afterPUT", error, status, payload);
         if (!payload || status >= 400) {
           throw new Error("cannot update: " + updateURL);
         }

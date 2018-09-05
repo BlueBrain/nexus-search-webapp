@@ -27,7 +27,7 @@ function getRelatedResourceTypeByID(config, id, targetResourceType, queryMaker=m
     const { token, base, org, domain, context, schema, ver } = config;
     let query = queryMaker(id, targetResourceType, context);
     // let body = encodeURI(JSON.stringify(query));
-    let queryURL = base + "/queries/" + org +"/";// + "?fields=all";
+    let queryURL = base + "/queries/";// + "?fields=all";
     let options = {
       method: "POST",
       body: JSON.stringify(query),

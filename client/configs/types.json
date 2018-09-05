@@ -3,7 +3,7 @@
     "icon": "neuron",
     "label": "Cell"
   },
-  "nxv:IonChannel": {
+  "nxv:SearchIonChannel": {
     "icon": "neuron",
     "label": "Ion Channel"
   }
