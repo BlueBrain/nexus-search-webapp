@@ -95,11 +95,9 @@ function Hero({ instance }) {
   return (
     <div className="hero">
       <div className="detail-hero">
-        {getProp(instance, "morphology").length &&
-          <picture style={{ height: "600px" }}>
-            <MorphologyPreview onHover={() => {}} value={instance} shouldRender />
-          </picture>
-        }
+        <picture style={{ height: "600px" }}>
+          <MorphologyPreview onHover={() => {}} value={instance} shouldRender />
+        </picture>
       </div>
       {files && files.length && (
         <div className="detail-attachments">

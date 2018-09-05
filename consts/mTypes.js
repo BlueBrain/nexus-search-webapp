@@ -26,7 +26,8 @@ const glossary = {
   TPC_L4: "Tufted Pyramidal Cell with apical dendrites terminating in layer 4",
   TPC_L1: "Tufted Pyramidal Cell with apical dendrites terminating in layer 1",
   IPC: "Pyramidal Cell with inverted apical-like dendrites",
-  BPC: "Pyramidal Cell with bipolar apical-like dendrites"
+  BPC: "Pyramidal Cell with bipolar apical-like dendrites",
+  UPC: "Untufted Pyramidal Cell"
 };
 
 export default Object.keys(glossary).reduce((memo, key) => {
