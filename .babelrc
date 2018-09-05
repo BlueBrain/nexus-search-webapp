@@ -1,4 +1,18 @@
 {
-  "presets": [ "env", "react-app"],
-  "plugins": ["transform-class-properties"]
+  "presets": ["env", "react-app"],
+  "plugins": [
+    "transform-class-properties",
+    [
+      "module-resolver",
+      {
+        "root": ["./"],
+        "alias": {
+          "@libs": "./libs",
+          "@client": "./client",
+          "@server": "./server",
+          "@public": "./public"
+        }
+      }
+    ]
+  ]
 }

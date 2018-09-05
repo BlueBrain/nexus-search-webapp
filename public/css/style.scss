@@ -298,18 +298,6 @@ header h1 {
   padding-left: 0;
 }
 
-section {
-  position: relative;
-  width: 24%;
-  margin: 0.5em;
-  border-radius: 1px;
-  box-sizing: border-box;
-  max-height: 100%;
-  min-height: 75vh;
-  /* box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3); */
-  /* background-color: white; */
-}
-
 .column {
   display: flex;
   flex-direction: column;
@@ -344,24 +332,6 @@ footer {
 }
 .column-footer {
   flex-grow: 0;
-}
-
-section h2 {
-  display: block;
-  margin: 0;
-  padding: 0.5em;
-  text-align: center;
-  font-weight: lighter;
-  font-size: 20px;
-  background-color: #f7f9fa;
-  border-bottom: 1px solid #b4c3ca;
-  border-top-left-radius: 1px;
-  border-top-right-radius: 1px;
-}
-section h2 span {
-  display: inline-block;
-  margin-left: 5px;
-  color: gray;
 }
 
 .container {

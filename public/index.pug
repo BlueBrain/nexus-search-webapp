@@ -2,6 +2,7 @@ doctype html
 html(lang='en')
   head
     title Nexus Search
+    base(href=process.env.BASE_PATH || "${BASE_URI}/search/")
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
     meta(name="description", content="The Searchable Knowledge-Graph Application")
@@ -20,6 +21,4 @@ html(lang='en')
       window.SEARCH_API_URI = "#{process.env.SEARCH_API_URI}" || "${SEARCH_API_URI}";
       // The path to find this index file once deployed, eg. "/search"
       window.BASE_PATH = "#{process.env.BASE_PATH}" || "${BASE_PATH}";
-      // The path to find static content, eg. "search.mynexus.org/data"
-      window.STATIC_CONTENT_URI = "#{process.env.STATIC_CONTENT_URI}" || "${STATIC_CONTENT_URI}";
-    script(src="../index.js")
+    script(src="../client/index.js")

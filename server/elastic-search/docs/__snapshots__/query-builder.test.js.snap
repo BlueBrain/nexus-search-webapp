@@ -12,12 +12,18 @@ Object {
 
 exports[`makeDocQuery()  makes an elasticSearch aggs object even with filters provided! 1`] = `
 Object {
+  "highlight": Object {
+    "fields": Object {
+      "*": Object {},
+    },
+    "require_field_match": false,
+  },
   "query": Object {
     "bool": Object {
       "must": Array [
         Object {
           "query_string": Object {
-            "query": "(mySearchString* OR mySearchString~)",
+            "query": "(mySearchString~ OR mySearchString*)",
           },
         },
         Object {
@@ -55,12 +61,18 @@ Object {
 
 exports[`makeDocQuery()  makes an elasticSearch aggs object even with nested filters 1`] = `
 Object {
+  "highlight": Object {
+    "fields": Object {
+      "*": Object {},
+    },
+    "require_field_match": false,
+  },
   "query": Object {
     "bool": Object {
       "must": Array [
         Object {
           "query_string": Object {
-            "query": "(mySearchString* OR mySearchString~)",
+            "query": "(mySearchString~ OR mySearchString*)",
           },
         },
         Object {
@@ -103,12 +115,18 @@ Object {
 
 exports[`makeDocQuery()  makes an elasticSearch aggs object with a bool must match term if a type argument is provided 1`] = `
 Object {
+  "highlight": Object {
+    "fields": Object {
+      "*": Object {},
+    },
+    "require_field_match": false,
+  },
   "query": Object {
     "bool": Object {
       "must": Array [
         Object {
           "query_string": Object {
-            "query": "(mySearchString* OR mySearchString~)",
+            "query": "(mySearchString~ OR mySearchString*)",
           },
         },
         Object {
@@ -124,12 +142,18 @@ Object {
 
 exports[`makeDocQuery()  makes an elasticSearch aggs object with a query if a textQuery argument is provided 1`] = `
 Object {
+  "highlight": Object {
+    "fields": Object {
+      "*": Object {},
+    },
+    "require_field_match": false,
+  },
   "query": Object {
     "bool": Object {
       "must": Array [
         Object {
           "query_string": Object {
-            "query": "(mySearchString* OR mySearchString~)",
+            "query": "(mySearchString~ OR mySearchString*)",
           },
         },
       ],

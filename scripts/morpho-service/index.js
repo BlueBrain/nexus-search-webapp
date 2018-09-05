@@ -35,19 +35,19 @@ function getFilename(url) {
 
 const FILE_FORMAT = "asc";
 
-const morphoServicePromise = function (url) {
+const morphoServicePromise = function (url, token, myFileName) {
   return new Promise((resolve, reject) => {
     try {
-      let fileName = getFilename(url);
-      let archiveTarget = path.resolve(__dirname, `./temp/${fileName}.zip`);
+      let fileName = myFileName || getFilename(url);
+      let archiveTarget = path.resolve(__dirname, `./temp/${fileName}.${FILE_FORMAT}`);
       let extractTarget = path.resolve(__dirname, "./temp");
       let dataTarget = path.resolve(__dirname, `./data/${fileName}.text`);
       console.log("starting morphology parsing process");
-      return download(url, archiveTarget)
-        .then(() => {
-          console.log("download finished, now unzipping");
-          return unzip(archiveTarget, extractTarget);
-        })
+      return download(url, archiveTarget, token)
+        // .then(() => {
+        //   console.log("download finished, now unzipping");
+        //   return unzip(archiveTarget, extractTarget);
+        // })
         .then(() => {
           console.log("unzipping finished, now parseMorph");
           return parseMorph(

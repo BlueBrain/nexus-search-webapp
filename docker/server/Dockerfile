@@ -11,9 +11,9 @@ COPY node_modules ./node_modules
 
 # Default values for environment variables
 ENV NODE_ENV="production"
-ENV ELASTIC_SEARCH_INDEX="index"
+ENV ELASTIC_SEARCH_INDEX="search_view"
 ENV SEARCH_PROXY_PORT="8000"
-ENV ELASTICSEARCH_CLIENT_URL="localhost:9200"
+ENV ELASTICSEARCH_CLIENT_URL="https://bbp-nexus.epfl.ch/staging/v1/views/kenny/search/"
 ENV SEARCH_API_BASE_PATH=""
 ENV STATIC_DATA_FOLDER="/usr/share/nginx/html/data"
 

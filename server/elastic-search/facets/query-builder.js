@@ -1,11 +1,12 @@
 import mappingToAggs from "./mappings-to-aggs";
+import { to } from "@libs/promise";
 
-async function getAggsFromMapping (client, index) {
-  let properties = await client.indices.getMapping({
+async function getAggsFromMapping (client, index, headers) {
+  let mapping = await client.indices.getMapping({
     index,
     type: "doc"
-  })
-  properties = properties[index].mappings.doc.properties;
+  }, headers)
+  let properties = mapping.properties;
   return mappingToAggs(properties)
 }
 
@@ -15,8 +16,9 @@ async function getAggsFromMapping (client, index) {
  * @param {object} nexusSearchQueryObject
  * @returns {object} an elastic search query object
  */
-async function makeFacetQuery({ q, type }, client, index) {
-  let aggs = await getAggsFromMapping(client, index);
+async function makeFacetQuery({ q, type }, client, index, headers) {
+  let [error, aggs] = await to(getAggsFromMapping(client, index, headers));
+  if (error) { return Promise.reject(error)}
   let params = {
     query: {
       bool: {

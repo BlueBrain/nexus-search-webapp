@@ -11,7 +11,10 @@
 .ant-checkbox-wrapper + .ant-checkbox-wrapper {
   margin-left: 0;
 }
-
+.ant-table-thead > tr > th {
+  font-weight: normal;
+  color: rgba(0, 0, 0, 0.75);
+}
 .ant-checkbox {
   top: 3px;
 }
@@ -30,4 +33,17 @@
   .ant-notification-notice-icon {
     left: 1em;
   }
+}
+.ant-list-item:nth-child(even) {
+  background-color:#80808008;
+}
+.ant-list-item {
+  padding: 1em;
+}
+.ant-modal-body {
+  padding: 0;
+}
+.ant-modal-content {
+  //TODO remove when detail modal page is made!
+  overflow: hidden;
 }

@@ -24,6 +24,14 @@ export default {
           type: "keyword"
         }
       }
+    },
+    layer: {
+      type: "text",
+      fields: {
+        raw: {
+          type: "keyword"
+        }
+      }
     }
   }
 };

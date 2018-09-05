@@ -36,6 +36,14 @@
                   "type": "keyword"
                 }
               }
+            },
+            "layer": {
+              "type": "text",
+              "fields": {
+                "raw": {
+                  "type": "keyword"
+                }
+              }
             }
           }
         },
@@ -43,6 +51,27 @@
           "type": "nested",
           "properties": {
             "label": {
+              "type": "text",
+              "fields": {
+                "raw": {
+                  "type": "keyword"
+                }
+              }
+            }
+          }
+        },
+        "cellTypes": {
+          "type": "nested",
+          "properties": {
+            "mType": {
+              "type": "text",
+              "fields": {
+                "raw": {
+                  "type": "keyword"
+                }
+              }
+            },
+            "eType": {
               "type": "text",
               "fields": {
                 "raw": {
@@ -120,82 +149,6 @@
             }
           }
         },
-        "eType": {
-          "type": "nested",
-          "properties": {
-            "@id": {
-              "type": "text",
-              "fields": {
-                "raw": {
-                  "type": "keyword"
-                }
-              }
-            },
-            "label": {
-              "type": "text",
-              "fields": {
-                "raw": {
-                  "type": "keyword"
-                }
-              }
-            },
-            "shortName": {
-              "type": "text",
-              "fields": {
-                "raw": {
-                  "type": "keyword"
-                }
-              }
-            }
-          }
-        },
-        "ephys": {
-          "type": "nested",
-          "properties": {
-            "@id": {
-              "type": "text",
-              "fields": {
-                "raw": {
-                  "type": "keyword"
-                }
-              }
-            },
-            "distribution": {
-              "type": "nested",
-              "properties": {
-                "mediaType": {
-                  "type": "text",
-                  "fields": {
-                    "raw": {
-                      "type": "keyword"
-                    }
-                  }
-                }
-              }
-            },
-            "stimulus": {
-              "type": "nested",
-              "properties": {
-                "@id": {
-                  "type": "text",
-                  "fields": {
-                    "raw": {
-                      "type": "keyword"
-                    }
-                  }
-                },
-                "label": {
-                  "type": "text",
-                  "fields": {
-                    "raw": {
-                      "type": "keyword"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
         "license": {
           "type": "nested",
           "properties": {
@@ -225,90 +178,6 @@
             }
           }
         },
-        "mType": {
-          "type": "nested",
-          "properties": {
-            "@id": {
-              "type": "text",
-              "fields": {
-                "raw": {
-                  "type": "keyword"
-                }
-              }
-            },
-            "label": {
-              "type": "text",
-              "fields": {
-                "raw": {
-                  "type": "keyword"
-                }
-              }
-            },
-            "shortName": {
-              "type": "text",
-              "fields": {
-                "raw": {
-                  "type": "keyword"
-                }
-              }
-            }
-          }
-        },
-        "meType": {
-          "type": "nested",
-          "properties": {
-            "@id": {
-              "type": "text",
-              "fields": {
-                "raw": {
-                  "type": "keyword"
-                }
-              }
-            },
-            "label": {
-              "type": "text",
-              "fields": {
-                "raw": {
-                  "type": "keyword"
-                }
-              }
-            },
-            "shortName": {
-              "type": "text",
-              "fields": {
-                "raw": {
-                  "type": "keyword"
-                }
-              }
-            }
-          }
-        },
-        "morphology": {
-          "type": "nested",
-          "properties": {
-            "@id": {
-              "type": "text",
-              "fields": {
-                "raw": {
-                  "type": "keyword"
-                }
-              }
-            },
-            "distribution": {
-              "type": "nested",
-              "properties": {
-                "mediaType": {
-                  "type": "text",
-                  "fields": {
-                    "raw": {
-                      "type": "keyword"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
         "studyType": {
           "type": "nested",
           "properties": {
@@ -326,65 +195,26 @@
           "type": "nested",
           "properties": {
             "strain": {
-              "type": "nested",
-              "properties": {
-                "@id": {
-                  "type": "text",
-                  "fields": {
-                    "raw": {
-                      "type": "keyword"
-                    }
-                  }
-                },
-                "label": {
-                  "type": "text",
-                  "fields": {
-                    "raw": {
-                      "type": "keyword"
-                    }
-                  }
+              "type": "text",
+              "fields": {
+                "raw": {
+                  "type": "keyword"
                 }
               }
             },
             "sex": {
-              "type": "nested",
-              "properties": {
-                "@id": {
-                  "type": "text",
-                  "fields": {
-                    "raw": {
-                      "type": "keyword"
-                    }
-                  }
-                },
-                "label": {
-                  "type": "text",
-                  "fields": {
-                    "raw": {
-                      "type": "keyword"
-                    }
-                  }
+              "type": "text",
+              "fields": {
+                "raw": {
+                  "type": "keyword"
                 }
               }
             },
             "species": {
-              "type": "nested",
-              "properties": {
-                "@id": {
-                  "type": "text",
-                  "fields": {
-                    "raw": {
-                      "type": "keyword"
-                    }
-                  }
-                },
-                "label": {
-                  "type": "text",
-                  "fields": {
-                    "raw": {
-                      "type": "keyword"
-                    }
-                  }
+              "type": "text",
+              "fields": {
+                "raw": {
+                  "type": "keyword"
                 }
               }
             }

@@ -7,6 +7,9 @@
 
 .facet-checkbox {
   width: 100%;
+  &:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.01);
+  }
   cursor: pointer;
   transition: all 1s cubic-bezier(0.18, 0.89, 0.32, 1.28);
   border-radius: 2px;

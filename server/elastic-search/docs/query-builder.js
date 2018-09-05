@@ -4,7 +4,9 @@
  * @param {string} query
  * @returns {object} an elastic search query object
  */
-function makeDocsQuery(query={ filter:null, type:null, q:null }) {
+function makeDocsQuery(
+  query = { filter: null, type: null, q: null, sort: null }
+) {
   let params = {
     query: {
       bool: {
@@ -12,13 +14,48 @@ function makeDocsQuery(query={ filter:null, type:null, q:null }) {
       }
     }
   };
-  let { filter, type, q } = query;
+  let { sort, filter, type, q } = query;
+  // TODO mop this up by using MAPPING or SCHEMA to assemble sorting
+  if (sort) {
+    sort = JSON.parse(sort);
+    if (sort.field) {
+      if (sort.field === "@type") {
+        let field = sort.field + ".raw";
+        params.sort = [
+          {
+            [field]: {
+              order: sort.order
+            }
+          }
+        ];
+      } else {
+        let field = sort.field + ".label.raw";
+        params.sort = [
+          {
+            [field]: {
+              order: sort.order,
+              nested: {
+                path: sort.field
+              }
+            }
+          }
+        ];
+      }
+    }
+  }
   if (q) {
     params.query.bool.must.push({
       query_string: {
-        query: `(${query.q}* OR ${query.q}~)`
+        // fields : ["eType*", "label", "subject.*", "@id.*", "@type.*", "brainLocation.*", "name"],
+        query: `(${query.q}~ OR ${query.q}*)`
       }
     });
+    params.highlight = {
+      fields: {
+        "*": {}
+      },
+      require_field_match: false
+    }
   }
   if (type) {
     params.query.bool.must.push({
@@ -37,9 +74,11 @@ function makeDocsQuery(query={ filter:null, type:null, q:null }) {
 
       // For nested queries, every part of the path needs to contain
       // its ancestors, as in "grandparent.parent.value"
-      let path = key.split('.').reduce((previous, current) => {
+      let path = key.split(".").reduce((previous, current) => {
         const parentLabel = previous[previous.length - 1] || null;
-        const currentLabel = parentLabel ? `${parentLabel}.${current}` : current;
+        const currentLabel = parentLabel
+          ? `${parentLabel}.${current}`
+          : current;
         previous.push(currentLabel);
         return previous;
       }, []);
@@ -48,26 +87,30 @@ function makeDocsQuery(query={ filter:null, type:null, q:null }) {
         if (index === 0) {
           memo = {
             bool: {
-            should
-          }}
+              should
+            }
+          };
         } else {
           memo = {
             nested: {
               path: level,
               query: memo
             }
-          }
+          };
         }
         return memo;
       }, {});
     });
-    params.query.bool.must.push({
-      bool: {
-        must
-      }
-    });
+    if (must.length) {
+      params.query.bool.must.push({
+        bool: {
+          must
+        }
+      });
+    }
   }
-  return params
+  console.log(JSON.stringify(params, null, 2));
+  return params;
 }
 
 export default makeDocsQuery;

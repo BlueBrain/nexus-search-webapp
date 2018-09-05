@@ -31,9 +31,12 @@ export default function queryFactory(
    * @param {object} query elastic search client instance
    * @returns {Promise} fetchQuery
    */
-  return async function fetchQuery(query = DEFAULT_PARAMS) {
+  return async function fetchQuery(query = DEFAULT_PARAMS, requestParams=DEFAULT_PARAMS, headers) {
     let error, body, docs;
-    [error, body] = await to(queryBuilder(query, client, index));
+    [error, body] = await to(queryBuilder(query, client, index, headers));
+    if (error && error.message === "unauthorized") {
+      throw new Errors.UnauthorizedError(error);
+    }
     if (error) { throw new Errors.QueryBuilderError(error); }
     const params = {
       size: query.size,
@@ -42,7 +45,10 @@ export default function queryFactory(
       type: "doc",
       body
     };
-    [error, docs] = await to(client.search(params));
+    [error, docs] = await to(client.search(params, headers));
+    if (error && error.message === "unauthorized") {
+      throw new Errors.UnauthorizedError(error);
+    }
     if (error) { throw new Errors.ElasticSearchError(error); }
     return normalizer(docs);
   };

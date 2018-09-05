@@ -1,0 +1,17 @@
+.brain-region {
+  font-size: 1em;
+  .brain-region-icon {
+    width: 1em;
+    display: inline-block;
+    path {
+      fill :#45c7f4;
+    }
+  }
+  &[disabled] {
+    .brain-region-icon {
+      path {
+        fill :rgba(0, 0, 0, 0.25);;
+      }
+    }
+  }
+}
