@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Icon, Radio } from "antd";
 import ResultCounter from "./ResultCounter";
+import SearchBar from "../../SearchBar";
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -33,6 +34,7 @@ const Toolbar = ({ pending, resultCount, listType, handleListTypeChange }) => {
   return (
     <div className="search-toolbar flex space-between">
       <ResultCounter resultCount={resultCount} pending={pending} />
+      <SearchBar />
       <div className="">
         <RadioGroup onChange={handleListTypeChange} defaultValue={listType}>
           <RadioButton value="Grid">

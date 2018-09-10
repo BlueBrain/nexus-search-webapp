@@ -1,7 +1,7 @@
 {
   "name": "nexus-search-webapp",
   "description": "Service which allows you to search Nexus platform",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Blue Brain Nexus",
   "license": "Apache-2.0",
   "main": "index.js",
@@ -31,7 +31,7 @@
     "@bbp/nexus-react": "0.0.17",
     "@bbp/nexus-search-extensions": "^1.0.1",
     "@tweenjs/tween.js": "^17.2.0",
-    "antd": "^3.7.0",
+    "antd": "^3.9.2",
     "batch-promises": "0.0.3",
     "boxen": "^1.3.0",
     "chalk": "^2.4.1",

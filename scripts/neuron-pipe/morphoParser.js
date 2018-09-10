@@ -1,6 +1,6 @@
 import { getProp } from "@libs/utils";
-import { getDistributionFromInstance } from "../../../src/libs/distributions";
-import morphoParser from "../../morpho-service";
+import { getDistributionFromInstance } from "../../client/libs/distributions";
+import morphoParser from "../morpho-service";
 import {to} from "@libs/promise";
 
 export default async (doc, config) => {
@@ -14,7 +14,7 @@ export default async (doc, config) => {
       console.log("found morpho: ", name)
       let [error, result] = await to(morphoParser(distro, token, name))
       if (error) {
-        cosnole.log(error);
+        console.log(error);
         return doc
       }
       doc.morphologyFile = result.name
