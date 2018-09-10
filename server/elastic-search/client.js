@@ -23,9 +23,13 @@ export default class Client {
       console.log(url);
       fetch(url, options)
         .then(response => {
-          console.log(response.status);
+          console.log(response);
           if (response.status === 401) {
             return reject(new Error("unauthorized"));
+          }
+          if (response.status === 400) {
+            console.log(response);
+            return reject(new Error("not found"));
           }
           return response.json();
         })

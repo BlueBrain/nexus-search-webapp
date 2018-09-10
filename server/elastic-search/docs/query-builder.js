@@ -45,10 +45,13 @@ function makeDocsQuery(
   }
   if (q) {
     params.query.bool.must.push({
-      query_string: {
+      // query: {
         // fields : ["eType*", "label", "subject.*", "@id.*", "@type.*", "brainLocation.*", "name"],
-        query: `(${query.q}~ OR ${query.q}*)`
-      }
+        // query: `(${query.q}~ OR ${query.q}*)`
+        match: {
+          "_all": query.q
+        }
+      // }
     });
     params.highlight = {
       fields: {
