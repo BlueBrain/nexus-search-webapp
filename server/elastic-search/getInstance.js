@@ -31,6 +31,7 @@ export default function getInstanceFactory(
         Authorization: headers.authorization
       }
     };
+
     //TODO remove hardcoded path when new API is up
     // TODO make check for bad token
     let url = "https://bbp-nexus.epfl.ch/staging/v1/resources/kenny/search/resource/" + requestParams.id;

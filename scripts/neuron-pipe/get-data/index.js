@@ -9,6 +9,7 @@ import trimMetaData from "../trimMetaData";
 import pushToNexus from "../pushToNexus";
 import flattenDownloadables from "../flattenDownloadables";
 import { getProp } from "@libs/utils";
+import morphoParser from "../morphoParser";
 require("dns-cache")(100000);
 
 const [, , stage, push] = process.argv;
@@ -156,8 +157,8 @@ async function fetch() {
       },
       async doc => await flattenDownloadables(doc),
       // async doc => await fetchMorphology(doc, easyConfig),
-      // async doc => await morphoParser(doc, easyConfig)
-      async doc => await pushToNexus(doc, easyConfig)
+      async doc => await morphoParser(doc, easyConfig),
+      // async doc => await pushToNexus(doc, easyConfig)
     ])
   );
   if (!docs) {

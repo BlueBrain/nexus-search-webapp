@@ -9,7 +9,8 @@ import { isEqual } from "underscore";
 
 class InfoBoxListContainer extends React.PureComponent {
   updateFilterBox() {
-    if (this.props.filter && Object.keys(this.props.filter).length > 0) {
+    // TODO add this business logic inside each message box instead of here?
+    if ((this.props.filter && Object.keys(this.props.filter).length > 0) || this.props.q) {
       this.props.add("Filters");
     } else {
       this.props.remove("Filters");
@@ -19,7 +20,8 @@ class InfoBoxListContainer extends React.PureComponent {
     this.updateFilterBox();
   }
   componentDidUpdate(prevProps) {
-    let same = isEqual(prevProps.filter, this.props.filter);
+    // TODO move logic to shouldComponentUpdate
+    let same = isEqual(prevProps.filter, this.props.filter) && prevProps.q === this.props.q
     if (!same) { this.updateFilterBox() }
   }
   render() {
