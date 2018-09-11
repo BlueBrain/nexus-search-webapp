@@ -1,18 +1,18 @@
 import React, { PureComponent } from "react";
 import SVG from "react-svg";
 import icons from "../Icons";
+import cellAtlasBrainRegionMap from "./cellAtlasBrainRegionMap";
 
 function formRegionLink(region) {
-  let regionID = 793;
-  // TODO get brain region atlas mappings
-  return "https://bbp.epfl.ch/nexus/cell-atlas/?regions=" + regionID;
+  // TODO make path configurable?
+  return "https://bbp.epfl.ch/nexus/cell-atlas/?regions=" + cellAtlasBrainRegionMap[region];
 }
 
 class BrainRegionLink extends PureComponent {
   render() {
     const { region, species } = this.props;
     // TODO fit for species
-    if (species === "mouse") {
+    if (species === "Mus musculus") {
       return (
         <a
           className="brain-region"
@@ -28,14 +28,16 @@ class BrainRegionLink extends PureComponent {
         </a>
       );
     } else {
-      return (<a className="brain-region" disabled>
-        <SVG
-          path={icons.brain}
-          svgClassName="brain-region-svg"
-          className="brain-region-icon"
-        />{" "}
-        <em>{region}</em>
-      </a>);
+      return (
+        <a className="brain-region" disabled>
+          <SVG
+            path={icons.brain}
+            svgClassName="brain-region-svg"
+            className="brain-region-icon"
+          />{" "}
+          <em>{region}</em>
+        </a>
+      );
     }
   }
 }

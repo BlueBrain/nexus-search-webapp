@@ -116,7 +116,6 @@ function Hero({ instance }) {
 }
 
 function Details({ instance }) {
-  let brainRegion = getProp(instance, "brainRegion.label");
   let generatedFromCells = getProp(instance, "generatedFromCells", []);
   return (
     <div className="more-details">
@@ -125,11 +124,11 @@ function Details({ instance }) {
         <h2 className="mType">
             Cell{" "}
             <Tag color="#90eac3">
-              <FontAwesome name={"flask"} /> In Silico
+              <FontAwesome name={"flask"} /> Experimental
             </Tag>
           </h2>
           <div className="eType">{getProp(instance, "eType.label") && eTypes[getProp(instance, "eType.label")]}</div>
-          <div className="brainRegion"><BrainRegionLink region={getProp(instance, "brainRegion.label")} /> ({getProp(instance, "brainRegion.layer")})</div>
+          <div className="brainRegion"><BrainRegionLink region={getProp(instance, "brainRegion.label")} species={getProp(instance, "subject.species")}/> {getProp(instance, "brainRegion.layer") && "(" + getProp(instance, "brainRegion.layer") + ")"}</div>
           <Subject subject={getProp(instance, "subject")} />
         </Col>
       </Row>
