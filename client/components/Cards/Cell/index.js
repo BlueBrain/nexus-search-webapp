@@ -67,8 +67,8 @@ const GridResult = ({ value, id }) => {
                   <div className="labels">
                     {value.subject &&
                       <Fragment>
-                        <div className="top-label">{getProp(value, "subject.species.label")}</div>
-                        <div className="bottom-label">{getProp(value, "subject.strain.label")}</div>
+                        <div className="top-label">{getProp(value, "subject.species")}</div>
+                        <div className="bottom-label">{getProp(value, "subject.strain")}</div>
                       </Fragment>
                     }
                   </div>

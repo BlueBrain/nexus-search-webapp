@@ -24,9 +24,12 @@ function getPageType (instanceData, types) {
 const Details = props => {
   let { pending, error, data, types} = props;
   return (
-    <div style={{minHeight: "100vh", textAlign: "center"}}>
+    <div style={{ minHeight: "100vh" }}>
       <Spin spinning={pending} size="large" wrapperClassName={"big-loader"}>
           {!pending && data && getPageType(data, types)({ data })}
+          {pending &&
+            <article id="details" style={{ minHeight: "100vh" }}></article>
+          }
       </Spin>
     </div>
   );

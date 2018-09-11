@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 import { isURL } from "@libs/string";
 
 function makeSafeID(id) {
-  if (isURL(id)) { return encodeURIComponent(id); }
+  if (isURL(id)) {
+    return encodeURIComponent(id);
+  }
   return id;
 }
 
@@ -12,6 +14,7 @@ class InspectLink extends PureComponent {
     const { id, children } = this.props;
     const safeID = makeSafeID(id);
     return (
+      // BUG!: TODO set modal to mimic pinterest routes
       <Link
         key={safeID}
         to={{

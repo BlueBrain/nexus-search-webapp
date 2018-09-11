@@ -9,6 +9,8 @@ import {eTypes, mTypes} from "../../../../../consts";
 import Extensions from "../../Extensions";
 import TraceViewer from "../../../TraceViewer";
 import BrainRegionLink from "../../../BrainRegionLink";
+import Subject from "../Subject";
+import ProvLink from "../ProvLink";
 
 const DEFAULT_CELL_MODEL_NAME = "Cell Model";
 function getUUIDFromAtID(instance) {
@@ -124,6 +126,7 @@ function Hero({ instance }) {
 
 function Details({ instance }) {
   let brainRegion = getProp(instance, "brainRegion.label");
+  let generatedFromCells = getProp(instance, "generatedFromCells", []);
   return (
     <div className="more-details">
       <Row>
@@ -133,35 +136,22 @@ function Details({ instance }) {
           </h2>
           <div className="eType">{getProp(instance, "eType.label") && eTypes[getProp(instance, "eType.label")]}</div>
           <div className="brainRegion"><BrainRegionLink region={getProp(instance, "brainRegion.label")} /></div>
+          <Subject subject={getProp(instance, "subject")} />
           {softwareLine(instance)}
         </Col>
         <Col span={8}>
           <Divider>
-            Provenance
+            Properties Derived from
           </Divider>
+          <p>{generatedFromCells.length} Cells</p>
           <ul>
-            <li><em>Ephys</em> derived from 13 <a>Cells</a>
-              <ul>
-              <li><a>CA123123</a></li>
-              <li><a>CA123123</a></li>
-              <li><a>CA123123</a></li>
-              <li><a>CA123123</a></li>
-            </ul>
-            </li>
-            <li><em>Morphology</em> derived from 1 <a>Cell</a>
-            <ul>
-            <li><a>CA123123</a></li>
-          </ul>
-            </li>
-          </ul>
-          <Divider>
-            Similar cells by <em>Brain Region</em>
-          </Divider>
-          <ul>
-            <li><a>CA123123</a></li>
-            <li><a>CA123123</a></li>
-            <li><a>CA123123</a></li>
-            <li><a>CA123123</a></li>
+            {generatedFromCells.map(entry => {
+              return (
+                <li>
+                  <ProvLink {...entry} />
+                </li>
+              );
+            })}
           </ul>
         </Col>
       </Row>
@@ -179,7 +169,7 @@ function Details({ instance }) {
   )
 }
 
-export default function CellModelDetailsPage(instance) {
+export default function CellModelDetailsPage({ data: instance }) {
   return (
     <article id="details">
       <Header instance={instance} />
