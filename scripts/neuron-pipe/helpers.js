@@ -51,11 +51,6 @@ function getInstancesList(
   return fetchWrapper(uri, {}, fetchAll, access_token);
 }
 
-const asyncTimeout = time =>
-  new Promise((resolve, reject) => {
-    setTimeout(resolve, time);
-  });
-
 /**
  * Wrapper around native fetch to pass all params
  * @param {string} url - actual url for request
@@ -66,10 +61,7 @@ const asyncTimeout = time =>
  */
 function fetchWrapper(url, result, fetchAll, access_token, options) {
   fetchAll = Boolean(fetchAll);
-  return asyncTimeout(1000)
-    .then(() => {
-      return fetchWithToken(url, access_token, options);
-    })
+  return fetchWithToken(url, access_token, options)
     .then(response => {
       console.log(response.status);
       console.log(response.statusText);
@@ -121,14 +113,29 @@ function fetchWithToken(uri, access_token, options = {}) {
       console.log(error.message);
       Promise.reject(error);
     });
-  // try {
-  //   let response = await fetch(uri, Object.assign(options, requestOptions));
-  //   return Promise.resolve(response)
-
-  // } catch(error) {
-  //   console.log("OMGGGG")
-  //   console.log(error);
-  // }
 }
 
-export { fetchWithToken, fetchWrapper, getInstancesList };
+/**
+ * break a nexus resource URL into an array of useful parts
+ * @param {string} url - nexus resource URL
+ * @return {Array<string>}  [base, org, domain, schema, version, instance]
+ */
+function getURIPartsFromNexusURL(url) {
+  let nexusURL = new URL(url);
+  let path = nexusURL.pathname;
+  let boundry = path.indexOf("data/");
+  let uriParts = path
+    .slice(boundry)
+    .split("/")
+    .slice(1);
+  let base = url.slice(0, url.indexOf("/data/"));
+  uriParts.unshift(base);
+  return uriParts;
+}
+
+export {
+  fetchWithToken,
+  fetchWrapper,
+  getInstancesList,
+  getURIPartsFromNexusURL
+};

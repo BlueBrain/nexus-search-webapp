@@ -2,13 +2,13 @@ import React from "react";
 import { Button, Icon, Row, Col, Divider } from "antd";
 import moment from "moment";
 import { getProp } from "@libs/utils";
-import TypeIcon from "../../NewTypeIcon";
-import MorphologyPreview from "../../Cards/Cell/MorphologyPreview";
-import Download from "../../Download";
-import {eTypes, mTypes} from "../../../../consts";
-import Extensions from "../Extensions";
-import TraceViewer from "../../TraceViewer";
-import BrainRegionLink from "../../BrainRegionLink";
+import TypeIcon from "../../../NewTypeIcon";
+import MorphologyPreview from "../../../Cards/Cell/MorphologyPreview";
+import Download from "../../../Download";
+import {eTypes, mTypes} from "../../../../../consts";
+import Extensions from "../../Extensions";
+import TraceViewer from "../../../TraceViewer";
+import BrainRegionLink from "../../../BrainRegionLink";
 
 const DEFAULT_CELL_MODEL_NAME = "Cell Model";
 function getUUIDFromAtID(instance) {
@@ -180,7 +180,6 @@ function Details({ instance }) {
 }
 
 export default function CellModelDetailsPage(instance) {
-  console.log(instance);
   return (
     <article id="details">
       <Header instance={instance} />

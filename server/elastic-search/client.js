@@ -1,12 +1,13 @@
 import fetch from "node-fetch";
 
+// Class that mimics the Elastic Search JS Client API but uses Nexus v1 Search
 export default class Client {
   constructor(options) {
     let { host } = options;
     this.host = host;
     this.indices = {
       getMapping: this.getMapping.bind(this)
-    }
+    };
   }
   getMapping(params, headers) {
     return new Promise((resolve, reject) => {

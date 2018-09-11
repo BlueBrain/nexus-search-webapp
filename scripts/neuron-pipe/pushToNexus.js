@@ -1,12 +1,9 @@
 import { fetchWithToken } from "./helpers";
 import { getProp } from "@libs/utils";
 
-export default async (doc, config) => {
+export default async (doc, token, queryURL) => {
   try {
-    const { token, v1 } = config;
-    const { base, project, org } = v1;
     let body = JSON.stringify(doc);
-    let queryURL = `${base}/resources/${org}/${project}/resources`;
     let error, status, responsePayload;
     [error, status, responsePayload] = await withStatus(
       fetchWithToken(queryURL, token, {
@@ -25,7 +22,7 @@ export default async (doc, config) => {
         throw new Error("broken connection");
       case "AlreadyExists":
         console.log("some conflict we have to resolve...")
-        let resourceURL = queryURL + "/" + doc.searchID;
+        let resourceURL = queryURL + doc.searchID;
         let [error, status, payload] = await withStatus(
           fetchWithToken(resourceURL, token)
         );
@@ -37,7 +34,7 @@ export default async (doc, config) => {
         if (!rev) {
           throw new Error("cannot update, no revision: " + resourceURL);
         }
-        let updateURL = queryURL + "/" + doc.searchID + "?rev=" + rev;
+        let updateURL = queryURL +  doc.searchID + "?rev=" + rev;
         [error, status, payload] = await withStatus(
           fetchWithToken(updateURL, token, {
             method: "PUT",

@@ -1,18 +1,9 @@
-const searchItems = {
-  searchCell: {
-    "@id": "nxv:SearchCell"
-  },
-  searchIonChannel: {
-    "@id": "nxv:SearchIonChannel"
-  },
-  searchIonChannelCell: {
-    "@id": "nxv:SearchIonChannelCell"
-  }
-};
+import { types } from "../consts";
 
 export default {
   "@context": [
     {
+      ...types,
       nxv: "https://bbp-nexus.epfl.ch/vocabs/nexus/core/terms/v0.1.0/",
       links: {
         "@id": "https://bbp-nexus.epfl.ch/vocabs/nexus/core/terms/v0.1.0/links"
@@ -149,7 +140,6 @@ export default {
         "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/",
       schema: "http://schema.org/",
       dcat: "http://www.w3.org/ns/dcat#",
-      ...searchItems,
       ionChannel: {
         "@id": "nxv:ionChannel"
       },

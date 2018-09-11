@@ -6,6 +6,14 @@ class ElasticSearchError extends Error {
   }
 }
 
+// For when Resource API breaks
+class ResourceError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'ResourceError';
+  }
+}
+
 // For when QB breaks
 class QueryBuilderError extends Error {
   constructor(message) {

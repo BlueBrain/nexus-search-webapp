@@ -14,8 +14,7 @@ const DEFAULT_PARAMS = {
  * @returns {function} fetchQuery
  */
 export default function getInstanceFactory(
-  client,
-  index
+  client
 ) {
   /**
    * Fetch the docs!
@@ -26,17 +25,9 @@ export default function getInstanceFactory(
    */
   return async function getInstance(query, requestParams=DEFAULT_PARAMS, headers) {
     let error, docs;
-    const params = {
-      headers: {
-        Authorization: headers.authorization
-      }
-    };
-
-    //TODO remove hardcoded path when new API is up
     // TODO make check for bad token?
-    let url = "https://bbp-nexus.epfl.ch/staging/v1/resources/kenny/search/resource/" + requestParams.id;
-    [error, docs] = await to(fetch(url, params).then(res => res.json()));
-    if (error) { throw new Errors.ElasticSearchError(error); }
+    [error, docs] = await to(client.get(requestParams.id, headers));
+    if (error) { throw new Errors.ResourceError(error); }
     return docs
   };
 }

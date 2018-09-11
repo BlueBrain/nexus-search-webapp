@@ -11,7 +11,7 @@ const Grid = ({ results, types }) => {
         let resultType = getProp(result, "_source.@type");
         let typeLabel = getProp(types[resultType] || {}, "label");
         let SearchSnippet =
-          SearchSnippetCards[typeLabel] ||
+          SearchSnippetCards[typeLabel.replace(" ", "")] ||
           SearchSnippetCards.Default;
         return (
           <SearchSnippet

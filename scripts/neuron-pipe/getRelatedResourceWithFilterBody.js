@@ -22,11 +22,10 @@ function makeQuery(startingResourceURI, targetResourceType, context) {
   return query;
 }
 
-function getRelatedResourceTypeByID(config, id, targetResourceType, queryMaker=makeQuery) {
+function getRelatedResourceTypeByID(params, id, targetResourceType, queryMaker=makeQuery) {
   return new Promise((resolve, reject) => {
-    const { token, base, org, domain, context, schema, ver } = config;
+    const { token, base, context} = params;
     let query = queryMaker(id, targetResourceType, context);
-    // let body = encodeURI(JSON.stringify(query));
     let queryURL = base + "/queries/";// + "?fields=all";
     let options = {
       method: "POST",

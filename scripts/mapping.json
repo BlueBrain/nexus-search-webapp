@@ -149,6 +149,27 @@
             }
           }
         },
+        "distributions": {
+          "type": "nested",
+          "properties": {
+            "repository": {
+              "type": "text",
+              "fields": {
+                "raw": {
+                  "type": "keyword"
+                }
+              }
+            },
+            "source": {
+              "type": "text",
+              "fields": {
+                "raw": {
+                  "type": "keyword"
+                }
+              }
+            }
+          }
+        },
         "license": {
           "type": "nested",
           "properties": {

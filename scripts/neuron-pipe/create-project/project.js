@@ -1,8 +1,17 @@
+import { base, resources } from "../consts";
+
+const resourcePrevixMappings = Object.keys(resources).map(key => {
+  return {
+    namespace: resources[key].url,
+    prefix: key
+  };
+});
+
 export default {
   "@context":
     "https://bbp-nexus.epfl.ch/staging/v1/contexts/nexus/core/resource/v0.4.0",
   "@type": "nxv:Project",
-  base: "http://created.by.kenny/",
+  base,
   name: "Search Project",
   prefixMappings: [
     {
@@ -21,29 +30,6 @@ export default {
       namespace: "https://bluebrain.github.io/nexus/schemas/resource",
       prefix: "resources"
     },
-    {
-      namespace:
-        "https://bbp.epfl.ch/nexus/v0/data/bbp/experiment/patchedcell/v0.1.0/",
-      prefix: "pc"
-    },
-    {
-      namespace:
-        "https://bbp.epfl.ch/nexus/v0/data/thalamusproject/experiment/patchedcell/v0.1.0/",
-      prefix: "pc"
-    },
-    {
-      namespace:
-        "https://bbp-nexus.epfl.ch/staging/v0/data/somatosensorycortexproject/simulation/emodel/v0.1.1/",
-      prefix: "em"
-    },
-    {
-      "namespace": "https://bbp-nexus.epfl.ch/staging/v0/data/somatosensorycortexproject/simulation/subcellularmodel/v0.1.2/",
-        "prefix": "subcell"
-    },
-    {
-      namespace:
-        "https://bbp-nexus.epfl.ch/staging/v0/data/ionchannel/experiment/ionchannelgene/v0.1.0/",
-      prefix: "icg"
-    }
+    ...resourcePrevixMappings
   ]
 };
