@@ -30,8 +30,12 @@ DetailsViewContainer.propTypes = {
   useModal: PropTypes.bool.isRequired
 };
 
-function mapStateToProps({ instance }) {
-  return instance;
+function mapStateToProps({ instance, config }) {
+  let { types } = config.uiConfig;
+  return {
+    types,
+    ...instance
+  };
 }
 
 function mapDispatchToProps(dispatch) {

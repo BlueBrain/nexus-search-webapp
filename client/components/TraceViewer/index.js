@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import Dygraph from "dygraphs";
 import trace from "./trace2.json";
+
+//TODO fetch traces remotely
 
 class TraceContainer extends React.Component {
   constructor(props) {
@@ -27,22 +28,10 @@ class TraceContainer extends React.Component {
     }
 
     let csvHeader = "Time," + Object.keys(trace).join(",") + "\n";
-    console.log({csvHeader});
-    let voltageTime
-    // let g = new Dygraph(
-    //   // containing div
-    //   element,
+    let voltageTime = Object.keys(trace).reduce((memo, valu, index) => {
+      return voltageTime;
+    }, "")
 
-    //   // CSV or path to a CSV file.
-    //   "Time," + trace.reduce((memo, val, index) => {
-    //     if (index % 2 === 0) {
-    //       memo += val;
-    //     } else {
-    //       memo += `,${val}\n`;
-    //     }
-    //     return memo;
-    //   }, "")
-    // );
   }
   render() {
     return (

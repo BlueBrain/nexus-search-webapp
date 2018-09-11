@@ -45,17 +45,23 @@ function makeDocsQuery(
   }
   if (q) {
     params.query.bool.must.push({
-      query_string: {
+      // query: {
         // fields : ["eType*", "label", "subject.*", "@id.*", "@type.*", "brainLocation.*", "name"],
-        query: `(${query.q}~ OR ${query.q}*)`
-      }
+        query_string: {
+          query: `(${q}* OR ${q}~)`
+        }
+        // match: {
+        //   "_all": query.q
+        // }
+      // }
     });
-    params.highlight = {
-      fields: {
-        "*": {}
-      },
-      require_field_match: false
-    }
+    // TODO how to speed up?
+    // params.highlight = {
+    //   fields: {
+    //     "*": {}
+    //   },
+    //   require_field_match: false
+    // }
   }
   if (type) {
     params.query.bool.must.push({

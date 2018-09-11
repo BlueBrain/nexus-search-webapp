@@ -1,51 +1,24 @@
-import getConfig from "../config";
 import getResources from "../getResources";
 import file from "../file";
 import { to, waitForEach } from "@libs/promise";
-import processDoc from "./processDoc";
+import processDoc from "../processDoc";
 import fetchResourceById from "../fetchResourceById";
 import pushToNexus from "../pushToNexus";
-import trimMetaData from "../trimMetaData";
 import flattenDownloadables from "../flattenDownloadables";
 import getRelatedResourceWithFilter from "../getRelatedResourceWithFilterBody";
-require("dns-cache")(10000);
+import { getURIPartsFromNexusURL, fetchWithToken } from "../helpers";
+import pc from "../../testData/pc.json";
 
-const [, , stage, push] = process.argv;
-const config = getConfig("get-cell-model-data", stage);
-
-const {
-  TOKEN: token,
-  BASE: base,
-  ORG: org,
-  DOMAIN: domain,
-  CONTEXT: context,
-  SCHEMA: schema,
-  VER: ver,
-  V1_PROJECT: v1Project,
-  V1_ORG: v1Org,
-  V1_BASE: v1Base
-} = config;
-
-let easyConfig = {
-  token,
-  base,
-  org,
-  domain,
-  context,
-  schema,
-  ver,
-  v1: { project: v1Project, org: v1Org, base: v1Base }
-};
-
-async function fetch() {
-  console.log(easyConfig);
+async function fetch(resource, token, shouldUpload, resourceURL) {
+  let { short, source, url, context } = resource;
+  let [base, ...urlParts] = getURIPartsFromNexusURL(url);
   let [error, docs] = await to(
-    waitForEach(getResources(easyConfig), [
-      processDoc,
+    waitForEach(getResources(url, token), [
+      processDoc(resource),
       async doc => {
         let morphology = await fetchResourceById(
           doc,
-          easyConfig.token,
+          token,
           doc => doc.wasDerivedFrom[0]["@id"]
         );
         doc.morphology = [morphology];
@@ -54,6 +27,9 @@ async function fetch() {
       async doc => {
         doc.subject = {
           species: doc.species
+        };
+        doc.cellName = {
+          label: doc.name
         };
         delete doc.species;
         return doc;
@@ -77,7 +53,7 @@ async function fetch() {
       },
       async doc => {
         let response = await getRelatedResourceWithFilter(
-          easyConfig,
+          { token, base, context },
           doc["@id"],
           "prov:SoftwareAgent",
           (startingResourceURI, targetResourceType, context) => {
@@ -108,9 +84,78 @@ async function fetch() {
         return doc;
       },
       async doc => {
+        let response = await getRelatedResourceWithFilter(
+          { token, base, context },
+          doc["@id"],
+          "prov:SoftwareAgent",
+          (startingResourceURI, targetResourceType, context) => {
+            const query = {
+              "@context": context,
+              filter: {
+                op: "and",
+                value: [
+                  {
+                    path: "rdf:type",
+                    op: "eq",
+                    value: "nsg:PatchedCell"
+                  },
+                  {
+                    path: "nxv:deprecated",
+                    op: "eq",
+                    value: false
+                  },
+                  {
+                    path:
+                      "^prov:used / ^prov:wasGeneratedBy / ^prov:hadMember / ^prov:wasDerivedFrom",
+                    op: "eq",
+                    value:
+                      startingResourceURI
+                  }
+                ]
+              }
+            };
+            return query;
+          }
+        );
+
+        // resolve all the patchedCell Id's into thier full contents
+        let patchedCells = await Promise.all(response.results.map(async result => {
+          let response = await fetchWithToken(
+            result.resultId,
+            token
+          );
+          let json = await response.json();
+          return json
+        }))
+
+        // match the names we have with the cells we have, and return their ids
+        // should conform to this format
+        // {
+        //   "@id": "https://bbp-nexus.epfl.ch/staging/v0/data/somatosensorycortexproject/simulation/emodel/v0.1.1/2f2816e6-5d8f-42f2-b043-dad56eac30bc",
+        //   "searchId": "em:2f2816e6-5d8f-42f2-b043-dad56eac30bc",
+        //   "type": "nxv:SearchCell"
+        // },
+        let resolvedCellUsedWith = patchedCells.map(patchedCell => {
+          let resolvedPatchedCellList = pc.filter(cell => {
+            return cell.name === patchedCell.name;
+          })
+          if (resolvedPatchedCellList.length) {
+            let { '@id': patchedCellID, searchID, "@type": patchedCellType } = resolvedPatchedCellList[0];
+            return {
+              "@id": patchedCellID,
+              searchId: searchID,
+              type: patchedCellType
+            }
+          }
+        })
+
+        doc.generatedFromCells = resolvedCellUsedWith
+        return doc;
+      },
+      async doc => {
         let modelScript = await fetchResourceById(
           doc,
-          easyConfig.token,
+          token,
           doc => doc.modelScript[0]["@id"]
         );
         doc.modelScript = [modelScript];
@@ -119,7 +164,7 @@ async function fetch() {
       async doc => {
         let generatedFrom = await fetchResourceById(
           doc,
-          easyConfig.token,
+          token,
           doc => doc.generatedFrom
         );
         doc.software = generatedFrom;
@@ -128,7 +173,7 @@ async function fetch() {
       async doc => {
         let attribution = await fetchResourceById(
           doc,
-          easyConfig.token,
+          token,
           doc => doc.wasAttributedTo["@id"]
         );
         attribution.fullName =
@@ -145,8 +190,12 @@ async function fetch() {
         return doc;
       },
       async doc => await flattenDownloadables(doc),
-      // async doc => await morphoParser(doc, easyConfig)
-      async doc => await pushToNexus(doc, easyConfig)
+      async doc => {
+        if (shouldUpload) {
+          await pushToNexus(doc, token, resourceURL);
+        }
+        return doc;
+      }
     ])
   );
   if (!docs) {
@@ -157,26 +206,7 @@ async function fetch() {
   }
   console.log("found " + docs.length + " docs");
   console.log("finished, writing to file");
-  file.write("CellModels", docs);
+  file.write(short, docs);
 }
 
-async function pushDocs() {
-  let cells = require("./Cells.json");
-  let responses = await Promise.all(
-    cells.map(async doc => await pushToNexus(doc, easyConfig))
-  );
-  return responses;
-}
-
-void (async function main() {
-  try {
-    if (push) {
-      let stuff = await pushDocs();
-    } else {
-      let stuff = await fetch();
-    }
-  } catch (error) {
-    console.log(error);
-    process.exit(1);
-  }
-})();
+export default fetch;

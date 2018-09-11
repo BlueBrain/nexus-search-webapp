@@ -16,7 +16,7 @@ ENV SEARCH_PROXY_PORT="8000"
 ENV ELASTICSEARCH_CLIENT_URL="https://bbp-nexus.epfl.ch/staging/v1/views/kenny/search/"
 ENV SEARCH_API_BASE_PATH=""
 ENV STATIC_DATA_FOLDER="/usr/share/nginx/html/data"
-
+ENV RESOURCE_URL="https://bbp-nexus.epfl.ch/staging/v1/resources/kenny/search/resources/"
 CMD ["node","index.js"]
 
 EXPOSE 8000

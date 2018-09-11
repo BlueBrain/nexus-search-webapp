@@ -1,14 +1,17 @@
 import React from "react";
-import { Button, Icon, Row, Col, Divider } from "antd";
+import { Button, Icon, Row, Col, Divider, Tag } from "antd";
 import moment from "moment";
 import { getProp } from "@libs/utils";
-import TypeIcon from "../../NewTypeIcon";
-import MorphologyPreview from "../../Cards/Cell/MorphologyPreview";
-import Download from "../../Download";
-import {eTypes, mTypes} from "../../../../consts";
-import Extensions from "../Extensions";
-import TraceViewer from "../../TraceViewer";
-import BrainRegionLink from "../../BrainRegionLink";
+import TypeIcon from "../../../NewTypeIcon";
+import MorphologyPreview from "../../../Cards/Cell/MorphologyPreview";
+import Download from "../../../Download";
+import {eTypes, mTypes} from "../../../../../consts";
+import Extensions from "../../Extensions";
+import TraceViewer from "../../../TraceViewer";
+import BrainRegionLink from "../../../BrainRegionLink";
+import Subject from "../Subject";
+import FontAwesome from "react-fontawesome";
+import ProvLink from "../ProvLink";
 
 const DEFAULT_CELL_MODEL_NAME = "Cell Model";
 function getUUIDFromAtID(instance) {
@@ -75,16 +78,6 @@ function Header({ instance }) {
             <Button>Open Explorer</Button>
           </a>
         </li>
-        <li>
-          <a
-            target="_blank"
-            href={`http://bbp-blue-naas.ocp.bbp.epfl.ch/#/uuid/${getUUIDFromAtID(
-              instance
-            )}`}
-          >
-            <Button>Neuron as a service</Button>
-          </a>
-        </li>
       </ul>
     </header>
   );
@@ -124,45 +117,20 @@ function Hero({ instance }) {
 
 function Details({ instance }) {
   let brainRegion = getProp(instance, "brainRegion.label");
+  let generatedFromCells = getProp(instance, "generatedFromCells", []);
   return (
     <div className="more-details">
       <Row>
         <Col span={16}>
-          <h2 className="mType">
-            {getProp(instance, "mType.label") && mTypes[getProp(instance, "mType.label").toLowerCase()]} ({getProp(instance, "brainRegion.layer")})
+        <h2 className="mType">
+            Cell{" "}
+            <Tag color="#90eac3">
+              <FontAwesome name={"flask"} /> In Silico
+            </Tag>
           </h2>
           <div className="eType">{getProp(instance, "eType.label") && eTypes[getProp(instance, "eType.label")]}</div>
-          <div className="brainRegion"><BrainRegionLink region={getProp(instance, "brainRegion.label")} /></div>
-          {softwareLine(instance)}
-        </Col>
-        <Col span={8}>
-          <Divider>
-            Provenance
-          </Divider>
-          <ul>
-            <li><em>Ephys</em> derived from 13 <a>Cells</a>
-              <ul>
-              <li><a>CA123123</a></li>
-              <li><a>CA123123</a></li>
-              <li><a>CA123123</a></li>
-              <li><a>CA123123</a></li>
-            </ul>
-            </li>
-            <li><em>Morphology</em> derived from 1 <a>Cell</a>
-            <ul>
-            <li><a>CA123123</a></li>
-          </ul>
-            </li>
-          </ul>
-          <Divider>
-            Similar cells by <em>Brain Region</em>
-          </Divider>
-          <ul>
-            <li><a>CA123123</a></li>
-            <li><a>CA123123</a></li>
-            <li><a>CA123123</a></li>
-            <li><a>CA123123</a></li>
-          </ul>
+          <div className="brainRegion"><BrainRegionLink region={getProp(instance, "brainRegion.label")} /> ({getProp(instance, "brainRegion.layer")})</div>
+          <Subject subject={getProp(instance, "subject")} />
         </Col>
       </Row>
       <Row>
@@ -179,8 +147,7 @@ function Details({ instance }) {
   )
 }
 
-export default function CellModelDetailsPage(instance) {
-  console.log(instance);
+export default function CellModelDetailsPage({ data: instance }) {
   return (
     <article id="details">
       <Header instance={instance} />

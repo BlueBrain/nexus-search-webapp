@@ -1,66 +1,46 @@
-import getConfig from "../config";
 import getResources from "../getResources";
 import file from "../file";
 import { to, waitForEach } from "libs/promise";
-import processDoc from "./processDoc";
+import processDoc from "../processDoc";
 import fetchResourceById from "../fetchResourceById";
 import getRelatedResourceWithFilter from "../getRelatedResourceWithFilter";
 import trimMetaData from "../trimMetaData";
 import pushToNexus from "../pushToNexus";
 import flattenDownloadables from "../flattenDownloadables";
 import { getProp } from "@libs/utils";
-import morphoParser from "../morphoParser";
+import { getURIPartsFromNexusURL } from "../helpers";
+
 require("dns-cache")(100000);
 
-const [, , stage, push] = process.argv;
-const config = getConfig("get-data", stage);
-
-const {
-  TOKEN: token,
-  BASE: base,
-  ORG: org,
-  DOMAIN: domain,
-  CONTEXT: context,
-  SCHEMA: schema,
-  VER: ver,
-  V1_PROJECT: v1Project,
-  V1_ORG: v1Org,
-  V1_BASE: v1Base
-} = config;
-
-let easyConfig = {
-  token,
-  base,
-  org,
-  domain,
-  context,
-  schema,
-  ver,
-  v1: { project: v1Project, org: v1Org, base: v1Base }
-};
-
-async function fetch() {
-  console.log(easyConfig);
+async function fetch(resource, token, shouldUpload, resourceURL) {
+  let { short, source, url, context } = resource;
+  let [base, ...urlParts ] = getURIPartsFromNexusURL(url);
   let [error, docs] = await to(
-    waitForEach(getResources(easyConfig), [
-      processDoc,
+    waitForEach(getResources(url, token), [
+      processDoc(resource),
       async doc => {
         let subject = getProp(doc, "wasDerivedFrom.@id");
         if (subject) {
           let subjectResult = await fetchResourceById(
             doc,
-            easyConfig.token,
+            token,
             doc => subject
           );
           doc.subject = subjectResult;
         }
-        return doc;
-      },
-      async doc => {
+        doc.cellName = {
+          label: doc.name
+        };
+        doc.brainRegion = doc.brainLocation.brainRegion;
+        delete doc.brainLocation;
         doc.studyType = { label: "Experimental" };
         return doc;
       },
       async doc => {
+        return doc;
+      },
+      async doc => {
+        // TODO what do we do with traces?
         // let response = await getRelatedResourceWithFilter(
         //   easyConfig,
         //   doc["@id"],
@@ -109,7 +89,7 @@ async function fetch() {
       },
       async doc => {
         let response = await getRelatedResourceWithFilter(
-          easyConfig,
+          { token, base, context},
           doc["@id"],
           "nsg:ReconstructedCell",
           function makeQuery(startingResourceURI, targetResourceType) {
@@ -138,15 +118,16 @@ async function fetch() {
         return doc;
       },
       async doc => {
-        console.log(doc.subject);
-        if (!doc.subject) { return doc; }
-        doc.subject.species = getProp(doc, "subject.species.label")
-        doc.subject.sex = getProp(doc, "subject.sex.label")
-        doc.subject.strain = getProp(doc, "subject.strain.label")
+        if (!doc.subject) {
+          return doc;
+        }
+        doc.subject.species = getProp(doc, "subject.species.label");
+        doc.subject.sex = getProp(doc, "subject.sex.label");
+        doc.subject.strain = getProp(doc, "subject.strain.label");
         doc.cellTypes = {
           eType: getProp(doc, "eType.label"),
           mType: getProp(doc, "mType.label")
-        }
+        };
         if (doc.cellTypes.eType === "null" || doc.cellTypes.eType === null) {
           delete doc.cellTypes.eType;
         }
@@ -156,9 +137,12 @@ async function fetch() {
         return doc;
       },
       async doc => await flattenDownloadables(doc),
-      // async doc => await fetchMorphology(doc, easyConfig),
-      async doc => await morphoParser(doc, easyConfig),
-      // async doc => await pushToNexus(doc, easyConfig)
+      async doc => {
+        if (shouldUpload) {
+          await pushToNexus(doc, token, resourceURL);
+        }
+        return doc;
+      }
     ])
   );
   if (!docs) {
@@ -169,26 +153,7 @@ async function fetch() {
   }
   console.log("found " + docs.length + " docs");
   console.log("finished, writing to file");
-  file.write("Cells", docs);
+  file.write(short, docs);
 }
 
-async function pushDocs() {
-  let cells = require("./Cells.json");
-  let responses = await Promise.all(
-    cells.map(async doc => await pushToNexus(doc, easyConfig))
-  );
-  return responses;
-}
-
-void (async function main() {
-  try {
-    if (push) {
-      let stuff = await pushDocs();
-    } else {
-      let stuff = await fetch();
-    }
-  } catch (error) {
-    console.log(error);
-    process.exit(1);
-  }
-})();
+export default fetch;

@@ -22,18 +22,12 @@ function makeQuery(startingResourceURI, targetResourceType, context) {
   return query;
 }
 
-function getRelatedResourceTypeByID(config, id, targetResourceType, queryMaker=makeQuery) {
+function getRelatedResourceTypeByID(params, id, targetResourceType, queryMaker=makeQuery) {
   return new Promise((resolve, reject) => {
-    const { token, base, org, domain, context, schema, ver } = config;
+    const { token, base, context} = params;
     let query = queryMaker(id, targetResourceType);
     let filters = encodeURI(JSON.stringify(query));
     let queryURL = base + "/data/?fields=all&filter=" + filters + "&context=" + context;
-    let options = {
-      headers: {
-        Authorization: "Bearer " + token,
-        "Content-Type": "application/json"
-      }
-    };
     console.log({queryURL})
     return fetchWrapper(queryURL, {}, true, token)
       .then(response => {

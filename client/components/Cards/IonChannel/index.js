@@ -4,23 +4,10 @@ import TypeIcon from "../../TypeIcon";
 import { find } from "underscore";
 import Perspectivizer from "../../Animations/Perspectivizer";
 import { getProp } from "@libs/utils";
-import Preview from "./Preview";
 import InspectLink from "./InspectLink";
 import Contributions from "./Contributions";
 import { Icon } from "antd";
 import Download from "../../Download";
-import {eTypes, mTypes} from "../../../../consts";
-// function DownloadLink ({ url, children }) {
-//   if (url) {
-//     return (
-//       <a href={url} download>
-//         {children}
-//       </a>
-//     );
-//   } else {
-//     return null
-//   }
-// }
 
 const GridResult = ({ value, id }) => {
   return (
@@ -73,15 +60,12 @@ const GridResult = ({ value, id }) => {
                     }
                   </div>
                 </div>
-                <div className="name">{value.cellName.label}</div>
+                <div className="name">{value.name}</div>
               </div>
-              <Preview value={value}/>
               <div className="footer">
-                <div className="mType">
-                  {getProp(value, "mType.label") && mTypes[getProp(value, "mType.label").toLowerCase()]}
-                </div>
+              <div className="mType">{value.name}</div>
+              <div className="mType">Ion Channel</div>
                 <div className="brainRegion">{getProp(value, "brainRegion.label")}</div>
-                <div className="eType">{getProp(value, "eType.label") && eTypes[getProp(value, "eType.label")]}</div>
                 <div className="bottom flex space-between">
                   <Contributions contributions={getProp(value, "contributions")} />
                   {isInSilico &&
