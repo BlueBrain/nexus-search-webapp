@@ -63,6 +63,35 @@ const resourceDict = {
     studyType: "In Silico",
     repository: null
   },
+  rwbc: {
+    url: "https://bbp.epfl.ch/nexus/v0/data/neocortexproject/morphology/reconstructedwholebraincell/v0.1.1/",
+    context:
+      "https://bbp.epfl.ch/nexus/v0/contexts/neurosciencegraph/core/data/v0.1.0",
+    name: "Reconstructed Whole Brain Cells",
+    repository: "MouseLight",
+    source: "Neocortex Project",
+    studyType: "Experimental",
+    type: types.searchCell["@id"]
+  },
+  wmurwbc: {
+    url: "https://bbp.epfl.ch/nexus/v0/data/bbp/morphology/reconstructedwholebraincell/v0.1.1/",
+    context:
+    "https://bbp.epfl.ch/nexus/v0/contexts/neurosciencegraph/core/data/v1.0.1",
+    name: "WMU Reconstructed Whole Brain Cells",
+    repository: null,
+    source: "WMU",
+    studyType: "Experimental",
+    type: types.searchCell["@id"]
+  },
+  rpc: {
+    url: "https://bbp.epfl.ch/nexus/v0/data/neocortexproject/morphology/reconstructedpatchedcell/v0.1.1/",
+    context: "https://bbp.epfl.ch/nexus/v0/contexts/neurosciencegraph/core/data/v0.2.0",
+    name: "Reconstructed Patch Cell",
+    repository: null,
+    source: "Neocortex Project",
+    studyType: "Experimental",
+    type: types.searchCell["@id"]
+  },
   uploaded: {
     url: "http://uploader.bbp.epfl.ch/",
     name: "Uploaded Resources",

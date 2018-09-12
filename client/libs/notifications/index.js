@@ -2,7 +2,7 @@ import errors from "./errors";
 import messages from "./messages";
 
 const DEFAULT_NOTIFICATION_CONFIG = {
-  placement: 'bottomRight',
+  placement: 'topRight',
   bottom: 50,
   duration: 5,
 }
