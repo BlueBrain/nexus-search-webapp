@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Icon, Row, Col, Divider } from "antd";
+import { Button, Icon, Row, Col, Divider, Tag } from "antd";
 import moment from "moment";
 import { getProp } from "@libs/utils";
 import TypeIcon from "../../../NewTypeIcon";
@@ -10,6 +10,7 @@ import Extensions from "../../Extensions";
 import TraceViewer from "../../../TraceViewer";
 import BrainRegionLink from "../../../BrainRegionLink";
 import Subject from "../Subject";
+import FontAwesome from "react-fontawesome";
 import ProvLink from "../ProvLink";
 
 const DEFAULT_CELL_MODEL_NAME = "Cell Model";
@@ -132,10 +133,13 @@ function Details({ instance }) {
       <Row>
         <Col span={16}>
           <h2 className="mType">
-            {getProp(instance, "mType.label") && mTypes[getProp(instance, "mType.label").toLowerCase()]} ({getProp(instance, "brainRegion.layer")})
+            {getProp(instance, "mType.label") && mTypes[getProp(instance, "mType.label").toLowerCase()]}
+            {" "}<Tag color="#00c4ff">
+              <FontAwesome name={"microchip"} /> In Silico
+            </Tag>
           </h2>
           <div className="eType">{getProp(instance, "eType.label") && eTypes[getProp(instance, "eType.label")]}</div>
-          <div className="brainRegion"><BrainRegionLink region={getProp(instance, "brainRegion.label")} /></div>
+          <div className="brainRegion"><BrainRegionLink region={getProp(instance, "brainRegion.label")} /> ({getProp(instance, "brainRegion.layer")})</div>
           <Subject subject={getProp(instance, "subject")} />
           {softwareLine(instance)}
         </Col>
