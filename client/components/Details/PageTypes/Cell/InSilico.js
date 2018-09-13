@@ -145,13 +145,13 @@ function Details({ instance }) {
         </Col>
         <Col span={8}>
           <Divider>
-            Properties Derived from
+            Provenance
           </Divider>
-          <p>{generatedFromCells.length} Cells</p>
-          <ul>
-            {generatedFromCells.map(entry => {
+          <p>ephys derived from {generatedFromCells.length} Cells</p>
+          <ul className="prov-list">
+            {generatedFromCells.map((entry, index) => {
               return (
-                <li>
+                <li key={index+"-prov-link"}>
                   <ProvLink {...entry} />
                 </li>
               );
@@ -160,15 +160,15 @@ function Details({ instance }) {
         </Col>
       </Row>
       <Row>
-        <Col span={24}>
-        <Divider>Extensions</Divider>
-          <Extensions data={instance} />
-          <div className="secondary-hero" style={{marginTop: "1em", width: "100%"}}>
-          <TraceViewer />
+      <Divider>
+        Electrophysiological Properties
+      </Divider>
+      <div className="trace-viewer ">
+          <div className="trace-container">Current</div>
+          <div className="trace-container">Exp. Cell Voltage Trace</div>
+          <div className="trace-container">eModel Trace</div>
         </div>
-        </Col>
       </Row>
-
     </div>
   )
 }

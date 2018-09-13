@@ -4,6 +4,29 @@
   background-color: #f4f4f4;
 }
 
+.trace-viewer {
+  .trace-container {
+    padding: 2em;
+    height: 200px;
+    background-color: #ffffff;
+background-image: linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%);
+    margin-bottom: 2em;
+    &:nth-of-type(1) {
+      margin-top: 2em;
+    }
+  }
+}
+
+.prov-list {
+  max-height: 300px;
+  overflow-x: scroll;
+  padding: 1em;
+  background-color: white;
+  li {
+    margin-bottom: 1em;
+  }
+}
+
 article#details {
   color: #555;
   h1, h2 {

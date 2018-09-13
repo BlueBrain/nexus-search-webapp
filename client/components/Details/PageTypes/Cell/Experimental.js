@@ -31,16 +31,18 @@ function getExplorerLink(instance) {
 }
 
 function attributionLine(instance) {
+  let contribution = getProp(instance, "contributions", {})
   let name =
-    getProp(instance, "wasAttributedTo.givenName") +
-    " " +
-    getProp(instance, "wasAttributedTo.familyName");
-  let email = getProp(instance, "wasAttributedTo.email");
-  let date = moment(getProp(instance, "dateCreated")).format("MMM Do YYYY");
-  return getProp(instance, "wasAttributedTo") ? (
+    getProp(contribution, "fullName")
+  let email = getProp(contribution, "email");
+
+  return getProp(instance, "contributions") ? (
     <h2>
-      <Icon type="user-add" /> by <a href={`mailto:${email}`}>{name}</a> on{" "}
-      <span className="date">{date}</span>
+      <Icon type="user-add" /> by {
+        email ?
+        <a href={`mailto:${email}`}>{name}</a>
+        : <span>{name}</span>
+      }
     </h2>
   ) : null ;
 }
@@ -133,13 +135,13 @@ function Details({ instance }) {
         </Col>
       </Row>
       <Row>
-        <Col span={24}>
-        <Divider>Extensions</Divider>
-          <Extensions data={instance} />
-          <div className="secondary-hero" style={{marginTop: "1em", width: "100%"}}>
-          <TraceViewer />
+      <Divider>
+        Electrophysiological Properties
+      </Divider>
+      <div className="trace-viewer ">
+          <div className="trace-container">Current</div>
+          <div className="trace-container">Voltage Trace</div>
         </div>
-        </Col>
       </Row>
 
     </div>
