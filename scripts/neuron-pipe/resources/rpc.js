@@ -35,6 +35,7 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
           doc.subject = subjectResult;
           doc.subject.species = getProp(doc, "subject.species.label");
           doc.subject.sex = getProp(doc, "subject.sex.label");
+          doc.subject.strain = getProp(doc, "subject.strain.label");
         }
         return doc;
       },
