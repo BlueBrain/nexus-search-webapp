@@ -33,7 +33,6 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         };
         doc.brainRegion = doc.brainLocation.brainRegion;
         delete doc.brainLocation;
-        doc.studyType = { label: "Experimental" };
         return doc;
       },
       async doc => {

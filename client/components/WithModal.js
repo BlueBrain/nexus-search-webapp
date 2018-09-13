@@ -1,30 +1,30 @@
 import React, { PureComponent } from "react";
 import { Modal } from "antd";
 
-const DEFAULT_HEIGHT = "3000px"
-
 function WithModal(Component) {
   return class WithModalContainer extends PureComponent {
-    state = { visible: true, modalHeight: DEFAULT_HEIGHT };
+    state = { visible: true };
     handleCancel = () => {
       this.setState({ visible: false });
       this.props.onCancel();
     };
     render() {
-      const { visible, modalHeight:height } = this.state;
+      const { visible } = this.state;
       return (
         <Modal
           width={960}
           bodyStyle={{
             minWidth: "980px"
           }}
-          style={{ top: window.scrollY + 20, height }}
+          style={{ top: window.scrollY + 20 }}
           title={this.props.title}
           visible={visible}
           onCancel={this.handleCancel}
           footer={null}
         >
-          <Component ref={this.setChildRef} {...this.props} />
+          <div style={{ backgroundColor: "#f4f4f4" }}>
+            <Component ref={this.setChildRef} {...this.props} />
+          </div>
         </Modal>
       );
     }
