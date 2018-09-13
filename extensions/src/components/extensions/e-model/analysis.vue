@@ -78,6 +78,7 @@
   }
   .analysis-img {
     margin-top: 24px;
+    width: 100%;
     max-width: 700px;
   }
 </style>

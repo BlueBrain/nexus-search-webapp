@@ -1,6 +1,6 @@
 {
   "name": "@bbp/nexus-search-extensions",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An example extension that can be used by the Nexus search app",
   "main": "dist/main.js",
   "scripts": {

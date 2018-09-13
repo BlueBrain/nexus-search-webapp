@@ -13,8 +13,8 @@ import meModelComponents from './me-model';
 import eModelComponents from './e-model';
 
 const entityComponents = {
-  meModel: meModelComponents,
-  eModel: eModelComponents,
+  memodel: meModelComponents,
+  emodel: eModelComponents,
 };
 
 
@@ -26,7 +26,7 @@ const entityComponents = {
  * @returns {Extension[]}
  */
 function getByEntityId(entityId) {
-  const entityType = nexus.getIdAttribute(entityId, nexus.ID_ATTRIBUTE_INDEX.instanceType);
+  const entityType = nexus.getIdAttribute(entityId, nexus.ID_ATTRIBUTE_INDEX.instanceType).toLowerCase();
   const extensionParams = { entityId };
   return get(entityComponents, entityType, [])
     .map(component => createExtension(component, extensionParams));
