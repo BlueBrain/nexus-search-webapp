@@ -9,6 +9,7 @@ import pushToNexus from "../pushToNexus";
 import flattenDownloadables from "../flattenDownloadables";
 import { getProp } from "@libs/utils";
 import { getURIPartsFromNexusURL } from "../helpers";
+import downloadMorph from "../downloadMorph";
 
 require("dns-cache")(100000);
 
@@ -87,6 +88,8 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         return doc;
       },
       async doc => {
+        // prov pattern only for NMC Portal PC
+        if (short !== "pc") { return doc; }
         let response = await getRelatedResourceWithFilter(
           { token, base, context},
           doc["@id"],
@@ -103,7 +106,7 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
                 {
                   op: "eq",
                   path: "rdf:type",
-                  value: targetResourceType
+                  value: "nsg:ReconstructedCell"
                 }
               ]
             };
@@ -116,6 +119,72 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         });
         return doc;
       },
+      async doc => {
+        // prov pattern only for NMC Portal PC
+        if (short !== "tpc") { return doc; }
+        let response = await getRelatedResourceWithFilter(
+          { token, base, context},
+          doc["@id"],
+          "nsg:ReconstructedCell",
+          function makeQuery(startingResourceURI, targetResourceType) {
+            const query = {
+              op: "and",
+              value: [
+                {
+                  op: "eq",
+                  path: "^prov:generated / prov:used / prov:wasRevisionOf",
+                  value: startingResourceURI
+                },
+                {
+                  op: "eq",
+                  path: "rdf:type",
+                  value: "nsg:ReconstructedCell"
+                }
+              ]
+            };
+            return query;
+          }
+        );
+        doc.morphology = response.results.map(morpho => {
+          morpho = trimMetaData(morpho.source);
+          return morpho;
+        });
+        return doc;
+      },
+      // TODO get activities
+      // async doc => {
+      //   // prov pattern only for Thalamus Project PC
+      //   if (short !== "tpc") { return doc; }
+      //   let response = await getRelatedResourceWithFilter(
+      //     { token, base, context},
+      //     doc["@id"],
+      //     "nsg:ReconstructedCell",
+      //     function makeQuery(startingResourceURI, targetResourceType) {
+      //       const query = {
+      //         op: "and",
+      //         value: [
+      //           {
+      //             op: "eq",
+      //             path: "^prov:wasRevisionOf / prov:used",
+      //             value: startingResourceURI
+      //           },
+      //           {
+      //             op: "eq",
+      //             path: "rdf:type",
+      //             value: "nsg:Reconstruction"
+      //           }
+      //         ]
+      //       };
+      //       return query;
+      //     }
+      //   );
+      //   doc.activity = response.results.map(activity => {
+      //     activity = trimMetaData(activity.source);
+      //     return activity;
+      //   });
+      //   return doc;
+      // },
+      downloadMorph(token, short, doc => getProp(doc, "morphology", [{}])[0]),
       async doc => {
         if (!doc.subject) {
           return doc;

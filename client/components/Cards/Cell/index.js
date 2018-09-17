@@ -60,9 +60,11 @@ const GridResult = ({ value, id }) => {
                   </div>
                   </InspectLink>
                   <div className={`action-buttons ${active ? "active" : ""}`}>
-                    <Download files={getProp(value, "files")} name={getProp(value, "cellName.label", "Cell")}>
-                      <a><Icon type="cloud-download-o" style={{ fontSize: 16 }}/></a>
-                    </Download>
+                    {getProp(value, "files") && getProp(value, "files").length &&
+                      <Download files={getProp(value, "files")} name={getProp(value, "cellName.label", "Cell")}>
+                        <a><Icon type="cloud-download-o" style={{ fontSize: 16 }}/></a>
+                      </Download>
+                    }
                   </div>
                   <div className="labels">
                     {value.subject &&
@@ -73,7 +75,7 @@ const GridResult = ({ value, id }) => {
                     }
                   </div>
                 </div>
-                <div className="name">{value.cellName.label}</div>
+                <div className="name">{getProp(value, "cellName.label")}</div>
               </div>
               <Preview value={value}/>
               <div className="footer">

@@ -1,11 +1,13 @@
 import { get } from "https";
-import { createWriteStream } from "fs";
+import { createWriteStream, existsSync, mkdirSync } from "fs";
 import URL from "url";
 
-export default (url, dest, token) => {
+export default (url, dest, token, fileName) => {
   return new Promise((resolve, reject) => {
-    const file = createWriteStream(dest);
-    console.log(url);
+    if (!existsSync(dest)){
+      mkdirSync(dest);
+    }
+    const file = createWriteStream(dest + "/" + fileName);
     let { protocol, hostname, path } = URL.parse(url);
     const options = token ? {
       protocol,
@@ -19,7 +21,7 @@ export default (url, dest, token) => {
       response.pipe(file);
       file.on("finish", () => {
         file.close();
-        console.log(`successfully downloaded file ${url} to ${dest}`)
+        console.log(`successfully downloaded file ${fileName} to ${dest}`)
         return resolve();
       });
     }).on("error", err => {
