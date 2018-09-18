@@ -134,11 +134,11 @@ function Details({ instance }) {
           <Subject subject={getProp(instance, "subject")} />
         </Col>
       </Row>
-      <Row>
-      <Divider>
-        Electrophysiological Properties
-      </Divider>
-      <TraceViewer />
+      <Row style={{marginBottom: '2em'}}>
+        <Divider>
+          Electrophysiological Properties
+        </Divider>
+        <TraceViewer />
       </Row>
 
     </div>

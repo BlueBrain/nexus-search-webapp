@@ -7,9 +7,14 @@ const Option = Select.Option;
 
 class LabelContainer extends React.Component {
   render() {
-    const { sweeps, selectedSweep, onSelectSweep, onSelectProtocol } = this.props;
+    const {
+      sweeps,
+      selectedSweep,
+      onSelectSweep,
+      onSelectProtocol
+    } = this.props;
     return (
-      <div className="legend" style={{ margin: "0 0 1em 0" }}>
+      <div className="legend">
         <Select
           defaultValue="ID_Rest"
           style={{ width: 120 }}
@@ -26,14 +31,19 @@ class LabelContainer extends React.Component {
                 key={sweep.sweepKey}
                 className="sweep"
                 style={{ backgroundColor: sweep.color }}
-                onMouseEnter={() => onSelectSweep(sweep.sweepKey)}
-                onMouseLeave={() => onSelectSweep(sweep.sweepKey)}
+                onClick={() => onSelectSweep(sweep.sweepKey)}
+                // onMouseEnter={() => onSelectSweep(sweep.sweepKey)}
+                // onMouseLeave={() => onSelectSweep()}
               />
             );
           })}
         </ol>
         <div>
-          <span>sweep:{" "}</span><span>{selectedSweep}</span>
+          {selectedSweep && (
+            <div>
+              <span>sweep: {selectedSweep}</span>
+            </div>
+          )}
         </div>
       </div>
     );

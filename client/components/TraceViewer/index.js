@@ -5,11 +5,21 @@ import Legend from "./Legend";
 import { Spin } from "antd";
 import { sortBy } from "underscore";
 
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
 //TODO better assigned colors it seems that distinct-colors breaks on this build
 function generateRandomPastelColor () {
-  const cssHSL = "hsl(" + 360 * Math.random() + ',' +
-  (0 + 70 * Math.random()) + '%,' +
-  (85 + 10 * Math.random()) + '%)';
+  let hue = getRandomArbitrary(0, 360);
+  let saturation = getRandomArbitrary(50, 100);
+  let light = getRandomArbitrary(20, 80);
+  const cssHSL = `
+    hsl(
+      ${hue},
+      ${saturation}%,
+      ${light}%)
+    `;
   return cssHSL
 }
 
@@ -17,7 +27,9 @@ class TraceViewerContainer extends React.Component {
   state = {
     sweeps: [],
     status: "pending",
-    selectedSweep: null
+    selectedSweep: null,
+    stimulusData: [],
+    responseData: []
   };
   componentDidMount() {
     this.fetchTraces();
@@ -38,8 +50,20 @@ class TraceViewerContainer extends React.Component {
         sweep => sweep.current[0]
       );
       sweeps = sweeps.map(sweep => Object.assign(sweep, { color: generateRandomPastelColor() }));
-      console.log(sweeps);
-      this.setState({ sweeps, status: "fulfilled" });
+
+      // TODO optimize! use only a single reduce!
+      const { dt, dur } = traceData;
+      const times = Array.apply(null, {length: dur / dt }).map((value, index) => index * dt);
+      let stimulusData = [];
+      let responseData = [];
+
+      times.forEach((time, index) => {
+        stimulusData.push(sweeps.reduce((acc, sweep) => acc.concat(traceData.values[sweep.sweepKey].i[index]), [time]));
+        responseData.push(sweeps.reduce((acc, sweep) => acc.concat(traceData.values[sweep.sweepKey].v[index]), [time]));
+      });
+
+      console.log({ traceData, sweeps, stimulusData, responseData });
+      this.setState({ sweeps, stimulusData, responseData, status: "fulfilled" });
     }
   }
   componentDidCatch(error, info) {
@@ -53,7 +77,7 @@ class TraceViewerContainer extends React.Component {
     console.log(protocol);
   }
   render() {
-    const { status, sweeps, selectedSweep } = this.state;
+    const { status, sweeps, selectedSweep, stimulusData, responseData } = this.state;
     const isPending = status === "pending";
     const handleSelectSweep = this.handleSelectSweep.bind(this);
     const handleSelectProtocol = this.handleSelectProtocol.bind(this);
@@ -64,8 +88,8 @@ class TraceViewerContainer extends React.Component {
               return (
                 <div>
                   <Legend sweeps={sweeps} onSelectSweep={handleSelectSweep} onSelectProtocol={handleSelectProtocol} selectedSweep={selectedSweep} />
-                  <Chart label="Cell Response" />
-                  <Chart label="Stimulus" />
+                  <Chart label="Cell Response" yLabel={"voltage [mV]"} data={responseData} selectedSweep={selectedSweep} sweeps={sweeps}/>
+                  <Chart label="Stimulus" yLabel={"current [pA]"} data={stimulusData} selectedSweep={selectedSweep} sweeps={sweeps}/>
                 </div>
               );
             }()}
