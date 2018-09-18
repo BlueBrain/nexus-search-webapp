@@ -10,7 +10,6 @@
 
 body {
   background-color: transparent;
-  perspective: 200vw;
 }
 
 a {
@@ -30,6 +29,10 @@ ul {
 html {
   height: 100%;
   background: #f7f9fa !important;
+}
+
+#explorer-app {
+  perspective: 200vw;  // Set perspective context for 3D elements
 }
 
 .wrap {
