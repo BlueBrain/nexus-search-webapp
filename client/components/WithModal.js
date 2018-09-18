@@ -16,7 +16,7 @@ function WithModal(Component) {
           bodyStyle={{
             minWidth: "980px"
           }}
-          style={{ top: window.scrollY + 20 }}
+          style={{ top: 20 }}
           title={this.props.title}
           visible={visible}
           onCancel={this.handleCancel}
