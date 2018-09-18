@@ -1,5 +1,5 @@
 {
-  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:jest"],
+  "extends": ["eslint:recommended", "plugin:jest", "plugin:react/recommended"],
   "env": {
     "browser": true,
     "commonjs": true,
