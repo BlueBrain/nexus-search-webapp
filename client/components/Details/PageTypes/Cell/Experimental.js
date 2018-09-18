@@ -7,11 +7,11 @@ import MorphologyPreview from "../../../Cards/Cell/MorphologyPreview";
 import Download from "../../../Download";
 import {eTypes, mTypes} from "../../../../../consts";
 import Extensions from "../../Extensions";
-import TraceViewer from "../../../TraceViewer";
 import BrainRegionLink from "../../../BrainRegionLink";
 import Subject from "../Subject";
 import FontAwesome from "react-fontawesome";
 import ProvLink from "../ProvLink";
+import TraceViewer from "../../../TraceViewer";
 
 const DEFAULT_CELL_MODEL_NAME = "Cell Model";
 function getUUIDFromAtID(instance) {
@@ -138,10 +138,7 @@ function Details({ instance }) {
       <Divider>
         Electrophysiological Properties
       </Divider>
-      <div className="trace-viewer ">
-          <div className="trace-container">Current</div>
-          <div className="trace-container">Voltage Trace</div>
-        </div>
+      <TraceViewer />
       </Row>
 
     </div>

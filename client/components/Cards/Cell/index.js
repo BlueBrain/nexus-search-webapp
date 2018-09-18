@@ -60,7 +60,7 @@ const GridResult = ({ value, id }) => {
                   </div>
                   </InspectLink>
                   <div className={`action-buttons ${active ? "active" : ""}`}>
-                    {getProp(value, "files") && getProp(value, "files").length &&
+                    {getProp(value, "files") && !!getProp(value, "files").length &&
                       <Download files={getProp(value, "files")} name={getProp(value, "cellName.label", "Cell")}>
                         <a><Icon type="cloud-download-o" style={{ fontSize: 16 }}/></a>
                       </Download>
