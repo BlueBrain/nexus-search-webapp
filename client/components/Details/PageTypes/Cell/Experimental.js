@@ -7,11 +7,11 @@ import MorphologyPreview from "../../../Cards/Cell/MorphologyPreview";
 import Download from "../../../Download";
 import {eTypes, mTypes} from "../../../../../consts";
 import Extensions from "../../Extensions";
-import TraceViewer from "../../../TraceViewer";
 import BrainRegionLink from "../../../BrainRegionLink";
 import Subject from "../Subject";
 import FontAwesome from "react-fontawesome";
 import ProvLink from "../ProvLink";
+import TraceViewer from "../../../TraceViewer";
 
 const DEFAULT_CELL_MODEL_NAME = "Cell Model";
 function getUUIDFromAtID(instance) {
@@ -31,16 +31,18 @@ function getExplorerLink(instance) {
 }
 
 function attributionLine(instance) {
+  let contribution = getProp(instance, "contribution", {})
   let name =
-    getProp(instance, "wasAttributedTo.givenName") +
-    " " +
-    getProp(instance, "wasAttributedTo.familyName");
-  let email = getProp(instance, "wasAttributedTo.email");
-  let date = moment(getProp(instance, "dateCreated")).format("MMM Do YYYY");
-  return getProp(instance, "wasAttributedTo") ? (
+    getProp(contribution, "name")
+  let email = getProp(contribution, "email");
+
+  return getProp(instance, "contribution") ? (
     <h2>
-      <Icon type="user-add" /> by <a href={`mailto:${email}`}>{name}</a> on{" "}
-      <span className="date">{date}</span>
+      <Icon type="user-add" /> by {
+        email ?
+        <a href={`mailto:${email}`}>{name}</a>
+        : <span>{name}</span>
+      }
     </h2>
   ) : null ;
 }
@@ -127,19 +129,16 @@ function Details({ instance }) {
               <FontAwesome name={"flask"} /> Experimental
             </Tag>
           </h2>
-          <div className="eType">{getProp(instance, "eType.label") && eTypes[getProp(instance, "eType.label")]}</div>
-          <div className="brainRegion"><BrainRegionLink region={getProp(instance, "brainRegion.label")} species={getProp(instance, "subject.species")}/> {getProp(instance, "brainRegion.layer") && "(" + getProp(instance, "brainRegion.layer") + ")"}</div>
+          <div className="eType">{getProp(instance, "cellType.etype") && eTypes[getProp(instance, "cellType.eType")]}</div>
+          <div className="brainRegion"><BrainRegionLink region={getProp(instance, "brainLocation.brainRegion")} species={getProp(instance, "subject.species")}/> {getProp(instance, "brainRegion.layer") && "(" + getProp(instance, "brainRegion.layer") + ")"}</div>
           <Subject subject={getProp(instance, "subject")} />
         </Col>
       </Row>
-      <Row>
-        <Col span={24}>
-        <Divider>Extensions</Divider>
-          <Extensions data={instance} />
-          <div className="secondary-hero" style={{marginTop: "1em", width: "100%"}}>
-          <TraceViewer />
-        </div>
-        </Col>
+      <Row style={{marginBottom: '2em'}}>
+        <Divider>
+          Electrophysiological Properties
+        </Divider>
+        <TraceViewer />
       </Row>
 
     </div>

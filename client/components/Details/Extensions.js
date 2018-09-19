@@ -29,6 +29,7 @@ class ExtensionsContainer extends PureComponent {
     let { data, token } = this.props;
     const entityId = data["@id"];
     const Extensions = extensions.getByEntityId(entityId);
+    console.log(Extensions, {data})
     extensions.setAuthToken(`Bearer ${token}`);
     return (
       <div>
@@ -37,10 +38,10 @@ class ExtensionsContainer extends PureComponent {
           tabPosition={"left"}
           style={{ minHeight: 300 }}
         >{
-          Extensions.map(Extension => {
+          Extensions.map((Extension, index) => {
             return (
-              <TabPane tab={<span><Icon type={Extension.attrs.iconType || "area-chart"} />{Extension.attrs.name}</span>} key={Extension.attrs.name}>
-                <div ref={ref => this.initiateExtension(ref, Extension)}>
+              <TabPane key={index+"-extension"} tab={<span><Icon type={Extension.attrs.iconType || "area-chart"} />{Extension.attrs.name}</span>} key={Extension.attrs.name}>
+                <div style={{padding: "1em"}} ref={ref => this.initiateExtension(ref, Extension)}>
                 </div>
               </TabPane>
             );

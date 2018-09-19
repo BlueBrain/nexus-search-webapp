@@ -4,6 +4,17 @@
   background-color: #f4f4f4;
 }
 
+.prov-list {
+  max-height: 300px;
+  overflow-x: scroll;
+  padding: 1em;
+  background-color: white;
+  li {
+    margin-bottom: 1em;
+
+  }
+}
+
 article#details {
   color: #555;
   h1, h2 {

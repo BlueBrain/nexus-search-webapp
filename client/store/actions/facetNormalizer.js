@@ -1,5 +1,5 @@
 import { mapObj } from "@libs/utils";
-import { findWhere } from "underscore";
+import { findWhere, findIndex } from "underscore";
 
 function mapFacets(selectedFacets) {
   try {
@@ -19,8 +19,15 @@ function mapFacets(selectedFacets) {
   }
 }
 
+function moveEntryToEnd(array, predicate) {
+  let index = findIndex(array, predicate);
+  if (index > 0) {
+    return array.push(array.splice(index, 1)[0]);
+  }
+}
+
 export const facetNormalizer = function(response) {
-  return Object.keys(response)
+  let facets = Object.keys(response)
     .filter(key => !!response[key].doc_count)
     .sort((a, b) => response[b].doc_count - response[a].doc_count)
     .map(key => {
@@ -28,20 +35,29 @@ export const facetNormalizer = function(response) {
       filter.key = key;
       return filter;
     });
+
+  // We want to put these facets toward the end
+  // because they're less interesting
+  // than the scientific facets
+  moveEntryToEnd(facets, entry => entry.key === "contribution");
+  moveEntryToEnd(facets, entry => entry.key === "dataSource");
+  moveEntryToEnd(facets, entry => entry.key === "license");
+
+  return facets;
 };
 
-function getBuckets (filterGroup, parentKey) {
+function getBuckets(filterGroup, parentKey) {
   return Object.keys(filterGroup)
-  .filter(key => key !== "doc_count" && key !== "key")
-  .reduce((memo, key) => {
-    let subGroup = filterGroup[key];
-    if (!subGroup.buckets) {
-      let subBuckets = getBuckets(subGroup, key) || {};
-      return memo = Object.assign(memo, subBuckets)
-    }
-    memo[parentKey ? parentKey + "." + key : key] = subGroup;
-    return memo
-  }, {});
+    .filter(key => key !== "doc_count" && key !== "key")
+    .reduce((memo, key) => {
+      let subGroup = filterGroup[key];
+      if (!subGroup.buckets) {
+        let subBuckets = getBuckets(subGroup, key) || {};
+        return (memo = Object.assign(memo, subBuckets));
+      }
+      memo[parentKey ? parentKey + "." + key : key] = subGroup;
+      return memo;
+    }, {});
 }
 /**
  *
@@ -50,38 +66,38 @@ function getBuckets (filterGroup, parentKey) {
  * @param {*} group
  * @returns
  */
-function flattenFiltersBySubgroup (facets, group) {
+function flattenFiltersBySubgroup(facets, group) {
   facets.push(Object.assign(group, getBuckets(group)));
   return facets;
 }
 
-function addSelectedToFacet (filter, selected, facetBlacklist, path) {
-    let key = filter.key;
+function addSelectedToFacet(filter, selected, facetBlacklist, path) {
+  let key = filter.key;
 
-    Object.keys(filter)
-      .filter(key => key !== "doc_count" && key !== "key")
-      .forEach(subGroupKey => {
-        let subGroup = filter[subGroupKey];
-        if (facetBlacklist.indexOf(subGroupKey) >= 0) {
-          delete filter[subGroupKey];
-          return;
+  Object.keys(filter)
+    .filter(key => key !== "doc_count" && key !== "key")
+    .forEach(subGroupKey => {
+      let subGroup = filter[subGroupKey];
+      if (facetBlacklist.indexOf(subGroupKey) >= 0) {
+        delete filter[subGroupKey];
+        return;
+      }
+      if (!subGroup.buckets) {
+        return;
+      }
+      subGroup.buckets.map(bucket => {
+        if (
+          selected[key] &&
+          selected[key][subGroupKey] &&
+          selected[key][subGroupKey].indexOf(bucket.key) >= 0
+        ) {
+          bucket.selected = true;
+        } else {
+          bucket.selected = false;
         }
-        if (!subGroup.buckets) {
-          return;
-        }
-        subGroup.buckets.map(bucket => {
-          if (
-            selected[key] &&
-            selected[key][subGroupKey] &&
-            selected[key][subGroupKey].indexOf(bucket.key) >= 0
-          ) {
-            bucket.selected = true;
-          } else {
-            bucket.selected = false;
-          }
-          return bucket;
-        });
+        return bucket;
       });
+    });
 }
 
 export const resultsToFacetWithSelection = function(

@@ -1,6 +1,7 @@
 import React from "react";
 import { Divider } from "antd";
 import FacetSubGroup from "./SubGroup";
+import { toSpacedWords } from "@libs/string";
 
 const FacetGroup = (key, facet, onSelect) => {
   let facetGroupSelect = (subGroupKey, value) => onSelect(key + "." + subGroupKey, value)
@@ -15,7 +16,7 @@ const FacetGroup = (key, facet, onSelect) => {
   });
   return (
     <li key={key} className="facet-group">
-      <Divider orientation="left">{key}</Divider>
+      <Divider orientation="left">{toSpacedWords(key)}</Divider>
       <ul className="facet-subgroup">
         {subGroupKeys.map(key => FacetSubGroup(key, facet[key], facetGroupSelect))}
       </ul>

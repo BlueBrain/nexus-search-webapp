@@ -8,6 +8,8 @@ import flattenDownloadables from "../flattenDownloadables";
 import getRelatedResourceWithFilter from "../getRelatedResourceWithFilterBody";
 import { getURIPartsFromNexusURL, fetchWithToken } from "../helpers";
 import pc from "../../testData/pc.json";
+import downloadMorph from "../downloadMorph";
+import { getProp } from "@libs/utils";
 
 async function fetch(resource, token, shouldUpload, resourceURL) {
   let { short, source, url, context } = resource;
@@ -24,6 +26,7 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         doc.morphology = [morphology];
         return doc;
       },
+      downloadMorph(token, short, doc => getProp(doc, "morphology", [{}])[0]),
       async doc => {
         doc.subject = {
           species: doc.species

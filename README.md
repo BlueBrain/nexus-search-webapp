@@ -21,5 +21,5 @@ You can build the docker files from the project.json npm scripts.
 ``` npm run build-docker:server ```
 ``` npm run build-docker:client ```
 
-make sure to edit the docker files under the `docker` folder to configure the previously-mentioned ENV vars, so that the service and client will speak to eachother.
+make sure to edit the docker files under the `docker` folder to configure the previously-mentioned ENV vars, so that the service and client will speak to each other.
 

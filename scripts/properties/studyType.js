@@ -1,7 +1,7 @@
 export default {
   type: "nested",
   properties: {
-    label: {
+    name: {
       type: "text",
       fields: {
         raw: {

@@ -9,6 +9,7 @@ import pushToNexus from "../pushToNexus";
 import flattenDownloadables from "../flattenDownloadables";
 import { getProp } from "@libs/utils";
 import { getURIPartsFromNexusURL } from "../helpers";
+import downloadMorph from "../downloadMorph";
 
 async function fetch(resource, token, shouldUpload, resourceURL) {
   let { short, source, url, context } = resource;
@@ -39,6 +40,7 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         }
         return doc;
       },
+      downloadMorph(token, short),
       async doc => await flattenDownloadables(doc),
       async doc => {
         if (shouldUpload) {

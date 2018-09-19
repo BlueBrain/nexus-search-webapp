@@ -3,13 +3,19 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as SearchSnippetCards from "../../../Cards";
 import { getProp } from "@libs/utils";
+import { ui as UI_CONSTS } from "@consts";
+const { DEFAULT_SEARCH_TYPE_LABEL } = UI_CONSTS;
 
 const Grid = ({ results, types }) => {
   return (
     <React.Fragment>
       {results.map((result, index) => {
         let resultType = getProp(result, "_source.@type");
-        let typeLabel = getProp(types[resultType] || {}, "label");
+        let typeLabel = getProp(
+          types[resultType] || {},
+          "label",
+          DEFAULT_SEARCH_TYPE_LABEL
+        );
         let SearchSnippet =
           SearchSnippetCards[typeLabel.replace(" ", "")] ||
           SearchSnippetCards.Default;

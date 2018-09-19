@@ -10,10 +10,10 @@
             }
           }
         },
-        "brainRegion": {
+        "brainLocation": {
           "type": "nested",
           "properties": {
-            "@id": {
+            "atlas": {
               "type": "text",
               "fields": {
                 "raw": {
@@ -21,15 +21,7 @@
                 }
               }
             },
-            "label": {
-              "type": "text",
-              "fields": {
-                "raw": {
-                  "type": "keyword"
-                }
-              }
-            },
-            "shortName": {
+            "brainRegion": {
               "type": "text",
               "fields": {
                 "raw": {
@@ -47,20 +39,7 @@
             }
           }
         },
-        "cellName": {
-          "type": "nested",
-          "properties": {
-            "label": {
-              "type": "text",
-              "fields": {
-                "raw": {
-                  "type": "keyword"
-                }
-              }
-            }
-          }
-        },
-        "cellTypes": {
+        "cellType": {
           "type": "nested",
           "properties": {
             "mType": {
@@ -94,31 +73,10 @@
             }
           }
         },
-        "contributions": {
+        "contribution": {
           "type": "nested",
           "properties": {
             "role": {
-              "type": "nested",
-              "properties": {
-                "@id": {
-                  "type": "text",
-                  "fields": {
-                    "raw": {
-                      "type": "keyword"
-                    }
-                  }
-                },
-                "label": {
-                  "type": "text",
-                  "fields": {
-                    "raw": {
-                      "type": "keyword"
-                    }
-                  }
-                }
-              }
-            },
-            "fullName": {
               "type": "text",
               "fields": {
                 "raw": {
@@ -126,41 +84,28 @@
                 }
               }
             },
-            "affiliation": {
-              "type": "nested",
-              "properties": {
-                "@id": {
-                  "type": "text",
-                  "fields": {
-                    "raw": {
-                      "type": "keyword"
-                    }
-                  }
-                },
-                "label": {
-                  "type": "text",
-                  "fields": {
-                    "raw": {
-                      "type": "keyword"
-                    }
-                  }
+            "name": {
+              "type": "text",
+              "fields": {
+                "raw": {
+                  "type": "keyword"
+                }
+              }
+            },
+            "organization": {
+              "type": "text",
+              "fields": {
+                "raw": {
+                  "type": "keyword"
                 }
               }
             }
           }
         },
-        "distributions": {
+        "dataSource": {
           "type": "nested",
           "properties": {
             "repository": {
-              "type": "text",
-              "fields": {
-                "raw": {
-                  "type": "keyword"
-                }
-              }
-            },
-            "source": {
               "type": "text",
               "fields": {
                 "raw": {
@@ -173,23 +118,7 @@
         "license": {
           "type": "nested",
           "properties": {
-            "@id": {
-              "type": "text",
-              "fields": {
-                "raw": {
-                  "type": "keyword"
-                }
-              }
-            },
-            "label": {
-              "type": "text",
-              "fields": {
-                "raw": {
-                  "type": "keyword"
-                }
-              }
-            },
-            "shortName": {
+            "name": {
               "type": "text",
               "fields": {
                 "raw": {
@@ -202,7 +131,7 @@
         "studyType": {
           "type": "nested",
           "properties": {
-            "label": {
+            "name": {
               "type": "text",
               "fields": {
                 "raw": {

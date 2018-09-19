@@ -5,6 +5,10 @@
   }
 }
 
+.ant-checkbox + span {
+  padding-right: 0;
+}
+
 .facet-checkbox {
   width: 100%;
   &:nth-child(odd) {
@@ -14,6 +18,7 @@
   transition: all 1s cubic-bezier(0.18, 0.89, 0.32, 1.28);
   border-radius: 2px;
   padding: 5px;
+  padding-right: 0;
   display: flex;
   &:hover {
     background-color: rgba(185, 233, 212, 0.09);
@@ -23,7 +28,13 @@
     flex-grow: 1;
     width: 90%;
   }
+  .label-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
   .label {
+    text-transform: capitalize;
     width: 100%;
     &::before, &::after {
       display: inline-block;
@@ -44,7 +55,6 @@
     }
   }
   .amount {
-    width: 1em;
     text-align: right;
   }
 }

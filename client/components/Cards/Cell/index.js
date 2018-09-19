@@ -60,9 +60,11 @@ const GridResult = ({ value, id }) => {
                   </div>
                   </InspectLink>
                   <div className={`action-buttons ${active ? "active" : ""}`}>
-                    <Download files={getProp(value, "files")} name={getProp(value, "cellName.label", "Cell")}>
-                      <a><Icon type="cloud-download-o" style={{ fontSize: 16 }}/></a>
-                    </Download>
+                    {getProp(value, "files") && !!getProp(value, "files").length &&
+                      <Download files={getProp(value, "files")} name={getProp(value, "cellName.label", "Cell")}>
+                        <a><Icon type="cloud-download-o" style={{ fontSize: 16 }}/></a>
+                      </Download>
+                    }
                   </div>
                   <div className="labels">
                     {value.subject &&
@@ -73,17 +75,17 @@ const GridResult = ({ value, id }) => {
                     }
                   </div>
                 </div>
-                <div className="name">{value.cellName.label}</div>
+                <div className="name">{getProp(value, "cellName.label")}</div>
               </div>
               <Preview value={value}/>
               <div className="footer">
                 <div className="mType">
-                  {getProp(value, "mType.label") && mTypes[getProp(value, "mType.label").toLowerCase()]}
+                  {getProp(value, "cellType.mType") && mTypes[getProp(value, "cellType.mType").toLowerCase()]}
                 </div>
-                <div className="brainRegion">{getProp(value, "brainRegion.label")}</div>
-                <div className="eType">{getProp(value, "eType.label") && eTypes[getProp(value, "eType.label")]}</div>
+                <div className="brainRegion">{getProp(value, "brainLocation.brainRegion")}</div>
+                <div className="eType">{getProp(value, "cellType.eType") && eTypes[getProp(value, "eType.label")]}</div>
                 <div className="bottom flex space-between">
-                  <Contributions contributions={getProp(value, "contributions")} />
+                  <Contributions contributions={getProp(value, "contribution")} />
                   {isInSilico &&
                     <div className="banner in-silico"></div>
                   }

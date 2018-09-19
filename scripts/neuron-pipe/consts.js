@@ -25,7 +25,7 @@ const resourceDict = {
     context:
       "https://bbp.epfl.ch/nexus/v0/contexts/neurosciencegraph/core/data/v1.0.1",
     name: "somatosensory patched cells",
-    repository: "NMC portal",
+    repository: "Neocortical Microcircuitry Collaboration Portal",
     source: "NMC portal",
     studyType: "Experimental",
     type: types.searchCell["@id"]
