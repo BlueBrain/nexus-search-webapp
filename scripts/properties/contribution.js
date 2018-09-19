@@ -1,7 +1,7 @@
 export default {
   type: "nested",
   properties: {
-    repository: {
+    role: {
       type: "text",
       fields: {
         raw: {
@@ -9,7 +9,15 @@ export default {
         }
       }
     },
-    source: {
+    name: {
+      type: "text",
+      fields: {
+        raw: {
+          type: "keyword"
+        }
+      }
+    },
+    organization: {
       type: "text",
       fields: {
         raw: {

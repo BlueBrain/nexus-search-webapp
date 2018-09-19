@@ -1,6 +1,5 @@
 import { getProp } from "@libs/utils";
-import { getDistributionFromInstance } from "../../client/libs/distributions";
-import download from "../morpho-service/download";
+import download from "./download";
 import { to } from "@libs/promise";
 import path from "path";
 

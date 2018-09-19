@@ -27,7 +27,10 @@ import { get } from "../../libs/object";
             memo[label] =
               {
                 terms: {
-                  field
+                  field,
+                  // TODO maybe this should be more reasonable?
+                  // Default size is 10
+                  size: 999999999
                 }
               };
           }

@@ -4,6 +4,7 @@ import { Spin } from "antd";
 import FacetGroup from "./Group";
 
 // what to show when facets have been loaded already
+// TODO add No Data To Show div
 const FacetsFulfilled = (facets, onSelect, pending) => {
   return (
     <div>

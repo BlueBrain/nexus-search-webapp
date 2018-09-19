@@ -1,23 +1,7 @@
 export default {
   type: "nested",
   properties: {
-    "@id": {
-      type: "text",
-      fields: {
-        raw: {
-          type: "keyword"
-        }
-      }
-    },
-    label: {
-      type: "text",
-      fields: {
-        raw: {
-          type: "keyword"
-        }
-      }
-    },
-    shortName: {
+    name: {
       type: "text",
       fields: {
         raw: {

@@ -1,7 +1,0 @@
-# neurom does not send the same number of points
-# depending on the version
-neurom>=1.4.0
-numpy
-h5py
-# requires python2.7
-ipywidgets==5.2.2

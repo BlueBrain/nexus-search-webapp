@@ -32,8 +32,13 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         doc.cellName = {
           label: doc.name
         };
-        doc.brainRegion = doc.brainLocation.brainRegion;
-        delete doc.brainLocation;
+        doc.brainLocation = {
+          brainRegion: getProp(doc, "brainLocation.brainRegion.label")
+        }
+        doc.license = {
+          name: "BBP/EPFL",
+          availability: "Private"
+        }
         return doc;
       },
       async doc => {
@@ -54,34 +59,34 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         return doc;
       },
       async doc => {
-        let label = doc.brainRegion.label;
+        let label = doc.brainLocation.brainRegion;
         let layerIndex = label.indexOf("layer");
         if (layerIndex >= 0) {
           let layerName = label.slice(layerIndex, label.length);
           switch (layerName) {
             case "layer I":
-              doc.brainRegion.layer = "L1";
+              doc.brainLocation.layer = "L1";
               break;
             case "layer II":
-              doc.brainRegion.layer = "L2";
+              doc.brainLocation.layer = "L2";
               break;
             case "layer II/III":
-              doc.brainRegion.layer = "L2/3";
+              doc.brainLocation.layer = "L2/3";
               break;
             case "layer III":
-              doc.brainRegion.layer = "L3";
+              doc.brainLocation.layer = "L3";
               break;
             case "layer IV":
-              doc.brainRegion.layer = "L4";
+              doc.brainLocation.layer = "L4";
               break;
             case "layer V":
-              doc.brainRegion.layer = "L5";
+              doc.brainLocation.layer = "L5";
               break;
             case "layer VI":
-              doc.brainRegion.layer = "L6";
+              doc.brainLocation.layer = "L6";
               break;
             case "layer VIa":
-              doc.brainRegion.layer = "L6a";
+              doc.brainLocation.layer = "L6a";
               break;
           }
         }
@@ -151,40 +156,38 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         });
         return doc;
       },
-      // TODO get activities
-      // async doc => {
-      //   // prov pattern only for Thalamus Project PC
-      //   if (short !== "tpc") { return doc; }
-      //   let response = await getRelatedResourceWithFilter(
-      //     { token, base, context},
-      //     doc["@id"],
-      //     "nsg:ReconstructedCell",
-      //     function makeQuery(startingResourceURI, targetResourceType) {
-      //       const query = {
-      //         op: "and",
-      //         value: [
-      //           {
-      //             op: "eq",
-      //             path: "^prov:wasRevisionOf / prov:used",
-      //             value: startingResourceURI
-      //           },
-      //           {
-      //             op: "eq",
-      //             path: "rdf:type",
-      //             value: "nsg:Reconstruction"
-      //           }
-      //         ]
-      //       };
-      //       return query;
-      //     }
-      //   );
-      //   doc.activity = response.results.map(activity => {
-      //     activity = trimMetaData(activity.source);
-      //     return activity;
-      //   });
-      //   return doc;
-      // },
-      downloadMorph(token, short, doc => getProp(doc, "morphology", [{}])[0]),
+      async doc => {
+        // Getting contributions
+        let response = await getRelatedResourceWithFilter(
+          { token, base, context},
+          doc["@id"],
+          "nsg:WholeCellPatchClamp",
+          function makeQuery(startingResourceURI, targetResourceType) {
+            const query = {
+              op: "and",
+              value: [
+                {
+                  op: "eq",
+                  path: "prov:generated / dcterms:hasPart / prov:hadMember",
+                  value: startingResourceURI
+                },
+                {
+                  op: "eq",
+                  path: "rdf:type",
+                  value: "nsg:WholeCellPatchClamp"
+                }
+              ]
+            };
+            return query;
+          }
+        );
+        doc.activity = response.results.map(activity => {
+          activity = trimMetaData(activity.source);
+          return activity;
+        });
+        return doc;
+      },
+      // downloadMorph(token, short, doc => getProp(doc, "morphology", [{}])[0]),
       async doc => {
         if (!doc.subject) {
           return doc;
@@ -192,15 +195,25 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         doc.subject.species = getProp(doc, "subject.species.label");
         doc.subject.sex = getProp(doc, "subject.sex.label");
         doc.subject.strain = getProp(doc, "subject.strain.label");
-        doc.cellTypes = {
+        doc.cellType = {
           eType: getProp(doc, "eType.label"),
           mType: getProp(doc, "mType.label")
         };
-        if (doc.cellTypes.eType === "null" || doc.cellTypes.eType === null) {
-          delete doc.cellTypes.eType;
+
+        // process mType form morphology
+        let mTypePreprocessed = getProp(doc.morphology[0] || {}, "mType.label");
+        if (mTypePreprocessed) {
+          let [layer, mTypeWithColon] = mTypePreprocessed.split("_");
+          let [mType, unknownValue] = mTypeWithColon.split(":");
+          doc.brainLocation.layer = layer;
+          doc.cellType.mType = mType;
         }
-        if (doc.cellTypes.mType === "null" || doc.cellTypes.mType === null) {
-          delete doc.cellTypes.mType;
+
+        if (doc.cellType.eType === "null" || doc.cellType.eType === null) {
+          delete doc.cellType.eType;
+        }
+        if (doc.cellType.mType === "null" || doc.cellType.mType === null) {
+          delete doc.cellType.mType;
         }
         return doc;
       },

@@ -1,13 +1,14 @@
 import React from "react";
 import FacetShowMore from "./ShowMore";
 import FacetBody from "./Body";
+import { toSpacedWords } from "@libs/string";
 
 const MAX_VISIBLE_FACET_OPTIONS = 5;
 
 const FacetTitle = ({ title, total, numFilters }) => (
   // TOOD make a title normalizer?
   <div className="filter-title flex space-between">
-    <p>{title}</p>
+    <p>{toSpacedWords(title)}</p>
     <span>
       {numFilters} ({total})
     </span>

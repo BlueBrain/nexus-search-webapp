@@ -26,10 +26,22 @@ const shouldUpload = {
 void (async function main() {
   try {
     let token = await login();
+    if (!token) {
+      console.log("login failed");
+      process.exit(0);
+    }
     let answers = await inquirer.prompt([whichEntity, shouldUpload]);
-    let { whichEntity: whichEntityAnswer, shouldUpload: shouldUploadAnswer } = answers;
+    let {
+      whichEntity: whichEntityAnswer,
+      shouldUpload: shouldUploadAnswer
+    } = answers;
     let process = processResources[whichEntityAnswer];
-    await process(resources[whichEntityAnswer], token, shouldUploadAnswer, config.RESOURCE_URL)
+    await process(
+      resources[whichEntityAnswer],
+      token,
+      shouldUploadAnswer,
+      config.RESOURCE_URL
+    );
   } catch (error) {
     console.log(error);
     process.exit(1);

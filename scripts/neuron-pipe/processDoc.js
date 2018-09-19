@@ -12,8 +12,8 @@ export default resource => async doc => {
 
   const { repository, source, studyType=null } = resource;
   if (studyType) {
-    doc.studyType = { label: studyType };
+    doc.studyType = { name: studyType };
   }
-  doc.distributions = { repository, source };
+  doc.dataSource = { repository, source };
   return doc;
 };

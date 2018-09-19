@@ -41,10 +41,10 @@ class MorphologyPreview extends PureComponent {
                     onMouseLeave={() => this.handleOnHover(false)}
                     onMouseEnter={() => this.handleOnHover(true)}
                   >
-                    <MorphologyViewer
+                    {/* <MorphologyViewer
                       morphologySrc={morphologySrc}
                       shouldRender={shouldRender}
-                    />
+                    /> */}
                   </div>
                 )}
                 {!instance && !morphologySrc && (
