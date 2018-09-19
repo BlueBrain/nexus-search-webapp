@@ -80,12 +80,12 @@ const GridResult = ({ value, id }) => {
               <Preview value={value}/>
               <div className="footer">
                 <div className="mType">
-                  {getProp(value, "mType.label") && mTypes[getProp(value, "mType.label").toLowerCase()]}
+                  {getProp(value, "cellType.mType") && mTypes[getProp(value, "cellType.mType").toLowerCase()]}
                 </div>
-                <div className="brainRegion">{getProp(value, "brainRegion.label")}</div>
-                <div className="eType">{getProp(value, "eType.label") && eTypes[getProp(value, "eType.label")]}</div>
+                <div className="brainRegion">{getProp(value, "brainLocation.brainRegion")}</div>
+                <div className="eType">{getProp(value, "cellType.eType") && eTypes[getProp(value, "eType.label")]}</div>
                 <div className="bottom flex space-between">
-                  <Contributions contributions={getProp(value, "contributions")} />
+                  <Contributions contributions={getProp(value, "contribution")} />
                   {isInSilico &&
                     <div className="banner in-silico"></div>
                   }

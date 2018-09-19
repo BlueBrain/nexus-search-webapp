@@ -47,6 +47,7 @@
     "jszip": "^3.1.5",
     "moment": "^2.22.2",
     "morgan": "^1.9.0",
+    "morphoviewer": "^0.1.0",
     "pretty-bytes": "^5.1.0",
     "querystring": "^0.2.0",
     "react": "^16.4.2",
@@ -73,8 +74,7 @@
     "redux-thunk": "^2.3.0",
     "store": "^2.0.12",
     "styled-jss": "^2.2.3",
-    "three": "^0.86.0",
-    "three-trackballcontrols": "0.0.7",
+    "three": "^0.96.0",
     "underscore": "^1.9.1",
     "unzip": "^0.1.11"
   },

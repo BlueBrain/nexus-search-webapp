@@ -1,20 +1,15 @@
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import SVG from "react-svg";
-import World from "../../libs/World";
-import MorphologyBuilder from "./morphologybuilder";
 import icons from "../Icons";
 import { makeCancelable } from "@libs/promise";
 import fetchProtectedData from "../../libs/fetchProtectedData";
-import { Helmet } from "react-helmet";
+const morphoviewer = require("morphoviewer");
 
 class MorphologyContainer extends React.Component {
   state = { morphoData: null, error: null };
   constructor(props) {
     super(props);
-    this.viewContainer = React.createRef();
-
-    this.viewContainer = null;
 
     this.setViewContainer = element => {
       this.viewContainer = element;
@@ -23,7 +18,7 @@ class MorphologyContainer extends React.Component {
   componentDidMount() {
     const { morphologySrc, token } = this.props;
     if (morphologySrc) {
-      this.fetchDataPromise = makeCancelable(fetchProtectedData.asPlainText(morphologySrc, token));
+      this.fetchDataPromise = makeCancelable(fetchProtectedData.asJSON(morphologySrc, token));
       this.fetchDataPromise.promise
         .then(morphoData => {
           this.setState({ morphoData });
@@ -43,40 +38,29 @@ class MorphologyContainer extends React.Component {
     }
   }
   componentDidUpdate() {
-    if (!this.world) {
+    if (!this.viewer) {
       this.makeVisualizer();
     } else {
       this.shouldRender();
     }
   }
   shouldRender() {
-    if (!this.world) {
-      return;
-    }
-    if (this.props.shouldRender) {
-      this.world.unPause();
-    } else {
-      this.world.pause();
-    }
+    // toggle rendering
   }
   makeVisualizer() {
     let { morphoData } = this.state;
     if (this.viewContainer && morphoData) {
-      this.world = new World(this.viewContainer);
-      this.world.renderer.webgl.domElement.className += "fade";
-      this.world.animate();
-      // TODO create cancellable promise to reduce memory leak
-      MorphologyBuilder.displayOnScene(
-        this.world.scene.webgl,
+      this.viewer = new morphoviewer.MorphoViewer(this.viewContainer)
+      this.viewer.addMorphology (
         morphoData,
-        () => {
-          this.world.renderer.webgl.domElement.className += " in";
-          setTimeout(() => {
-            this.shouldRender();
-          }, 700);
-        },
-        () => {}
-      );
+        {
+          focusOn: true, // do we want the camera to focus on this one when it's loaded?
+          asPolyline: false, // with polylines of with cylinders?
+          // onDone: optionalCallback, // what to do when it's loaded?
+          //color: Math.floor(Math.random() * 0xFFFFFF), // if not present, all neurones will have there axon in blue, basal dendrite in red and apical dendrite in green
+          somaMode: "fromOrphanSections",
+        }
+      )
     }
   }
   render() {
@@ -112,9 +96,6 @@ class MorphologyContainer extends React.Component {
         {loaded &&
           !error && (
             <Fragment>
-              <Helmet>
-                {image && <meta property="og:image" content={image.src} />}
-              </Helmet>
               <div className="full-height" ref={this.setViewContainer} />
             </Fragment>
           )}

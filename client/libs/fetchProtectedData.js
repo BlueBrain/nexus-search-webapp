@@ -34,6 +34,11 @@ async function arrayBufferResolver(response) {
   return await readArrayBufferAsync(blob);
 }
 
+async function JSONresolver(response) {
+  let json = await response.json();
+  return json;
+}
+
 async function plainTextResolver(response) {
   return await response.text();
 }
@@ -61,6 +66,7 @@ function fetchPrivateDataFactory(resolver) {
 
 export default {
   asBase64: fetchPrivateDataFactory(base64Resolver),
+  asJSON: fetchPrivateDataFactory(JSONresolver),
   asPlainText: fetchPrivateDataFactory(plainTextResolver),
   asArrayBuffer: fetchPrivateDataFactory(arrayBufferResolver)
 };

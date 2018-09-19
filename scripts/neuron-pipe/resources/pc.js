@@ -8,14 +8,14 @@ import trimMetaData from "../trimMetaData";
 import pushToNexus from "../pushToNexus";
 import flattenDownloadables from "../flattenDownloadables";
 import { getProp } from "@libs/utils";
-import { getURIPartsFromNexusURL } from "../helpers";
+import { getURIPartsFromNexusURL, fetchWithToken } from "../helpers";
 import downloadMorph from "../downloadMorph";
 
 require("dns-cache")(100000);
 
 async function fetch(resource, token, shouldUpload, resourceURL) {
   let { short, source, url, context } = resource;
-  let [base, ...urlParts ] = getURIPartsFromNexusURL(url);
+  let [base, ...urlParts] = getURIPartsFromNexusURL(url);
   let [error, docs] = await to(
     waitForEach(getResources(url, token), [
       processDoc(resource),
@@ -34,11 +34,11 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         };
         doc.brainLocation = {
           brainRegion: getProp(doc, "brainLocation.brainRegion.label")
-        }
+        };
         doc.license = {
           name: "BBP/EPFL",
           availability: "Private"
-        }
+        };
         return doc;
       },
       async doc => {
@@ -94,9 +94,11 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
       },
       async doc => {
         // prov pattern only for NMC Portal PC
-        if (short !== "pc") { return doc; }
+        if (short !== "pc") {
+          return doc;
+        }
         let response = await getRelatedResourceWithFilter(
-          { token, base, context},
+          { token, base, context },
           doc["@id"],
           "nsg:ReconstructedCell",
           function makeQuery(startingResourceURI, targetResourceType) {
@@ -126,9 +128,11 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
       },
       async doc => {
         // prov pattern only for NMC Portal PC
-        if (short !== "tpc") { return doc; }
+        if (short !== "tpc") {
+          return doc;
+        }
         let response = await getRelatedResourceWithFilter(
-          { token, base, context},
+          { token, base, context },
           doc["@id"],
           "nsg:ReconstructedCell",
           function makeQuery(startingResourceURI, targetResourceType) {
@@ -157,9 +161,10 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         return doc;
       },
       async doc => {
-        // Getting contributions
+
+        // Getting contributions using the WholeCellPatchClamp
         let response = await getRelatedResourceWithFilter(
-          { token, base, context},
+          { token, base, context },
           doc["@id"],
           "nsg:WholeCellPatchClamp",
           function makeQuery(startingResourceURI, targetResourceType) {
@@ -181,10 +186,66 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
             return query;
           }
         );
-        doc.activity = response.results.map(activity => {
+        let activity = response.results.map(activity => {
           activity = trimMetaData(activity.source);
           return activity;
         });
+        if (
+          activity &&
+          activity.length &&
+          activity[0].wasStartedBy
+        ) {
+          // This activity only ever has one agent
+          let wasStartedBy = activity[0].wasStartedBy;
+          let response = await fetchWithToken(wasStartedBy["@id"], token);
+          let json = await response.json();
+          let agent = trimMetaData(json);
+          agent.fullName = agent.additionalName
+            ? `${agent.givenName} ${agent.additionalName} ${agent.familyName}`
+            : `${agent.givenName} ${agent.familyName}`;
+          agent.name = agent.fullName;
+          agent.organization = "Blue Brain Project";
+          doc.contribution = [agent];
+        }
+        if (!activity.length) {
+          // NO WholeCellPatchClamp info,
+          // we should use Stimulus Experiment instead
+          let agentResponseFromStimulus = await getRelatedResourceWithFilter(
+            { token, base, context },
+            doc["@id"],
+            "schema:Person",
+            function makeQuery(startingResourceURI, targetResourceType) {
+              const query = {
+                op: "and",
+                value: [
+                  {
+                    op: "eq",
+                    path: "^prov:wasStartedBy / prov:used",
+                    value: startingResourceURI
+                  },
+                  {
+                    op: "eq",
+                    path: "rdf:type",
+                    value: "schema:Person"
+                  }
+                ]
+              };
+              return query;
+            }
+          );
+          let agents = agentResponseFromStimulus.results.map(activity => {
+            activity = trimMetaData(activity.source);
+            return activity;
+          });
+          doc.contribution = agents.map(agent => {
+            agent.fullName = agent.additionalName
+              ? `${agent.givenName} ${agent.additionalName} ${agent.familyName}`
+              : `${agent.givenName} ${agent.familyName}`;
+            agent.name = agent.fullName;
+            agent.organization = "Blue Brain Project";
+            return agent
+          });
+        }
         return doc;
       },
       // downloadMorph(token, short, doc => getProp(doc, "morphology", [{}])[0]),

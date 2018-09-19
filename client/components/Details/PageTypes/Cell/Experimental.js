@@ -31,12 +31,12 @@ function getExplorerLink(instance) {
 }
 
 function attributionLine(instance) {
-  let contribution = getProp(instance, "contributions", {})
+  let contribution = getProp(instance, "contribution", {})
   let name =
-    getProp(contribution, "fullName")
+    getProp(contribution, "name")
   let email = getProp(contribution, "email");
 
-  return getProp(instance, "contributions") ? (
+  return getProp(instance, "contribution") ? (
     <h2>
       <Icon type="user-add" /> by {
         email ?
@@ -129,8 +129,8 @@ function Details({ instance }) {
               <FontAwesome name={"flask"} /> Experimental
             </Tag>
           </h2>
-          <div className="eType">{getProp(instance, "eType.label") && eTypes[getProp(instance, "eType.label")]}</div>
-          <div className="brainRegion"><BrainRegionLink region={getProp(instance, "brainRegion.label")} species={getProp(instance, "subject.species")}/> {getProp(instance, "brainRegion.layer") && "(" + getProp(instance, "brainRegion.layer") + ")"}</div>
+          <div className="eType">{getProp(instance, "cellType.etype") && eTypes[getProp(instance, "cellType.eType")]}</div>
+          <div className="brainRegion"><BrainRegionLink region={getProp(instance, "brainLocation.brainRegion")} species={getProp(instance, "subject.species")}/> {getProp(instance, "brainRegion.layer") && "(" + getProp(instance, "brainRegion.layer") + ")"}</div>
           <Subject subject={getProp(instance, "subject")} />
         </Col>
       </Row>
