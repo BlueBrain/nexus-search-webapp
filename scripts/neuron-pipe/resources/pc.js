@@ -90,6 +90,9 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
               break;
           }
         }
+        if (doc.brainLocation.layer === "L23") {
+          doc.brainLocation.layer = "L2/3";
+        }
         return doc;
       },
       async doc => {

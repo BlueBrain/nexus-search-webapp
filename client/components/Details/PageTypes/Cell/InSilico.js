@@ -31,15 +31,20 @@ function getExplorerLink(instance) {
 }
 
 function attributionLine(instance) {
+  let contribution = getProp(instance, "contribution", [{}])[0]
+  console.log({instance})
   let name =
-    getProp(instance, "wasAttributedTo.givenName") +
-    " " +
-    getProp(instance, "wasAttributedTo.familyName");
-  let email = getProp(instance, "wasAttributedTo.email");
+    getProp(contribution, "fullName")
+  let email = getProp(contribution, "email");
   let date = moment(getProp(instance, "dateCreated")).format("MMM Do YYYY");
-  return getProp(instance, "wasAttributedTo") ? (
+  return getProp(instance, "contribution") ? (
     <h2>
-      <Icon type="user-add" /> by <a href={`mailto:${email}`}>{name}</a> on{" "}
+      <Icon type="user-add" /> by {
+        email ?
+        <a href={`mailto:${email}`}>{name}</a>
+        : <span>{name}</span>
+
+      }
       <span className="date">{date}</span>
     </h2>
   ) : null ;
@@ -126,20 +131,20 @@ function Hero({ instance }) {
 }
 
 function Details({ instance }) {
-  let brainRegion = getProp(instance, "brainRegion.label");
+  let brainRegion = getProp(instance, "brainLocation.brainRegion");
   let generatedFromCells = getProp(instance, "generatedFromCells", []);
   return (
     <div className="more-details">
       <Row>
         <Col span={16}>
           <h2 className="mType">
-            {getProp(instance, "mType.label") && mTypes[getProp(instance, "mType.label").toLowerCase()]}
+            {getProp(instance, "cellType.mType") && mTypes[getProp(instance, "cellType.mType").toLowerCase()]}
             {" "}<Tag color="#00c4ff">
               <FontAwesome name={"microchip"} /> In Silico
             </Tag>
           </h2>
-          <div className="eType">{getProp(instance, "eType.label") && eTypes[getProp(instance, "eType.label")]}</div>
-          <div className="brainRegion"><BrainRegionLink region={getProp(instance, "brainRegion.label")} /> ({getProp(instance, "brainRegion.layer")})</div>
+          <div className="eType">{getProp(instance, "cellType.eType") && eTypes[getProp(instance, "cellType.eType")]}</div>
+          <div className="brainRegion"><BrainRegionLink region={getProp(instance, "brainLocation.brainRegion")} /> ({getProp(instance, "brainLocation.layer")})</div>
           <Subject subject={getProp(instance, "subject")} />
           {softwareLine(instance)}
         </Col>

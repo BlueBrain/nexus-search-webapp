@@ -55,6 +55,7 @@ class MorphologyContainer extends React.Component {
         morphoData,
         {
           focusOn: true, // do we want the camera to focus on this one when it's loaded?
+          distance: 500,
           asPolyline: !!this.props.polyLine, // with polylines of with cylinders?
           // onDone: optionalCallback, // what to do when it's loaded?
           //color: Math.floor(Math.random() * 0xFFFFFF), // if not present, all neurones will have there axon in blue, basal dendrite in red and apical dendrite in green
@@ -90,7 +91,7 @@ class MorphologyContainer extends React.Component {
         {loaded &&
           !error && (
             <Fragment>
-              <div className="full-height" ref={this.setViewContainer} />
+              <div className="full-height" style={{overflow: "hidden"}} ref={this.setViewContainer} />
             </Fragment>
           )}
       </div>
