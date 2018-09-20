@@ -28,6 +28,10 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
       },
       // downloadMorph(token, short, doc => getProp(doc, "morphology", [{}])[0]),
       async doc => {
+        doc.license = {
+          name: "BBP/EPFL",
+          availability: "Private"
+        };
         doc.subject = {
           species: getProp(doc, "species.label")
         };

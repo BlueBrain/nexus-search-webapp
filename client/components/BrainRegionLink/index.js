@@ -5,19 +5,21 @@ import cellAtlasBrainRegionMap from "./cellAtlasBrainRegionMap";
 
 function formRegionLink(region) {
   // TODO make path configurable?
-  return "https://bbp.epfl.ch/nexus/cell-atlas/?regions=" + cellAtlasBrainRegionMap[region];
+  let regionID = cellAtlasBrainRegionMap[region];
+  return regionID ? "https://bbp.epfl.ch/nexus/cell-atlas/?regions=" + regionID : undefined;
 }
 
 class BrainRegionLink extends PureComponent {
   render() {
     const { region, species } = this.props;
+    const regionLink = formRegionLink(region);
     // TODO fit for species
-    if (species === "Mus musculus") {
+    if (species === "Mus musculus" && regionLink) {
       return (
         <a
           className="brain-region"
           target="_blank"
-          href={formRegionLink(region)}
+          href={regionLink}
         >
           <SVG
             path={icons.brain}

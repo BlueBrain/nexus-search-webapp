@@ -28,19 +28,28 @@ function getExplorerLink(instance) {
 }
 
 function attributionLine(instance) {
+  let contribution = getProp(instance, "contribution", {})
   let name =
-    getProp(instance, "wasAttributedTo.givenName") +
-    " " +
-    getProp(instance, "wasAttributedTo.familyName");
-  let email = getProp(instance, "wasAttributedTo.email");
-  let date = moment(getProp(instance, "dateCreated")).format("MMM Do YYYY");
-  return getProp(instance, "wasAttributedTo") ? (
-    <h2>
-      <Icon type="user-add" /> by <a href={`mailto:${email}`}>{name}</a> on{" "}
-      <span className="date">{date}</span>
-    </h2>
-  ) : null;
+    getProp(contribution, "fullName")
+  let email = getProp(contribution, "email");
+  let attribution = null;
+  let organization = getProp(contribution, "organization");
+  if (name) {
+    attribution = (<h2>
+      <Icon type="user-add" /> by {
+        email ?
+        <a href={`mailto:${email}`}>{name}</a>
+        : <span>{name}</span>
+      }
+    </h2>)
+  } else if (organization) {
+    attribution = (<h2>
+      <Icon type="bank" /> by <span>{organization}</span>
+    </h2>);
+  }
+  return attribution;
 }
+
 
 function Header({ instance }) {
   return (
@@ -112,7 +121,7 @@ function Hero({ instance }) {
 }
 
 function Details({ instance }) {
-  let brainRegion = getProp(instance, "brainRegion.label");
+  let brainRegion = getProp(instance, "brainLocation.brainRegion");
   let usedBy = getProp(instance, "usedBy", []);
   return (
     <div className="more-details">
@@ -125,11 +134,11 @@ function Details({ instance }) {
             </Tag>
           </h2>
           <div className="eType">
-            {getProp(instance, "eType.label") &&
-              eTypes[getProp(instance, "eType.label")]}
+            {getProp(instance, "cellType.eType") &&
+              eTypes[getProp(instance, "cellType.eType")]}
           </div>
           <div className="brainRegion">
-            <BrainRegionLink region={getProp(instance, "brainRegion.label")} />
+            <BrainRegionLink region={getProp(instance, "brainLocation.brainRegion")} />
           </div>
           <Subject subject={getProp(instance, "subject")} />
         </Col>

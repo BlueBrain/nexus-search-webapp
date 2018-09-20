@@ -5,7 +5,7 @@ import { find } from "underscore";
 import Perspectivizer from "../../Animations/Perspectivizer";
 import { getProp } from "@libs/utils";
 import InspectLink from "./InspectLink";
-import Contributions from "./Contributions";
+import Contributions from "../Cell/Contributions";
 import { Icon } from "antd";
 import Download from "../../Download";
 
@@ -28,7 +28,7 @@ const GridResult = ({ value, id }) => {
         const myType = find(types, type => {
           return type.value === mostRelevantType;
         });
-        const studyType = getProp(value, "studyType.label");
+        const studyType = getProp(value, "studyType.name");
         const isInSilico = studyType === "In Silico";
         return (
           <Perspectivizer disabled>
@@ -47,7 +47,7 @@ const GridResult = ({ value, id }) => {
                   </div>
                   </InspectLink>
                   <div className={`action-buttons ${active ? "active" : ""}`}>
-                    <Download files={getProp(value, "files")} name={getProp(value, "cellName.label", "Cell")}>
+                    <Download files={getProp(value, "files")} name={getProp(value, "name", "Ion Channel")}>
                       <a><Icon type="cloud-download-o" style={{ fontSize: 16 }}/></a>
                     </Download>
                   </div>
@@ -65,9 +65,9 @@ const GridResult = ({ value, id }) => {
               <div className="footer">
               <div className="mType">{value.name}</div>
               <div className="mType">Ion Channel</div>
-                <div className="brainRegion">{getProp(value, "brainRegion.label")}</div>
+                <div className="brainRegion">{getProp(value, "brainLocation.brainRegion")}</div>
                 <div className="bottom flex space-between">
-                  <Contributions contributions={getProp(value, "contributions")} />
+                  <Contributions contributions={getProp(value, "contribution")} />
                   {isInSilico &&
                     <div className="banner in-silico"></div>
                   }

@@ -29,7 +29,6 @@ class MorphologyPreview extends PureComponent {
           <WithNexusInstance
           instanceID={previewInstanceID}
           render={({ instance }) => {
-            console.log({instance});
             const morphologySrc = getDistributionFromInstance(instance);
             return (
               <div className="fade-in" style={divStyle}>
@@ -43,6 +42,7 @@ class MorphologyPreview extends PureComponent {
                       polyLine={!!polyLine}
                       morphologySrc={morphologySrc}
                       shouldRender={shouldRender}
+                      name={getProp(instance, "searchID")}
                     />
                   </div>
                 )}

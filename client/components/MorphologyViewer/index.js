@@ -18,7 +18,9 @@ class MorphologyContainer extends React.Component {
   componentDidMount() {
     const { morphologySrc, token } = this.props;
     if (morphologySrc) {
-      this.fetchDataPromise = makeCancelable(fetchProtectedData.asJSON(morphologySrc, token));
+      this.fetchDataPromise = makeCancelable(
+        fetchProtectedData.asJSON(morphologySrc, token)
+      );
       this.fetchDataPromise.promise
         .then(morphoData => {
           this.setState({ morphoData });
@@ -49,19 +51,22 @@ class MorphologyContainer extends React.Component {
   }
   makeVisualizer() {
     let { morphoData } = this.state;
+    let { name } = this.props;
     if (this.viewContainer && morphoData) {
-      this.viewer = new morphoviewer.MorphoViewer(this.viewContainer)
-      this.viewer.addMorphology (
-        morphoData,
-        {
+      try {
+        this.viewer = new morphoviewer.MorphoViewer(this.viewContainer);
+        this.viewer.addMorphology(morphoData, {
           focusOn: true, // do we want the camera to focus on this one when it's loaded?
           distance: 500,
+
           asPolyline: !!this.props.polyLine, // with polylines of with cylinders?
           // onDone: optionalCallback, // what to do when it's loaded?
           //color: Math.floor(Math.random() * 0xFFFFFF), // if not present, all neurones will have there axon in blue, basal dendrite in red and apical dendrite in green
-          somaMode: "fromOrphanSections",
-        }
-      )
+          somaMode: "fromOrphanSections"
+        });
+      } catch (error) {
+        console.error("problem with cell ", name, error);
+      }
     }
   }
   render() {
@@ -91,7 +96,11 @@ class MorphologyContainer extends React.Component {
         {loaded &&
           !error && (
             <Fragment>
-              <div className="full-height" style={{overflow: "hidden"}} ref={this.setViewContainer} />
+              <div
+                className="full-height"
+                style={{ overflow: "hidden" }}
+                ref={this.setViewContainer}
+              />
             </Fragment>
           )}
       </div>
