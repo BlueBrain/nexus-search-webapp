@@ -62,7 +62,6 @@ class TraceViewerContainer extends React.Component {
         responseData.push(sweeps.reduce((acc, sweep) => acc.concat(traceData.values[sweep.sweepKey].v[index]), [time]));
       });
 
-      console.log({ traceData, sweeps, stimulusData, responseData });
       this.setState({ sweeps, stimulusData, responseData, status: "fulfilled" });
     }
   }

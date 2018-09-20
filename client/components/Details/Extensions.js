@@ -29,7 +29,6 @@ class ExtensionsContainer extends PureComponent {
     let { data, token } = this.props;
     const entityId = data["@id"];
     const Extensions = extensions.getByEntityId(entityId);
-    console.log(Extensions, {data})
     extensions.setAuthToken(`Bearer ${token}`);
     return (
       <div>

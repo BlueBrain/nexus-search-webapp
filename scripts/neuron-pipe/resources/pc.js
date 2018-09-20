@@ -203,7 +203,7 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
           agent.fullName = agent.additionalName
             ? `${agent.givenName} ${agent.additionalName} ${agent.familyName}`
             : `${agent.givenName} ${agent.familyName}`;
-          agent.name = agent.fullName;
+          agent.person = agent.fullName;
           agent.organization = "Blue Brain Project";
           doc.contribution = [agent];
         }
@@ -241,7 +241,7 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
             agent.fullName = agent.additionalName
               ? `${agent.givenName} ${agent.additionalName} ${agent.familyName}`
               : `${agent.givenName} ${agent.familyName}`;
-            agent.name = agent.fullName;
+            agent.person = agent.fullName;
             agent.organization = "Blue Brain Project";
             return agent
           });

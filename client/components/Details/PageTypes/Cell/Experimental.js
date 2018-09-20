@@ -33,7 +33,7 @@ function getExplorerLink(instance) {
 function attributionLine(instance) {
   let contribution = getProp(instance, "contribution", {})
   let name =
-    getProp(contribution, "name")
+    getProp(contribution, "fullName")
   let email = getProp(contribution, "email");
 
   return getProp(instance, "contribution") ? (
@@ -91,7 +91,7 @@ function Hero({ instance }) {
     <div className="hero">
       <div className="detail-hero">
         <picture style={{ height: "600px" }}>
-          <MorphologyPreview onHover={() => {}} value={instance} shouldRender />
+          <MorphologyPreview onHover={() => {}} value={instance} shouldRender/>
         </picture>
       </div>
       {files && files.length && (

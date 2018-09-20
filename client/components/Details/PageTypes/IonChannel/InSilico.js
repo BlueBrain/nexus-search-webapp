@@ -152,7 +152,6 @@ function Details({ instance }) {
 }
 
 export default function IonCannelModelDetailsPage({ data: instance }) {
-  console.log({ instance });
   return (
     <article id="details">
       <Header instance={instance} />

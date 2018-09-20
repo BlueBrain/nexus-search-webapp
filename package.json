@@ -47,7 +47,7 @@
     "jszip": "^3.1.5",
     "moment": "^2.22.2",
     "morgan": "^1.9.0",
-    "morphoviewer": "^0.1.0",
+    "morphoviewer": "^0.1.1",
     "pretty-bytes": "^5.1.0",
     "querystring": "^0.2.0",
     "react": "^16.4.2",
