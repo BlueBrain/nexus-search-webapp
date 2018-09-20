@@ -13,7 +13,7 @@ class MorphologyPreview extends PureComponent {
     }
   }
   render() {
-    let { value, shouldRender } = this.props;
+    let { value, shouldRender, polyLine } = this.props;
     const divStyle = {
       position: "absolute",
       top: 0,
@@ -21,17 +21,15 @@ class MorphologyPreview extends PureComponent {
       width: "100%",
       height: "100%"
     };
-    let morphology = getProp(value, "morphology", [{}]);
-    if (!Array.isArray(morphology)) {
-      morphology = [morphology];
-    }
-    let previewInstanceID = getProp(morphology[0] || {}, "image.@id");
+    let previewInstanceID = getProp(value, "image.@id");
+
     return (
       <div className="morpho-preview" style={{ width: "100%", height: "100%" }}>
         {previewInstanceID &&
           <WithNexusInstance
           instanceID={previewInstanceID}
           render={({ instance }) => {
+            console.log({instance});
             const morphologySrc = getDistributionFromInstance(instance);
             return (
               <div className="fade-in" style={divStyle}>
@@ -42,6 +40,7 @@ class MorphologyPreview extends PureComponent {
                     onMouseEnter={() => this.handleOnHover(true)}
                   >
                     <MorphologyViewer
+                      polyLine={!!polyLine}
                       morphologySrc={morphologySrc}
                       shouldRender={shouldRender}
                     />

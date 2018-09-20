@@ -15,7 +15,7 @@ class Preview extends PureComponent {
         {value.traces &&
           <EphysPreview traces={value.traces} disabled={hoveringOverMorph}/>
         }
-        <MorphologyPreview onHover={this.handlehoverOverMorph.bind(this)} value={value} shouldRender={hoveringOverMorph}/>
+        <MorphologyPreview onHover={this.handlehoverOverMorph.bind(this)} value={value} shouldRender={hoveringOverMorph} polyLine/>
       </div>
     );
   }

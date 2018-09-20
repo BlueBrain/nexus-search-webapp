@@ -41,7 +41,7 @@ const GridResult = ({ value, id }) => {
         const myType = find(types, type => {
           return type.value === mostRelevantType;
         });
-        const studyType = getProp(value, "studyType.label");
+        const studyType = getProp(value, "studyType.name");
         const isInSilico = studyType === "In Silico";
         return (
           <Perspectivizer disabled>

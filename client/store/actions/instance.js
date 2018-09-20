@@ -32,7 +32,6 @@ function fetchInstance(docID) {
       .then(response => {
         // TODO migrate ES client handling to client not server;
         if (response.code) {
-          console.log(response.code);
           switch(response.code) {
             case "UnauthorizedAccess":
               dispatch(auth.authenticate(window.location.href));

@@ -33,8 +33,8 @@ class MorphologyContainer extends React.Component {
     if (this.fetchDataPromise) {
       this.fetchDataPromise.cancel();
     }
-    if (this.world) {
-      this.world.destroy();
+    if (this.viewer) {
+      this.viewer.destroy();
     }
   }
   componentDidUpdate() {
@@ -55,7 +55,7 @@ class MorphologyContainer extends React.Component {
         morphoData,
         {
           focusOn: true, // do we want the camera to focus on this one when it's loaded?
-          asPolyline: false, // with polylines of with cylinders?
+          asPolyline: !!this.props.polyLine, // with polylines of with cylinders?
           // onDone: optionalCallback, // what to do when it's loaded?
           //color: Math.floor(Math.random() * 0xFFFFFF), // if not present, all neurones will have there axon in blue, basal dendrite in red and apical dendrite in green
           somaMode: "fromOrphanSections",
@@ -66,12 +66,6 @@ class MorphologyContainer extends React.Component {
   render() {
     let loaded = !!this.state.morphoData;
     let error = this.state.error;
-    let image;
-    if (loaded && this.world) {
-      image = new Image();
-      image.id = "pic";
-      image.src = this.world.renderer.webgl.domElement.toDataURL();
-    }
     return (
       <div id="mophology-viewer" className="morpho-viz full-height">
         {!loaded &&

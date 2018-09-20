@@ -9,7 +9,7 @@ export default {
         }
       }
     },
-    name: {
+    person: {
       type: "text",
       fields: {
         raw: {
