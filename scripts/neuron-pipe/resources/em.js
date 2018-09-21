@@ -8,8 +8,10 @@ import flattenDownloadables from "../flattenDownloadables";
 import getRelatedResourceWithFilter from "../getRelatedResourceWithFilterBody";
 import { getURIPartsFromNexusURL, fetchWithToken } from "../helpers";
 import pc from "../../testData/pc.json";
+import emtc from "../../testData/emtc.json";
 import downloadMorph from "../downloadMorph";
 import { getProp } from "@libs/utils";
+import { mTypes } from "@consts";
 
 async function fetch(resource, token, shouldUpload, resourceURL) {
   let { short, source, url, context } = resource;
@@ -23,7 +25,22 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
           token,
           doc => doc.wasDerivedFrom[0]["@id"]
         );
+        // morphology preview
+        doc.image = morphology.image;
         doc.morphology = [morphology];
+
+        // map to (prod) version of reconstructed cell
+        let patchedCellsFilteredByName = pc.filter(cell => {
+          return cell.name === morphology.name;
+        });
+        let searchID = getProp(patchedCellsFilteredByName[0] || {}, "searchID")
+        let id = getProp(patchedCellsFilteredByName[0] || {}, "@id")
+        let type = getProp(patchedCellsFilteredByName[0] || {}, "@type")
+        doc.generatedMorphologyFrom = {
+          "@id": id,
+          searchId: searchID,
+          type
+        }
         return doc;
       },
       // downloadMorph(token, short, doc => getProp(doc, "morphology", [{}])[0]),
@@ -38,6 +55,8 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         doc.cellName = {
           label: doc.name
         };
+        // get traces from trace collection (must be previously prepared)
+        doc.traces = emtc[getProp(doc, "cellName.label")];
         doc.brainLocation = {
           brainRegion: getProp(doc, "brainRegion.label")
         };
@@ -51,7 +70,7 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         let [, mType] = mTypeWithLayer.split(layer);
         doc.cellType = {
           eType,
-          mType
+          mType: mTypes[mType.toLowerCase()]
         };
         if (layer === "L23") {
           layer = "L2/3";
@@ -159,7 +178,7 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
           }
         });
 
-        doc.generatedFromCells = resolvedCellUsedWith;
+        doc.generatedEPhysFrom = resolvedCellUsedWith;
         return doc;
       },
       async doc => {
@@ -191,6 +210,7 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
           : `${agent.givenName} ${agent.familyName}`;
         agent.person = agent.fullName;
         agent.organization = "Blue Brain Project";
+        delete agent["@id"];
         doc.contribution = [agent];
         return doc;
       },

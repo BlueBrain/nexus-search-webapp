@@ -21,8 +21,9 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         doc.cellName = {
           label: doc.name
         };
-        doc.brainRegion = doc.brainLocation.brainRegion;
-        delete doc.brainLocation;
+        doc.brainLocation = {
+          brainRegion: getProp(doc, "brainLocation.brainRegion.label")
+        };
         return doc;
       },
       async doc => {
@@ -73,23 +74,27 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
           // TODO change repos to URLS
           if (activity.wasStartedBy) {
             // we know its allen
-            doc.distributions.repository = "Allen";
+            doc.dataSource.repository = "Allen Cell Types Database";
             // allen only ever has one contribution, but we'll let them slide for now
-            // with an array
-            let contributions = await Promise.all(
-              activity.wasStartedBy.map(async wasStartedBy => {
-                let response = await fetchWithToken(wasStartedBy["@id"], token);
-                let json = await response.json();
-                json.fullName = json.name;
-                return trimMetaData(json);
-              })
-            );
-            doc.contributions = contributions;
+            // with an array. We can hard code in the value.
+            let contribution =
+              activity.wasStartedBy.map(() => {
+                return {
+                  organization: "Allen Institute for Brain Science"
+                };
+              });
+            doc.contribution = contribution;
+
+            // license for Allen
+            doc.license = {
+              name: "Allen Institute License",
+              availability: "Private"
+            };
           }
           if (activity.wasAssociatedWith) {
             // we know its neuromorpho
-            doc.distributions.repository = "NeuroMorpho";
-            let contributions = await Promise.all(
+            doc.dataSource.repository = "NeuroMorpho.org";
+            let contribution = await Promise.all(
               activity.wasAssociatedWith.map(async wasAssociatedWith => {
                 let response = await fetchWithToken(wasAssociatedWith["@id"], token);
                 let json = await response.json();
@@ -97,12 +102,30 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
               })
             );
 
+            doc.license = {
+              name: "NeuroMorpho License",
+              availability: "Private"
+            };
+
             // we can seperate the software form the people using types
-            contributions = contributions.reduce(
+            contribution = contribution.reduce(
               (memo, contrib) => {
                 if (contrib["@type"].includes("schema:Person")) {
-                  contrib.fullName = contrib.givenName + " " + contrib.familyName;;
-                  memo.contributions.push(trimMetaData(contrib));
+                  let agent = trimMetaData(contrib);
+                  agent.fullName = agent.additionalName
+                    ? `${agent.givenName} ${agent.additionalName} ${agent.familyName}`
+                    : `${agent.givenName} ${agent.familyName}`;
+                  agent.person = agent.fullName;
+                  // we can find the org via email (seems to be only two)
+                  if (agent.email) {
+                    if (agent.email.indexOf("bcm.edu") >= 0) {
+                      agent.organization = "Baylor College of Medicine"
+                    }
+                    if (agent.email.indexOf("mcgill.ca") >= 0) {
+                      agent.organization = "McGill University"
+                    }
+                  }
+                  memo.contribution.push(agent);
                   return memo;
                 }
                 if (contrib["@type"].includes("nsg:SoftwareAgent")) {
@@ -111,18 +134,18 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
                 }
                 return memo;
               },
-              { contributions: [], software: {} }
+              { contribution: [], software: {} }
             );
-            doc = Object.assign(doc, { ...contributions });
+            doc = Object.assign(doc, { ...contribution });
           }
         }
-        doc.cellTypes = {
+        doc.cellType = {
           mType: getProp(doc, "mType.label")
         };
         delete doc.mType;
         return doc;
       },
-      downloadMorph(token, short),
+      // downloadMorph(token, short),
       async doc => await flattenDownloadables(doc),
       async doc => {
         if (shouldUpload) {

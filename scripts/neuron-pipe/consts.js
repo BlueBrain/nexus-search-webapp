@@ -96,6 +96,11 @@ const resourceDict = {
     url: "http://uploader.bbp.epfl.ch/",
     name: "Uploaded Resources",
     source: "Nexus File Uploader"
+  },
+  emtc: {
+    url: "https://bbp-nexus.epfl.ch/staging/v0/data/somatosensorycortexproject/simulation/emodeltraceset/v0.0.1/",
+    name: "E Model Trace Collection",
+    source: "BBP NSE"
   }
 };
 

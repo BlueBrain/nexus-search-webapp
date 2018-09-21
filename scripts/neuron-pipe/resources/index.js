@@ -4,6 +4,7 @@ import subcell from "./subcell";
 import rwbc from "./rwbc";
 import wmurwbc from "./wmurwbc";
 import rpc from "./rpc";
+import emtc from "./emtc";
 
 let tpc = pc;
 
@@ -21,5 +22,7 @@ export {
   // WMU Whole Brain Cells
   wmurwbc,
   // Neocortex reconstructed patch cells
-  rpc
+  rpc,
+  // Emodel Trace Collection (for referenc only!)
+  emtc
 }

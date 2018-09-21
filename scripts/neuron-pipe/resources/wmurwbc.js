@@ -25,9 +25,20 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         doc.subject = {
           species: "Mus musculus"
         }
-        doc.brainRegion = doc.brainLocation.brainRegion;
-        doc.cellTypes = { specialDesignation: "Whole Brain"}
-        delete doc.brainLocation;
+        let brainRegion = getProp(doc, "brainLocation.brainRegion.label");
+        doc.brainLocation = {
+          brainRegion: brainRegion === "TH" ? "Thalamus" : brainRegion,
+          atlas: getProp(doc, "brainLocation.atlasSpatialReferenceSystem.name")
+        };
+        //
+        // doc.license = {
+        //   name: "CC-BY NC",
+        //   availability: "Open"
+        // };
+        doc.contribution = [{
+          organization: "Wenzhou Medical University"
+        }]
+        doc.cellType = { specialDesignation: "Whole Brain"}
         return doc;
       },
       async doc => {
@@ -35,12 +46,12 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         if (mTypePreprocessed) {
           let [layer, mTypeWithColon] = mTypePreprocessed.split("_");
           let [mType, unknownValue] = mTypeWithColon.split(":");
-          doc.brainRegion.layer = layer;
-          doc.cellTypes.mType = mType;
+          doc.brainLocation.layer = layer;
+          doc.cellType.mType = mType;
         }
         return doc;
       },
-      downloadMorph(token, short),
+      // downloadMorph(token, short),
       async doc => await flattenDownloadables(doc),
       async doc => {
         // don't upload if the name starts with AA

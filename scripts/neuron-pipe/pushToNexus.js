@@ -47,8 +47,14 @@ export default async (doc, token, queryURL) => {
         }
         console.log("succesfully updated entity ", updateURL, status);
         break;
-      default:
+      case 200:
         console.log("succesfully pushed to nexus! ", responsePayload);
+        break;
+      case 201:
+        console.log("succesfully pushed to nexus! ", responsePayload);
+        break;
+      default:
+        throw new Error("cannot update", responsePayload, updateURL, status);
         break;
     }
     return doc;

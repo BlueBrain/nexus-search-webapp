@@ -10,6 +10,7 @@ import flattenDownloadables from "../flattenDownloadables";
 import { getProp } from "@libs/utils";
 import { getURIPartsFromNexusURL, fetchWithToken } from "../helpers";
 import downloadMorph from "../downloadMorph";
+import { mTypes } from "@consts";
 
 require("dns-cache")(100000);
 
@@ -90,9 +91,6 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
               break;
           }
         }
-        if (doc.brainLocation.layer === "L23") {
-          doc.brainLocation.layer = "L2/3";
-        }
         return doc;
       },
       async doc => {
@@ -125,12 +123,16 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         );
         doc.morphology = response.results.map(morpho => {
           morpho = trimMetaData(morpho.source);
+          // the JSON preview of the morpho is stored in the reconstructedCell
+          if (morpho.image) {
+            doc.image = morpho.image;
+          }
           return morpho;
         });
         return doc;
       },
       async doc => {
-        // prov pattern only for NMC Portal PC
+        // prov pattern only for Thalamus Project PCs
         if (short !== "tpc") {
           return doc;
         }
@@ -159,12 +161,15 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         );
         doc.morphology = response.results.map(morpho => {
           morpho = trimMetaData(morpho.source);
+          // the JSON preview of the morpho is stored in the reconstructedCell
+          if (morpho.image) {
+            doc.image = morpho.image;
+          }
           return morpho;
         });
         return doc;
       },
       async doc => {
-
         // Getting contributions using the WholeCellPatchClamp
         let response = await getRelatedResourceWithFilter(
           { token, base, context },
@@ -193,11 +198,7 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
           activity = trimMetaData(activity.source);
           return activity;
         });
-        if (
-          activity &&
-          activity.length &&
-          activity[0].wasStartedBy
-        ) {
+        if (activity && activity.length && activity[0].wasStartedBy) {
           // This activity only ever has one agent
           let wasStartedBy = activity[0].wasStartedBy;
           let response = await fetchWithToken(wasStartedBy["@id"], token);
@@ -246,7 +247,7 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
               : `${agent.givenName} ${agent.familyName}`;
             agent.person = agent.fullName;
             agent.organization = "Blue Brain Project";
-            return agent
+            return agent;
           });
         }
         return doc;
@@ -261,7 +262,7 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         doc.subject.strain = getProp(doc, "subject.strain.label");
         doc.cellType = {
           eType: getProp(doc, "eType.label"),
-          mType: getProp(doc, "mType.label")
+          mType: mTypes[getProp(doc, "mType.label")]
         };
 
         // process mType form morphology
@@ -270,7 +271,11 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
           let [layer, mTypeWithColon] = mTypePreprocessed.split("_");
           let [mType, unknownValue] = mTypeWithColon.split(":");
           doc.brainLocation.layer = layer;
-          doc.cellType.mType = mType;
+          // There are sometimes this strange layer here
+          if (doc.brainLocation.layer === "L23") {
+            doc.brainLocation.layer = "L2/3";
+          }
+          doc.cellType.mType = mTypes[mType.toLowerCase()];
         }
 
         if (doc.cellType.eType === "null" || doc.cellType.eType === null) {
