@@ -1,11 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getProp } from "@libs/utils";
+import TypeIcon from "../../NewTypeIcon";
 import InspectLink from "../../Cards/Cell/InspectLink";
 
-const ProvLinkComponent = ({ entity , status, searchId, name }) => {
+const ProvLinkComponent = ({ entity , status, searchId, name, type }) => {
   return (
-    <InspectLink id={searchId}>{name || searchId}</InspectLink>
+  <InspectLink id={searchId}>{type && <TypeIcon type={type}/>} {name || searchId}</InspectLink>
   )
 }
 
@@ -21,8 +22,8 @@ class ProvLinkContainer extends React.PureComponent {
   }
   render() {
     const { entity, status } = this.state;
-    const { searchId, name } = this.props;
-    return ProvLinkComponent({ entity, status, searchId, name })
+    const { searchId, name, type } = this.props;
+    return ProvLinkComponent({ entity, status, searchId, name, type })
   }
 }
 

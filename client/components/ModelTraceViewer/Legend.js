@@ -43,7 +43,7 @@ class LabelContainer extends Component {
             </Option>
           ))}
         </Select>
-        <ProvLink searchId={selectedCellObj.searchId} name={selectedCellObj.name} />
+        <ProvLink type={selectedCellObj.type} searchId={selectedCellObj.searchId} name={selectedCellObj.name} />
       </div>
     );
   }
