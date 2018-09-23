@@ -77,6 +77,11 @@ class TraceViewerContainer extends React.Component {
     this.setState({ status: "error" });
   }
   handleSelectSweep(sweepKey) {
+    const { selectedSweep } = this.state;
+    // if the user clicked on an already slected sweep, remove selection
+    if (selectedSweep === sweepKey) {
+      return this.setState({ selectedSweep: null });
+    }
     this.setState({ selectedSweep: sweepKey });
   }
   handleSelectProtocol(protocol) {
@@ -117,30 +122,32 @@ class TraceViewerContainer extends React.Component {
           render={({ isPending, expData, modelData, currentData, sweeps }) => {
             return (
               <Spin spinning={isPending}>
-                <Sweeps
-                  sweeps={sweeps}
-                  selectedSweep={selectedSweep}
-                  onSelectSweep={handleSelectSweep}
-                />
-                <Chart
-                  label="Exp. Cell Response"
-                  yLabel={"voltage [mV]"}
-                  data={expData}
-                  selectedSweep={selectedSweep}
-                  sweeps={sweeps}
-                />
-                <Chart
-                  label="Cell Model Response"
-                  yLabel={"voltage [mV]"}
-                  data={modelData}
-                />
-                <Chart
-                  label="Stimulus"
-                  yLabel={"current [pA]"}
-                  data={currentData}
-                  selectedSweep={selectedSweep}
-                  sweeps={sweeps}
-                />
+                <div className="loadable-aread">
+                  <Sweeps
+                    sweeps={sweeps}
+                    selectedSweep={selectedSweep}
+                    onSelectSweep={handleSelectSweep}
+                  />
+                  <Chart
+                    label="Exp. Cell Response"
+                    yLabel={"voltage [mV]"}
+                    data={expData}
+                    selectedSweep={selectedSweep}
+                    sweeps={sweeps}
+                  />
+                  <Chart
+                    label="Cell Model Response"
+                    yLabel={"voltage [mV]"}
+                    data={modelData}
+                  />
+                  <Chart
+                    label="Stimulus"
+                    yLabel={"current [pA]"}
+                    data={currentData}
+                    selectedSweep={selectedSweep}
+                    sweeps={sweeps}
+                  />
+                </div>
               </Spin>
             );
           }}

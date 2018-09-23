@@ -89,18 +89,26 @@ class GraphContainer extends React.Component {
       this.makeGraph()
     }
   }
+  componentDidUpdate (nextProps) {
+    if (this.graph) {
+      if (nextProps.data !== this.props.data) {
+        return this.resetGraph()
+      } else {
+        this.updateGraph();
+      }
+    } else {
+      this.makeGraph()
+    }
+  }
+  resetGraph () {
+    this.graph.destroy();
+    this.makeGraph();
+  }
   updateGraph () {
     if (!this.props.selectedSweep) {
       this.graph.clearSelection();
     } else {
       this.graph.setSelection(null, this.props.selectedSweep, true);
-    }
-  }
-  componentDidUpdate () {
-    if (this.graph) {
-      this.updateGraph();
-    } else {
-      this.makeGraph()
     }
   }
   render() {

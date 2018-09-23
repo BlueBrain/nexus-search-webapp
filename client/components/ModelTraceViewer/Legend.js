@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Select } from "antd";
 
+const Option = Select.Option;
+
 class LabelContainer extends Component {
   render() {
     const {

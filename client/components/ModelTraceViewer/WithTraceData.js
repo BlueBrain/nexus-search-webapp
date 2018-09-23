@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { sortBy, indexBy } from "underscore";
 import randomColor from "randomcolor";
@@ -62,15 +62,26 @@ function processModelData (data) {
   return modelData;
 }
 
-class WithTraceDataContainer extends React.Component {
+class WithTraceDataContainer extends Component {
   state = {
     status: "pending"
   };
   componentDidMount() {
     this.fetchTraces();
   }
+  componentDidUpdate (nextProps) {
+    console.log(nextProps, this.props)
+    if (
+      (nextProps.selectedProtocol !== this.props.selectedProtocol) ||
+      (nextProps.selectedCell !== this.props.selectedCell)
+    ) {
+      this.fetchTraces();
+    }
+  }
   async fetchTraces() {
-    console.log("fetching");
+    this.setState({
+      status: "pending"
+    });
     const {
       selectedProtocol,
       selectedCell,
