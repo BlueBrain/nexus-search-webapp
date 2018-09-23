@@ -13,9 +13,11 @@ function processExperimentalData(data) {
   const sweepCollection = Object.keys(data.values).map(sweepKey => ({
     sweepKey,
     current: data.values[sweepKey],
-    segments: data.values[sweepKey].i_segments
+    segments: data.values[sweepKey].i_segments,
+    maxCurrent: data.values[sweepKey].i_segments[1].amp
   }));
-  let sweeps = sortBy(sweepCollection, sweep => sweep.current[0]);
+  let sweeps = sortBy(sweepCollection, "maxCurrent");
+  console.log({sweeps});
   let palette = randomColor({
     count: sweeps.length,
     ...COLOR_SETTINGS
@@ -70,7 +72,6 @@ class WithTraceDataContainer extends Component {
     this.fetchTraces();
   }
   componentDidUpdate (nextProps) {
-    console.log(nextProps, this.props)
     if (
       (nextProps.selectedProtocol !== this.props.selectedProtocol) ||
       (nextProps.selectedCell !== this.props.selectedCell)
@@ -98,7 +99,6 @@ class WithTraceDataContainer extends Component {
     ]);
     let { stimulusData, responseData, sweeps } = processExperimentalData(expData);
     let processedModelData = processModelData(modelData)
-    console.log("finished", { expData, modelData });
 
     this.setState({
       expData: responseData,
@@ -115,7 +115,6 @@ class WithTraceDataContainer extends Component {
   render() {
     let { status, expData, modelData=null, currentData, sweeps=[] } = this.state;
     const isPending = status === "pending";
-    console.log({expData, modelData, currentData, sweeps})
     return this.props.render({
       isPending,
       expData,
