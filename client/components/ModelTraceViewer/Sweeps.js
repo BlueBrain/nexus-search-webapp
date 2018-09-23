@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PlayIterable from "./PlayIterable";
-import { findIndex } from "underscore";
+import { findIndex, sortBy } from "underscore";
+import { getProp } from "@libs/utils";
 
 function setSweepClass (key, selectedSweep) {
   if (key === selectedSweep) {
@@ -15,6 +16,10 @@ class SweepsContainer extends Component {
   render() {
     const { sweeps, selectedSweep, onSelectSweep } = this.props;
     console.log(sweeps, selectedSweep)
+    const sweepIndex = findIndex(sweeps, sweep => sweep.sweepKey === selectedSweep);
+    const selectedSweepObj = sweeps[sweepIndex]
+    const currents = getProp(selectedSweepObj, "current.i_segments");
+    const maxCurrent = sortBy(currents || [], "amp");
     return (
       <div className="sweeps">
         {sweeps && !!sweeps.length &&
@@ -22,7 +27,7 @@ class SweepsContainer extends Component {
           className="sweep-container"
           iterables={sweeps}
           interval={700}
-          startIndex={findIndex(sweeps, sweep => sweep.key === "selectedSweep")}
+          startIndex={sweepIndex}
           onIterate={iterable => onSelectSweep(iterable.sweepKey)}
           renderIterable={iterable => {
             return (
@@ -31,8 +36,6 @@ class SweepsContainer extends Component {
                 className={setSweepClass(iterable.sweepKey, selectedSweep)}
                 style={{ backgroundColor: iterable.color }}
                 onClick={() => onSelectSweep(iterable.sweepKey)}
-                // onMouseEnter={() => onSelectSweep(sweep.sweepKey)}
-                // onMouseLeave={() => onSelectSweep()}
               />
             );
           }}
@@ -40,8 +43,13 @@ class SweepsContainer extends Component {
         }
         <div>
           {selectedSweep && (
-            <div>
-              <span>sweep: {selectedSweep}</span>
+            <div className="sweep-label">
+              <span>sweep <em>{selectedSweep}</em></span>
+            </div>
+          )}
+          {maxCurrent && !!maxCurrent.length && (
+            <div className="sweep-label">
+              <span>current <em>{maxCurrent.pop().amp.toFixed(2)} pA</em></span>
             </div>
           )}
         </div>

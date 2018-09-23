@@ -6,7 +6,7 @@ import fetchProtectedData from "../../libs/fetchProtectedData";
 
 const COLOR_SETTINGS = {
   luminosity: "light",
-  hue: "blue"
+  // hue: "blue"
 };
 
 function processExperimentalData(data) {

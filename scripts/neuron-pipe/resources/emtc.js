@@ -4,6 +4,7 @@ import { to } from "@libs/promise";
 import { getURIPartsFromNexusURL, fetchWithToken } from "../helpers";
 import { getProp } from "@libs/utils";
 import trimMetaData from "../trimMetaData";
+import pc from "../../testData/pc.json";
 
 async function fetch(resource, token, shouldUpload, resourceURL) {
   let { short, source, url, context } = resource;
@@ -30,10 +31,28 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
       .filter(
         ({ source }) => source.name.indexOf(`${emodel}___${protocol}`) >= 0
       )
-      .map(({ source }) => ({
-        name: source.name.split("___").pop(),
-        traceURL: source.distribution[0].downloadURL
-      }));
+      .map(({ source }) => {
+        const name = source.name.split("___").pop();
+        let cellInfo = {}
+        let resolvedPatchedCellList = pc.filter(cell => {
+          return cell.name === name;
+        });
+        if (resolvedPatchedCellList.length) {
+          let {
+            searchID,
+            "@type": patchedCellType
+          } = resolvedPatchedCellList[0];
+          cellInfo =  {
+            searchId: searchID,
+            type: patchedCellType
+          };
+        }
+        return {
+          name,
+          traceURL: source.distribution[0].downloadURL,
+          ...cellInfo
+        }
+      });
     if (memo[emodel]) {
       if (memo[emodel][protocol]) {
         memo[emodel][protocol] = {
