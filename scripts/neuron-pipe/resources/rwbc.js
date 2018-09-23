@@ -10,6 +10,7 @@ import flattenDownloadables from "../flattenDownloadables";
 import { getProp } from "@libs/utils";
 import { getURIPartsFromNexusURL } from "../helpers";
 import downloadMorph from "../downloadMorph";
+import { mTypes } from "@consts";
 
 async function fetch(resource, token, shouldUpload, resourceURL) {
   let { short, source, url, context } = resource;
@@ -45,7 +46,7 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
           let [layer, mTypeWithColon] = mTypePreprocessed.split("_");
           let [mType, unknownValue] = mTypeWithColon.split(":");
           doc.brainLocation.layer = layer;
-          doc.cellType.mType = mType;
+          doc.cellType.mType = mTypes[mType.toLowerCase()];
         }
         return doc;
       },

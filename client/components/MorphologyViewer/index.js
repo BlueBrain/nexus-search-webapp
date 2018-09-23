@@ -57,7 +57,7 @@ class MorphologyContainer extends React.Component {
         this.viewer = new morphoviewer.MorphoViewer(this.viewContainer);
         this.viewer.addMorphology(morphoData, {
           focusOn: true, // do we want the camera to focus on this one when it's loaded?
-          distance: 500,
+          distance: 800,
 
           asPolyline: !!this.props.polyLine, // with polylines of with cylinders?
           // onDone: optionalCallback, // what to do when it's loaded?

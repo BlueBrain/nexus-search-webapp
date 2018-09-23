@@ -111,6 +111,9 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
           ? `${agent.givenName} ${agent.additionalName} ${agent.familyName}`
           : `${agent.givenName} ${agent.familyName}`;
         agent.person = agent.fullName;
+        // must delete the @id or the get by ID API won't give the entire content
+        // and instead just offer the @id
+        delete agent["@id"];
         agent.organization = "Blue Brain Project";
         doc.contribution = [agent];
         return doc;

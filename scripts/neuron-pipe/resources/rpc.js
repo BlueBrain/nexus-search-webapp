@@ -10,6 +10,7 @@ import flattenDownloadables from "../flattenDownloadables";
 import { getProp } from "@libs/utils";
 import { getURIPartsFromNexusURL, fetchWithToken } from "../helpers";
 import downloadMorph from "../downloadMorph";
+import { mTypes } from "@consts";
 
 async function fetch(resource, token, shouldUpload, resourceURL) {
   let { short, source, url, context } = resource;
@@ -139,8 +140,9 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
             doc = Object.assign(doc, { ...contribution });
           }
         }
+        let mType = getProp(doc, "mType.label");
         doc.cellType = {
-          mType: getProp(doc, "mType.label")
+          mType: mType ? mTypes[mType.toLowerCase()] : null
         };
         delete doc.mType;
         return doc;

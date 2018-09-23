@@ -21,12 +21,10 @@ export default async (doc, token, queryURL) => {
       case 502:
         throw new Error("broken connection");
       case "AlreadyExists":
-        console.log("some conflict we have to resolve...")
         let resourceURL = queryURL + doc.searchID;
         let [error, status, payload] = await withStatus(
           fetchWithToken(resourceURL, token)
         );
-        console.log("afterGet", error, status, payload);
         if (!payload) {
           throw new Error("cannot update: " + resourceURL);
         }
@@ -41,20 +39,19 @@ export default async (doc, token, queryURL) => {
             body
           })
         );
-        console.log("afterPUT", error, status, payload);
         if (!payload || status >= 400) {
           throw new Error("cannot update: " + updateURL);
         }
-        console.log("succesfully updated entity ", updateURL, status);
         break;
       case 200:
-        console.log("succesfully pushed to nexus! ", responsePayload);
+        console.log("succesfully updated in nexus! ", responsePayload);
         break;
       case 201:
-        console.log("succesfully pushed to nexus! ", responsePayload);
+        console.log("succesfully created in nexus! ", responsePayload);
         break;
       default:
-        throw new Error("cannot update", responsePayload, updateURL, status);
+        console.log(error, responsePayload, updateURL, status);
+        throw new Error("error updating");
         break;
     }
     return doc;

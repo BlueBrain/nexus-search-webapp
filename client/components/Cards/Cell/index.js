@@ -10,17 +10,6 @@ import Contributions from "./Contributions";
 import { Icon } from "antd";
 import Download from "../../Download";
 import {eTypes, mTypes} from "../../../../consts";
-// function DownloadLink ({ url, children }) {
-//   if (url) {
-//     return (
-//       <a href={url} download>
-//         {children}
-//       </a>
-//     );
-//   } else {
-//     return null
-//   }
-// }
 
 const GridResult = ({ value, id }) => {
   return (
@@ -80,7 +69,7 @@ const GridResult = ({ value, id }) => {
               <Preview value={value}/>
               <div className="footer">
                 <div className="mType">
-                  {getProp(value, "cellType.mType") && mTypes[getProp(value, "cellType.mType").toLowerCase()]}
+                  {getProp(value, "cellType.mType")}
                 </div>
                 <div className="brainRegion">{getProp(value, "brainLocation.brainRegion")}</div>
                 <div className="eType">{getProp(value, "cellType.eType") && eTypes[getProp(value, "eType.label")]}</div>

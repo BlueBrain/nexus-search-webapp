@@ -28,26 +28,17 @@ function getExplorerLink(instance) {
 }
 
 function attributionLine(instance) {
-  let contribution = getProp(instance, "contribution", {})
-  let name =
-    getProp(contribution, "fullName")
+  let contribution = getProp(instance, "contribution", {});
+  let name = getProp(contribution, "fullName");
   let email = getProp(contribution, "email");
-  let attribution = null;
-  let organization = getProp(contribution, "organization");
-  if (name) {
-    attribution = (<h2>
-      <Icon type="user-add" /> by {
-        email ?
-        <a href={`mailto:${email}`}>{name}</a>
-        : <span>{name}</span>
-      }
-    </h2>)
-  } else if (organization) {
-    attribution = (<h2>
-      <Icon type="bank" /> by <span>{organization}</span>
-    </h2>);
-  }
-  return attribution;
+  let date = moment(getProp(instance, "dateCreated")).format("MMM Do YYYY");
+  return getProp(instance, "contribution") ? (
+    <h2>
+      <Icon type="user-add" /> by{" "}
+      {email ? <a href={`mailto:${email}`}>{name}</a> : <span>{name}</span>} on{" "}
+      <span className="date">{date}</span>
+    </h2>
+  ) : null;
 }
 
 

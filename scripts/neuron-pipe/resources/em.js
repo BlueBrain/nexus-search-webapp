@@ -25,17 +25,25 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
           token,
           doc => doc.wasDerivedFrom[0]["@id"]
         );
-        // morphology preview
-        doc.image = morphology.image;
+        // // morphology preview
+        // doc.image = morphology.image;
         doc.morphology = [morphology];
 
         // map to (prod) version of reconstructed cell
         let patchedCellsFilteredByName = pc.filter(cell => {
-          return cell.name === morphology.name;
+          // we need to find the reconstructed cell used, in morphology
+          let reconstructedCell = cell.morphology[0];
+          if (reconstructedCell) {
+            return morphology.name === reconstructedCell.name
+          } else {
+            return false;
+          }
         });
         let searchID = getProp(patchedCellsFilteredByName[0] || {}, "searchID")
         let id = getProp(patchedCellsFilteredByName[0] || {}, "@id")
         let type = getProp(patchedCellsFilteredByName[0] || {}, "@type")
+        // if there's no ID, it doesn't map to anything in prod (BAD!)
+        if (!id) { return doc }
         doc.generatedMorphologyFrom = {
           "@id": id,
           searchId: searchID,

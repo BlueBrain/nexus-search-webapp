@@ -120,7 +120,7 @@ function Details({ instance }) {
       <Row>
         <Col span={16}>
         <h2 className="mType">
-            Cell{" "}
+            {getProp(instance, "cellType.mType", "Cell")}{" "}
             <Tag color="#90eac3">
               <FontAwesome name={"flask"} /> Experimental
             </Tag>
