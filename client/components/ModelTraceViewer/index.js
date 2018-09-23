@@ -133,8 +133,6 @@ class TraceViewerContainer extends React.Component {
                   label="Cell Model Response"
                   yLabel={"voltage [mV]"}
                   data={modelData}
-                  selectedSweep={selectedSweep}
-                  sweeps={sweeps}
                 />
                 <Chart
                   label="Stimulus"

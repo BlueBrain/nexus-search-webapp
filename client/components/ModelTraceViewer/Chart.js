@@ -48,8 +48,8 @@ class GraphContainer extends React.Component {
       const formattedConfig = Object.assign({
         legendFormatter,
         // height: 260,
-        colors: sweeps.map(sweep => sweep.color),
-        labels: ['time'].concat(sweeps.map(sweep => sweep.sweepKey)),
+        colors: sweeps ? sweeps.map(sweep => sweep.color) : null,
+        labels: sweeps ? ['time'].concat(sweeps.map(sweep => sweep.sweepKey)) : ['time', 'model'],
         labelsSeparateLines: true,
         labelsDiv: this.labelsContainer,
         highlightSeriesBackgroundAlpha: 0.1,

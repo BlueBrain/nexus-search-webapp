@@ -49,6 +49,19 @@ function processExperimentalData(data) {
   return { stimulusData, responseData, sweeps };
 }
 
+function processModelData (data) {
+  const { dt, dur } = data;
+  const times = Array.apply(null, { length: dur / dt }).map(
+    (value, index) => index * dt
+  );
+  let modelData = [];
+
+  times.forEach((time, index) => {
+    modelData.push([time, data.v[index]])
+  });
+  return modelData;
+}
+
 class WithTraceDataContainer extends React.Component {
   state = {
     status: "pending"
@@ -73,12 +86,12 @@ class WithTraceDataContainer extends React.Component {
       fetchProtectedData.asJSON(modelTraceURL, token)
     ]);
     let { stimulusData, responseData, sweeps } = processExperimentalData(expData);
-
+    let processedModelData = processModelData(modelData)
     console.log("finished", { expData, modelData });
 
     this.setState({
       expData: responseData,
-      modelData: null,
+      modelData: processedModelData,
       currentData: stimulusData,
       sweeps,
       status: "fulfilled"
