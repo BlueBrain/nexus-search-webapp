@@ -1,10 +1,33 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Spin } from "antd";
+import { Spin, Popover } from "antd";
 import Chart from "./Chart";
 import Legend from "./Legend";
 import Sweeps from "./Sweeps";
 import WithTraceData from "./WithTraceData";
+
+const HelperContent = (
+  <div>
+    <p>
+      Electrophysiological properties for cell models are derived from
+      electrophysiological recordings from experimental cells. The below graphs
+      show experimental recordings (stimulus traces and the corresponding
+      experimental cell response traces) which were used to model
+      electrophysiological features for the cell models. The experimental traces
+      are sorted by intensity of injected current (given in picoampere; pA).{" "}
+    </p>
+    <p>
+      At the bottom you can see an example trace from the cell model for the
+      derived feature.
+    </p>
+    <p>
+      At the top, you can select features and experimental cells used to derive
+      those features from drop-down menus. Feature names consist of the name
+      (e.g. "Step") and the current applied expressed as percentage of the
+      firing threshold of the cell (e.g. "140").
+    </p>
+  </div>
+);
 
 class TraceViewerContainer extends React.Component {
   state = {
@@ -67,15 +90,23 @@ class TraceViewerContainer extends React.Component {
             return (
               <Spin spinning={isPending}>
                 <div className="loadable-aread">
+                  <h3>
+                    Trace Viewer{" "}
+                    <Popover content={HelperContent} arrowPointAtCenter title="Trace Viewer">
+                      <a className="more-info">more info</a>
+                    </Popover>
+                  </h3>
                   <Sweeps
                     sweeps={sweeps}
                     selectedSweep={selectedSweep}
                     onSelectSweep={handleSelectSweep}
                   />
                   <Chart
-                    label="Cell Model Response Simulation"
-                    yLabel={"voltage [mV]"}
-                    data={modelData}
+                    label="Stimulus"
+                    yLabel={"current [pA]"}
+                    data={currentData}
+                    selectedSweep={selectedSweep}
+                    sweeps={sweeps}
                   />
                   <Chart
                     label="Experimental Cell Response"
@@ -85,11 +116,9 @@ class TraceViewerContainer extends React.Component {
                     sweeps={sweeps}
                   />
                   <Chart
-                    label="Stimulus"
-                    yLabel={"current [pA]"}
-                    data={currentData}
-                    selectedSweep={selectedSweep}
-                    sweeps={sweeps}
+                    label="Cell Model Response Simulation"
+                    yLabel={"voltage [mV]"}
+                    data={modelData}
                   />
                 </div>
               </Spin>

@@ -1,16 +1,13 @@
 import React from "react";
 import { Button, Icon, Row, Col, Divider, Tag } from "antd";
-import moment from "moment";
 import { getProp } from "@libs/utils";
 import TypeIcon from "../../../NewTypeIcon";
 import MorphologyPreview from "../../../Cards/Cell/MorphologyPreview";
 import Download from "../../../Download";
 import {eTypes, mTypes} from "../../../../../consts";
-import Extensions from "../../Extensions";
 import BrainRegionLink from "../../../BrainRegionLink";
 import Subject from "../Subject";
 import FontAwesome from "react-fontawesome";
-import ProvLink from "../ProvLink";
 import TraceViewer from "../../../TraceViewer";
 
 const DEFAULT_CELL_MODEL_NAME = "Cell Model";
@@ -99,7 +96,7 @@ function Hero({ instance }) {
               name={getProp(instance, "cellName.label", "Cell")}
             >
               <a>
-                {files.length} Attachment
+                {files.length} File
                 {files.length > 1 ? "s" : ""}
               </a>
             </Download>

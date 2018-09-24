@@ -8,7 +8,7 @@ import { eTypes, mTypes } from "../../../../../consts";
 import BrainRegionLink from "../../../BrainRegionLink";
 import FontAwesome from "react-fontawesome";
 import Subject from "../Subject";
-import ProvLink from "../ProvLink";
+import ProvList from "../ProvList";
 const DEFAULT_CELL_MODEL_NAME = "Cell Model";
 
 function getUUIDFromAtID(instance) {
@@ -97,7 +97,7 @@ function Hero({ instance }) {
                       name={getProp(instance, "name", "Ion Channel")}
                     >
                       <a>
-                        {files.length} Attachment
+                        {files.length} File
                         {files.length > 1 ? "s" : ""}
                       </a>
                     </Download>
@@ -112,12 +112,11 @@ function Hero({ instance }) {
 }
 
 function Details({ instance }) {
-  let brainRegion = getProp(instance, "brainLocation.brainRegion");
   let usedBy = getProp(instance, "usedBy", []);
   return (
     <div className="more-details">
       <Row>
-        <Col span={16}>
+        <Col span={12}>
           <h2 className="mType">
             Ion Channel{" "}
             <Tag color="#00c4ff">
@@ -133,18 +132,14 @@ function Details({ instance }) {
           </div>
           <Subject subject={getProp(instance, "subject")} />
         </Col>
-        <Col span={8}>
-          <Divider>Used By</Divider>
-          <p>{usedBy.length} Cell Models</p>
-          <ul>
-            {usedBy.map(entry => {
-              return (
-                <li>
-                  <ProvLink {...entry} />
-                </li>
-              );
-            })}
-          </ul>
+        <Col span={12}>
+        <Divider>Provenance</Divider>
+          {!!usedBy.length && (
+            <ProvList
+              title={`Used in ${usedBy.length} Cell Models`}
+              provList={usedBy}
+            />
+          )}
         </Col>
       </Row>
     </div>

@@ -59,6 +59,7 @@ class GraphContainer extends React.Component {
       const formattedConfig = Object.assign({
         legendFormatter,
         // height: 260,
+        axisLineColor: "#999",
         colors: sweeps ? sweeps.map(sweep => sweep.color) : [DEFAULT_COLOR],
         labels: sweeps ? ['time'].concat(sweeps.map(sweep => sweep.sweepKey)) : ['time', 'model'],
         labelsSeparateLines: true,
@@ -70,6 +71,7 @@ class GraphContainer extends React.Component {
           highlightCircleSize: 3,
         },
         highlightCircleSize: 2,
+        drawGrid: false,
 
         highlightCallback: onHighlight,
         unhighlightCallback: onHighlight,
