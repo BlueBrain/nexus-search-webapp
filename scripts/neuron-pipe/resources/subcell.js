@@ -2,6 +2,7 @@ import getConfig from "../config";
 import getResources from "../getResources";
 import file from "../file";
 import { to, waitForEach } from "@libs/promise";
+import { getProp } from "@libs/utils";
 import processDoc from "../processDoc";
 import fetchResourceById from "../fetchResourceById";
 import pushToNexus from "../pushToNexus";
@@ -17,9 +18,17 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
     waitForEach(getResources(url, token), [
       processDoc(resource),
       async doc => {
-        doc.subject = {
-          species: doc.species
+        doc.license = {
+          name: "BBP/EPFL",
+          availability: "Private"
         };
+        doc.subject = {
+          species: getProp(doc, "species.label")
+        };
+        doc.brainLocation = {
+          brainRegion: getProp(doc, "brainRegion.label")
+        };
+        delete doc.brainRegion;
         delete doc.species;
         return doc;
       },
@@ -93,18 +102,20 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
       //   return doc;
       // },
       async doc => {
-        let attribution = await fetchResourceById(
+        let agent = await fetchResourceById(
           doc,
           token,
           doc => doc.wasAttributedTo["@id"]
         );
-        attribution.fullName =
-          attribution.givenName + " " + attribution.familyName;
-        doc.contributions = [attribution];
-        return doc;
-      },
-      async doc => {
-        doc.subject.species = doc.subject.species.label;
+        agent.fullName = agent.fullName = agent.additionalName
+          ? `${agent.givenName} ${agent.additionalName} ${agent.familyName}`
+          : `${agent.givenName} ${agent.familyName}`;
+        agent.person = agent.fullName;
+        // must delete the @id or the get by ID API won't give the entire content
+        // and instead just offer the @id
+        delete agent["@id"];
+        agent.organization = "Blue Brain Project";
+        doc.contribution = [agent];
         return doc;
       },
       async doc => await flattenDownloadables(doc),

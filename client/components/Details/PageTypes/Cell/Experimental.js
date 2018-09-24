@@ -35,26 +35,22 @@ function attributionLine(instance) {
   let name =
     getProp(contribution, "fullName")
   let email = getProp(contribution, "email");
-
-  return getProp(instance, "contribution") ? (
-    <h2>
+  let attribution = null;
+  let organization = getProp(contribution, "organization");
+  if (name) {
+    attribution = (<h2>
       <Icon type="user-add" /> by {
         email ?
         <a href={`mailto:${email}`}>{name}</a>
         : <span>{name}</span>
       }
-    </h2>
-  ) : null ;
-}
-
-function softwareLine(instance) {
-  let name = getProp(instance, "software.name")
-  let version = getProp(instance, "software.version");
-  return (
-    <p>
-      <Icon type="code" /> generated using <em>{name}</em> v{version}
-    </p>
-  );
+    </h2>)
+  } else if (organization) {
+    attribution = (<h2>
+      <Icon type="bank" /> by <span>{organization}</span>
+    </h2>);
+  }
+  return attribution;
 }
 
 function Header({ instance }) {
@@ -124,7 +120,7 @@ function Details({ instance }) {
       <Row>
         <Col span={16}>
         <h2 className="mType">
-            Cell{" "}
+            {getProp(instance, "cellType.mType", "Cell")}{" "}
             <Tag color="#90eac3">
               <FontAwesome name={"flask"} /> Experimental
             </Tag>

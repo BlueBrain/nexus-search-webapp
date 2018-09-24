@@ -23,7 +23,8 @@ function getPageType(instanceData, types) {
     DEFAULT_SEARCH_TYPE_LABEL
   );
 
-  let studyType = getProp(instanceData, "studyType.label");
+  // TODO these values need to be relegated to a consts folder
+  let studyType = getProp(instanceData, "studyType.name");
 
   // TODO there may be some exceptions and edge cases here
   // that will have to be attended to later

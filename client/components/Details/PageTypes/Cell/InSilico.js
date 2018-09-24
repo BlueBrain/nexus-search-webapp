@@ -1,17 +1,17 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Button, Icon, Row, Col, Divider, Tag } from "antd";
 import moment from "moment";
 import { getProp } from "@libs/utils";
 import TypeIcon from "../../../NewTypeIcon";
 import MorphologyPreview from "../../../Cards/Cell/MorphologyPreview";
 import Download from "../../../Download";
-import {eTypes, mTypes} from "../../../../../consts";
+import { eTypes, mTypes } from "../../../../../consts";
 import Extensions from "../../Extensions";
-import TraceViewer from "../../../TraceViewer";
 import BrainRegionLink from "../../../BrainRegionLink";
 import Subject from "../Subject";
 import FontAwesome from "react-fontawesome";
 import ProvLink from "../ProvLink";
+import TraceViewer from "../../../ModelTraceViewer";
 
 const DEFAULT_CELL_MODEL_NAME = "Cell Model";
 function getUUIDFromAtID(instance) {
@@ -31,22 +31,21 @@ function getExplorerLink(instance) {
 }
 
 function attributionLine(instance) {
-  let name =
-    getProp(instance, "wasAttributedTo.givenName") +
-    " " +
-    getProp(instance, "wasAttributedTo.familyName");
-  let email = getProp(instance, "wasAttributedTo.email");
+  let contribution = getProp(instance, "contribution", {});
+  let name = getProp(contribution, "fullName");
+  let email = getProp(contribution, "email");
   let date = moment(getProp(instance, "dateCreated")).format("MMM Do YYYY");
-  return getProp(instance, "wasAttributedTo") ? (
+  return getProp(instance, "contribution") ? (
     <h2>
-      <Icon type="user-add" /> by <a href={`mailto:${email}`}>{name}</a> on{" "}
+      <Icon type="user-add" /> by{" "}
+      {email ? <a href={`mailto:${email}`}>{name}</a> : <span>{name}</span>} on{" "}
       <span className="date">{date}</span>
     </h2>
-  ) : null ;
+  ) : null;
 }
 
 function softwareLine(instance) {
-  let name = getProp(instance, "software.name")
+  let name = getProp(instance, "software.name");
   let version = getProp(instance, "software.version");
   return (
     <p>
@@ -102,75 +101,91 @@ function Hero({ instance }) {
           <MorphologyPreview onHover={() => {}} value={instance} shouldRender />
         </picture>
       </div>
-      {files && files.length && (
-        <div className="detail-attachments">
-          <h3>
-            <Icon type="paper-clip" />{" "}
-            <Download
-              files={files}
-              name={getProp(instance, "cellName.label", "Cell")}
-            >
-              <a>
-                {files.length} Attachment
-                {files.length > 1 ? "s" : ""}
-              </a>
-            </Download>
-          </h3>
-          <ul>
-            <li />
-          </ul>
-        </div>
-      )}
+      {files &&
+        files.length && (
+          <div className="detail-attachments">
+            <h3>
+              <Icon type="paper-clip" />{" "}
+              <Download
+                files={files}
+                name={getProp(instance, "cellName.label", "Cell")}
+              >
+                <a>
+                  {files.length} Attachment
+                  {files.length > 1 ? "s" : ""}
+                </a>
+              </Download>
+            </h3>
+            <ul>
+              <li />
+            </ul>
+          </div>
+        )}
     </div>
   );
 }
 
 function Details({ instance }) {
-  let brainRegion = getProp(instance, "brainRegion.label");
-  let generatedFromCells = getProp(instance, "generatedFromCells", []);
+  let brainRegion = getProp(instance, "brainLocation.brainRegion");
+  let generatedEPhysFrom = getProp(instance, "generatedEPhysFrom", []);
+  let generatedMorphologyFrom = getProp(instance, "generatedMorphologyFrom");
   return (
     <div className="more-details">
       <Row>
         <Col span={16}>
           <h2 className="mType">
-            {getProp(instance, "mType.label") && mTypes[getProp(instance, "mType.label").toLowerCase()]}
-            {" "}<Tag color="#00c4ff">
+            {getProp(instance, "cellType.mType")}{" "}
+            <Tag color="#00c4ff">
               <FontAwesome name={"microchip"} /> In Silico
             </Tag>
           </h2>
-          <div className="eType">{getProp(instance, "eType.label") && eTypes[getProp(instance, "eType.label")]}</div>
-          <div className="brainRegion"><BrainRegionLink region={getProp(instance, "brainRegion.label")} /> ({getProp(instance, "brainRegion.layer")})</div>
+          <div className="eType">
+            {getProp(instance, "cellType.eType") &&
+              eTypes[getProp(instance, "cellType.eType")]}
+          </div>
+          <div className="brainRegion">
+            <BrainRegionLink
+              region={getProp(instance, "brainLocation.brainRegion")}
+            />{" "}
+            ({getProp(instance, "brainLocation.layer")})
+          </div>
           <Subject subject={getProp(instance, "subject")} />
           {softwareLine(instance)}
         </Col>
-        <Col span={8}>
-          <Divider>
-            Provenance
-          </Divider>
-          <p>ephys derived from {generatedFromCells.length} Cells</p>
+      </Row>
+      <Row>
+        <Divider>Electrophysiological Properties</Divider>
+        <TraceViewer traces={getProp(instance, "traces")} />
+      </Row>
+      <Row>
+        <Divider>Provenance</Divider>
+        <Col span={12}>
+          <p>ephys derived from {generatedEPhysFrom.length} Cells</p>
           <ul className="prov-list">
-            {generatedFromCells.map((entry, index) => {
+            {generatedEPhysFrom.map((entry, index) => {
               return (
-                <li key={index+"-prov-link"}>
+                <li key={index + "-prov-link"}>
                   <ProvLink {...entry} />
                 </li>
               );
             })}
           </ul>
         </Col>
-      </Row>
-      <Row>
-      <Divider>
-        Electrophysiological Properties
-      </Divider>
-      <div className="trace-viewer ">
-          <div className="trace-container">Current</div>
-          <div className="trace-container">Exp. Cell Voltage Trace</div>
-          <div className="trace-container">eModel Trace</div>
-        </div>
+        <Col span={12}>
+          {generatedMorphologyFrom && (
+            <Fragment>
+              <p>morphology derived from 1 Cell</p>
+              <ul className="prov-list">
+                <li>
+                  <ProvLink {...generatedMorphologyFrom} />
+                </li>
+              </ul>
+            </Fragment>
+          )}
+        </Col>
       </Row>
     </div>
-  )
+  );
 }
 
 export default function CellModelDetailsPage({ data: instance }) {

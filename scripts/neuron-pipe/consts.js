@@ -49,7 +49,7 @@ const resourceDict = {
       "https://bbp-nexus.epfl.ch/staging/v0/contexts/neurosciencegraph/core/data/v1.0.2",
     name: "Cell Models (eModels)",
     type: types.searchCell["@id"],
-    source: "BBP modeling",
+    source: "BBP",
     studyType: "In Silico",
     repository: null
   },
@@ -59,7 +59,7 @@ const resourceDict = {
     name: "Subcellular Mechanisms",
     context: "https://bbp-nexus.epfl.ch/staging/v0/contexts/neurosciencegraph/core/data/v1.0.2",
     type: types.searchIonChannel["@id"],
-    source: "BBP modeling",
+    source: "BBP",
     studyType: "In Silico",
     repository: null
   },
@@ -96,6 +96,11 @@ const resourceDict = {
     url: "http://uploader.bbp.epfl.ch/",
     name: "Uploaded Resources",
     source: "Nexus File Uploader"
+  },
+  emtc: {
+    url: "https://bbp-nexus.epfl.ch/staging/v0/data/somatosensorycortexproject/simulation/emodeltraceset/v0.0.1/",
+    name: "E Model Trace Collection",
+    source: "BBP NSE"
   }
 };
 

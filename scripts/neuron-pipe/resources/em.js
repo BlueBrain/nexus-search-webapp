@@ -8,8 +8,10 @@ import flattenDownloadables from "../flattenDownloadables";
 import getRelatedResourceWithFilter from "../getRelatedResourceWithFilterBody";
 import { getURIPartsFromNexusURL, fetchWithToken } from "../helpers";
 import pc from "../../testData/pc.json";
+import emtc from "../../testData/emtc.json";
 import downloadMorph from "../downloadMorph";
 import { getProp } from "@libs/utils";
+import { mTypes } from "@consts";
 
 async function fetch(resource, token, shouldUpload, resourceURL) {
   let { short, source, url, context } = resource;
@@ -23,17 +25,50 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
           token,
           doc => doc.wasDerivedFrom[0]["@id"]
         );
+        // // morphology preview
+        // doc.image = morphology.image;
         doc.morphology = [morphology];
+
+        // map to (prod) version of reconstructed cell
+        let patchedCellsFilteredByName = pc.filter(cell => {
+          // we need to find the reconstructed cell used, in morphology
+          let reconstructedCell = cell.morphology[0];
+          if (reconstructedCell) {
+            return morphology.name === reconstructedCell.name
+          } else {
+            return false;
+          }
+        });
+        let searchID = getProp(patchedCellsFilteredByName[0] || {}, "searchID")
+        let id = getProp(patchedCellsFilteredByName[0] || {}, "@id")
+        let type = getProp(patchedCellsFilteredByName[0] || {}, "@type")
+        // if there's no ID, it doesn't map to anything in prod (BAD!)
+        if (!id) { return doc }
+        doc.generatedMorphologyFrom = {
+          "@id": id,
+          searchId: searchID,
+          type
+        }
         return doc;
       },
-      downloadMorph(token, short, doc => getProp(doc, "morphology", [{}])[0]),
+      // downloadMorph(token, short, doc => getProp(doc, "morphology", [{}])[0]),
       async doc => {
+        doc.license = {
+          name: "BBP/EPFL",
+          availability: "Private"
+        };
         doc.subject = {
-          species: doc.species
+          species: getProp(doc, "species.label")
         };
         doc.cellName = {
           label: doc.name
         };
+        // get traces from trace collection (must be previously prepared)
+        doc.traces = emtc[getProp(doc, "cellName.label")];
+        doc.brainLocation = {
+          brainRegion: getProp(doc, "brainRegion.label")
+        };
+        delete doc.brainRegion;
         delete doc.species;
         return doc;
       },
@@ -41,17 +76,14 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         let [eType, mTypeWithLayer] = doc.name.split("_");
         let layer = mTypeWithLayer.match(/L(\d)+/g)[0];
         let [, mType] = mTypeWithLayer.split(layer);
-        doc.studyType = { label: "In Silico" };
-        doc.eType = {
-          label: eType
-        };
-        doc.mType = {
-          label: mType
+        doc.cellType = {
+          eType,
+          mType: mTypes[mType.toLowerCase()]
         };
         if (layer === "L23") {
           layer = "L2/3";
         }
-        doc.brainRegion.layer = layer;
+        doc.brainLocation.layer = layer;
         return doc;
       },
       async doc => {
@@ -111,8 +143,7 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
                     path:
                       "^prov:used / ^prov:wasGeneratedBy / ^prov:hadMember / ^prov:wasDerivedFrom",
                     op: "eq",
-                    value:
-                      startingResourceURI
+                    value: startingResourceURI
                   }
                 ]
               }
@@ -122,14 +153,13 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         );
 
         // resolve all the patchedCell Id's into thier full contents
-        let patchedCells = await Promise.all(response.results.map(async result => {
-          let response = await fetchWithToken(
-            result.resultId,
-            token
-          );
-          let json = await response.json();
-          return json
-        }))
+        let patchedCells = await Promise.all(
+          response.results.map(async result => {
+            let response = await fetchWithToken(result.resultId, token);
+            let json = await response.json();
+            return json;
+          })
+        );
 
         // match the names we have with the cells we have, and return their ids
         // should conform to this format
@@ -141,18 +171,22 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         let resolvedCellUsedWith = patchedCells.map(patchedCell => {
           let resolvedPatchedCellList = pc.filter(cell => {
             return cell.name === patchedCell.name;
-          })
+          });
           if (resolvedPatchedCellList.length) {
-            let { '@id': patchedCellID, searchID, "@type": patchedCellType } = resolvedPatchedCellList[0];
+            let {
+              "@id": patchedCellID,
+              searchID,
+              "@type": patchedCellType
+            } = resolvedPatchedCellList[0];
             return {
               "@id": patchedCellID,
               searchId: searchID,
               type: patchedCellType
-            }
+            };
           }
-        })
+        });
 
-        doc.generatedFromCells = resolvedCellUsedWith
+        doc.generatedEPhysFrom = resolvedCellUsedWith;
         return doc;
       },
       async doc => {
@@ -174,22 +208,18 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         return doc;
       },
       async doc => {
-        let attribution = await fetchResourceById(
+        let agent = await fetchResourceById(
           doc,
           token,
           doc => doc.wasAttributedTo["@id"]
         );
-        attribution.fullName =
-          attribution.givenName + " " + attribution.familyName;
-        doc.contributions = [attribution];
-        return doc;
-      },
-      async doc => {
-        doc.subject.species = doc.subject.species.label;
-        doc.cellTypes = {
-          eType: doc.eType.label,
-          mType: doc.mType.label
-        };
+        agent.fullName = agent.fullName = agent.additionalName
+          ? `${agent.givenName} ${agent.additionalName} ${agent.familyName}`
+          : `${agent.givenName} ${agent.familyName}`;
+        agent.person = agent.fullName;
+        agent.organization = "Blue Brain Project";
+        delete agent["@id"];
+        doc.contribution = [agent];
         return doc;
       },
       async doc => await flattenDownloadables(doc),
