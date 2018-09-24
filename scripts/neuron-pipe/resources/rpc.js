@@ -37,6 +37,9 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
           );
           doc.subject = subjectResult;
           doc.subject.species = getProp(doc, "subject.species.label");
+          if (doc.subject.species && doc.subject.species.toLowerCase() === "mouse") {
+            doc.subject.species = "Mus Musculus";
+          }
           doc.subject.sex = getProp(doc, "subject.sex.label");
           doc.subject.strain = getProp(doc, "subject.strain.label");
         }

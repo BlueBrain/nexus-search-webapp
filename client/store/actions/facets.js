@@ -1,7 +1,11 @@
 import * as types from "./types";
 import qs from "query-string";
 import { auth } from "./index";
-import { facetNormalizer, resultsToFacetWithSelection } from "./facetNormalizer";
+import {
+  facetNormalizer,
+  resultsToFacetWithSelection
+} from "./facetNormalizer";
+import { truthy } from "@libs/utils";
 
 export default {
   fetchFacets,
@@ -15,14 +19,17 @@ function fetchFacets() {
   return (dispatch, getState) => {
     let state = getState();
     const { token } = state.auth;
-    const { q, type } = state.search;
+    const { q, type, filter } = state.search;
     const { elasticSearchAPI } = state.config;
     const facetsAPI = elasticSearchAPI + "/facets";
+    let params = truthy({ q, type, filter });
+    if (params.filter) {
+      params.filter = JSON.stringify(params.filter);
+    }
     dispatch(fetchFacetsStarted());
     // TODO make query change
-    return fetch(facetsAPI + "?" + qs.stringify({ type, q }),
-    {
-      headers: { Authorization: `Bearer ${token}`}
+    return fetch(facetsAPI + "?" + qs.stringify(params), {
+      headers: { Authorization: `Bearer ${token}` }
     })
       .then(response => {
         if (response.ok) {
@@ -47,16 +54,20 @@ function fetchFacets() {
   };
 }
 
-function normalizeFacets (response) {
+function normalizeFacets(response) {
   return (dispatch, getState) => {
-    const {search, config} = getState()
+    const { search, config } = getState();
     dispatch(
-      facetsNormalized(resultsToFacetWithSelection(response, search.filter, config.uiConfig.filters.ignore))
+      facetsNormalized(
+        resultsToFacetWithSelection(
+          response,
+          search.filter,
+          config.uiConfig.filters.ignore
+        )
+      )
     );
-    dispatch(
-      fetchFacetsFulfilled()
-    );
-  }
+    dispatch(fetchFacetsFulfilled());
+  };
 }
 
 function facetsNormalized(data) {
@@ -74,7 +85,7 @@ function fetchFacetsStarted() {
 
 function fetchFacetsFulfilled() {
   return {
-    type: types.FETCH_FULFILLED_FACETS,
+    type: types.FETCH_FULFILLED_FACETS
   };
 }
 
