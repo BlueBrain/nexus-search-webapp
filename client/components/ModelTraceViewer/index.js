@@ -67,15 +67,20 @@ class TraceViewerContainer extends React.Component {
             return (
               <Spin spinning={isPending}>
                 <div className="loadable-aread">
+                  <h3>Trace Viewer</h3>
+                  <p>Cell Model electrophysiological properties are derived from experimental cells. These graphs shows each cell experiment and iterations (sweeps) that went in to creating a feature of the cell model, ordered by increasing current in pA. </p>
+                  <p>At the bottom you can see the an example Cell Model simulation of the derived feature.</p>
                   <Sweeps
                     sweeps={sweeps}
                     selectedSweep={selectedSweep}
                     onSelectSweep={handleSelectSweep}
                   />
                   <Chart
-                    label="Cell Model Response Simulation"
-                    yLabel={"voltage [mV]"}
-                    data={modelData}
+                    label="Stimulus"
+                    yLabel={"current [pA]"}
+                    data={currentData}
+                    selectedSweep={selectedSweep}
+                    sweeps={sweeps}
                   />
                   <Chart
                     label="Experimental Cell Response"
@@ -85,11 +90,9 @@ class TraceViewerContainer extends React.Component {
                     sweeps={sweeps}
                   />
                   <Chart
-                    label="Stimulus"
-                    yLabel={"current [pA]"}
-                    data={currentData}
-                    selectedSweep={selectedSweep}
-                    sweeps={sweeps}
+                    label="Cell Model Response Simulation"
+                    yLabel={"voltage [mV]"}
+                    data={modelData}
                   />
                 </div>
               </Spin>

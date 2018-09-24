@@ -99,7 +99,7 @@ function Hero({ instance }) {
               name={getProp(instance, "cellName.label", "Cell")}
             >
               <a>
-                {files.length} Attachment
+                {files.length} File
                 {files.length > 1 ? "s" : ""}
               </a>
             </Download>

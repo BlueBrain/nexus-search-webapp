@@ -10,7 +10,7 @@ import Extensions from "../../Extensions";
 import BrainRegionLink from "../../../BrainRegionLink";
 import Subject from "../Subject";
 import FontAwesome from "react-fontawesome";
-import ProvLink from "../ProvLink";
+import ProvList from "../ProvList";
 import TraceViewer from "../../../ModelTraceViewer";
 
 const DEFAULT_CELL_MODEL_NAME = "Cell Model";
@@ -111,7 +111,7 @@ function Hero({ instance }) {
                 name={getProp(instance, "cellName.label", "Cell")}
               >
                 <a>
-                  {files.length} Attachment
+                  {files.length} File
                   {files.length > 1 ? "s" : ""}
                 </a>
               </Download>
@@ -160,27 +160,17 @@ function Details({ instance }) {
       <Row>
         <Divider>Provenance</Divider>
         <Col span={12}>
-          <p>ephys derived from {generatedEPhysFrom.length} Cells</p>
-          <ul className="prov-list">
-            {generatedEPhysFrom.map((entry, index) => {
-              return (
-                <li key={index + "-prov-link"}>
-                  <ProvLink {...entry} />
-                </li>
-              );
-            })}
-          </ul>
+          <ProvList
+            title={`Electrophysiology derived from ${generatedEPhysFrom.length} Cells`}
+            provList={generatedEPhysFrom}
+          />
         </Col>
         <Col span={12}>
           {generatedMorphologyFrom && (
-            <Fragment>
-              <p>morphology derived from 1 Cell</p>
-              <ul className="prov-list">
-                <li>
-                  <ProvLink {...generatedMorphologyFrom} />
-                </li>
-              </ul>
-            </Fragment>
+            <ProvList
+              title={"Morphology derived from 1 Cell"}
+              provList={[generatedMorphologyFrom]}
+            />
           )}
         </Col>
       </Row>

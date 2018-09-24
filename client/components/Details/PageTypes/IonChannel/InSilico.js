@@ -97,7 +97,7 @@ function Hero({ instance }) {
                       name={getProp(instance, "name", "Ion Channel")}
                     >
                       <a>
-                        {files.length} Attachment
+                        {files.length} File
                         {files.length > 1 ? "s" : ""}
                       </a>
                     </Download>
