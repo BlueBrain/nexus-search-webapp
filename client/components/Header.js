@@ -13,11 +13,11 @@ const HeaderComponent = () => (
         to={"/home"}>
         <img src={logo} />
       </Link>
-      <Link
+      <a
         className="fade in slow"
-         to={"/"}>
+        href={"/"}>
         <h1>Search</h1>
-      </Link>
+      </a>
     </div>
     {/* <SearchBar /> */}
     <Login />

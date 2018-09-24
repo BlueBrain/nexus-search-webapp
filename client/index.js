@@ -13,7 +13,7 @@ const render = () => {
         <App history={history}/>
       </Provider>
     </AppContainer>,
-    document.getElementById("explorer-app")
+    document.getElementById("search-app")
   );
 };
 
