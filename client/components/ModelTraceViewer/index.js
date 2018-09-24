@@ -1,10 +1,33 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Spin } from "antd";
+import { Spin, Popover } from "antd";
 import Chart from "./Chart";
 import Legend from "./Legend";
 import Sweeps from "./Sweeps";
 import WithTraceData from "./WithTraceData";
+
+const HelperContent = (
+  <div>
+    <p>
+      Electrophysiological properties for cell models are derived from
+      electrophysiological recordings from experimental cells. The below graphs
+      show experimental recordings (stimulus traces and the corresponding
+      experimental cell response traces) which were used to model
+      electrophysiological features for the cell models. The experimental traces
+      are sorted by intensity of injected current (given in picoampere; pA).{" "}
+    </p>
+    <p>
+      At the bottom you can see an example trace from the cell model for the
+      derived feature.
+    </p>
+    <p>
+      At the top, you can select features and experimental cells used to derive
+      those features from drop-down menus. Feature names consist of the name
+      (e.g. "Step") and the current applied expressed as percentage of the
+      firing threshold of the cell (e.g. "140").
+    </p>
+  </div>
+);
 
 class TraceViewerContainer extends React.Component {
   state = {
@@ -67,9 +90,12 @@ class TraceViewerContainer extends React.Component {
             return (
               <Spin spinning={isPending}>
                 <div className="loadable-aread">
-                  <h3>Trace Viewer</h3>
-                  <p>Cell Model electrophysiological properties are derived from experimental cells. These graphs shows each cell experiment and iterations (sweeps) that went in to creating a feature of the cell model, ordered by increasing current in pA. </p>
-                  <p>At the bottom you can see the an example Cell Model simulation of the derived feature.</p>
+                  <h3>
+                    Trace Viewer{" "}
+                    <Popover content={HelperContent} arrowPointAtCenter title="Trace Viewer">
+                      <a className="more-info">more info</a>
+                    </Popover>
+                  </h3>
                   <Sweeps
                     sweeps={sweeps}
                     selectedSweep={selectedSweep}

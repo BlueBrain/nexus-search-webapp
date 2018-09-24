@@ -1,7 +1,9 @@
 .ant-modal-mask {
   background-color: rgba(30,30,30,0.9);
 }
-
+.ant-popover-content {
+  max-width: 600px;
+}
 .ant-divider-horizontal {
   .ant-divider-inner-text {
     display: inline-block;

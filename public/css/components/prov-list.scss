@@ -27,8 +27,11 @@ article#details {
       line-height: 30px;
       background-color: #fff;
       border-radius: 4px;
-      padding: 0 0 0 4px;
+      padding: 0 4px 0 4px;
       font-size: 1em;
+      .ant-tag {
+        margin-right:0;
+      }
       .type-icon {
         margin-right: 1em;
         .type-svg {

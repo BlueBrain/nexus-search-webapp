@@ -4,10 +4,11 @@ import { getProp } from "@libs/utils";
 import TypeIcon from "../../NewTypeIcon";
 import InspectLink from "../../Cards/Cell/InspectLink";
 import fetchProtectedData from "../../../libs/fetchProtectedData";
-import { Tag } from "antd";
+import { Tag, Icon } from "antd";
 import FontAwesome from "react-fontawesome";
 
 const ProvLinkComponent = ({ instance , status, searchId, name, type }) => {
+  const isPending = status === "pending";
   const studyTypeTag =
                 getProp(instance, "studyType.name") === "In Silico" ? (
                   <Tag color="#00c4ff">
@@ -20,7 +21,7 @@ const ProvLinkComponent = ({ instance , status, searchId, name, type }) => {
                 );
   return (
     <div className="prov-link default">
-      <InspectLink id={searchId}>{type && <TypeIcon type={type}/>} {getProp(instance, "cellName.label")} {studyTypeTag}</InspectLink>
+      <InspectLink id={searchId}>{type && <TypeIcon type={type}/>} <Icon type={isPending ? "loading" : "link"} theme="outlined" /> {getProp(instance, "cellName.label")} {!isPending && studyTypeTag}</InspectLink>
     </div>
   )
 }
