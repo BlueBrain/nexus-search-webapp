@@ -9,14 +9,6 @@ class TypesContainer extends React.Component {
   componentDidMount() {
     this.props.fetchTypes();
   }
-  componentDidUpdate(prevProps) {
-    if (
-      prevProps.query !== this.props.query ||
-      prevProps.selectedType !== this.props.selectedType
-    ) {
-      this.props.fetchTypes();
-    }
-  }
   onSelect (value) {
     this.props.updateSearchParams({ type: value });
   }

@@ -5,9 +5,6 @@ describe("makeTypeQuery()", () => {
     expect(makeTypeQuery().aggs).toBeDefined();
   });
 
-  it("it doesn't have a query property if there are no parameters", () => {
-    expect(makeTypeQuery().query).toBeUndefined();
-  });
 
   it(" makes an elasticSearch agg object, and the proper with @types, terms, and field", () => {
     expect(makeTypeQuery()).toMatchSnapshot();
