@@ -17,7 +17,6 @@ function processExperimentalData(data) {
     maxCurrent: data.values[sweepKey].i_segments[1].amp
   }));
   let sweeps = sortBy(sweepCollection, "maxCurrent");
-  console.log({sweeps});
   let palette = randomColor({
     count: sweeps.length,
     ...COLOR_SETTINGS

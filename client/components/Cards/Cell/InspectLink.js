@@ -11,11 +11,12 @@ function makeSafeID(id) {
 
 class InspectLink extends PureComponent {
   render() {
-    const { id, children } = this.props;
+    const { id, children, className } = this.props;
     const safeID = makeSafeID(id);
     return (
       // BUG!: TODO set modal to mimic pinterest routes
       <Link
+        className={className}
         key={safeID}
         to={{
           pathname: `/docs/${safeID}`,

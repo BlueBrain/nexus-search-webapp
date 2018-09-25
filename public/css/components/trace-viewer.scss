@@ -21,6 +21,11 @@ li.sweep {
 .legend {
   margin: 0px 0px 1em;
   display: flex;
+  label {
+    font-size: 12px;
+    color: #888;
+    margin-left:4px;
+  }
 }
 
 .sweeps {

@@ -3,10 +3,6 @@
     "icon": "neuron",
     "label": "Cell"
   },
-  "https://bluebrain.github.io/nexus/vocabulary/SearchCell": {
-    "icon": "neuron",
-    "label": "Broken Cell"
-  },
   "https://bbp-nexus.epfl.ch/vocabs/nexus/core/terms/v0.1.0/SearchIonChannel": {
     "icon": "neuron",
     "label": "Ion Channel"
