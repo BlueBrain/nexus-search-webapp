@@ -6,19 +6,10 @@ import { ui as UI_CONSTS } from "@consts";
 const { DEFAULT_SEARCH_TYPE_LABEL } = UI_CONSTS;
 
 function getPageType(instanceData, types) {
-  // @type is expanded because this is the resource API
-  // and not the elastic search API
-  // so we have to match the type differenty
   let resultType = getProp(instanceData, "@type")
-    .split("/")
-    .pop();
-  let typesWithoutPrevix = Object.keys(types).reduce((memo, key) => {
-    let keyWithoutPrefix = key.split(":").pop();
-    memo[keyWithoutPrefix] = types[key];
-    return memo;
-  }, {});
+
   let typeLabel = getProp(
-    typesWithoutPrevix[resultType] || {},
+    types[resultType] || {},
     "label",
     DEFAULT_SEARCH_TYPE_LABEL
   );

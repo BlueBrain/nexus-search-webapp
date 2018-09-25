@@ -14,6 +14,7 @@ function makeGroups(groupList, facet) {
     .filter(key => key !== "doc_count" && key !== "key")
     .reduce((memo, key) => {
       let subFacet = facet[key];
+      if (!subFacet.buckets) { return memo; }
       let children = subFacet.buckets.map(bucket => {
         return {
           key: `${facet.key},${bucket.key}`,

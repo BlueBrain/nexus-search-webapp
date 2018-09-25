@@ -8,7 +8,7 @@ export default (search = window.location.search) => {
     type = null,
     q = null,
     filter = "{}",
-    sort = "{}",
+    sort = JSON.stringify({}),
     from = 0,
     listType = DEFAULT_LIST_TYPE,
     size = DEFAULT_PAGE_SIZE
