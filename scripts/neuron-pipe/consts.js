@@ -101,6 +101,16 @@ const resourceDict = {
     url: "https://bbp-nexus.epfl.ch/staging/v0/data/somatosensorycortexproject/simulation/emodeltraceset/v0.0.1/",
     name: "E Model Trace Collection",
     source: "BBP NSE"
+  },
+  icc: {
+    url:
+      "https://bbp.epfl.ch/nexus/explorer/ionchannelproject/experiment/cell/v0.1.0/",
+    name: "Ion Channel Experiment",
+    context: "https://bbp.epfl.ch/nexus/v0/contexts/neurosciencegraph/core/data/v1.0.4",
+    type: types.searchIonChannel["@id"],
+    source: "BBP",
+    studyType: "Experimental",
+    repository: "Channelpedia"
   }
 };
 
