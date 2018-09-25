@@ -208,7 +208,7 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
             ? `${agent.givenName} ${agent.additionalName} ${agent.familyName}`
             : `${agent.givenName} ${agent.familyName}`;
           agent.person = agent.fullName;
-          agent.organization = "Blue Brain Project";
+          agent.organization = "Laboratory of Neural Microcircuitry";
           doc.contribution = [agent];
         }
         if (!activity.length) {

@@ -2,6 +2,7 @@
   "ignore": [
     "cellName",
     "@id",
-    "shortName"
+    "shortName",
+    "_distribution"
   ]
 }

@@ -29,7 +29,7 @@ function makeDocsQuery(
           }
         ];
       } else {
-        let field = sort.field + ".label.raw";
+        let field = sort.field + ".raw";
         params.sort = [
           {
             [field]: {
