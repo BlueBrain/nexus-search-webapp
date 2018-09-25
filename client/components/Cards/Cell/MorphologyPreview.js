@@ -21,7 +21,10 @@ class MorphologyPreview extends PureComponent {
       width: "100%",
       height: "100%"
     };
-    let previewInstanceID = getProp(value, "image.@id");
+
+    // TODO: refactor after demo
+    // Check if v0 or v1
+    let previewInstanceID = getProp(value, "image.@id") || getProp(value, '_self');
 
     return (
       <div className="morpho-preview" style={{ width: "100%", height: "100%" }}>

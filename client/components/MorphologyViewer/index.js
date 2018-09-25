@@ -4,7 +4,8 @@ import SVG from "react-svg";
 import icons from "../Icons";
 import { makeCancelable } from "@libs/promise";
 import fetchProtectedData from "../../libs/fetchProtectedData";
-const morphoviewer = require("morphoviewer");
+import { SwcParser } from 'swcmorphologyparser';
+import { MorphoViewer } from 'morphoviewer'
 
 class MorphologyContainer extends React.Component {
   state = { morphoData: null, error: null };
@@ -18,17 +19,37 @@ class MorphologyContainer extends React.Component {
   componentDidMount() {
     const { morphologySrc, token } = this.props;
     if (morphologySrc) {
-      this.fetchDataPromise = makeCancelable(
-        fetchProtectedData.asJSON(morphologySrc, token)
-      );
-      this.fetchDataPromise.promise
-        .then(morphoData => {
-          this.setState({ morphoData });
-        })
-        .catch(error => {
-          console.error(error);
-          this.setState({ error: error.message });
-        });
+      // TODO: refactor after demo
+      // if swc, parse
+      const extension = morphologySrc.split('.');
+      if (extension[extension.length - 1] === 'swc' ) {
+        this.fetchDataPromise = makeCancelable(
+          fetchProtectedData.asPlainText(morphologySrc, token)
+        );
+        this.fetchDataPromise.promise
+          .then(morphoData => {
+            const swcParser = new SwcParser();
+            swcParser.parse(morphoData);
+            this.setState({ morphoData: swcParser.getRawMorphology() });
+          })
+          .catch(error => {
+            console.error(error);
+            this.setState({ error: error.message });
+          });
+
+      } else {
+        this.fetchDataPromise = makeCancelable(
+          fetchProtectedData.asJSON(morphologySrc, token)
+        );
+        this.fetchDataPromise.promise
+          .then(morphoData => {
+            this.setState({ morphoData });
+          })
+          .catch(error => {
+            console.error(error);
+            this.setState({ error: error.message });
+          });
+      }
     }
   }
   componentWillUnmount() {
@@ -54,7 +75,7 @@ class MorphologyContainer extends React.Component {
     let { name } = this.props;
     if (this.viewContainer && morphoData) {
       try {
-        this.viewer = new morphoviewer.MorphoViewer(this.viewContainer);
+        this.viewer = new MorphoViewer(this.viewContainer);
         this.viewer.addMorphology(morphoData, {
           focusOn: true, // do we want the camera to focus on this one when it's loaded?
           distance: 800,
