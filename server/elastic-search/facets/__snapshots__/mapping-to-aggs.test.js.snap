@@ -7,6 +7,7 @@ Object {
       "mediaType": Object {
         "terms": Object {
           "field": "distribution.mediaType.raw",
+          "size": 999999999,
         },
       },
     },
@@ -26,6 +27,7 @@ Object {
           "label": Object {
             "terms": Object {
               "field": "brainLocation.brainRegion.label.raw",
+              "size": 999999999,
             },
           },
         },
@@ -48,6 +50,7 @@ Object {
       "label": Object {
         "terms": Object {
           "field": "sex.label.raw",
+          "size": 999999999,
         },
       },
     },
@@ -65,6 +68,7 @@ Object {
       "label": Object {
         "terms": Object {
           "field": "sex.label.raw",
+          "size": 999999999,
         },
       },
     },
@@ -77,6 +81,7 @@ Object {
       "label": Object {
         "terms": Object {
           "field": "species.label.raw",
+          "size": 999999999,
         },
       },
     },
