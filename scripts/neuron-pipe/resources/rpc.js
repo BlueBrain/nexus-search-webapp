@@ -149,6 +149,21 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         };
         delete doc.mType;
 
+        // if no contribution has been found yet, that's because they're
+        // a DAT file which didn't have contributors uploaded to NEXUS
+        // TODO subject to change!
+        if (!doc.contribution) {
+          doc.contribution = [{
+            "email": "defelipe@cajal.csic.es",
+            "familyName": "DeFelipe",
+            "givenName": "Javier",
+            "nxv:deprecated": false,
+            "fullName": "Javier DeFelipe",
+            "person": "Javier DeFelipe",
+            "organization": "Center for Biomedical Technology Technical University of Madrid"
+          }]
+        }
+
         return doc;
       },
       // downloadMorph(token, short),
