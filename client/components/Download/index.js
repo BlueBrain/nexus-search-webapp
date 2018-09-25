@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 import { Icon, Modal, List, Button } from "antd";
 import prettyBytes from "pretty-bytes";
 import { getProp } from "@libs/utils";
+import { compact } from "underscore";
 import DownloadButton from "./DownloadButton";
 import DownloadAllButton from "./DownloadAllButton";
 
@@ -27,7 +27,8 @@ class DownloadContainer extends React.Component {
   };
 
   render() {
-    const { children, files, name } = this.props;
+    let { children, files, name } = this.props;
+    files = compact(files);
     const { visible, confirmLoading, ModalText } = this.state;
     return (
       <div className="downloader">
@@ -87,12 +88,6 @@ function mapStateToProps({ auth }) {
     token: auth.token
   };
 }
-
-// function mapDispatchToProps(dispatch) {
-//   return {
-//     close: bindActionCreators(lightbox.lightboxClose, dispatch)
-//   };
-// }
 
 DownloadContainer.propTypes = {
   name: PropTypes.string.isRequired,

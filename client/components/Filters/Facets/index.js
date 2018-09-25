@@ -1,23 +1,26 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { facets, search } from "../../../store/actions";
 import FacetsComponent from "./FacetsComponent";
-import { isEqual } from "underscore"
+import isEqual from "fast-deep-equal";
 
-class FacetContainer extends React.PureComponent {
+class FacetContainer extends Component {
   componentDidMount() {
     this.props.fetchFacets();
   }
   componentDidUpdate(prevProps) {
-    if (
-      prevProps.query !== this.props.query ||
-      prevProps.type !== this.props.type ||
-      !isEqual(prevProps.selectedFilter, this.props.selectedFilter)
-    ) {
-      this.props.fetchFacets();
-    }
+    // Move to middleware
+    // console.log(prevProps, this.props);
+    // if (
+    //   prevProps.query !== this.props.query ||
+    //   prevProps.type !== this.props.type ||
+    //   !isEqual(prevProps.selectedFilter, this.props.selectedFilter)
+    // ) {
+    //   console.log("fetching facets because its not equal")
+    //   this.props.fetchFacets();
+    // }
   }
   onSelect (key, value) {
     let filter = this.props.selectedFilter;
@@ -49,7 +52,7 @@ function mapStateToProps({ facets, search }) {
   return {
     type,
     // This is strange... a new object must be created or else it won't trigger an update
-    selectedFilter: {...filter},
+    selectedFilter: filter,
     query: q,
     facets: results,
     ...facets

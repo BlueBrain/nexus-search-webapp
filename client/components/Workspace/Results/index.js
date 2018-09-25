@@ -1,32 +1,18 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Results from "./ResultsComponent";
 import { query, search } from "../../../store/actions";
-import { isEqual } from "underscore"
+import isEqual from "fast-deep-equal"
 
-class ResultsContainer extends PureComponent {
+class ResultsContainer extends Component {
   componentDidMount() {
-    this.search();
-  }
-  componentDidUpdate(prevProps) {
-    if (
-      prevProps.query !== this.props.query ||
-      prevProps.type !== this.props.type ||
-      prevProps.from !== this.props.from ||
-      !isEqual(prevProps.filter, this.props.filter) ||
-      !isEqual(prevProps.sort, this.props.sort)
-    ) {
-      this.search();
-    }
+    this.props.search();
   }
   handlePageClick({selected}) {
     const from = Math.ceil(selected * this.props.pageSize);
     this.props.updateSearchParams({ from });
-  }
-  search() {
-    this.props.search();
   }
   render() {
     return Results(this.props, {
@@ -59,12 +45,10 @@ function mapStateToProps({ config, query, search }) {
     hits: query.hits,
     pending: query.pending,
     from,
-    sort: {...sort},
+    sort: sort,
     query: q,
     type,
-
-    // why!
-    filter: {...filter}
+    filter: filter
   };
 }
 

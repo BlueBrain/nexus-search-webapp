@@ -37,6 +37,9 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
           );
           doc.subject = subjectResult;
           doc.subject.species = getProp(doc, "subject.species.label");
+          if (doc.subject.species && doc.subject.species.toLowerCase() === "mouse") {
+            doc.subject.species = "Mus musculus";
+          }
           doc.subject.sex = getProp(doc, "subject.sex.label");
           doc.subject.strain = getProp(doc, "subject.strain.label");
         }
@@ -145,6 +148,7 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
           mType: mType ? mTypes[mType.toLowerCase()] : null
         };
         delete doc.mType;
+
         return doc;
       },
       // downloadMorph(token, short),

@@ -8,7 +8,7 @@ import FacetGroup from "./Group";
 const FacetsFulfilled = (facets, onSelect, pending) => {
   return (
     <div>
-      <Spin spinning={pending} delay={300}>
+      <Spin spinning={pending} delay={300} style={{marginTop: "2em"}}>
       <ul>
         {facets.map(facet =>
           FacetGroup(facet.key, facet, onSelect)
