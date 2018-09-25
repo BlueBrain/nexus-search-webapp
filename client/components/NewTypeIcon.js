@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { types } from "../store/actions";
 import { bindActionCreators } from "redux";
 import TypeIcon from "./TypeIcon";
-import { findWhere } from "underscore";
 
 const DEFAULT_TYPE = {
   icon: "cube",
@@ -18,10 +17,13 @@ class TypeIconContainer extends React.Component {
     }
   }
   render() {
-    let selectedTypes = this.props.types.filter(type => {
-      let [, value] = type.value.split(":");
-      value = value.toLowerCase();
-      return this.props.type.toLowerCase().indexOf(value) >= 0;
+    const { type, types } = this.props;
+    let selectedTypes = types.filter(({ value }) => {
+      let unexpanedValue = value
+        .split("/")
+        .pop()
+        .toLowerCase();
+      return type.toLowerCase().indexOf(unexpanedValue) >= 0;
     });
     let selectedTypeObject = selectedTypes.length
       ? selectedTypes[0]
