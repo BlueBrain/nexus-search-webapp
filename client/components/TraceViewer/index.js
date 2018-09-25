@@ -73,7 +73,6 @@ class TraceViewerContainer extends React.Component {
     this.setState({ selectedSweep: sweepKey });
   }
   handleSelectProtocol (protocol) {
-    console.log(protocol);
   }
   render() {
     const { status, sweeps, selectedSweep, stimulusData, responseData } = this.state;

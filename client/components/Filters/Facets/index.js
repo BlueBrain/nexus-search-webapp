@@ -10,18 +10,6 @@ class FacetContainer extends Component {
   componentDidMount() {
     this.props.fetchFacets();
   }
-  componentDidUpdate(prevProps) {
-    // Move to middleware
-    // console.log(prevProps, this.props);
-    // if (
-    //   prevProps.query !== this.props.query ||
-    //   prevProps.type !== this.props.type ||
-    //   !isEqual(prevProps.selectedFilter, this.props.selectedFilter)
-    // ) {
-    //   console.log("fetching facets because its not equal")
-    //   this.props.fetchFacets();
-    // }
-  }
   onSelect (key, value) {
     let filter = this.props.selectedFilter;
     filter[key] = value;

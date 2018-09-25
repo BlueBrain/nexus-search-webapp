@@ -21,7 +21,9 @@ class LabelContainer extends Component {
     const selectedCellObj = findWhere(cellLegend, { name: selectedCell });
     return (
       <div className="legend">
-        <Select
+        <div>
+        <label for="stimulus-type">Stimulus Type</label>
+        <Select name="stimulus-type"
           defaultValue={selectedProtocol}
           style={{ width: 200, marginRight: "1em" }}
           onChange={value => onSelectProtocol(value)}
@@ -32,7 +34,11 @@ class LabelContainer extends Component {
             </Option>
           ))}
         </Select>
+        </div>
+        <div>
+        <label for="experimental-cell">Experimental Cell</label>
         <Select
+          name="experimental-cell"
           defaultValue={selectedCell}
           style={{ width: 200, marginRight: "1em" }}
           onChange={value => onSelectCell(value)}
@@ -43,6 +49,7 @@ class LabelContainer extends Component {
             </Option>
           ))}
         </Select>
+        </div>
         <ProvLink type={selectedCellObj.type} searchId={selectedCellObj.searchId} name={selectedCellObj.name} />
       </div>
     );

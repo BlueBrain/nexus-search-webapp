@@ -26,7 +26,6 @@ const ProvListComponent = ({ provList, title }) => {
             key={item.searchId + "-prov-list-element"}
             {...item}
             renderItem={({ instance, status, searchId, name, type }) => {
-              console.log({type})
               const studyTypeTag =
                 getProp(instance, "studyType.name") === "In Silico" ? (
                   <Tag color="#00c4ff">

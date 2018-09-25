@@ -20,9 +20,9 @@ const ProvLinkComponent = ({ instance , status, searchId, name, type }) => {
                   </Tag>
                 );
   return (
-    <div className="prov-link default">
-      <InspectLink id={searchId}>{type && <TypeIcon type={type}/>} <Icon type={isPending ? "loading" : "link"} theme="outlined" /> {getProp(instance, "cellName.label")} {!isPending && studyTypeTag}</InspectLink>
-    </div>
+    <InspectLink id={searchId} className="prov-link default">
+      {type && <TypeIcon type={type}/>} <Icon type={isPending ? "loading" : "link"} theme="outlined" /><span>{getProp(instance, "cellName.label")}</span>{!isPending && studyTypeTag}
+    </InspectLink>
   )
 }
 

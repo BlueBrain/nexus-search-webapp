@@ -16,19 +16,23 @@
   overflow-x: scroll;
   }
 }
+
+.prov-link {
+  &.default {
+    background-color:white;
+    border-radius: 4px;
+    display: flex;
+    padding: 0 0.5em;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
 article#details {
   .prov-link {
     &.default {
-      background-color:white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       height: 32px;
-      line-height: 30px;
-      background-color: #fff;
-      border-radius: 4px;
-      padding: 0 4px 0 4px;
-      font-size: 1em;
+      width: 350px;
+      margin-top: 20px;
       .ant-tag {
         margin-right:0;
       }

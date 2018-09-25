@@ -10,7 +10,7 @@ import Subject from "../Subject";
 import FontAwesome from "react-fontawesome";
 import TraceViewer from "../../../TraceViewer";
 
-const DEFAULT_CELL_MODEL_NAME = "Cell Model";
+const DEFAULT_CELL_MODEL_NAME = "Cell";
 function getUUIDFromAtID(instance) {
   let id = instance["@id"];
   return id.split("/").slice(-1)[0];
