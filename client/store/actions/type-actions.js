@@ -1,6 +1,7 @@
 import * as types from "./types";
 import qs from "query-string";
 import { auth } from "./index";
+import { truthy } from "@libs/utils";
 
 export default {
   fetchTypes,
@@ -13,12 +14,16 @@ export default {
 function fetchTypes() {
   return (dispatch, getState) => {
     let state = getState();
-    const { q } = state.search;
+    const { q, type, filter } = state.search;
     const { token } = state.auth;
     const { elasticSearchAPI, uiConfig } = state.config;
     const typesAPI = elasticSearchAPI + "/types";
+    let params = truthy({ q, type, filter });
+    if (params.filter) {
+      params.filter = JSON.stringify(params.filter);
+    }
     dispatch(fetchTypesStarted());
-    return fetch(typesAPI + "?" + qs.stringify({ q }), {
+    return fetch(typesAPI + "?" + qs.stringify(params), {
       headers: { Authorization: `Bearer ${token}`}
     })
       .then(response => {

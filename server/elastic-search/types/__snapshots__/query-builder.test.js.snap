@@ -9,6 +9,11 @@ Object {
       },
     },
   },
+  "query": Object {
+    "bool": Object {
+      "must": Array [],
+    },
+  },
 }
 `;
 
@@ -22,8 +27,14 @@ Object {
     },
   },
   "query": Object {
-    "query_string": Object {
-      "query": "(mySearchString* OR mySearchString~)",
+    "bool": Object {
+      "must": Array [
+        Object {
+          "query_string": Object {
+            "query": "(mySearchString* OR mySearchString~)",
+          },
+        },
+      ],
     },
   },
 }

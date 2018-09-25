@@ -13,9 +13,12 @@ const COLOR_SETTINGS = {
  */
 function normalizer (docs) {
   let types = docs.aggregations["@types"].buckets;
-  // TODO move to client?
+  // TODO: hardcoded a count for consistency,
+  // this should absolutely be moved to client
+  // when distinct-colors npm package's browser
+  // bugs are fixed
   let palette = palettes({
-    count: types.length,
+    count: types.length > 4 ? types.length : 4,
     ...COLOR_SETTINGS
   });
   types = types.map((type, index) => {
