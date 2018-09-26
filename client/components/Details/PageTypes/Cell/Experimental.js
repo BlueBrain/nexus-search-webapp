@@ -76,7 +76,7 @@ function Header({ instance }) {
       </div>
       <ul className="actions">
         {/* <li><Button>Save</Button></li> */}
-        { getVersion(instance) === 'v0' && <li>
+        {getVersion(instance) === 'v0' && <li>
           <a target="_blank" href={getExplorerLink(instance)}>
             <Button>Open Explorer</Button>
           </a>
