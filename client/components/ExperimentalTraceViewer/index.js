@@ -3,12 +3,12 @@ import { connect } from "react-redux";
 import { Spin, Popover, Icon } from "antd";
 import Chart from "./Chart";
 import Legend from "./Legend";
-import Sweeps from "./Sweeps";
+import Sweeps from "../ModelTraceViewer/Sweeps";
 import WithTraceData from "./WithTraceData";
 
 const HelperContent = (
   <div>
-    <p>Lorem Ipsum</p>
+    <p>Use the Trace Viewer to explore electrophysiological recordings of this cell. Select a stimulus type from the drop-down menu to display the respective recording sweeps. The top window shows the stimulus traces (the injected current curve given in picoampere; pA), the bottom window shows the corresponding response trace of the cell (given in millivolt; mV).</p>
   </div>
 );
 
