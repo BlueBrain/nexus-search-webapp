@@ -4,7 +4,7 @@ import { getProp } from "@libs/utils";
 import TypeIcon from "../../../NewTypeIcon";
 import MorphologyPreview from "../../../Cards/Cell/MorphologyPreview";
 import Download from "../../../Download";
-import {eTypes, mTypes} from "../../../../../consts";
+import { eTypes, mTypes } from "../../../../../consts";
 import BrainRegionLink from "../../../BrainRegionLink";
 import Subject from "../Subject";
 import FontAwesome from "react-fontawesome";
@@ -28,24 +28,24 @@ function getExplorerLink(instance) {
 }
 
 function attributionLine(instance) {
-  let contribution = getProp(instance, "contribution", {})
-  let name =
-    getProp(contribution, "fullName")
+  let contribution = getProp(instance, "contribution", {});
+  let name = getProp(contribution, "fullName");
   let email = getProp(contribution, "email");
   let attribution = null;
   let organization = getProp(contribution, "organization");
   if (name) {
-    attribution = (<h2>
-      <Icon type="user-add" /> by {
-        email ?
-        <a href={`mailto:${email}`}>{name}</a>
-        : <span>{name}</span>
-      }
-    </h2>)
+    attribution = (
+      <h2>
+        <Icon type="user-add" /> by{" "}
+        {email ? <a href={`mailto:${email}`}>{name}</a> : <span>{name}</span>}
+      </h2>
+    );
   } else if (organization) {
-    attribution = (<h2>
-      <Icon type="bank" /> by <span>{organization}</span>
-    </h2>);
+    attribution = (
+      <h2>
+        <Icon type="bank" /> by <span>{organization}</span>
+      </h2>
+    );
   }
   return attribution;
 }
@@ -84,28 +84,29 @@ function Hero({ instance }) {
     <div className="hero">
       <div className="detail-hero">
         <picture style={{ height: "600px" }}>
-          <MorphologyPreview onHover={() => {}} value={instance} shouldRender/>
+          <MorphologyPreview onHover={() => {}} value={instance} shouldRender />
         </picture>
       </div>
-      {files && files.length && (
-        <div className="detail-attachments">
-          <h3>
-            <Icon type="paper-clip" />{" "}
-            <Download
-              files={files}
-              name={getProp(instance, "cellName.label", "Cell")}
-            >
-              <a>
-                {files.length} File
-                {files.length > 1 ? "s" : ""}
-              </a>
-            </Download>
-          </h3>
-          <ul>
-            <li />
-          </ul>
-        </div>
-      )}
+      {files &&
+        files.length && (
+          <div className="detail-attachments">
+            <h3>
+              <Icon type="paper-clip" />{" "}
+              <Download
+                files={files}
+                name={getProp(instance, "cellName.label", "Cell")}
+              >
+                <a>
+                  {files.length} File
+                  {files.length > 1 ? "s" : ""}
+                </a>
+              </Download>
+            </h3>
+            <ul>
+              <li />
+            </ul>
+          </div>
+        )}
     </div>
   );
 }
@@ -116,26 +117,37 @@ function Details({ instance }) {
     <div className="more-details">
       <Row>
         <Col span={16}>
-        <h2 className="mType">
+          <h2 className="mType">
             {getProp(instance, "cellType.mType", "Cell")}{" "}
             <Tag color="#90eac3">
               <FontAwesome name={"flask"} /> Experimental
             </Tag>
           </h2>
-          <div className="eType">{getProp(instance, "cellType.etype") && eTypes[getProp(instance, "cellType.eType")]}</div>
-          <div className="brainRegion"><BrainRegionLink region={getProp(instance, "brainLocation.brainRegion")} species={getProp(instance, "subject.species")}/> {getProp(instance, "brainRegion.layer") && "(" + getProp(instance, "brainRegion.layer") + ")"}</div>
+          <div className="eType">
+            {getProp(instance, "cellType.etype") &&
+              eTypes[getProp(instance, "cellType.eType")]}
+          </div>
+          <div className="brainRegion">
+            <BrainRegionLink
+              region={getProp(instance, "brainLocation.brainRegion")}
+              species={getProp(instance, "subject.species")}
+            />{" "}
+            {getProp(instance, "brainRegion.layer") &&
+              "(" + getProp(instance, "brainRegion.layer") + ")"}
+          </div>
           <Subject subject={getProp(instance, "subject")} />
         </Col>
       </Row>
-      <Row style={{marginBottom: '2em'}}>
-        <Divider>
-          Electrophysiological Properties
-        </Divider>
-        <TraceViewer />
+      <Row style={{ marginBottom: "2em" }}>
+        {!!getProp(instance, "traces", []).length && (
+          <Fragment>
+            <Divider>Electrophysiological Properties</Divider>
+            <TraceViewer />
+          </Fragment>
+        )}
       </Row>
-
     </div>
-  )
+  );
 }
 
 export default function CellModelDetailsPage({ data: instance }) {
