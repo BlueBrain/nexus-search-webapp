@@ -16,6 +16,14 @@ function getUUIDFromAtID(instance) {
   return id.split("/").slice(-1)[0];
 }
 
+function getVersion(instance) {
+  const id = instance['@id'];
+  const matches = id.match(/v[0-9]+/);
+  return matches && matches.length > 0
+    ? matches[0]
+    : null;
+}
+
 function getExplorerLink(instance) {
   let id = instance["@id"];
   let dataIndex = id.indexOf("data");
@@ -68,11 +76,11 @@ function Header({ instance }) {
       </div>
       <ul className="actions">
         {/* <li><Button>Save</Button></li> */}
-        <li>
+        {getVersion(instance) === 'v0' && <li>
           <a target="_blank" href={getExplorerLink(instance)}>
             <Button>Open Explorer</Button>
           </a>
-        </li>
+        </li>}
       </ul>
     </header>
   );
