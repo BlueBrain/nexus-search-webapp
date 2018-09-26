@@ -10,19 +10,14 @@ const Option = Select.Option;
 class LabelContainer extends Component {
   render() {
     const {
-      cells,
-      cellLegend,
       protocols,
       selectedProtocol,
-      selectedCell,
-      onSelectCell,
       onSelectProtocol
     } = this.props;
-    const selectedCellObj = findWhere(cellLegend, { name: selectedCell });
     return (
       <div className="legend">
         <div>
-        <label htmlFor="stimulus-type">Stimulus Type</label>
+        <label htmlFor="stimulus-type">Stimulus Type</label><br/>
         <Select name="stimulus-type"
           defaultValue={selectedProtocol}
           style={{ width: 200, marginRight: "1em" }}
@@ -35,22 +30,6 @@ class LabelContainer extends Component {
           ))}
         </Select>
         </div>
-        <div>
-        <label htmlFor="experimental-cell">Experimental Cell</label>
-        <Select
-          name="experimental-cell"
-          defaultValue={selectedCell}
-          style={{ width: 200, marginRight: "1em" }}
-          onChange={value => onSelectCell(value)}
-        >
-          {cells.map(cellKey => (
-            <Option key={cellKey} value={cellKey}>
-              {cellKey}
-            </Option>
-          ))}
-        </Select>
-        </div>
-        <ProvLink type={selectedCellObj.type} searchId={selectedCellObj.searchId} name={selectedCellObj.name} />
       </div>
     );
   }

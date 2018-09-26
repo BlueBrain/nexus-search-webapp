@@ -5,6 +5,7 @@ import rwbc from "./rwbc";
 import wmurwbc from "./wmurwbc";
 import rpc from "./rpc";
 import emtc from "./emtc";
+import pctc from "./pctc";
 
 let tpc = pc;
 
@@ -24,5 +25,7 @@ export {
   // Neocortex reconstructed patch cells
   rpc,
   // Emodel Trace Collection (for referenc only!)
-  emtc
+  emtc,
+  // Exp. Trace Collection (for referenc only!)
+  pctc
 }

@@ -21,7 +21,7 @@ class MorphologyPreview extends PureComponent {
       width: "100%",
       height: "100%"
     };
-    let previewInstanceID = getProp(value, "image.@id");
+    let previewInstanceID = getProp(value, "image.@id") || getProp(value, '_self');
     let isWholeBrain = preview ? !preview : getProp(value, "cellType.specialDesignation") === "Whole Brain";
     console.log({ value }, { isWholeBrain })
     return (

@@ -11,6 +11,7 @@ import { getProp } from "@libs/utils";
 import { getURIPartsFromNexusURL, fetchWithToken } from "../helpers";
 import downloadMorph from "../downloadMorph";
 import { mTypes } from "@consts";
+import pctc from "../../testData/pctc.json";
 
 require("dns-cache")(100000);
 
@@ -46,17 +47,12 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         return doc;
       },
       async doc => {
-        // TODO what do we do with traces?
-        // let response = await getRelatedResourceWithFilter(
-        //   easyConfig,
-        //   doc["@id"],
-        //   "nsg:Trace"
-        // );
-        // doc.traces = response.results.map(trace => {
-        //   trace = trimMetaData(trace.source);
-        //   return trace;
-        // });
-        doc.traces = [];
+        // Traces are found inside the pctc json document
+        if (pctc[doc.name]) {
+          doc.traces = pctc[doc.name];
+        } else {
+          doc.traces = {};
+        }
         return doc;
       },
       async doc => {
@@ -250,6 +246,7 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
             return agent;
           });
         }
+
         return doc;
       },
       // downloadMorph(token, short, doc => getProp(doc, "morphology", [{}])[0]),

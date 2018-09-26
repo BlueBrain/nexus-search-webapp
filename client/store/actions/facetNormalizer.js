@@ -39,9 +39,9 @@ export const facetNormalizer = function(response) {
   // We want to put these facets toward the end
   // because they're less interesting
   // than the scientific facets
-  moveEntryToEnd(facets, entry => entry.key === "contribution");
   moveEntryToEnd(facets, entry => entry.key === "dataSource");
   moveEntryToEnd(facets, entry => entry.key === "license");
+  moveEntryToEnd(facets, entry => entry.key === "contribution");
 
   return facets;
 };

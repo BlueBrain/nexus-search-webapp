@@ -102,6 +102,11 @@ const resourceDict = {
     name: "E Model Trace Collection",
     source: "BBP NSE"
   },
+  pctc: {
+    url: "https://bbp-nexus.epfl.ch/staging/v0/data/somatosensorycortexproject/electrophysiology/experimentaltraceset/v0.0.1/",
+    name: "Exp Cell Trace Collection",
+    source: "BBP NSE"
+  },
   icc: {
     url:
       "https://bbp.epfl.ch/nexus/explorer/ionchannelproject/experiment/cell/v0.1.0/",
