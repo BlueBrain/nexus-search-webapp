@@ -70,17 +70,30 @@ class MorphologyContainer extends React.Component {
   shouldRender() {
     // toggle rendering
   }
+  async addBrainMesh () {
+
+  }
   makeVisualizer() {
     let { morphoData } = this.state;
-    let { name } = this.props;
+    let { name, wholeBrain, staticContentLocation } = this.props;
+    const wholeBrainMeshURL = staticContentLocation + "/brain-mesh"
     if (this.viewContainer && morphoData) {
       try {
         this.viewer = new MorphoViewer(this.viewContainer);
+        if (wholeBrain) {
+          this.viewer.addStlToMeshCollection(
+            wholeBrainMeshURL,
+            {
+              name: "brain", // the name of it?
+              focusOn: true, // do we want to focus on it when it's loaded?
+            }
+          )
+        }
         this.viewer.addMorphology(morphoData, {
-          focusOn: true, // do we want the camera to focus on this one when it's loaded?
+          focusOn: !wholeBrain, // do we want the camera to focus on this one when it's loaded?
           distance: 1200,
 
-          asPolyline: !!this.props.polyLine, // with polylines of with cylinders?
+          asPolyline: wholeBrain || !!this.props.polyLine, // with polylines of with cylinders?
           // onDone: optionalCallback, // what to do when it's loaded?
           //color: Math.floor(Math.random() * 0xFFFFFF), // if not present, all neurones will have there axon in blue, basal dendrite in red and apical dendrite in green
           somaMode: "fromOrphanSections"
@@ -131,6 +144,7 @@ class MorphologyContainer extends React.Component {
 
 function mapStateToProps({ config, auth }) {
   return {
+    staticContentLocation: config.staticContentLocation,
     token: auth.token
   };
 }

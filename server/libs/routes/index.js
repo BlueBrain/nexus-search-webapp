@@ -3,7 +3,6 @@ import express from "express";
 import elasticSearch from "./elastic-search";
 import config from "../config";
 import sendFile from "./send-file";
-import fs from "fs";
 import testTrace from "./test-trace.json";
 
 const router = express.Router();
