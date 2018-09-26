@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Button, Icon, Row, Col, Divider, Tag } from "antd";
 import { getProp } from "@libs/utils";
 import TypeIcon from "../../../NewTypeIcon";
@@ -8,7 +8,7 @@ import { eTypes, mTypes } from "../../../../../consts";
 import BrainRegionLink from "../../../BrainRegionLink";
 import Subject from "../Subject";
 import FontAwesome from "react-fontawesome";
-import TraceViewer from "../../../TraceViewer";
+import TraceViewer from "../../../ExperimentalTraceViewer";
 
 const DEFAULT_CELL_MODEL_NAME = "Cell";
 function getUUIDFromAtID(instance) {
@@ -147,10 +147,10 @@ function Details({ instance }) {
         </Col>
       </Row>
       <Row style={{ marginBottom: "2em" }}>
-        {!!getProp(instance, "traces", []).length && (
+        {!!Object.keys(getProp(instance, "traces", {})).length && (
           <Fragment>
             <Divider>Electrophysiological Properties</Divider>
-            <TraceViewer />
+            <TraceViewer traces={getProp(instance, "traces")} />
           </Fragment>
         )}
       </Row>
