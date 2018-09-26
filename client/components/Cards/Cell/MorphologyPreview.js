@@ -13,7 +13,7 @@ class MorphologyPreview extends PureComponent {
     }
   }
   render() {
-    let { value, shouldRender, polyLine } = this.props;
+    let { value, shouldRender, polyLine, preview } = this.props;
     const divStyle = {
       position: "absolute",
       top: 0,
@@ -21,11 +21,9 @@ class MorphologyPreview extends PureComponent {
       width: "100%",
       height: "100%"
     };
-
-    // TODO: refactor after demo
-    // Check if v0 or v1
-    let previewInstanceID = getProp(value, "image.@id") || getProp(value, '_self');
-
+    let previewInstanceID = getProp(value, "image.@id");
+    let isWholeBrain = preview ? !preview : getProp(value, "cellType.specialDesignation") === "Whole Brain";
+    console.log({ value }, { isWholeBrain })
     return (
       <div className="morpho-preview" style={{ width: "100%", height: "100%" }}>
         {previewInstanceID &&
@@ -42,6 +40,7 @@ class MorphologyPreview extends PureComponent {
                     onMouseEnter={() => this.handleOnHover(true)}
                   >
                     <MorphologyViewer
+                      wholeBrain={isWholeBrain}
                       polyLine={!!polyLine}
                       morphologySrc={morphologySrc}
                       shouldRender={shouldRender}
