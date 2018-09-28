@@ -9,16 +9,22 @@
     display: flex;
     justify-content: space-between;
     z-index: 2;
-    background: linear-gradient(to top, rgba(125, 186, 232, 0) 0%,#ffffffbd 70%, #ffffff 100%);
+    background: linear-gradient(
+      to top,
+      rgba(125, 186, 232, 0) 0%,
+      hsla(0, 0%, 100%, 0.741) 70%,
+      #fff 100%
+    );
     .action-buttons {
       position: absolute;
       a {
         position: absolute;
-        left: 2px; top: 20px;
+        left: 2px;
+        top: 20px;
         transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
         opacity: 0;
         padding: 1em;
-        background-color:white;
+        background-color: white;
         box-shadow: -1px 1px 4px 0px #abbac95e;
         border-radius: 1em;
         text-align: left;
@@ -43,7 +49,8 @@
       justify-content: flex-start;
     }
     .type-avatar {
-      top: 0; left: 0;
+      top: 0;
+      left: 0;
       z-index: 2;
       pointer-events: none;
     }
@@ -61,8 +68,10 @@
   }
   .card-morph {
     position: absolute;
-    height: 100%; width: 100%;
-    left: 0; top: 0;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
     z-index: 1;
   }
   .unemphasized {
@@ -72,11 +81,17 @@
   .footer {
     position: absolute;
     width: 100%;
-    bottom: 0; left: 0;
+    bottom: 0;
+    left: 0;
     padding: 1em;
     z-index: 2;
     overflow: hidden;
-    background: linear-gradient(to bottom, #7dbae800 0%,#ffffffbd 60%, #ffffff 100%);
+    background: linear-gradient(
+      to bottom,
+      hsla(206, 70%, 70%, 0) 0%,
+      hsla(0, 0%, 100%, 0.741) 60%,
+      #fff 100%
+    );
     .banner {
       width: 6em;
       position: absolute;
@@ -93,13 +108,14 @@
       }
     }
     .study-type {
-      z-index:1;
+      z-index: 1;
       color: white;
     }
     .mType {
       font-size: 2em;
       color: #555;
-      text-shadow: -1px -1px 0 #fafafa, 1px -1px 0 #fafafa, -1px 1px 0 #fafafa, 1px 1px 0 #fafafa;
+      text-shadow: -1px -1px 0 #fafafa, 1px -1px 0 #fafafa, -1px 1px 0 #fafafa,
+        1px 1px 0 #fafafa;
     }
     .brainRegion {
       font-style: italic;
