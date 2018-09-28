@@ -24,7 +24,8 @@ pipeline {
                 node("slave-sbt") {
                     checkout scm
                     sh "npm i && npm run build"
-                    sh "oc start-build search-webapp-build --from-dir=. --follow"
+                    sh "mkdir deployment && mv dist deployment && mv docker deployment"
+                    sh "oc start-build search-webapp-build --from-dir=deployment --follow"
                 }
             }
         }
