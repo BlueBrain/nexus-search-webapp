@@ -5,9 +5,9 @@ pipeline {
     agent none
 
     stages {
-        stage("Review") {
+        stage("Test 'n Lint") {
             when {
-                expression { env.CHANGE_ID != null }
+                expression { env.CHANGE_ID == null }
             }
             steps {
                 node("slave-sbt") {
