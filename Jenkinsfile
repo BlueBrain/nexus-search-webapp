@@ -18,14 +18,13 @@ pipeline {
         }
         stage("Build Image") {
             when {
-                expression { env.CHANGE_ID == null && version ==~ /v\d+\.\d+\.\d+.*/ }
+                expression { env.CHANGE_ID == null }
             }
             steps {
                 node("slave-sbt") {
                     checkout scm
                     sh "npm i && npm run build"
                     sh "oc start-build search-webapp-build --from-dir=dist --follow"
-                    openshiftTag srcStream: 'nexus-search-webapp', srcTag: 'latest', destStream: 'nexus-search-webapp', destTag: version.substring(1), verbose: 'false'
                 }
             }
         }
