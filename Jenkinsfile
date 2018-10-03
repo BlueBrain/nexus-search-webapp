@@ -1,4 +1,5 @@
 String version = env.BRANCH_NAME
+String commitId = env.GIT_COMMIT
 Boolean isRelease = version ==~ /v\d+\.\d+\.\d+.*/
 Boolean isPR = env.CHANGE_ID != null
 
@@ -63,7 +64,7 @@ pipeline {
             }
             steps {
                 // TODO: add git commit id in tag
-                openshiftTag srcStream: imageStream, srcTag: 'latest', destStream: imageStream, destTag: 'staging', verbose: 'false'
+                openshiftTag srcStream: imageStream, srcTag: 'latest', destStream: imageStream, destTag: "staging,${commitId.substring(0,7)}", verbose: 'false'
             }
         }
 
