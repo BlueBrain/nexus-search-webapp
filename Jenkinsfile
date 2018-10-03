@@ -16,6 +16,7 @@ pipeline {
             steps{
                 sh 'echo "Pipeline starting with environment:"'
                 sh 'printenv'
+                sh "echo ${commitId.substring(0,7)}"
             }
         }
 
