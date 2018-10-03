@@ -3,7 +3,7 @@ Boolean isRelease = version ==~ /v\d+\.\d+\.\d+.*/
 Boolean isPR = env.CHANGE_ID != null
 
 pipeline {
-    agent none
+    agent any
 
     environment {
         imageStream = 'nexus-search-webapp'
