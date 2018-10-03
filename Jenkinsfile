@@ -16,7 +16,9 @@ pipeline {
             steps{
                 sh 'echo "Pipeline starting with environment:"'
                 sh 'printenv'
-                sh "echo ${env.GIT_COMMIT:0:7}"
+                echo "${env.GIT_COMMIT}"
+                echo "${GIT_COMMIT}"
+                echo "${commitId}"
             }
         }
 
@@ -64,7 +66,7 @@ pipeline {
                 expression { !isRelease && !isPR }
             }
             steps {
-                openshiftTag srcStream: imageStream, srcTag: 'latest', destStream: imageStream, destTag: "staging,${commitId.substring(0,7)}", verbose: 'false'
+                openshiftTag srcStream: imageStream, srcTag: 'latest', destStream: imageStream, destTag: "staging,${env.GIT_COMMIT.substring(0,7)}", verbose: 'false'
             }
         }
 
@@ -73,7 +75,7 @@ pipeline {
                 expression { isRelease }
             }
             steps {
-                openshiftTag srcStream: imageStream, srcTag: 'staging', destStream: imageStream, destTag: "production,${version.substring(1)}", verbose: 'false'
+                openshiftTag srcStream: imageStream, srcTag: 'staging', destStream: imageStream, destTag: "production,${env.BRANCH_NAME.substring(1)}", verbose: 'false'
             }
         }
     }
