@@ -21,7 +21,7 @@
     "serve": "node dist/index.js",
     "test": "jest",
     "test-watch": "jest --watch",
-    "lint": "echo 'Not implemented yet' && return 0;"
+    "lint": "echo \"Not implemented yet\" && exit 0"
   },
   "dependencies": {
     "@bbp/nexus-js-helpers": "^0.4.3",
