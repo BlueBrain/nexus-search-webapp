@@ -62,7 +62,6 @@ pipeline {
             }
             steps {
                 // TODO: add git commit id in tag
-                GIT_COMMIT_HASH = sh (script: "git log -n 1 --pretty=format:'%H'", returnStdout: true)
                 openshiftTag srcStream: imageStream, srcTag: 'latest', destStream: imageStream, destTag: 'staging', verbose: 'false'
             }
         }
