@@ -60,10 +60,9 @@ pipeline {
 
         stage('Promote to staging') {
             when {
-                expression { isRelease }
+                expression { !isRelease && !isPR }
             }
             steps {
-                // TODO: add git commit id in tag
                 openshiftTag srcStream: imageStream, srcTag: 'latest', destStream: imageStream, destTag: "staging,${commitId.substring(0,7)}", verbose: 'false'
             }
         }
