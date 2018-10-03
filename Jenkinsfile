@@ -11,12 +11,17 @@ pipeline {
         imageBuildName = 'search-webapp-build' 
     }
 
+    parameters {
+        string(name: 'VERSION', defaultValue: version, description: 'The tag version if any')
+        string(name: 'COMMIT_ID', defaultValue: commitId, description: 'The GIT commit ID')
+    }
+
     stages {
         stage('Start Pipeline') {
             steps{
                 sh 'echo "Pipeline starting with environment:"'
                 sh 'printenv'
-                sh "echo ${commitId.substring(0,7)}"
+                sh "echo ${env.COMMIT_ID.substring(0,7)}"
             }
         }
 
