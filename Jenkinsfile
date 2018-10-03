@@ -17,8 +17,7 @@ pipeline {
                 sh 'echo "Pipeline starting with environment:"'
                 sh 'printenv'
                 echo "${env.GIT_COMMIT}"
-                echo "${GIT_COMMIT}"
-                echo "${commitId}"
+                echo "${GIT_COMMIT.substring(0,7)}"
             }
         }
 
