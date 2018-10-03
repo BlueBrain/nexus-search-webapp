@@ -17,6 +17,7 @@ pipeline {
                 sh 'echo "Pipeline starting with environment:"'
                 sh 'printenv'
                 sh "echo ${env.GIT_COMMIT}"
+                sh "echo ${commitId}"
             }
         }
 
