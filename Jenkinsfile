@@ -11,11 +11,6 @@ pipeline {
         imageBuildName = 'search-webapp-build' 
     }
 
-    parameters {
-        string(name: 'VERSION', defaultValue: version, description: 'The tag version if any')
-        string(name: 'COMMIT_ID', defaultValue: commitId, description: 'The GIT commit ID')
-    }
-
     stages {
         stage('Start Pipeline') {
             steps{
