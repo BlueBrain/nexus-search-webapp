@@ -17,6 +17,7 @@ pipeline {
                 sh 'printenv'
             }
         }
+
         stage('Checkout and Install dependencies') {
             when {
                 expression { !isRelease }
