@@ -1,4 +1,4 @@
-FROM nginx:mainline
+FROM nginx:stable-alpine
 
 # Put our build artifact and custom conf in the right places
 RUN chgrp -R 0 /var/cache/nginx && chmod g+wx /var/cache/nginx
@@ -24,8 +24,7 @@ ENV BASE_PATH="/search"
 ENV BASE_URI="https://bbp-nexus.epfl.ch/staging"
 ENV SEARCH_API_URI="https://bbp-nexus.epfl.ch/staging/search-api"
 
-# Use /bin/bash, not /bin/sh (dash), to fix npm scripts and local `docker run` SIGINT handling.
-CMD ["/bin/bash","-c","envsubst '$BASE_PATH' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf \
+CMD ["/bin/sh","-c","envsubst '$BASE_PATH' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf \
     && envsubst '$APP_NAME,$SEARCH_API_URI,$BASE_URI,$BASE_PATH' < index.html.template > index.html \
     && nginx -g 'daemon off;'"]
 
