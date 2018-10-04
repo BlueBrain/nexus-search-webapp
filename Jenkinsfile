@@ -2,6 +2,7 @@ String version = env.BRANCH_NAME
 String commitId = env.GIT_COMMIT
 Boolean isRelease = version ==~ /v\d+\.\d+\.\d+.*/
 Boolean isPR = env.CHANGE_ID != null
+Boolean isMaster = version == 'master'
 
 pipeline {
     agent any
@@ -49,7 +50,7 @@ pipeline {
 
         stage('Build Image') {
             when {
-                expression { !isRelease && !isPR }
+                expression { isMaster && !isRelease && !isPR }
             }
             steps {
                 sh 'npm run build'
@@ -60,10 +61,10 @@ pipeline {
 
         stage('Promote to staging') {
             when {
-                expression { !isRelease && !isPR }
+                expression { isMaster && !isRelease && !isPR }
             }
             steps {
-                openshiftTag srcStream: imageStream, srcTag: 'latest', destStream: imageStream, destTag: "staging,${commitId.substring(0,7)}", verbose: 'false'
+                openshiftTag srcStream: imageStream, srcTag: 'latest', destStream: imageStream, destTag: "staging,${GIT_COMMIT.substring(0,7)}", verbose: 'false'
             }
         }
 
@@ -72,7 +73,7 @@ pipeline {
                 expression { isRelease }
             }
             steps {
-                openshiftTag srcStream: imageStream, srcTag: 'staging', destStream: imageStream, destTag: "production,${version.substring(1)}", verbose: 'false'
+                openshiftTag srcStream: imageStream, srcTag: 'staging', destStream: imageStream, destTag: "production,${BRANCH_NAME.substring(1)}", verbose: 'false'
             }
         }
     }
