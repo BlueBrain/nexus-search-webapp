@@ -9,7 +9,17 @@ import pc from "../../testData/pc.json";
 async function fetch(resource, token, shouldUpload, resourceURL) {
   let { short, source, url, context } = resource;
   let [base, ...urlParts] = getURIPartsFromNexusURL(url);
-  let [error, docs] = await to(getResources(url, token));
+  const options = {
+    filter: JSON.stringify({
+      op: "eq",
+      path: "rdf:type",
+      value: "nsg:Configuration"
+    }),
+    context: JSON.stringify({
+      nsg: "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/"
+    })
+  };
+  let [error, docs] = await to(getResources(url, token, options));
   console.log(error, docs);
   if (!docs) {
     console.log(error, docs);
@@ -23,13 +33,17 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
   // group docs by cell name
   docs = docs.reduce((memo, { source }) => {
     let { expCellName, protocol } = source;
-    let traceURL = source.distribution[0].downloadURL
-    if (memo[expCellName]) {
+    if (source.distribution) {
+      let traceURL = source.distribution[0].downloadURL
+      if (memo[expCellName]) {
         memo[expCellName][protocol] = traceURL
+      } else {
+        memo[expCellName] = {
+          [protocol]: traceURL
+        };
+      }
     } else {
-      memo[expCellName] = {
-        [protocol]: traceURL
-      };
+      console.log("found strange one", source);
     }
     return memo;
   }, {});

@@ -51,7 +51,7 @@ export default async (doc, token, queryURL) => {
         break;
       default:
         console.log(error, responsePayload, updateURL, status);
-        throw new Error("error updating");
+        // throw new Error("error updating");
         break;
     }
     return doc;

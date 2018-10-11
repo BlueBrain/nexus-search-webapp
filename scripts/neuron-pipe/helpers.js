@@ -27,6 +27,8 @@ function buildURI(base, uriParts, options = {}) {
       return `${prev}/${current}`;
     }, base);
   const params = queryString.stringify(options);
+  console.log({options})
+  console.log({params});
   return `${uri}?${params}`;
 }
 
