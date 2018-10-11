@@ -1,7 +1,7 @@
 import { getInstancesList, getURIPartsFromNexusURL } from "./helpers";
 import { to } from "@libs/promise";
 
-export default async (resourceURL, token) => {
+export default async (resourceURL, token, options={}) => {
   let [base, ...uriParts] = getURIPartsFromNexusURL(resourceURL);
   const nexusRequestOptions = {
     deprecated: false,
@@ -12,7 +12,7 @@ export default async (resourceURL, token) => {
   let [error, docs] = await to(
     getInstancesList(
       uriParts,
-      nexusRequestOptions,
+      Object.assign(nexusRequestOptions, options),
       base,
       fetchAllResults,
       token
