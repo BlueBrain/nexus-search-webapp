@@ -50,7 +50,6 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         }
         return doc;
       },
-      // downloadMorph(token, short),
       async doc => await flattenDownloadables(doc),
       async doc => {
         if (shouldUpload) {

@@ -30,11 +30,6 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
           brainRegion: brainRegion === "TH" ? "Thalamus" : brainRegion,
           atlas: getProp(doc, "brainLocation.atlasSpatialReferenceSystem.name")
         };
-        //
-        // doc.license = {
-        //   name: "CC-BY NC",
-        //   availability: "Open"
-        // };
         doc.contribution = [{
           organization: "Wenzhou Medical University"
         }]
@@ -51,7 +46,6 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         }
         return doc;
       },
-      // downloadMorph(token, short),
       async doc => await flattenDownloadables(doc),
       async doc => {
         // don't upload if the name starts with AA

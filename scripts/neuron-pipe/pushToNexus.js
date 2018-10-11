@@ -12,7 +12,6 @@ export default async (doc, token, queryURL) => {
       })
     );
     console.log(doc["@id"], status, "\n");
-    // console.log("STATUS", status, queryURL, JSON.stringify(doc, null, 2))
     let code = responsePayload.code;
     if (error) {
       throw error;
@@ -50,8 +49,7 @@ export default async (doc, token, queryURL) => {
         console.log("succesfully created in nexus! ", responsePayload);
         break;
       default:
-        console.log(error, responsePayload, updateURL, status);
-        // throw new Error("error updating");
+        console.log("processed but with unexpected response code")
         break;
     }
     return doc;
