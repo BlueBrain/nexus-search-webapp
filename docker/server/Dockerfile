@@ -13,10 +13,10 @@ COPY node_modules ./node_modules
 ENV NODE_ENV="production"
 ENV ELASTIC_SEARCH_INDEX="search_view"
 ENV SEARCH_PROXY_PORT="8000"
-ENV ELASTICSEARCH_CLIENT_URL="https://bbp-nexus.epfl.ch/staging/v1/views/kenny/search/"
+ENV ELASTICSEARCH_CLIENT_URL="https://bbp.epfl.ch/nexus/v1/views/webapps/search/"
 ENV SEARCH_API_BASE_PATH=""
 ENV STATIC_DATA_FOLDER="/usr/share/nginx/html/data"
-ENV RESOURCE_URL="https://bbp-nexus.epfl.ch/staging/v1/resources/kenny/search/resources/"
+ENV RESOURCE_URL="https://bbp.epfl.ch/nexus/v1/resources/webapps/search/resources/"
 CMD ["node","index.js"]
 
 EXPOSE 8000

@@ -103,7 +103,7 @@ const resourceDict = {
     source: "BBP NSE"
   },
   pctc: {
-    url: "https://bbp-nexus.epfl.ch/staging/v0/data/somatosensorycortexproject/electrophysiology/experimentaltraceset/v0.0.1/",
+    url: "https://bbp-nexus.epfl.ch/staging/v0/data/somatosensorycortexproject/electrophysiology/experimentaltraceset/v0.0.1?filter=%7B%22op%22%3A%22eq%22%2C%22path%22%3A%22rdf%3Atype%22%2C%22value%22%3A%22nsg%3AConfiguration%22%7D&context=%7B%22nsg%22%3A%20%22https%3A%2F%2Fbbp-nexus.epfl.ch%2Fvocabs%2Fbbp%2Fneurosciencegraph%2Fcore%2Fv0.1.0%2F%22%7D",
     name: "Exp Cell Trace Collection",
     source: "BBP NSE"
   },

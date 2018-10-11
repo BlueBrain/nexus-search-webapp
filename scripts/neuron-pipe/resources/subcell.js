@@ -92,15 +92,6 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         });
         return doc;
       },
-      // async doc => {
-      //   let generatedFrom = await fetchResourceById(
-      //     doc,
-      //     easyConfig.token,
-      //     doc => doc.generatedFrom
-      //   );
-      //   doc.software = generatedFrom;
-      //   return doc;
-      // },
       async doc => {
         let agent = await fetchResourceById(
           doc,
