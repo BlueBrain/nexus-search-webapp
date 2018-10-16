@@ -2,13 +2,12 @@ import IonChannel from "./IonChannel";
 import Cell from "./Cell";
 
 const detailsPageTypes = {
-  Cell,
-  IonChannel
-}
+  "nxv:SearchCell": Cell,
+  "nxv:IonChannel": IonChannel
+};
 
 export default {
-  getPageType (typeLabel="Cell", studyType="Experimental") {
-    // TODO why
+  getPageType (typeLabel, studyType) {
     typeLabel = typeLabel || "Cell";
     studyType = studyType || "Experimental";
     // TODO this value is not yet supported
