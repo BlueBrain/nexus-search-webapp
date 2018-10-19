@@ -10,7 +10,7 @@ const HeaderComponent = () => (
     <div className="logo-block">
       <Link
         className="logo bs-Button"
-        to={"/home"}>
+        to={"/"}>
         <img src={logo} />
       </Link>
       <a
