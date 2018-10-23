@@ -16,7 +16,7 @@ import pctc from "../../testData/pctc.json";
 require("dns-cache")(100000);
 
 async function fetch(resource, token, shouldUpload, resourceURL) {
-  let { short, source, url,    } = resource;
+  let { short, source, url, context } = resource;
   let [base, ...urlParts] = getURIPartsFromNexusURL(url);
   let [error, docs] = await to(
     waitForEach(getResources(url, token), [

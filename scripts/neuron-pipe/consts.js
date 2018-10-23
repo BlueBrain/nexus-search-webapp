@@ -14,6 +14,9 @@ export const types = {
   },
   searchIonChannelCell: {
     "@id": "nxv:SearchIonChannelCell"
+  },
+  morphologyRelease: {
+    "@id": "nxv:MorphologyRelease"
   }
 };
 
@@ -116,7 +119,16 @@ const resourceDict = {
     source: "BBP",
     studyType: "Experimental",
     repository: "Channelpedia"
-  }
+  },
+  mr: {
+    url: "https://bbp-nexus.epfl.ch/staging/v0/data/thalamusproject/simulation/morphologyrelease/v0.1.2/",
+    context:
+    "https://bbp-nexus.epfl.ch/staging/v0/contexts/neurosciencegraph/core/data/v1.0.5",
+    name: "Morphology Release",
+    source: "BBP",
+    studyType: "Experimental",
+    type: types.morphologyRelease["@id"]
+  },
 };
 
 // expose resourceDict as "resources" with additional field "short"

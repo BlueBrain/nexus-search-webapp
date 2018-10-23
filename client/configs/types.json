@@ -6,5 +6,9 @@
   "https://bluebrain.github.io/nexus/vocabulary/SearchIonChannel": {
     "icon": "neuron",
     "label": "Ion Channel"
+  },
+  "https://bluebrain.github.io/nexus/vocabulary/MorphologyRelease": {
+    "icon": "neuron",
+    "label": "Morphology Release"
   }
 }
