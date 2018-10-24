@@ -1,29 +1,35 @@
-const { Kafka } = require('kafkajs')
+import { Consumer, KafkaClient } from "kafka-node";
 
-// Create the client with the broker list
-const kafka = new Kafka({
-  clientId: 'search-ingestion',
-  brokers: ['localhost:9092']
-})
-
-const consumer = kafka.consumer({ groupId: 'search-group' })
-let fromBeginning = true;
-
-void (async function main() {
-  await consumer.connect()
-
-  // Subscribe can be called several times
-  await consumer.subscribe({ topic: 'v0-events', fromBeginning })
-
-  await consumer.run({
-    eachMessage: async ({ topic, partition, message }) => {
-      console.log({
-        key: message.key.toString(),
-        value: message.value.toString(),
-        headers: message.headers,
-      })
-    },
+try {
+  const client = new KafkaClient({
+    kafkaHost: 'kafka-2.kafka.bbp-nexus-staging.svc.cluster.local:9092'
+  });
+  console.log("client created");
+  let consumer = new Consumer(
+      client,
+      [
+        {
+          topic: 'v0-events',
+          partition: 0,
+          offset: 0,
+        }
+      ],
+      {
+        groupId: 'search-consumer-3',
+        autoCommit: false
+      }
+    );
+  console.log("consumer created");
+  consumer.on('message', function (message) {
+    console.log(message);
   })
-
-  await consumer.disconnect()
-})();
+  consumer.on('error', function (err) {
+    throw err;
+  })
+  consumer.on('offsetOutOfRange', function (err) {
+    console.log("offsetOutofRange");
+    throw err;
+  })
+} catch (error) {
+  console.log(error);
+}
