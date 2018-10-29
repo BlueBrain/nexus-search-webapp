@@ -8,6 +8,7 @@ import typesReducer from "./types";
 import lightboxReducer from "./lightbox";
 import searchReducer from "./search";
 import infoboxReducer from "./infobox";
+import syncReducer from "./syncs";
 import {
   auth as authModule,
   searchBar as searchBarModule,
@@ -27,3 +28,4 @@ export const types = typesReducer;
 export const lightbox = lightboxReducer;
 export const search = searchReducer;
 export const infobox = infoboxReducer;
+export const syncs = syncReducer;
