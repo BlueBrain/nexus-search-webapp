@@ -8,7 +8,8 @@ let envConfig = {
   SEARCH_API_BASE_PATH: process.env.SEARCH_API_BASE_PATH || "",
   SEARCH_PROXY_PORT: process.env.SEARCH_PROXY_PORT || process.env.PORT || 8888,
   ELASTICSEARCH_CLIENT_URL: process.env.ELASTICSEARCH_CLIENT_URL || null,
-  RESOURCE_URL: process.env.RESOURCE_URL || ""
+  RESOURCE_URL: process.env.RESOURCE_URL || "",
+  SEARCH_APP_SERVICE_TOKEN: process.env.SEARCH_APP_SERVICE_TOKEN || ""
 };
 // load ENV variables from env stage configs
 if (STAGE === "dev") {

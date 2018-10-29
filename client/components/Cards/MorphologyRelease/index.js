@@ -51,7 +51,10 @@ const GridResult = ({ value, id }) => {
                       <a><Icon type="cloud-download-o" style={{ fontSize: 16 }}/></a>
                     </Download>
                   </div>
-                  <div className="labels">
+                  <div className="labels" style={{
+                    textAlign: "right",
+                    width: "100%"
+                  }}>
                     {value.subject &&
                       <Fragment>
                         <div className="top-label">{getProp(value, "subject.species")}</div>
@@ -60,10 +63,19 @@ const GridResult = ({ value, id }) => {
                     }
                   </div>
                 </div>
-                <div className="name">{value.name}</div>
+              </div>
+              <div className="middle" style={{
+                height: "260px",
+                marginTop: "6em",
+                padding: "1em"
+              }}>
+                <div className="morphology-release-name"
+                style={{
+                  fontSize: "2em"
+                }}
+                >{value.name}</div>
               </div>
               <div className="footer">
-              <div className="mType">{value.name}</div>
                 <div className="brainRegion">{getProp(value, "brainLocation.brainRegion")}</div>
                 <div className="bottom flex space-between">
                   <Contributions contributions={getProp(value, "contribution")} />
