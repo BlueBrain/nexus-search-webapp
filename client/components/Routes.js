@@ -10,6 +10,7 @@ import WithModal from "./WithModal";
 import PleaseLogin from "./PleaseLogIn";
 import { auth } from "../store/actions";
 import Layout from "./Layout";
+import Syncs from "./Syncs";
 import NotFound from "./NotFound";
 
 class Routes extends Component {
@@ -64,6 +65,7 @@ class Routes extends Component {
               </Layout>
           )
           }} />
+          <PrivateRoute path="/syncs/" component={Syncs} />
           <Route path="/login" component={PleaseLogin} />
           <Route component={NotFound} />
         </Switch>

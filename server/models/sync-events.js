@@ -3,6 +3,9 @@ import { resources } from "../../scripts/neuron-pipe/consts";
 const fakeEvent = {
   "_createdAt": Date.now(),
   "status": "pending",
+  "resourceTypesToSync": [
+    "mr"
+  ],
   "resources": [
     {
       "resourceType": resources["mr"],
@@ -13,6 +16,10 @@ const fakeEvent = {
 }
 
 export default {
+  types: async function list () {
+    return resources
+  },
+
   create: async function create () {
 
   },
