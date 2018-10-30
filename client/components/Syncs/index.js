@@ -18,7 +18,7 @@ const SyncsContainer = ({ triggerSync }) => (
 
           <Col span={16}>
           <p>
-            Here you can find all the moments when Nexus Search has attempted to synchronize it's data from Nexus.
+            Here you can find all the moments when Nexus Search has attempted to synchronize data from Nexus.
             Data will be automatically synchronized after targeted resources have been updated or created, or you can trigger
             a synchronization yourself.
           </p>

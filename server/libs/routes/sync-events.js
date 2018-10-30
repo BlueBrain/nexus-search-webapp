@@ -22,5 +22,11 @@ export default function generateRoutes(router) {
   // list sync-events
   router.post('/events', async (req, res) => await requestSomething(req, res, syncEvents.create));
 
+  router.ws('/updates', function(ws, req) {
+    syncEvents.onUpdate = (msg) => {
+      ws.send(JSON.stringify(msg));
+    }
+  });
+
   return router;
 }

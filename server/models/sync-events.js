@@ -84,6 +84,7 @@ export default {
 
   update: async function update(id, status) {
     mockServiceIndex[id].status = status;
+    this.onUpdate(mockServiceIndex[id]);
   },
 
   // update a single resource emitted from event
@@ -113,5 +114,9 @@ export default {
       // to get a value that is either negative, positive, or zero.
       return new Date(b._createdAt) - new Date(a._createdAt);
     });
+  },
+
+  onUpdate: function () {
+    // overwriteMe
   }
 }
