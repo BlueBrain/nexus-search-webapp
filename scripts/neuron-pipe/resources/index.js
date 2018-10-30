@@ -1,4 +1,4 @@
-import pc from "./pc";
+import * as pc from "./pc";
 import em from "./em";
 import subcell from "./subcell";
 import rwbc from "./rwbc";
@@ -6,7 +6,7 @@ import wmurwbc from "./wmurwbc";
 import rpc from "./rpc";
 import emtc from "./emtc";
 import pctc from "./pctc";
-import mr from "./mr";
+import * as mr from "./mr";
 
 let tpc = pc;
 

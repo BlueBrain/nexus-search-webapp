@@ -13,60 +13,78 @@ import downloadMorph from "../downloadMorph";
 import { getProp } from "@libs/utils";
 import { mTypes } from "@consts";
 
+export const processorFactory = (token, resource, resourceURL, shouldUpload) => [
+  processDoc(resource),
+  async doc => {
+    doc.license = {
+      name: "BBP/EPFL",
+      availability: "Private"
+    };
+    doc.subject = {
+      species: getProp(doc, "species.label")
+    };
+    doc.cellName = {
+      label: doc.name
+    };
+    // get traces from trace collection (must be previously prepared)
+    doc.traces = emtc[getProp(doc, "cellName.label")];
+    doc.brainLocation = {
+      brainRegion: getProp(doc, "brainRegion.label")
+    };
+    delete doc.brainRegion;
+    delete doc.species;
+    return doc;
+  },
+  async doc => {
+    let modelScript = await fetchResourceById(
+      doc,
+      token,
+      doc => doc.wasAttributedTo["@id"]
+    );
+    let agent = await fetchResourceById(
+      doc,
+      token,
+      doc => modelScript.wasAttributedTo["@id"]
+    );
+    let item1 = await fetchResourceById(
+      doc,
+      token,
+      doc => modelScript.wasDerivedFrom[0]["@id"]
+    );
+    let item2 = await fetchResourceById(
+      doc,
+      token,
+      doc => modelScript.wasDerivedFrom[1]["@id"]
+    );
+    doc.scripts = [item1, item2];
+    agent.fullName = agent.fullName = agent.additionalName
+      ? `${agent.givenName} ${agent.additionalName} ${agent.familyName}`
+      : `${agent.givenName} ${agent.familyName}`;
+    agent.person = agent.fullName;
+    agent.organization = "Blue Brain Project";
+    delete agent["@id"];
+    doc.contribution = [agent];
+    return doc;
+  },
+  async doc => await flattenDownloadables(doc),
+  async doc => {
+    delete doc.distribution;
+    delete doc.morphologyIndex;
+    return doc;
+  },
+  async doc => {
+    if (shouldUpload) {
+      await pushToNexus(doc, token, resourceURL);
+    }
+    return doc;
+  }
+];
+
 async function fetch(resource, token, shouldUpload, resourceURL) {
   let { short, source, url, context } = resource;
   let [base, ...urlParts] = getURIPartsFromNexusURL(url);
   let [error, docs] = await to(
-    waitForEach(getResources(url, token), [
-      processDoc(resource),
-      async doc => {
-        doc.license = {
-          name: "BBP/EPFL",
-          availability: "Private"
-        };
-        doc.subject = {
-          species: getProp(doc, "species.label")
-        };
-        doc.cellName = {
-          label: doc.name
-        };
-        // get traces from trace collection (must be previously prepared)
-        doc.traces = emtc[getProp(doc, "cellName.label")];
-        doc.brainLocation = {
-          brainRegion: getProp(doc, "brainRegion.label")
-        };
-        delete doc.brainRegion;
-        delete doc.species;
-        return doc;
-      },
-      async doc => {
-        let modelScript = await fetchResourceById(
-          doc,
-          token,
-          doc => doc.wasAttributedTo["@id"]
-        );
-        let agent = await fetchResourceById(
-          doc,
-          token,
-          doc => modelScript.wasAttributedTo["@id"]
-        );
-        agent.fullName = agent.fullName = agent.additionalName
-          ? `${agent.givenName} ${agent.additionalName} ${agent.familyName}`
-          : `${agent.givenName} ${agent.familyName}`;
-        agent.person = agent.fullName;
-        agent.organization = "Blue Brain Project";
-        delete agent["@id"];
-        doc.contribution = [agent];
-        return doc;
-      },
-      async doc => await flattenDownloadables(doc),
-      async doc => {
-        if (shouldUpload) {
-          await pushToNexus(doc, token, resourceURL);
-        }
-        return doc;
-      }
-    ])
+    waitForEach(getResources(url, token), processorFactory(token, resource, resourceURL))
   );
   if (!docs) {
     console.log(error, docs);

@@ -31,11 +31,11 @@ class DownloadContainer extends React.Component {
     let { children, files, name } = this.props;
     files = compact(files);
     const { visible, confirmLoading, ModalText } = this.state;
-    const isGPFS = !!files.filter(entry => {
+    const hasGPFS = !!files.filter(entry => {
       let hasGPFS = (getProp(entry, "downloadURL", "").indexOf("gpfs") >= 0);
       return hasGPFS
     }).length;
-    const footer = footerComponent(isGPFS, files, name, this.handleCancel);
+    const footer = footerComponent(hasGPFS, files, name, this.handleCancel);
     return (
       <div className="downloader">
         <div className="downloader-clicker" onClick={this.showModal}>{children}</div>
@@ -53,7 +53,7 @@ class DownloadContainer extends React.Component {
               className="demo-loadmore-list"
               itemLayout="horizontal"
               dataSource={files}
-              renderItem={item => listComponent(isGPFS, item)}
+              renderItem={item => listComponent(item)}
             />
           </div>
         </Modal>
@@ -79,9 +79,10 @@ function footerComponent(isGPFS, files, name, handleCancel) {
   ];
 }
 
-function listComponent(isGPFS, item) {
+function listComponent(item) {
   // GPFS files cannot be downloaded via browser
-  if (isGPFS) {
+  let hasGPFS = (getProp(item, "downloadURL", "").indexOf("gpfs") >= 0);
+  if (hasGPFS) {
     return (
       <List.Item
       actions={[

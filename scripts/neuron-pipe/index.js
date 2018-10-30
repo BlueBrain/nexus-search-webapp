@@ -35,7 +35,7 @@ void (async function main() {
       whichEntity: whichEntityAnswer,
       shouldUpload: shouldUploadAnswer
     } = answers;
-    let process = processResources[whichEntityAnswer];
+    let process = processResources[whichEntityAnswer].default;
     await process(
       resources[whichEntityAnswer],
       token,

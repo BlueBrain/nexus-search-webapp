@@ -74,7 +74,7 @@ function Hero({ instance }) {
     <div className="hero">
       <div className="detail-hero">
         <Row>
-          <Col span={8}>
+          <Col span={12}>
             {files &&
               files.length && (
                 <div className="detail-attachments">
@@ -84,8 +84,9 @@ function Hero({ instance }) {
                       </picture>
                       <ul>
                       {files.map(file => {
+                        let fileName = getProp(file, "originalFileName");
                         return (
-                            <li>{file.mediaType}</li>
+                            <li>{fileName ? fileName : getProp(file, "downloadURL").split("/").pop()}</li>
                         )
                       })}
                       </ul>
@@ -141,7 +142,7 @@ function Details({ instance }) {
           <p style={{ padding: "1em 0"}}>{getProp(instance, "description")}</p>
         </Col>
         <Col span={12}>
-        <Divider>Provenance</Divider>
+        {/* <Divider>Provenance</Divider> */}
         </Col>
       </Row>
     </div>

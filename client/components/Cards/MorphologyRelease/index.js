@@ -7,6 +7,7 @@ import { getProp } from "@libs/utils";
 import InspectLink from "./InspectLink";
 import Contributions from "../Cell/Contributions";
 import { Icon } from "antd";
+import moment from "moment";
 import Download from "../../Download";
 
 const GridResult = ({ value, id }) => {
@@ -30,6 +31,7 @@ const GridResult = ({ value, id }) => {
         });
         const studyType = getProp(value, "studyType.name");
         const isInSilico = studyType === "In Silico";
+        let date = moment(getProp(value, "dateCreated")).format("MMM Do YYYY");
         return (
           <Perspectivizer disabled>
             {({ active }) => (
@@ -65,8 +67,8 @@ const GridResult = ({ value, id }) => {
                 </div>
               </div>
               <div className="middle" style={{
-                height: "260px",
-                marginTop: "6em",
+                position: "absolute",
+                top: "16em",
                 padding: "1em"
               }}>
                 <div className="morphology-release-name"
@@ -77,6 +79,9 @@ const GridResult = ({ value, id }) => {
               </div>
               <div className="footer">
                 <div className="brainRegion">{getProp(value, "brainLocation.brainRegion")}</div>
+                <div >
+                  {date}
+                </div>
                 <div className="bottom flex space-between">
                   <Contributions contributions={getProp(value, "contribution")} />
                   {isInSilico &&

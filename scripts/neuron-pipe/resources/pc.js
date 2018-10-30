@@ -282,6 +282,19 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         }
         return doc;
       },
+      async doc => {
+        doc.dataType = {};
+        if (doc.cellType.mType) {
+          doc.dataType.mType = "has mType";
+        }
+        if (doc.cellType.eType) {
+          doc.dataType.eType = "has eType";
+        }
+        if (doc.morphology && doc.morphology.length) {
+          doc.dataType.morphology = "has morphology";
+        }
+        return doc;
+      },
       async doc => await flattenDownloadables(doc),
       async doc => {
         if (shouldUpload) {

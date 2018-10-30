@@ -14,11 +14,11 @@ const HeaderComponent = () => (
         to={"/"}>
         <img src={logo} />
       </Link>
-      <a
+      <Link
         className="fade in slow"
-        href={"/"}>
+        to={"/"}>
         <h1>Search</h1>
-      </a>
+      </Link>
     </div>
     <SyncLink />
     <Login />

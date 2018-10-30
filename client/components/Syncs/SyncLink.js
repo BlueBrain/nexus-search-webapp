@@ -13,7 +13,7 @@ export const SyncIcon = ({ status }) => {
     case "failed":
       return (
         <Tooltip title="There was an error synchronizing data!">
-          <Icon type="exclamation-circle" style={{ color: "#ff4d4f" }} />
+          <Icon type="exclamation-circle" style={{ color: "#f5b5e8" }} />
         </Tooltip>
       );
   }
