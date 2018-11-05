@@ -16,12 +16,10 @@ const Description = item => {
 }
 
 const SyncSublistComponent = (resources) => {
-  console.log(resources)
   return (
     <List
       dataSource={resources}
       renderItem={item => {
-        console.log({item})
         return (
         <List.Item key={item.searchID}>
           <div>{item.searchID}</div>
@@ -32,7 +30,6 @@ const SyncSublistComponent = (resources) => {
 }
 
 const SyncListComponent = ({ pending, data, error }) => {
-  console.log({ pending, data, error });
   return (
     <div className="syncs-list-container">
       <div className="syncs-list">

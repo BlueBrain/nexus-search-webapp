@@ -9,7 +9,8 @@ let envConfig = {
   SEARCH_PROXY_PORT: process.env.SEARCH_PROXY_PORT || process.env.PORT || 8888,
   ELASTICSEARCH_CLIENT_URL: process.env.ELASTICSEARCH_CLIENT_URL || null,
   RESOURCE_URL: process.env.RESOURCE_URL || "",
-  SEARCH_APP_SERVICE_TOKEN: process.env.SEARCH_APP_SERVICE_TOKEN || ""
+  SEARCH_APP_SERVICE_TOKEN: process.env.SEARCH_APP_SERVICE_TOKEN || "",
+  KAFKA_HOST: process.env.KAFKA_HOST
 };
 // load ENV variables from env stage configs
 if (STAGE === "dev") {

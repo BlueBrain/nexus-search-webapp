@@ -10,14 +10,12 @@ const detailsPageTypes = {
 
 export default {
   getPageType (typeLabel, studyType) {
-    console.log({ typeLabel, studyType });
     typeLabel = typeLabel || "Cell";
     studyType = studyType || "Experimental";
     // TODO this value is not yet supported
     if (studyType==="In Vitro") {
       studyType = "Experimental";
     }
-    console.log("stuff", {typeLabel: typeLabel.replace(" ", ""), detailsPageTypes})
     return detailsPageTypes[typeLabel.replace(" ", "")][studyType.replace(" ", "")];
   }
 }

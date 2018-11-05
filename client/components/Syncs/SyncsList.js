@@ -8,12 +8,10 @@ import SyncListComponent from "./SyncListComponent";
 
 class SyncListContainer extends PureComponent {
   componentDidMount() {
-    console.log("sync list container mounted")
     this.props.fetchSyncEvents();
   }
   handleData (data) {
     let response = JSON.parse(data);
-    console.log(response);
     this.props.fetchSyncEvents();
   }
   render() {

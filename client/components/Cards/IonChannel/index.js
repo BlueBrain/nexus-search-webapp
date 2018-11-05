@@ -4,7 +4,7 @@ import TypeIcon from "../../TypeIcon";
 import { find } from "underscore";
 import Perspectivizer from "../../Animations/Perspectivizer";
 import { getProp } from "@libs/utils";
-import InspectLink from "./InspectLink";
+import InspectLink from "../InspectLink";
 import Contributions from "../Cell/Contributions";
 import { Icon } from "antd";
 import Download from "../../Download";

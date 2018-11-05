@@ -19,7 +19,6 @@ const Grid = ({ results, types }) => {
         let SearchSnippet =
           SearchSnippetCards[typeLabel.replace(" ", "")] ||
           SearchSnippetCards.Default;
-        console.log("TYPE LABEL", typeLabel.replace(" ", ""))
         return (
           <SearchSnippet
             key={`${result._source["@id"]}-${index}`}

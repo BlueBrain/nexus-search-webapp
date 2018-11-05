@@ -1,8 +1,7 @@
 import { Consumer, KafkaClient } from "kafka-node";
+import config from "./config";
 
-
-const KAFKA_HOST = "kafka-0.kafka.bbp-nexus-staging.svc.cluster.local:9092";
-const TOPIC = "v0-events";
+const {KAFKA_HOST, KAFKA_TOPIC} = config;
 
 function returnRelevantURLDataPath (url) {
   let dataPath = "/data/"
@@ -39,7 +38,7 @@ export default class Listen {
       client,
       [
         {
-          topic: TOPIC,
+          topic: KAFKA_TOPIC,
           partition: 0,
           fromOffset: -1,
         }
@@ -61,7 +60,6 @@ export default class Listen {
     consumer.on('message', message => {
       let { value, key, offset } = message;
       let valueObj = processEventIntoInstance(this.resource, JSON.parse(value));
-      console.log("offset", offset, key);
       if (key.indexOf(this.urlKey) >= 0) {
         this.onUpdate(this.resource, valueObj);
       }

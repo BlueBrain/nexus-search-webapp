@@ -18,6 +18,8 @@ ENV SEARCH_API_BASE_PATH=""
 ENV STATIC_DATA_FOLDER="/usr/share/nginx/html/data"
 ENV RESOURCE_URL="https://bbp.epfl.ch/nexus/v1/resources/webapps/search/resources/"
 ENV SEARCH_APP_SERVICE_TOKEN="super-secre-token"
+ENV KAFKA_HOST="localhost:9092"
+ENV KAFKA_TOPIC="my-search-topic"
 CMD ["node","index.js"]
 
 EXPOSE 8000

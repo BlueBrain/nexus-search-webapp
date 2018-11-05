@@ -18,3 +18,10 @@ export const isURL = function (s) {
   var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
   return regexp.test(s);
 }
+
+export const makeSafeID = function (id) {
+  if (isURL(id)) {
+    return encodeURIComponent(id);
+  }
+  return id;
+}

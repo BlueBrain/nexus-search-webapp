@@ -12,7 +12,7 @@ function getPageType(instanceData, types) {
   let resultType = getProp(instanceData, "@type")
 
   // TODO the prefixes are not expanded here...
-  // maybe find a generalized way to resovle this
+  // maybe find a generalized way to resolve this
   if (resultType.indexOf(PREFIX) >= 0) {
     resultType = resultType.replace(PREFIX, PREFIX_MAP);
   }

@@ -6,53 +6,54 @@ import config from "../libs/config";
 
 const token = config.SEARCH_APP_SERVICE_TOKEN;
 
-const fakeEvent = {
-  "_createdAt": Date.now(),
-  "status": "pending",
-  "resourceTypesToSync": [
-    "mr"
-  ],
-  "resources": [
-    {
-      "resourceType": resources["mr"],
-      "@id": "https://bbp-nexus.epfl.ch/staging/v0/data/thalamusproject/simulation/morphologyrelease/v0.1.2/1cb0b760-2935-4aa8-971a-cdac17d9c4a5",
-      "searchID": "mr:1cb0b760-2935-4aa8-971a-cdac17d9c4a5"
-    }
-  ]
-}
-const fakeFailedEvent = {
-  "_createdAt": Date.now(),
-  "status": "failed",
-  "resourceTypesToSync": [
-    "mr", "pc", "rwbc"
-  ],
-  "resources": [
-  ],
-}
-const fakeFulfilledEvent = {
-  "_createdAt": Date.now(),
-  "status": "fulfilled",
-  "resourceTypesToSync": [
-    "mr", "pc", "rwbc"
-  ],
-  "resources": [
-    {
-      "resourceType": resources["mr"],
-      "@id": "https://bbp-nexus.epfl.ch/staging/v0/data/thalamusproject/simulation/morphologyrelease/v0.1.2/1cb0b760-2935-4aa8-971a-cdac17d9c4a5",
-      "searchID": "mr:1cb0b760-2935-4aa8-971a-cdac17d9c4a5"
-    },
-    {
-      "resourceType": resources["pc"],
-      "@id": "https://bbp-nexus.epfl.ch/staging/v0/data/thalamusproject/simulation/morphologyrelease/v0.1.2/1cb0b760-2935-4aa8-971a-cdac17d9c4a5",
-      "searchID": "mr:1cb0b760-2935-4aa8-971a-cdac17d9c4a5"
-    },
-    {
-      "resourceType": resources["rwbc"],
-      "@id": "https://bbp-nexus.epfl.ch/staging/v0/data/thalamusproject/simulation/morphologyrelease/v0.1.2/1cb0b760-2935-4aa8-971a-cdac17d9c4a5",
-      "searchID": "mr:1cb0b760-2935-4aa8-971a-cdac17d9c4a5"
-    }
-  ]
-}
+// TODO use this interface as references when creating sync resources
+// const fakeEvent = {
+//   "_createdAt": Date.now(),
+//   "status": "pending",
+//   "resourceTypesToSync": [
+//     "mr"
+//   ],
+//   "resources": [
+//     {
+//       "resourceType": resources["mr"],
+//       "@id": "https://bbp-nexus.epfl.ch/staging/v0/data/thalamusproject/simulation/morphologyrelease/v0.1.2/1cb0b760-2935-4aa8-971a-cdac17d9c4a5",
+//       "searchID": "mr:1cb0b760-2935-4aa8-971a-cdac17d9c4a5"
+//     }
+//   ]
+// }
+// const fakeFailedEvent = {
+//   "_createdAt": Date.now(),
+//   "status": "failed",
+//   "resourceTypesToSync": [
+//     "mr", "pc", "rwbc"
+//   ],
+//   "resources": [
+//   ],
+// }
+// const fakeFulfilledEvent = {
+//   "_createdAt": Date.now(),
+//   "status": "fulfilled",
+//   "resourceTypesToSync": [
+//     "mr", "pc", "rwbc"
+//   ],
+//   "resources": [
+//     {
+//       "resourceType": resources["mr"],
+//       "@id": "https://bbp-nexus.epfl.ch/staging/v0/data/thalamusproject/simulation/morphologyrelease/v0.1.2/1cb0b760-2935-4aa8-971a-cdac17d9c4a5",
+//       "searchID": "mr:1cb0b760-2935-4aa8-971a-cdac17d9c4a5"
+//     },
+//     {
+//       "resourceType": resources["pc"],
+//       "@id": "https://bbp-nexus.epfl.ch/staging/v0/data/thalamusproject/simulation/morphologyrelease/v0.1.2/1cb0b760-2935-4aa8-971a-cdac17d9c4a5",
+//       "searchID": "mr:1cb0b760-2935-4aa8-971a-cdac17d9c4a5"
+//     },
+//     {
+//       "resourceType": resources["rwbc"],
+//       "@id": "https://bbp-nexus.epfl.ch/staging/v0/data/thalamusproject/simulation/morphologyrelease/v0.1.2/1cb0b760-2935-4aa8-971a-cdac17d9c4a5",
+//       "searchID": "mr:1cb0b760-2935-4aa8-971a-cdac17d9c4a5"
+//     }
+//   ]
+// }
 
 const mockServiceIndex = {};
 
@@ -97,7 +98,6 @@ export default {
     let [error, docs] = await to(waitForEach(Promise.resolve([value]), pFactory(token, resource, resourceURL, shouldUpload)));
     if (docs && !error) {
       // UPDATE SYNC EVENT HERE
-      console.log("updated!!!!", docs)
       return await this.update(id, "fulfilled")
     }
     // UPDATE SYNC EVENT WITH ERROR

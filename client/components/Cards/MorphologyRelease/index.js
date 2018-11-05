@@ -4,7 +4,7 @@ import TypeIcon from "../../TypeIcon";
 import { find } from "underscore";
 import Perspectivizer from "../../Animations/Perspectivizer";
 import { getProp } from "@libs/utils";
-import InspectLink from "./InspectLink";
+import InspectLink from "../InspectLink";
 import Contributions from "../Cell/Contributions";
 import { Icon } from "antd";
 import moment from "moment";
@@ -20,12 +20,10 @@ const GridResult = ({ value, id }) => {
       mapDispatchToProps={{}}
     >
       {({ hoverType, types }) => {
-        const mostRelevantType = Array.isArray(value["@type"])
-          ? value["@type"][value["@type"].length - 1]
-          : value["@type"];
-        const typeArray = Array.isArray(value["@type"])
-          ? value["@type"]
-          : [value["@type"]];
+        const resourceType = value["@type"];
+        const mostRelevantType = Array.isArray(resourceType)
+          ? resourceType.pop()
+          : resourceType;
         const myType = find(types, type => {
           return type.value === mostRelevantType;
         });
