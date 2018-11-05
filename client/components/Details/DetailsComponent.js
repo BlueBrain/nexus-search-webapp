@@ -5,8 +5,17 @@ import pageTypes from "./PageTypes";
 import { ui as UI_CONSTS } from "@consts";
 const { DEFAULT_SEARCH_TYPE_LABEL } = UI_CONSTS;
 
+const PREFIX = "nxv:";
+const PREFIX_MAP = "https://bluebrain.github.io/nexus/vocabulary/";
+
 function getPageType(instanceData, types) {
   let resultType = getProp(instanceData, "@type")
+
+  // TODO the prefixes are not expanded here...
+  // maybe find a generalized way to resolve this
+  if (resultType.indexOf(PREFIX) >= 0) {
+    resultType = resultType.replace(PREFIX, PREFIX_MAP);
+  }
 
   let typeLabel = getProp(
     types[resultType] || {},

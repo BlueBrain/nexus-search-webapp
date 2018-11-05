@@ -4,7 +4,7 @@ import { getProp } from "@libs/utils";
 import { List, Tag, Skeleton } from "antd";
 import TypeIcon from "../../NewTypeIcon";
 import ProvLink from "./ProvLink";
-import InspectLink from "../../Cards/Cell/InspectLink";
+import InspectLink from "../../Cards/InspectLink";
 import FontAwesome from "react-fontawesome";
 
 const descriptionFromType = (instance, type) => {

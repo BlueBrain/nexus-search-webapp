@@ -1,13 +1,6 @@
 import React, { PureComponent } from "react";
 import { Link } from "react-router-dom";
-import { isURL } from "@libs/string";
-
-function makeSafeID(id) {
-  if (isURL(id)) {
-    return encodeURIComponent(id);
-  }
-  return id;
-}
+import { makeSafeID } from "@libs/string";
 
 class InspectLink extends PureComponent {
   render() {

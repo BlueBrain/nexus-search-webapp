@@ -7,6 +7,7 @@ import { getProp } from "@libs/utils";
 import { compact } from "underscore";
 import DownloadButton from "./DownloadButton";
 import DownloadAllButton from "./DownloadAllButton";
+import CopyToClipboard from "../CopyToClipboard";
 
 class DownloadContainer extends React.Component {
   state = {
@@ -30,9 +31,14 @@ class DownloadContainer extends React.Component {
     let { children, files, name } = this.props;
     files = compact(files);
     const { visible, confirmLoading, ModalText } = this.state;
+    const hasGPFS = !!files.filter(entry => {
+      let hasGPFS = (getProp(entry, "downloadURL", "").indexOf("gpfs") >= 0);
+      return hasGPFS
+    }).length;
+    const footer = footerComponent(hasGPFS, files, name, this.handleCancel);
     return (
       <div className="downloader">
-        <div className="downloader-clicker"onClick={this.showModal}>{children}</div>
+        <div className="downloader-clicker" onClick={this.showModal}>{children}</div>
         <Modal
           title={`Associated files for ${name}`}
           visible={visible}
@@ -40,41 +46,14 @@ class DownloadContainer extends React.Component {
           centered
           confirmLoading={confirmLoading}
           onCancel={this.handleCancel}
-          footer={[
-            <Button key="back" onClick={this.handleCancel}>
-              Cancel
-            </Button>,
-            <DownloadAllButton files={files} name={name} />
-          ]}
+          footer={footer}
         >
           <div className="download-list">
             <List
               className="demo-loadmore-list"
               itemLayout="horizontal"
               dataSource={files}
-              renderItem={item => (
-                <List.Item
-                  actions={[
-                    <DownloadButton
-                      fileName={getProp(item, "originalFileName")}
-                      fileURL={getProp(item, "downloadURL")}
-                    />
-                  ]}
-                >
-                  <List.Item.Meta
-                    avatar={<Icon type="file-text" />}
-                    title={<span>{item.originalFileName}</span>}
-                    description={
-                      <div className="flex">
-                        <div>{getProp(item, "mediaType")}</div>
-                        <div>
-                          {prettyBytes(getProp(item, "contentSize.value"))}
-                        </div>
-                      </div>
-                    }
-                  />
-                </List.Item>
-              )}
+              renderItem={item => listComponent(item)}
             />
           </div>
         </Modal>
@@ -83,19 +62,89 @@ class DownloadContainer extends React.Component {
   }
 }
 
-function mapStateToProps({ auth }) {
-  return {
-    token: auth.token
-  };
+function footerComponent(isGPFS, files, name, handleCancel) {
+  // GPFS files cannot be downloaded via browser
+  if (isGPFS) {
+    return [
+      <Button key="back" onClick={handleCancel}>
+        Cancel
+      </Button>
+    ];
+  }
+  return [
+    <Button key="back" onClick={handleCancel}>
+      Cancel
+    </Button>,
+    <DownloadAllButton files={files} name={name} />
+  ];
 }
 
-DownloadContainer.propTypes = {
-  name: PropTypes.string.isRequired,
-  token: PropTypes.string.isRequired,
-  files: PropTypes.any.isRequired
-};
+function listComponent(item) {
+  // GPFS files cannot be downloaded via browser
+  let hasGPFS = (getProp(item, "downloadURL", "").indexOf("gpfs") >= 0);
+  if (hasGPFS) {
+    return (
+      <List.Item
+      actions={[
+        <CopyToClipboard value={getProp(item, "downloadURL")}>
+          <span>Copy Location</span>
+        </CopyToClipboard>
+      ]}
+    >
+      <List.Item.Meta
+        avatar={<Icon type="file-text" />}
+        title={<span>{getProp(item, "downloadURL").split("/").pop()}</span>}
+        description={
+          <div className="flex">
+            <span>GPFS storage</span>
+            <div>{getProp(item, "mediaType")}</div>
+            <div>
+              {getProp(item, "contentSize.value") && prettyBytes(getProp(item, "contentSize.value"))}
+            </div>
+          </div>
+        }
+      />
+    </List.Item>
+    )
+  }
+  return (
+    <List.Item
+      actions={[
+        <DownloadButton
+          fileName={getProp(item, "originalFileName", "unnamed")}
+          fileURL={getProp(item, "downloadURL")}
+        />
+      ]}
+    >
+      <List.Item.Meta
+        avatar={<Icon type="file-text" />}
+        title={<span>{getProp(item, "originalFileName", "unnamed")}</span>}
+        description={
+          <div className="flex">
+            <div>{getProp(item, "mediaType")}</div>
+            <div>
+              {getProp(item, "contentSize.value") && prettyBytes(getProp(item, "contentSize.value"))}
+            </div>
+          </div>
+        }
+      />
+    </List.Item>
+  );
+}
 
-export default connect(
-  mapStateToProps
-  // mapDispatchToProps
-)(DownloadContainer);
+  function mapStateToProps({ auth }) {
+    return {
+      token: auth.token
+    };
+  }
+
+  DownloadContainer.propTypes = {
+    name: PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired,
+    files: PropTypes.any.isRequired
+  };
+
+  export default connect(
+    mapStateToProps
+    // mapDispatchToProps
+  )(DownloadContainer);

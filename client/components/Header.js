@@ -1,8 +1,9 @@
 import React from "react";
+import { Icon } from "antd";
 import logo from "../../public/img/logo.png";
 import Login from "./Login";
 import { Link } from "react-router-dom";
-import SearchBar from "./SearchBar";
+import SyncLink from "./Syncs/SyncLink";
 
 const HeaderComponent = () => (
   <div className="stack-wrap rounded-shadow stack-top">
@@ -13,13 +14,13 @@ const HeaderComponent = () => (
         to={"/"}>
         <img src={logo} />
       </Link>
-      <a
+      <Link
         className="fade in slow"
-        href={"/"}>
+        to={"/"}>
         <h1>Search</h1>
-      </a>
+      </Link>
     </div>
-    {/* <SearchBar /> */}
+    <SyncLink />
     <Login />
   </header>
   </div>

@@ -16,7 +16,7 @@ import pctc from "../../testData/pctc.json";
 require("dns-cache")(100000);
 
 async function fetch(resource, token, shouldUpload, resourceURL) {
-  let { short, source, url,    } = resource;
+  let { short, source, url, context } = resource;
   let [base, ...urlParts] = getURIPartsFromNexusURL(url);
   let [error, docs] = await to(
     waitForEach(getResources(url, token), [
@@ -279,6 +279,19 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         }
         if (doc.cellType.mType === "null" || doc.cellType.mType === null) {
           delete doc.cellType.mType;
+        }
+        return doc;
+      },
+      async doc => {
+        doc.dataType = {};
+        if (doc.cellType.mType) {
+          doc.dataType.mType = "has mType";
+        }
+        if (doc.cellType.eType) {
+          doc.dataType.eType = "has eType";
+        }
+        if (doc.morphology && doc.morphology.length) {
+          doc.dataType.morphology = "has morphology";
         }
         return doc;
       },

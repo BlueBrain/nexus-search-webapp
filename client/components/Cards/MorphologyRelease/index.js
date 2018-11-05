@@ -4,12 +4,11 @@ import TypeIcon from "../../TypeIcon";
 import { find } from "underscore";
 import Perspectivizer from "../../Animations/Perspectivizer";
 import { getProp } from "@libs/utils";
-import Preview from "./Preview";
 import InspectLink from "../InspectLink";
-import Contributions from "./Contributions";
+import Contributions from "../Cell/Contributions";
 import { Icon } from "antd";
+import moment from "moment";
 import Download from "../../Download";
-import {eTypes, mTypes} from "../../../../consts";
 
 const GridResult = ({ value, id }) => {
   return (
@@ -21,17 +20,16 @@ const GridResult = ({ value, id }) => {
       mapDispatchToProps={{}}
     >
       {({ hoverType, types }) => {
-        const mostRelevantType = Array.isArray(value["@type"])
-          ? value["@type"][value["@type"].length - 1]
-          : value["@type"];
-        const typeArray = Array.isArray(value["@type"])
-          ? value["@type"]
-          : [value["@type"]];
+        const resourceType = value["@type"];
+        const mostRelevantType = Array.isArray(resourceType)
+          ? resourceType.pop()
+          : resourceType;
         const myType = find(types, type => {
           return type.value === mostRelevantType;
         });
         const studyType = getProp(value, "studyType.name");
         const isInSilico = studyType === "In Silico";
+        let date = moment(getProp(value, "dateCreated")).format("MMM Do YYYY");
         return (
           <Perspectivizer disabled>
             {({ active }) => (
@@ -49,13 +47,14 @@ const GridResult = ({ value, id }) => {
                   </div>
                   </InspectLink>
                   <div className={`action-buttons ${active ? "active" : ""}`}>
-                    {getProp(value, "files") && !!getProp(value, "files").length &&
-                      <Download files={getProp(value, "files")} name={getProp(value, "cellName.label", "Cell")}>
-                        <a><Icon type="cloud-download-o" style={{ fontSize: 16 }}/></a>
-                      </Download>
-                    }
+                    <Download files={getProp(value, "files")} name={getProp(value, "name", "Ion Channel")}>
+                      <a><Icon type="cloud-download-o" style={{ fontSize: 16 }}/></a>
+                    </Download>
                   </div>
-                  <div className="labels">
+                  <div className="labels" style={{
+                    textAlign: "right",
+                    width: "100%"
+                  }}>
                     {value.subject &&
                       <Fragment>
                         <div className="top-label">{getProp(value, "subject.species")}</div>
@@ -64,15 +63,23 @@ const GridResult = ({ value, id }) => {
                     }
                   </div>
                 </div>
-                <div className="name">{getProp(value, "cellName.label")}</div>
               </div>
-              <Preview value={value}/>
+              <div className="middle" style={{
+                position: "absolute",
+                top: "16em",
+                padding: "1em"
+              }}>
+                <div className="morphology-release-name"
+                style={{
+                  fontSize: "2em"
+                }}
+                >{value.name}</div>
+              </div>
               <div className="footer">
-                <div className="mType">
-                  {getProp(value, "cellType.mType")}
-                </div>
                 <div className="brainRegion">{getProp(value, "brainLocation.brainRegion")}</div>
-                <div className="eType">{getProp(value, "cellType.eType") && eTypes[getProp(value, "eType.label")]}</div>
+                <div >
+                  {date}
+                </div>
                 <div className="bottom flex space-between">
                   <Contributions contributions={getProp(value, "contribution")} />
                   {isInSilico &&

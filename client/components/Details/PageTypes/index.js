@@ -1,9 +1,11 @@
 import IonChannel from "./IonChannel";
 import Cell from "./Cell";
+import MorphologyRelease from "./MorphologyRelease";
 
 const detailsPageTypes = {
   "nxv:SearchCell": Cell,
-  "nxv:IonChannel": IonChannel
+  "nxv:IonChannel": IonChannel,
+  "MorphologyRelease": MorphologyRelease
 };
 
 export default {
