@@ -5,7 +5,7 @@ import { find } from "underscore";
 import Perspectivizer from "../../Animations/Perspectivizer";
 import { getProp } from "@libs/utils";
 import Preview from "./Preview";
-import InspectLink from "./InspectLink";
+import InspectLink from "../InspectLink";
 import Contributions from "./Contributions";
 import { Icon } from "antd";
 import Download from "../../Download";

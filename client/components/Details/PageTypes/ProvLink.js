@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { getProp } from "@libs/utils";
 import TypeIcon from "../../NewTypeIcon";
-import InspectLink from "../../Cards/Cell/InspectLink";
+import InspectLink from "../../Cards/InspectLink";
 import fetchProtectedData from "../../../libs/fetchProtectedData";
 import { Tag, Icon } from "antd";
 import FontAwesome from "react-fontawesome";
