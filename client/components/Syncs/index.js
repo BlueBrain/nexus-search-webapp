@@ -19,14 +19,16 @@ const SyncsContainer = ({ triggerSync }) => (
           <Col span={16}>
           <p>
             Here you can find all the moments when Nexus Search has attempted to synchronize data from Nexus.
-            Data will be automatically synchronized after targeted resources have been updated or created, or you can trigger
-            a synchronization yourself.
+            Data will be automatically synchronized after targeted resources have been updated or created.
+          </p>
+          <p>
+            Currently only <b>Morphology Releases</b> are being targeted for automatic synchronization
           </p>
           </Col>
           <Col span={8} style={{ textAlign: "center"}}>
-          <Button type="primary" onClick={triggerSync}>
+          {/* <Button type="primary" onClick={triggerSync}>
             Force Sync
-          </Button>
+          </Button> */}
           </Col>
           </Row>
           <SyncsList />

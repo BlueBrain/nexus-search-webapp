@@ -15,33 +15,55 @@ const Description = item => {
   return `Succesfully synchronized ${item.resources.length} data set(s)`;
 }
 
-// TODO handle case for errors
-// TODO handle loading type
+const SyncSublistComponent = (resources) => {
+  console.log(resources)
+  return (
+    <List
+      dataSource={resources}
+      renderItem={item => {
+        console.log({item})
+        return (
+        <List.Item key={item.searchID}>
+          <div>{item.searchID}</div>
+        </List.Item>
+      )}}
+    />
+  );
+}
+
 const SyncListComponent = ({ pending, data, error }) => {
-  console.log({pending, data, error});
+  console.log({ pending, data, error });
   return (
     <div className="syncs-list-container">
       <div className="syncs-list">
-      {data &&
-        <List
-          dataSource={data}
-          renderItem={item => (
-            <List.Item key={item["@id"]}>
-              <List.Item.Meta
-                avatar={<Avatar><SyncIcon status={item.status}/></Avatar>}
-                title={moment(item["_createdAt"]).fromNow()}
-                description={Description(item)}
-              />
-              <ul className="sync-item-content">
-                {_.chain(item.resources).map("resourceType").uniq().value().map(resourceType => {
-                  return <li className="sync-type"><TypeIcon type={resourceType.type}/></li>
-                })}
-              </ul>
-            </List.Item>
-          )}
-        >
-        </List>
-      }
+        {data &&
+          <List
+            dataSource={data}
+            renderItem={item => (
+              <List.Item key={item["@id"]}>
+                <List.Item.Meta
+                  avatar={<Avatar><SyncIcon status={item.status} /></Avatar>}
+                  title={moment(item["_createdAt"]).fromNow()}
+                  description={
+                    <div>
+                    {Description(item)}
+                    {/* {SyncSublistComponent(item)} */}
+                    </div>
+                    }
+                />
+                <div>
+                {SyncSublistComponent(item.resources)}
+                <ul className="sync-item-content">
+                  {_.chain(item.resources).map("resourceType").uniq().value().map(resourceType => {
+                    return <li className="sync-type"><TypeIcon type={resourceType.type} /></li>
+                  })}
+                </ul>
+                </div>
+              </List.Item>
+            )}
+          >
+          </List>
+        }
       </div>
     </div>
   )
