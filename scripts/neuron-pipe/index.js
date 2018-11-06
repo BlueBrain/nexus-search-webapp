@@ -1,8 +1,9 @@
 import inquirer from "inquirer";
-import login from "./login";
 import { resources } from "./consts";
 import * as processResources from "./resources";
 import config from "../../server/libs/config";
+
+const token = config.SEARCH_APP_SERVICE_TOKEN;
 
 const whichEntity = {
   type: "list",
@@ -25,11 +26,6 @@ const shouldUpload = {
 
 void (async function main() {
   try {
-    let token = await login();
-    if (!token) {
-      console.log("login failed");
-      process.exit(0);
-    }
     let answers = await inquirer.prompt([whichEntity, shouldUpload]);
     let {
       whichEntity: whichEntityAnswer,
