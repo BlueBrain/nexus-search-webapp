@@ -90,7 +90,7 @@ function fetchWrapper(url, result, fetchAll, access_token, options) {
  * @param {string} uri - actual url for request
  * @param {string} access_token - access_token recieved via OAuth
  */
-function fetchWithToken(uri, access_token, options = {}) {
+async function fetchWithToken(uri, access_token, options = {}) {
   const requestOptions = access_token
     ? {
         headers: {
@@ -100,19 +100,7 @@ function fetchWithToken(uri, access_token, options = {}) {
       }
     : {};
   let formattedOptions = Object.assign(options, requestOptions);
-  console.log(`${formattedOptions.method || "GET"} ${uri}`);
-  if (formattedOptions.body) {
-    console.log("formattedOptions", formattedOptions.body);
-  }
-  return fetch(uri, formattedOptions)
-    .then(response => {
-      return Promise.resolve(response);
-    })
-    .catch(error => {
-      console.log("fetchWithToken error");
-      console.log(error.message);
-      Promise.reject(error);
-    });
+  return await fetch(uri, formattedOptions);
 }
 
 /**
