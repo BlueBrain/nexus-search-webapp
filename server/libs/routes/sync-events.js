@@ -2,7 +2,6 @@ import syncEvents from "../../models/sync-events";
 import { to } from "../async";
 
 async function requestSomething(req, res, something) {
-  console.log("hello friends");
   let [error, docs] = await to(something(req.body))
   if (error) {
     console.log(error);

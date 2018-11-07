@@ -1,9 +1,11 @@
 import { fetchWithToken } from "./helpers";
 import trimMetaData from "./trimMetaData";
+import whichToken from "../../server/libs/whichToken"
 
-export default async (doc, token, getResourceID) => {
+export default async (doc, getResourceID) => {
   try {
     let resourceID = getResourceID(doc);
+    let token = whichToken(resourceID)
     if (!resourceID) { return doc };
     let response = await fetchWithToken(resourceID, token);
     if (response) {

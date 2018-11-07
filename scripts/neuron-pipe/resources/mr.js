@@ -1,19 +1,13 @@
 import getResources from "../getResources";
-import file from "../file";
 import { to, waitForEach } from "@libs/promise";
 import processDoc from "../processDoc";
 import fetchResourceById from "../fetchResourceById";
 import pushToNexus from "../pushToNexus";
 import flattenDownloadables from "../flattenDownloadables";
-import getRelatedResourceWithFilter from "../getRelatedResourceWithFilterBody";
-import { getURIPartsFromNexusURL, fetchWithToken } from "../helpers";
-import pc from "../../testData/pc.json";
 import emtc from "../../testData/emtc.json";
-import downloadMorph from "../downloadMorph";
 import { getProp } from "@libs/utils";
-import { mTypes } from "@consts";
 
-export const processorFactory = (token, resource, resourceURL, shouldUpload) => [
+export const processorFactory = (resource, resourceURL, shouldUpload) => [
   processDoc(resource),
   async doc => {
     doc.license = {
@@ -36,24 +30,21 @@ export const processorFactory = (token, resource, resourceURL, shouldUpload) => 
     return doc;
   },
   async doc => {
+
     let modelScript = await fetchResourceById(
       doc,
-      token,
       doc => doc.wasAttributedTo["@id"]
     );
     let agent = await fetchResourceById(
       doc,
-      token,
       doc => modelScript.wasAttributedTo["@id"]
     );
     let item1 = await fetchResourceById(
       doc,
-      token,
       doc => modelScript.wasDerivedFrom[0]["@id"]
     );
     let item2 = await fetchResourceById(
       doc,
-      token,
       doc => modelScript.wasDerivedFrom[1]["@id"]
     );
     doc.scripts = [item1, item2];
@@ -74,17 +65,16 @@ export const processorFactory = (token, resource, resourceURL, shouldUpload) => 
   },
   async doc => {
     if (shouldUpload) {
-      await pushToNexus(doc, token, resourceURL);
+      await pushToNexus(doc, resourceURL);
     }
     return doc;
   }
 ];
 
-async function fetch(resource, token, shouldUpload, resourceURL) {
-  let { short, source, url, context } = resource;
-  let [base, ...urlParts] = getURIPartsFromNexusURL(url);
+async function fetch(resource, resourceURL, shouldUpload=false) {
+  let { url } = resource;
   let [error, docs] = await to(
-    waitForEach(getResources(url, token), processorFactory(token, resource, resourceURL))
+    waitForEach(getResources(url), processorFactory(resource, resourceURL, shouldUpload))
   );
   if (!docs) {
     console.log(error, docs);
@@ -93,8 +83,6 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
     );
   }
   console.log("found " + docs.length + " docs");
-  console.log("finished, writing to file");
-  file.write(short, docs);
 }
 
 export default fetch;
