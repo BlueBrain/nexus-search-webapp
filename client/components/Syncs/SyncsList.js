@@ -15,9 +15,11 @@ class SyncListContainer extends PureComponent {
     this.props.fetchSyncEvents();
   }
   render() {
+    let { apiURL } = this.props;
+    apiURL = apiURL.replace(/https?:\/\//g, "ws://");
     return (
       <Fragment>
-        <Websocket url='ws://localhost:9999/search/syncs/updates/'
+        <Websocket url={`${apiURL}/search/syncs/updates/`}
                 onMessage={this.handleData.bind(this)}/>
         <SyncListComponent
           {...this.props}
@@ -35,6 +37,7 @@ SyncListContainer.propTypes = {
 
 function mapStateToProps({ syncs, config }) {
   return {
+    apiURL: config.elasticSearchAPI,
     ...syncs
   };
 }
