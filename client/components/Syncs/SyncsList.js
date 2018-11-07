@@ -16,7 +16,7 @@ class SyncListContainer extends PureComponent {
   }
   render() {
     let { apiURL } = this.props;
-    apiURL = apiURL.replace(/https?:\/\//g, "ws://");
+    apiURL = apiURL.replace("https://", "wss://").replace("http://", "ws://");
     return (
       <Fragment>
         <Websocket url={`${apiURL}/search/syncs/updates/`}
