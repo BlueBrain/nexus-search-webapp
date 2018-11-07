@@ -16,7 +16,7 @@ export default function generateRoutes(app) {
   app.use(`${config.SEARCH_API_BASE_PATH}/data/brain-mesh`, sendFile);
 
   // sync-events endpoint
-  app.use(`${config.SEARCH_API_BASE_PATH}/search/syncs`, syncEvents(router));
+  app.use(`${config.SEARCH_API_BASE_PATH}/syncs`, syncEvents(router));
 
   // Nexus v1 ESView endpoint
   app.use(`${config.SEARCH_API_BASE_PATH}/search`, elasticSearch(router));
