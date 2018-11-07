@@ -13,7 +13,6 @@ export default function generateRoutes(app) {
 
   // brain mesh from public folder
   app.use(`${config.SEARCH_API_BASE_PATH}/search/data/brain-mesh`, sendFile);
-  app.use(`${config.SEARCH_API_BASE_PATH}/data/brain-mesh`, sendFile);
 
   // sync-events endpoint
   app.use(`${config.SEARCH_API_BASE_PATH}/search/syncs`, syncEvents(router));

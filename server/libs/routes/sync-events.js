@@ -15,6 +15,8 @@ async function requestSomething(req, res, something) {
 }
 
 export default function generateRoutes(router) {
+  router.get('/', (req, res) => res.sendStatus(200));
+
   // list sync-events
   router.get('/events', async (req, res) => await requestSomething(req, res, syncEvents.list));
 
