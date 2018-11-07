@@ -4,7 +4,6 @@ import processDoc from "../processDoc";
 import fetchResourceById from "../fetchResourceById";
 import pushToNexus from "../pushToNexus";
 import flattenDownloadables from "../flattenDownloadables";
-import emtc from "../../testData/emtc.json";
 import { getProp } from "@libs/utils";
 
 export const processorFactory = (resource, resourceURL, shouldUpload) => [
@@ -20,8 +19,6 @@ export const processorFactory = (resource, resourceURL, shouldUpload) => [
     doc.cellName = {
       label: doc.name
     };
-    // get traces from trace collection (must be previously prepared)
-    doc.traces = emtc[getProp(doc, "cellName.label")];
     doc.brainLocation = {
       brainRegion: getProp(doc, "brainRegion.label")
     };
