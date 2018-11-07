@@ -1,9 +1,11 @@
 import { fetchWithToken } from "./helpers";
 import { getProp } from "@libs/utils";
+import whichToken from "../../server/libs/whichToken"
 
-export default async (doc, token, queryURL) => {
+export default async (doc, queryURL) => {
   let body = JSON.stringify(doc);
   let error, status, responsePayload;
+  let token = whichToken(queryURL);
   [error, status, responsePayload] = await withStatus(
     fetchWithToken(queryURL, token, {
       method: "POST",

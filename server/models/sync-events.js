@@ -1,11 +1,9 @@
-import { resources } from "../../scripts/neuron-pipe/consts";
-import Listen from "../libs/listen";
 import { to, waitForEach } from "@libs/promise";
-import * as resourceProcessors from "../../scripts/neuron-pipe/resources";
+import { resources } from "../../scripts/neuron-pipe/consts";
+import * as resourceProcessors from "./resources";
+import Listen from "../libs/listen";
+import whichToken from "../libs/whichToken";
 import config from "../libs/config";
-
-const token = config.SEARCH_APP_SERVICE_TOKEN;
-
 // TODO use this interface as references when creating sync resources
 // const fakeEvent = {
 //   "_createdAt": Date.now(),
@@ -93,9 +91,11 @@ export default {
     let pFactory = resourceProcessors[resource.short].processorFactory;
     let resourceURL = config.RESOURCE_URL;
     let shouldUpload = true;
+    let token = whichToken(resource.url);
+    let processor = pFactory(resource, resourceURL, shouldUpload);
     // CREATE SYNC EVENT HERE
     let id = await this.create([{ resourceShort: resource.short, ...value }]);
-    let [error, docs] = await to(waitForEach(Promise.resolve([value]), pFactory(token, resource, resourceURL, shouldUpload)));
+    let [error, docs] = await to(waitForEach(Promise.resolve([value]), processor));
     if (docs && !error) {
       // UPDATE SYNC EVENT HERE
       return await this.update(id, "fulfilled")
