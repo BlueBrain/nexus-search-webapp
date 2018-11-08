@@ -11,59 +11,58 @@ export default class Project {
   async create (payload) {
     let { name, base, org, token } = this;
     let response = await createProject(name, { payload, base, org, token })
-    console.log(response.status);
-    if (response.status >= 200 && response.status < 400) {
-      console.log("succesfully created/updated project", response.body);
-    }
     return this;
   }
 
   async createResource(payload, id) {
     let { name, base, org, token } = this;
     let response = await createResource(id, { projectName: name, payload, base, org, token })
-    console.log(response.status);
-    if (response.status >= 200 && response.status < 400) {
-      console.log("succesfully created/updated resource");
-    }
     return this;
   }
 
   async createESView(payload, id) {
     let { name, base, org, token } = this;
     let response = await createView(id, { projectName: name, payload, base, org, token })
-    console.log(response.status);
-    if (response.status >= 200 && response.status < 400) {
-      console.log("succesfully created/updated ES View");
-    }
     return this;
   }
 }
 
 async function createProject(projectName, { payload, base, org, token }) {
-  let options = {
-    method: "PUT",
-    body: JSON.stringify(payload)
-  }
-  let response = await fetchWithToken(`${base}/projects/${org}/${projectName}`, token, options);
-  return response;
+  return await createOrUpdateResouceWithID(`${base}/projects/${org}/${projectName}`, token, payload);
 }
 
 async function createResource(id, { projectName, payload, base, org, token }) {
   // TODO change method based on id is-there-ness
-  let options = {
-    method: "PUT",
-    body: JSON.stringify(payload)
-  }
-  let response = await fetchWithToken(`${base}/resources/${org}/${projectName}/resources/${id}`, token, options);
-  return response;
+  return await createOrUpdateResouceWithID(`${base}/resources/${org}/${projectName}/resources/${id}`, token, payload);
 }
 
 async function createView(id, { projectName, payload, base, org, token }) {
   // TODO change method based on id is-there-ness
+  return await createOrUpdateResouceWithID(`${base}/views/${org}/${projectName}/${id}`, token, payload)
+}
+
+async function createOrUpdateResouceWithID(url, token, payload) {
   let options = {
     method: "PUT",
     body: JSON.stringify(payload)
   }
-  let response = await fetchWithToken(`${base}/views/${org}/${projectName}/${id}`, token, options);
-  return response;
+  let response = await fetchWithToken(url, token, options);
+  let { status, statusText } = response;
+  console.log(status, statusText, url);
+
+  if (status >= 200 && status < 400) {
+    // everything is ok
+    return response;
+  }
+  if (status >= 400 && status !== 409) {
+    // there was a problem
+    throw new Error(`createOrUpdateResouceWithID: ${statusText}`);
+  }
+  if (status === 409) {
+    // resource already exists, let's update it
+    let { _rev: rev } = await response.json();
+    return await fetchWithToken(`${url}?rev=${rev}`, token, options);
+  }
+  // There is a problem if we reach this place;
+  throw new Error(`createOrUpdateResouceWithID: unknown issue trying to update ${url}`)
 }

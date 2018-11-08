@@ -13,6 +13,7 @@ const whatProjectName = {
   type: "input",
   name: "whatProjectName",
   message: "What is the name of the new project?",
+  validate: value => !!value
 };
 
 const whatNexusBase = {
