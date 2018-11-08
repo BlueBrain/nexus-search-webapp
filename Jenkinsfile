@@ -56,9 +56,10 @@ pipeline {
             }
             steps {
                 sh 'npm run build'
-                sh 'mkdir deployment && mv dist deployment && mv docker deployment'
-                sh "oc start-build ${imageBuildName} --from-dir=deployment --follow"
-                sh "oc start-build ${serverImageBuildName} --from-dir=deployment --follow"
+                sh 'mkdir dist-client && mv dist/public dist-client && mv docker/client dist-client'
+                sh 'mkdir dist-server && mv dist/server dist-server && mv docker/server dist-server && mv package.json dist-server'
+                sh "oc start-build ${imageBuildName} --from-dir=dist-client --follow"
+                sh "oc start-build ${serverImageBuildName} --from-dir=dist-server --follow"
             }
         }
 
