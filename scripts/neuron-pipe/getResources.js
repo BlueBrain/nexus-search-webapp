@@ -1,7 +1,9 @@
 import { getInstancesList, getURIPartsFromNexusURL } from "./helpers";
 import { to } from "@libs/promise";
+import whichToken from "../../server/libs/whichToken"
 
-export default async (resourceURL, token, options={}) => {
+export default async (resourceURL, options={}) => {
+  let token = whichToken(resourceURL);
   let [base, ...uriParts] = getURIPartsFromNexusURL(resourceURL);
   const nexusRequestOptions = {
     deprecated: false,

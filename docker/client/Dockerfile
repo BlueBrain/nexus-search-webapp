@@ -13,7 +13,7 @@ RUN cp -a nginx.conf nginx.conf.template
 
 # Put app files in the right place
 WORKDIR /usr/share/nginx/html
-COPY dist/public .
+COPY dist-client .
 
 # Prepare application files for environment substitution at runtime
 RUN chgrp 0 index.html && chmod g+w index.html
