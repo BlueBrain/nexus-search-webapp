@@ -7,7 +7,7 @@ RUN touch /var/run/nginx.pid && chgrp 0 /var/run/nginx.pid && chmod g+rwx /var/r
 
 # Prepare nginx configuration for environment substitution at runtime
 WORKDIR /etc/nginx
-COPY docker/client/nginx.conf ./
+COPY docker/nginx.conf ./
 RUN chgrp 0 nginx.conf && chmod g+w nginx.conf
 RUN cp -a nginx.conf nginx.conf.template
 
