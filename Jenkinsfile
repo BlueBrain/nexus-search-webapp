@@ -56,8 +56,7 @@ pipeline {
             }
             steps {
                 sh 'npm run build'
-                sh 'mkdir dist-client && cp dist/public/* dist-client && cp -r docker/client dist-client'
-                sh 'mkdir dist-server && cp dist/server/* dist-server && cp -r docker/server dist-server && cp package.json dist-server && cp package-lock.json dist-server'
+                sh 'npm run prepare:pipeline'
                 sh "oc start-build ${imageBuildName} --from-dir=dist-client --follow"
                 sh "oc start-build ${serverImageBuildName} --from-dir=dist-server --follow"
             }
