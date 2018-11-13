@@ -1,6 +1,6 @@
 .cache/
 .DS_Store
-dist/
+
 node_modules/
 envs/*.env
 .vscode
@@ -8,3 +8,10 @@ coverage/
 .ocp-port-forwarding.js
 */**.text
 scripts/testData
+
+# dist files for build
+dist
+
+## dist files for jenkins deployment
+dist-client
+dist-server
