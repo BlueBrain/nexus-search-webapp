@@ -33,7 +33,7 @@ async function createProject(projectName, { payload, base, org, token }) {
 
 async function createResource(id, { projectName, payload, base, org, token }) {
   // TODO change method based on id is-there-ness
-  return await createOrUpdateResouceWithID(`${base}/resources/${org}/${projectName}/resources/${id}`, token, payload);
+  return await createOrUpdateResouceWithID(`${base}/resources/${org}/${projectName}/resource/${id}`, token, payload);
 }
 
 async function createView(id, { projectName, payload, base, org, token }) {
@@ -60,7 +60,16 @@ async function createOrUpdateResouceWithID(url, token, payload) {
   }
   if (status === 409) {
     // resource already exists, let's update it
-    let { _rev: rev } = await response.json();
+
+    // First fetch the resource
+    let getOptions = {
+      method: "GET"
+    }
+    let response = await fetchWithToken(url, token, getOptions);
+    let resource = await response.json();
+
+    // Find the latest revision and update it with that revision
+    let { _rev: rev } = resource;
     return await fetchWithToken(`${url}?rev=${rev}`, token, options);
   }
   // There is a problem if we reach this place;

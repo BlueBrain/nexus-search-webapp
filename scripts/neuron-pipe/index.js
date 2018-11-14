@@ -1,9 +1,8 @@
 import inquirer from "inquirer";
 import { resources } from "./consts";
-import * as processResources from "./resources";
+import processResources from "./process";
+import file from "./file";
 import config from "../../server/libs/config";
-
-const token = config.SEARCH_APP_SERVICE_TOKEN;
 
 const whichEntity = {
   type: "list",
@@ -20,24 +19,37 @@ const shouldUpload = {
   name: "shouldUpload",
   message: `Do you want to upload these to the v1 Project? \n url: ${
     config.RESOURCE_URL
-  }`,
+    }`,
   default: false
+};
+
+
+const whatProjectName = {
+  type: "input",
+  name: "whatProjectName",
+  message: "What is the name of the project to upload them to?",
+  validate: value => !!value
 };
 
 void (async function main() {
   try {
-    let answers = await inquirer.prompt([whichEntity, shouldUpload]);
+    let answers = await inquirer.prompt([whichEntity, shouldUpload, whatProjectName]);
     let {
       whichEntity: whichEntityAnswer,
-      shouldUpload: shouldUploadAnswer
+      shouldUpload: shouldUploadAnswer,
+      whatProjectName: whatProjectNameAnswer,
     } = answers;
-    let process = processResources[whichEntityAnswer].default;
-    await process(
-      resources[whichEntityAnswer],
-      token,
+
+    let resource = resources[whichEntityAnswer];
+    let resourceURL = `https://bbp.epfl.ch/nexus/v1/resources/webapps/${whatProjectNameAnswer}/resource/`;
+
+    let docs = await processResources(
+      resource,
+      resourceURL,
       shouldUploadAnswer,
-      config.RESOURCE_URL
     );
+
+    file.write(whichEntityAnswer, docs);
   } catch (error) {
     console.log(error);
     process.exit(1);

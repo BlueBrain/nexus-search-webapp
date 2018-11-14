@@ -200,10 +200,12 @@ export default {
       brainLocationCoordinates: {
         "@id": "nsg:brainLocationCoordinates"
       },
-      brainRegion: {
-        "@id": "nsg:brainRegion",
-        "@type": "@id"
-      },
+      // removed because it conflicts with the way I've written
+      // the ES mapping, which expects a normal string not ID
+      // brainRegion: {
+      //   "@id": "nsg:brainRegion",
+      //   "@type": "@id"
+      // },
       cellPlacement: {
         "@id": "nsg:cellPlacement",
         "@type": "@id"

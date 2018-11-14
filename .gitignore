@@ -7,4 +7,4 @@ envs/*.env
 coverage/
 .ocp-port-forwarding.js
 */**.text
-scripts/testData
+scripts/test-data/*

@@ -4,6 +4,7 @@ import * as resourceProcessors from "./resources";
 import Listen from "../libs/listen";
 import whichToken from "../libs/whichToken";
 import config from "../libs/config";
+
 // TODO use this interface as references when creating sync resources
 // const fakeEvent = {
 //   "_createdAt": Date.now(),
@@ -88,7 +89,7 @@ export default {
 
   // update a single resource emitted from event
   createSingleton: async function createSingleton(resource, value) {
-    let pFactory = resourceProcessors[resource.short].processorFactory;
+    let pFactory = resourceProcessors[resource.short];
     let resourceURL = config.RESOURCE_URL;
     let shouldUpload = true;
     let token = whichToken(resource.url);

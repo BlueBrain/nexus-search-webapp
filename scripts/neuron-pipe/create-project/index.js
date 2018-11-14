@@ -6,7 +6,7 @@ import Project from "../../v1/project";
 import config from "../../../server/libs/config";
 
 const {
-  SEARCH_APP_SERVICE_TOKEN: token
+  SEARCH_APP_SERVICE_TOKEN_PROD: token
 } = config;
 
 const whatProjectName = {

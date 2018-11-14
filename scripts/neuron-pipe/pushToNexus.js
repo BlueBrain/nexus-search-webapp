@@ -15,9 +15,11 @@ export default async (doc, queryURL) => {
   let code = responsePayload.code;
   console.log("\n\npushing to nexus!", { queryURL, id: doc["@id"], status, code }, "\n");
   if (error) {
+    console.log(body);
     throw error;
   }
   if (status >= 400 && status !== 409) {
+    console.log(body);
     throw new Error(code);
   }
   // Already exists

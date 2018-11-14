@@ -43,17 +43,22 @@ export default class Client {
 
   search(params, headers) {
     return new Promise((resolve, reject) => {
+      console.log("\n\n")
+      console.log({auth: headers.authorization})
+      console.log("\n\n")
       let host = this.host;
       let { size = 20, from = 0, index, body } = params;
       let url = host + index + `/_search?from=${from}&size=${size}`;
       let options = {
         method: "POST",
         headers: {
-          Authorization: headers.authorization,
           "Content-Type": "application/json"
         },
         body: JSON.stringify(body)
       };
+      if (headers.authorization) {
+        options.headers.Authorization = headers.authorization;
+      }
       console.log(url);
       fetch(url, options)
         .then(response => {

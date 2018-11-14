@@ -1,4 +1,4 @@
-const DEFAULT_SEARCH_API_URI = "http://localhost:9999/search";
+const DEFAULT_SEARCH_API_URI = "http://localhost:9999";
 
 const BASE_URI = window.BASE_URI.startsWith("$") ? "" : window.BASE_URI;
 const APP_PATH = window.BASE_PATH.startsWith("$") ? "" : window.BASE_PATH;

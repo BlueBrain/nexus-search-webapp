@@ -7,7 +7,9 @@ export default {
     "ElasticView"
   ],
   "resourceSchemas": [
-    "https://bluebrain.github.io/nexus/schemas/resource"
+    // It's strange to have this result from the API:
+    // https://bluebrain.github.io/nexus/schemas/resource.json
+    "https://bluebrain.github.io/nexus/schemas/resource.json"
   ],
   "mapping": {
     properties

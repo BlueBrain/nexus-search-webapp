@@ -1,12 +1,10 @@
-import getResources from "../getResources";
-import { to, waitForEach } from "@libs/promise";
 import processDoc from "../processDoc";
 import fetchResourceById from "../fetchResourceById";
 import pushToNexus from "../pushToNexus";
 import flattenDownloadables from "../flattenDownloadables";
 import { getProp } from "@libs/utils";
 
-export const processorFactory = (resource, resourceURL, shouldUpload) => [
+export default (resource, resourceURL, shouldUpload) => [
   processDoc(resource),
   async doc => {
     doc.license = {
@@ -67,19 +65,3 @@ export const processorFactory = (resource, resourceURL, shouldUpload) => [
     return doc;
   }
 ];
-
-async function fetch(resource, resourceURL, shouldUpload=false) {
-  let { url } = resource;
-  let [error, docs] = await to(
-    waitForEach(getResources(url), processorFactory(resource, resourceURL, shouldUpload))
-  );
-  if (!docs) {
-    console.log(error, docs);
-    throw new Error(
-      "no docs found for some reason, maybe there was an auth error, check your token"
-    );
-  }
-  console.log("found " + docs.length + " docs");
-}
-
-export default fetch;

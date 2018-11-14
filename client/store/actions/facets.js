@@ -29,7 +29,7 @@ function fetchFacets() {
     dispatch(fetchFacetsStarted());
     // TODO make query change
     return fetch(facetsAPI + "?" + qs.stringify(params), {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: token ? { Authorization: `Bearer ${token}` } : {}
     })
       .then(response => {
         if (response.ok) {

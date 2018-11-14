@@ -100,6 +100,7 @@ async function fetchWithToken(uri, access_token, options = {}) {
       }
     : {};
   let formattedOptions = Object.assign(options, requestOptions);
+  console.log(uri, access_token, formattedOptions);
   return await fetch(uri, formattedOptions);
 }
 

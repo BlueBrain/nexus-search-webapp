@@ -4,7 +4,7 @@ import { to } from "@libs/promise";
 import { getURIPartsFromNexusURL, fetchWithToken } from "../helpers";
 import { getProp } from "@libs/utils";
 import trimMetaData from "../trimMetaData";
-import pc from "../../testData/pc.json";
+// import pc from "../../testData/pc.json";
 
 async function fetch(resource, token, shouldUpload, resourceURL) {
   let { short, source, url, context } = resource;

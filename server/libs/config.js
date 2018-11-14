@@ -11,7 +11,8 @@ let envConfig = {
   RESOURCE_URL: process.env.RESOURCE_URL || "",
   SEARCH_APP_SERVICE_TOKEN_PROD: process.env.SEARCH_APP_SERVICE_TOKEN_PROD || "",
   SEARCH_APP_SERVICE_TOKEN_STAG: process.env.SEARCH_APP_SERVICE_TOKEN_STAG || "",
-  KAFKA_HOST: process.env.KAFKA_HOST
+  KAFKA_HOST: process.env.KAFKA_HOST,
+  KAFKA_TOPIC: process.env.KAFKA_TOPIC
 };
 // load ENV variables from env stage configs
 if (STAGE === "dev") {

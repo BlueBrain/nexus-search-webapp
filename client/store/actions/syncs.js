@@ -16,7 +16,7 @@ function triggerSync() {
     const { token } = state.auth;
     const documentURL = elasticSearchAPI + "/syncs/events";
     return fetch(documentURL, {
-      headers: { Authorization: `Bearer ${token}`},
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
       method: 'post'
     })
       .then(response => {

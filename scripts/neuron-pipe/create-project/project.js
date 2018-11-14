@@ -1,6 +1,6 @@
 import { base, resources } from "../consts";
 
-const resourcePrevixMappings = Object.keys(resources).map(key => {
+const resourcePrevixMappings = Object.keys(resources).filter(key => key !== 'pctc').map(key => {
   return {
     namespace: resources[key].url,
     prefix: key

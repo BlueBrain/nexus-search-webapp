@@ -17,7 +17,7 @@ function fetchInstance(docID) {
     const documentURL = elasticSearchAPI + "/instances/" + docID;
     dispatch(fetchInstanceStarted());
     return fetch(documentURL, {
-      headers: { Authorization: `Bearer ${token}`}
+      headers: token ? { Authorization: `Bearer ${token}` } : {}
     })
       .then(response => {
         if (response.ok) {

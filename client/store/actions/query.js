@@ -24,7 +24,7 @@ function fetchQuery() {
     return fetch(
       searchAPI + "?" + qs.stringify(params),
       {
-        headers: { Authorization: `Bearer ${token}`}
+        headers: token ? { Authorization: `Bearer ${token}` } : {}
       }
     )
       .then(response => {
