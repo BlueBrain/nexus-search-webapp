@@ -17,7 +17,7 @@ export default function instance (state = {
     case types.FETCH_FULFILLED_INSTANCE:
       return Object.assign({}, state, {
         pending: false,
-        data: action.payload
+        data: action.payload._source
       });
 
     case types.FETCH_FAILED_INSTANCE:
