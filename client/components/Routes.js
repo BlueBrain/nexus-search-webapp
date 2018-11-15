@@ -3,7 +3,6 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { goBack } from "connected-react-router";
 import { Route, Switch } from "react-router";
-import PrivateRoute from "./PrivateRoute";
 import Home from "./Home";
 import Details from "./Details";
 import WithModal from "./WithModal";
@@ -53,8 +52,8 @@ class Routes extends Component {
     return (
       <Fragment>
         <Switch location={isModal ? this.previousLocation : location}>
-          <PrivateRoute exact path="/" component={Home} />
-          <PrivateRoute path="/docs/:id" component={props => {
+          <Route exact path="/" component={Home} />
+          <Route path="/docs/:id" component={props => {
             return (
               <Layout>
                 <section className="column full flex">
@@ -65,11 +64,11 @@ class Routes extends Component {
               </Layout>
           )
           }} />
-          <PrivateRoute path="/syncs/" component={Syncs} />
+          <Route path="/syncs/" component={Syncs} />
           <Route path="/login" component={PleaseLogin} />
           <Route component={NotFound} />
         </Switch>
-        {isModal ? <PrivateRoute path="/docs/:id" component={props => {
+        {isModal ? <Route path="/docs/:id" component={props => {
           return <DetailsWithModal onCancel={() => goBack() } {...props} />;
         }} /> : null}
       </Fragment>

@@ -4,10 +4,11 @@ import { Layout } from "antd";
 import { Card, Icon } from "antd";
 import { Lines } from "@bbp/nexus-react";
 import Logo from "../../public/img/logo.png";
+import { Link } from "react-router-dom";
 
 const PleaseLogin = () => (
-  <Layout style={{width: '100%'}}>
-    <Lines/>
+  <Layout style={{ width: '100%' }}>
+    <Lines />
     <WithStore
       mapStateToProps={({ config }) => ({
         loginURI: config.loginURI
@@ -31,7 +32,16 @@ const PleaseLogin = () => (
               </a>
             ]}
           >
-            <p style={{textAlign: "center"}}>please login to continue.</p>
+            <p style={{ textAlign: "center" }}>please login to see more content.
+              <br/>
+              <small>
+                <Link
+                  className="fade in slow"
+                  to={"/"}>
+                  or go to the main page
+                  </Link>
+              </small>
+            </p>
           </Card>
         </div>
       )}
