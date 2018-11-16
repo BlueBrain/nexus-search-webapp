@@ -1,72 +1,51 @@
-import getConfig from "../config";
-import { to } from "@libs/promise";
-import {fetchWithToken} from "../helpers";
 import projectPayload from "./project";
 import contextPayload from "./context";
-import file from "../file";
-// import { context as contextName } from "../consts"
+import esViewPayload from "./view";
+import inquirer from "inquirer";
+import Project from "../../v1/project";
+import config from "../../../server/libs/config";
 
-// require("dns-cache")(100000);
+const {
+  SEARCH_APP_SERVICE_TOKEN_PROD: token
+} = config;
 
-const projectName="search";
+const whatProjectName = {
+  type: "input",
+  name: "whatProjectName",
+  message: "What is the name of the new project?",
+  validate: value => !!value
+};
 
-// //must be curi
-const contextName="base:neuroshapes";
+const whatNexusBase = {
+  type: "input",
+  name: "whatNexusBase",
+  message: "What is the base url of the nexus deployment?",
+  default: "https://bbp.epfl.ch/nexus/v1"
+};
 
-// const [, , stage, projectName=DEFAULT_PROJECT_NAME, contextName=DEFAULT_CONTEXT_NAME] = process.argv;
-// // const config = getConfig(null,stage);
+const whichOrg = {
+  type: "input",
+  name: "whichOrg",
+  message: "What is the name of the organization?",
+  default: "webapps"
+};
 
-// const {
-//   TOKEN: token,
-//   BASE: base,
-//   ORG: org,
-//   DOMAIN: domain,
-//   CONTEXT: context,
-//   SCHEMA: schema,
-//   VER: ver,
-//   V1_PROJECT: v1Project,
-//   V1_ORG: v1Org,
-//   V1_BASE: v1Base
-// } = config;
-
-// let easyConfig = {
-//   token,
-//   base,
-//   org,
-//   domain,
-//   context,
-//   schema,
-//   ver,
-//   v1: { project: v1Project, org: v1Org, base: v1Base }
-// };
-
-async function createProject() {
-  console.log(`creating project ${projectName}...`);
-  let options = {
-    method: "PUT",
-    body: JSON.stringify(projectPayload)
-  }
-  file.write("Project", projectPayload);
-  // let response = await fetchWithToken(`${v1Base}/projects/${v1Org}/${projectName}`, token, options);
-  // console.log(`${response.status} `, response.statusText)
-}
-
-async function createContext() {
-  console.log(`creating context ${contextName}...`);
-  let options = {
-    method: "PUT",
-    body: JSON.stringify(contextPayload)
-  }
-  file.write("Context", contextPayload);
-  // let response = await fetchWithToken(`${v1Base}/resources/${v1Org}/${projectName}/resources/${contextName}`, token, options);
-  // console.log(v1Org, v1Project);
-  // console.log(`${response.status} `, response.statusText)
-}
+// must be curi
+const contextName = "base:neuroshapes";
+const esViewName = "search-view"
 
 void (async function main() {
   try {
-    await createProject();
-    await createContext();
+    let answers = await inquirer.prompt([ whatProjectName, whatNexusBase, whichOrg]);
+    let {
+      whatProjectName: whatProjectNameAnswer,
+      whatNexusBase: whatNexusBaseAnswer,
+      whichOrg: whichOrgAnswer
+    } = answers;
+    let myProject = new Project(whatProjectNameAnswer, { base: whatNexusBaseAnswer, org: whichOrgAnswer, token });
+    await myProject.create(projectPayload)
+    await myProject.createResource(contextPayload, contextName)
+    await myProject.createESView(esViewPayload, esViewName);
   } catch (error) {
     console.log(error);
     process.exit(1);

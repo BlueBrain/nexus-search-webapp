@@ -1,13 +1,13 @@
 {
-  "https://bluebrain.github.io/nexus/vocabulary/SearchCell": {
+  "nxv:SearchCell": {
     "icon": "neuron",
     "label": "Cell"
   },
-  "https://bluebrain.github.io/nexus/vocabulary/SearchIonChannel": {
+  "nxv:SearchIonChannel": {
     "icon": "neuron",
     "label": "Ion Channel"
   },
-  "https://bluebrain.github.io/nexus/vocabulary/MorphologyRelease": {
+  "nxv:MorphologyRelease": {
     "icon": "neuron",
     "label": "Morphology Release"
   }

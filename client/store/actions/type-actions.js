@@ -24,7 +24,7 @@ function fetchTypes() {
     }
     dispatch(fetchTypesStarted());
     return fetch(typesAPI + "?" + qs.stringify(params), {
-      headers: { Authorization: `Bearer ${token}`}
+      headers: token ? { Authorization: `Bearer ${token}` } : {}
     })
       .then(response => {
         if (response.ok) {

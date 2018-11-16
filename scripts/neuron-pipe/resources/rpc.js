@@ -12,11 +12,7 @@ import { getURIPartsFromNexusURL, fetchWithToken } from "../helpers";
 import downloadMorph from "../downloadMorph";
 import { mTypes } from "@consts";
 
-async function fetch(resource, token, shouldUpload, resourceURL) {
-  let { short, source, url, context } = resource;
-  let [base, ...urlParts] = getURIPartsFromNexusURL(url);
-  let [error, docs] = await to(
-    waitForEach(getResources(url, token), [
+export default (resource, resourceURL, shouldUpload, dependencies) => [
       processDoc(resource),
       async doc => {
         doc.cellName = {
@@ -79,6 +75,7 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
           if (activity.wasStartedBy) {
             // we know its allen
             doc.dataSource.repository = "Allen Cell Types Database";
+            // PUBLIC
             // allen only ever has one contribution, but we'll let them slide for now
             // with an array. We can hard code in the value.
             let contribution =
@@ -98,6 +95,7 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
           if (activity.wasAssociatedWith) {
             // we know its neuromorpho
             doc.dataSource.repository = "NeuroMorpho.org";
+            // PUBLIC
             let contribution = await Promise.all(
               activity.wasAssociatedWith.map(async wasAssociatedWith => {
                 let response = await fetchWithToken(wasAssociatedWith["@id"], token);
@@ -153,6 +151,7 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         // a DAT file which didn't have contributors uploaded to NEXUS
         // TODO subject to change!
         if (!doc.contribution) {
+          // NEOCORTEX
           doc.contribution = [{
             "email": "defelipe@cajal.csic.es",
             "familyName": "DeFelipe",
@@ -173,17 +172,4 @@ async function fetch(resource, token, shouldUpload, resourceURL) {
         }
         return doc;
       }
-    ])
-  );
-  if (!docs) {
-    console.log(error, docs);
-    throw new Error(
-      "no docs found for some reason, maybe there was an auth error, check your token"
-    );
-  }
-  console.log("found " + docs.length + " docs");
-  console.log("finished, writing to file");
-  file.write(short, docs);
-}
-
-export default fetch;
+    ];

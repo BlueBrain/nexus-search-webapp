@@ -49,11 +49,13 @@ export default class Client {
       let options = {
         method: "POST",
         headers: {
-          Authorization: headers.authorization,
           "Content-Type": "application/json"
         },
         body: JSON.stringify(body)
       };
+      if (headers.authorization) {
+        options.headers.Authorization = headers.authorization;
+      }
       console.log(url);
       fetch(url, options)
         .then(response => {

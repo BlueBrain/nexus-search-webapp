@@ -8,6 +8,14 @@ export default {
           type: "keyword"
         }
       }
+    },
+    nexusProject: {
+      type: "text",
+      fields: {
+        raw: {
+          type: "keyword"
+        }
+      }
     }
   }
 };

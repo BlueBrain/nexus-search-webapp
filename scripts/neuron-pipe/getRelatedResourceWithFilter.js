@@ -1,4 +1,5 @@
 import {fetchWrapper} from "./helpers";
+import whichToken from "../../server/libs/whichToken"
 
 function makeQuery(startingResourceURI, targetResourceType, context) {
   const query = {
@@ -22,9 +23,10 @@ function makeQuery(startingResourceURI, targetResourceType, context) {
   return query;
 }
 
-function getRelatedResourceTypeByID(params, id, targetResourceType, queryMaker=makeQuery) {
+function getRelatedResourceTypeByID(context, id, targetResourceType, queryMaker=makeQuery) {
   return new Promise((resolve, reject) => {
-    const { token, base, context} = params;
+    let base = id.slice(0, id.indexOf("/data/"));
+    let token = whichToken(id);
     let query = queryMaker(id, targetResourceType);
     let filters = encodeURI(JSON.stringify(query));
     let queryURL = base + "/data/?fields=all&filter=" + filters + "&context=" + context;

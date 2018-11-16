@@ -1,12 +1,8 @@
 import mappingToAggs from "./mappings-to-aggs";
 import { to } from "@libs/promise";
+import properties from "../../../scripts/properties";
 
 async function getAggsFromMapping (client, index, headers) {
-  let mapping = await client.indices.getMapping({
-    index,
-    type: "doc"
-  }, headers)
-  let properties = mapping.properties;
   return mappingToAggs(properties)
 }
 
