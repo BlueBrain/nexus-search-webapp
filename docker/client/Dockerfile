@@ -7,13 +7,13 @@ RUN touch /var/run/nginx.pid && chgrp 0 /var/run/nginx.pid && chmod g+rwx /var/r
 
 # Prepare nginx configuration for environment substitution at runtime
 WORKDIR /etc/nginx
-COPY docker/client/nginx.conf ./
+COPY docker/nginx.conf ./
 RUN chgrp 0 nginx.conf && chmod g+w nginx.conf
 RUN cp -a nginx.conf nginx.conf.template
 
 # Put app files in the right place
 WORKDIR /usr/share/nginx/html
-COPY dist-client .
+COPY dist .
 
 # Prepare application files for environment substitution at runtime
 RUN chgrp 0 index.html && chmod g+w index.html

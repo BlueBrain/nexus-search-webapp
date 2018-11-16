@@ -6,7 +6,7 @@ RUN apk add --no-cache tini
 ENTRYPOINT ["/sbin/tini", "--"]
 
 WORKDIR /usr/src/app/
-COPY dist-server ./
+COPY dist ./
 
 # Default values for environment variables
 ENV NODE_ENV="production"
