@@ -6,10 +6,12 @@ import pushToNexus from "../pushToNexus";
 import flattenDownloadables from "../flattenDownloadables";
 import { getProp } from "@libs/utils";
 import { mTypes } from "@consts";
-// import pctc from "../../testData/pctc.json";
+
+// This is here because it seems that node cannot resolve DNS
+// when doing lots of requests
 require('dns-cache')(100000);
 
-export default (resource, resourceURL, shouldUpload) => [
+export default (resource, resourceURL, shouldUpload, dependencies) => [
   processDoc(resource),
   async doc => {
     let subject = getProp(doc, "wasDerivedFrom.@id");
@@ -35,16 +37,16 @@ export default (resource, resourceURL, shouldUpload) => [
   async doc => {
     return doc;
   },
-  // TODO get trace collection from somewhere
-  // async doc => {
-  //   // Traces are found inside the pctc json document
-  //   if (pctc[doc.name]) {
-  //     doc.traces = pctc[doc.name];
-  //   } else {
-  //     doc.traces = {};
-  //   }
-  //   return doc;
-  // },
+  async doc => {
+    // Traces are collected as a dependency
+    let traces = dependencies;
+    if (traces[doc.name]) {
+      doc.traces = traces[doc.name];
+    } else {
+      doc.traces = {};
+    }
+    return doc;
+  },
   async doc => {
     let label = doc.brainLocation.brainRegion;
     let layerIndex = label.indexOf("layer");
@@ -280,12 +282,16 @@ export default (resource, resourceURL, shouldUpload) => [
   },
   async doc => {
     doc.dataType = {};
-    if (doc.traces && doc.traces.length) {
-      doc.dataType.eType = "has electrophysiology";
+    if (doc.traces && Object.keys(doc.traces).length) {
+      doc.dataType.electrophysiology = "has electrophysiology";
     }
     if (doc.morphology && doc.morphology.length) {
       doc.dataType.morphology = "has morphology";
     }
+    return doc;
+  },
+  async doc => {
+    doc.dataSource.nexusProject = resource.project;
     return doc;
   },
   async doc => await flattenDownloadables(doc),

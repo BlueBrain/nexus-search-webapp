@@ -34,11 +34,17 @@ export default (resource, resourceURL, shouldUpload) => [
     }
     return doc;
   },
+  async doc => {
+    doc.dataType = {
+      morphology: "has morphology"
+    };
+    doc.dataSource.nexusProject = resource.project;
+    return doc;
+  },
   async doc => await flattenDownloadables(doc),
   async doc => {
     // don't upload if the name starts with AA
     // because it is a duplicate of RWBC found in this same directory!
-    // TODO: decide which duplicate to use
     let isMouseLightCell = doc.name.slice(0, 2) === "AA";
     if (shouldUpload && !isMouseLightCell) {
       await pushToNexus(doc, resourceURL);

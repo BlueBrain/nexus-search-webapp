@@ -5,7 +5,6 @@ import rwbc from "./rwbc";
 import wmurwbc from "./wmurwbc";
 import rpc from "./rpc";
 import emtc from "./emtc";
-import pctc from "./pctc";
 import mr from "./mr";
 
 let tpc = pc;
@@ -27,8 +26,6 @@ export {
   rpc,
   // Emodel Trace Collection (for referenc only!)
   emtc,
-  // Exp. Trace Collection (for referenc only!)
-  pctc,
   // Morphology Release
   mr
 }

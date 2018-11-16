@@ -2,13 +2,13 @@ import { getInstancesList, getURIPartsFromNexusURL } from "./helpers";
 import { to } from "@libs/promise";
 import whichToken from "../../server/libs/whichToken"
 
-export default async (resourceURL, options={}) => {
+export default async (resourceURL, options={}, cb) => {
   let token = whichToken(resourceURL);
   let [base, ...uriParts] = getURIPartsFromNexusURL(resourceURL);
   const nexusRequestOptions = {
     deprecated: false,
     fields: "all",
-    size: 9999
+    size: 999999
   };
   let fetchAllResults = true;
   let [error, docs] = await to(
@@ -17,7 +17,8 @@ export default async (resourceURL, options={}) => {
       Object.assign(nexusRequestOptions, options),
       base,
       fetchAllResults,
-      token
+      token,
+      cb
     )
   );
   if (error) {

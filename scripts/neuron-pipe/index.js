@@ -3,6 +3,8 @@ import { resources } from "./consts";
 import processResources from "./process";
 import file from "./file";
 import config from "../../server/libs/config";
+import pctc from "./adjacent-resources/pctc";
+
 
 const whichEntity = {
   type: "list",
@@ -23,33 +25,31 @@ const shouldUpload = {
   default: false
 };
 
-
-const whatProjectName = {
-  type: "input",
-  name: "whatProjectName",
-  message: "What is the name of the project to upload them to?",
-  validate: value => !!value
-};
-
 void (async function main() {
   try {
-    let answers = await inquirer.prompt([whichEntity, shouldUpload, whatProjectName]);
+    let answers = await inquirer.prompt([whichEntity, shouldUpload]);
     let {
       whichEntity: whichEntityAnswer,
       shouldUpload: shouldUploadAnswer,
-      whatProjectName: whatProjectNameAnswer,
     } = answers;
 
-    let resource = resources[whichEntityAnswer];
-    let resourceURL = `https://bbp.epfl.ch/nexus/v1/resources/webapps/${whatProjectNameAnswer}/resource/`;
+    let docs;
 
-    let docs = await processResources(
-      resource,
-      resourceURL,
-      shouldUploadAnswer,
-    );
+    if (whichEntityAnswer === "pctc") {
+      docs = await pctc();
+    } else {
+      let resource = resources[whichEntityAnswer];
+      let { project } = resource;
+      let resourceURL = `https://bbp.epfl.ch/nexus/v1/resources/webapps/${project}/resource/`;
 
+      docs = await processResources(
+        resource,
+        resourceURL,
+        shouldUploadAnswer,
+      );
+    }
     file.write(whichEntityAnswer, docs);
+
   } catch (error) {
     console.log(error);
     process.exit(1);

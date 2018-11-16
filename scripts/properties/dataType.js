@@ -1,6 +1,14 @@
 export default {
   type: "nested",
   properties: {
+    electrophysiology: {
+      type: "text",
+      fields: {
+        raw: {
+          type: "keyword"
+        }
+      }
+    },
     morphology: {
       type: "text",
       fields: {

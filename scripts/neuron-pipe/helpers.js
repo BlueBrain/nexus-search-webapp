@@ -44,11 +44,12 @@ function getInstancesList(
   options = {},
   API_PATH,
   fetchAll,
-  access_token
+  access_token,
+  resultsCB
 ) {
   const path = checkPath(API_PATH);
   const uri = buildURI(path, ["data", ...parts], options);
-  return fetchWrapper(uri, {}, fetchAll, access_token);
+  return fetchWrapper(uri, {}, fetchAll, access_token, options, resultsCB);
 }
 
 /**
@@ -59,7 +60,7 @@ function getInstancesList(
  * @param {string} access_token - access_token recieved via OAuth
  * @returns {Promise<Object>}
  */
-function fetchWrapper(url, result, fetchAll, access_token, options) {
+function fetchWrapper(url, result, fetchAll, access_token, options, cb=() => {}) {
   fetchAll = Boolean(fetchAll);
   return fetchWithToken(url, access_token, options)
     .then(response => {
@@ -73,10 +74,17 @@ function fetchWrapper(url, result, fetchAll, access_token, options) {
     .then(({ total, results, links }) => {
       result.total = total;
       result.results = result.results || [];
+      cb(result.results)
       result.results = result.results.concat(results);
       result.links = Object.assign({}, result.links, links);
+
       if (fetchAll && links.next) {
-        return fetchWrapper(links["next"], result, fetchAll, access_token);
+        // TODO remove, just for testing purposes to limit calls
+        if (links.next.indexOf("from=1050") >= 0) {
+          return result
+        }
+
+        return fetchWrapper(links.next, result, fetchAll, access_token, options, cb);
       }
       return result;
     })
@@ -93,14 +101,14 @@ function fetchWrapper(url, result, fetchAll, access_token, options) {
 async function fetchWithToken(uri, access_token, options = {}) {
   const requestOptions = access_token
     ? {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + access_token
-        }
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + access_token
       }
+    }
     : {};
   let formattedOptions = Object.assign(options, requestOptions);
-  console.log(uri, access_token, formattedOptions);
+  console.log({ uri });
   return await fetch(uri, formattedOptions);
 }
 
