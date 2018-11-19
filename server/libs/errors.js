@@ -54,11 +54,20 @@ class NotFoundError extends Error {
   }
 }
 
+// For when the mapping is unexpectedly malformed
+class MappingError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'MappingError';
+  }
+}
+
 export {
   ElasticSearchError,
   QueryBuilderError,
   UnauthorizedError,
   InvalidConfigError,
   ExternalServiceError,
-  NotFoundError
+  NotFoundError,
+  MappingError
 }

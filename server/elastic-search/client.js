@@ -1,5 +1,5 @@
 import fetchToJSON from "../libs/fetch";
-
+import { MappingError } from "../libs/errors";
 // Class that mimics the Elastic Search JS Client API but uses Nexus v1 Search
 export default class Client {
   constructor(options) {
@@ -20,8 +20,12 @@ export default class Client {
         "Content-Type": "application/json"
       }
     };
-    let result = await fetchToJSON(url, options);
-    return result.mapping
+    try {
+      let result = await fetchToJSON(url, options);
+      return result.mapping
+    } catch(error) {
+      throw new MappingError(error);
+    }
   }
 
   async search(params, headers) {
