@@ -1,4 +1,4 @@
-import * as Errors from "./errors";
+import * as Errors from "../libs/errors";
 import { to } from "../libs/async";
 
 const DEFAULT_PARAMS = {

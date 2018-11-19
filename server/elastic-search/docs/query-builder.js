@@ -115,7 +115,6 @@ function makeDocsQuery(
       });
     }
   }
-  console.log(JSON.stringify(params, null, 2));
   return params;
 }
 

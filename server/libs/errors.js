@@ -38,9 +38,27 @@ class UnauthorizedError extends Error {
   }
 }
 
+// For when a request to an external service is broken
+class ExternalServiceError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'ExternalServiceError';
+  }
+}
+
+// For when a request to an external service returns 404
+class NotFoundError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'NotFound';
+  }
+}
+
 export {
   ElasticSearchError,
   QueryBuilderError,
   UnauthorizedError,
-  InvalidConfigError
+  InvalidConfigError,
+  ExternalServiceError,
+  NotFoundError
 }

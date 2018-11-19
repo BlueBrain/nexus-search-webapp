@@ -1,5 +1,4 @@
 import queryFactory from "./queryFactory";
-import * as Errors from "./errors";
 
 describe("queryFactory()", () => {
   it("returns a function", () => {
