@@ -12,6 +12,9 @@ const COLOR_SETTINGS = {
  * @returns {Array} types
  */
 function normalizer (docs) {
+  if (!docs.aggregations) {
+    return [];
+  }
   let types = docs.aggregations["@types"].buckets;
   // TODO: hardcoded a count for consistency,
   // this should absolutely be moved to client
