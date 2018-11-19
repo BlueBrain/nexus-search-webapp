@@ -1,6 +1,16 @@
 import morgan from "morgan";
 import messages from "./messages";
 
+export const resolveMessages = function (statusCode, messageString) {
+  if (statusCode < 400) {
+    return messages.LOG_SUCCESS(messageString);
+  } else if (statusCode >= 400 && statusCode < 500) {
+    return messages.LOG_NOT_FOUND(messageString);
+  } else if (statusCode >= 500) {
+    return messages.LOG_SERVER_ERROR(messageString);
+  }
+}
+
 function logger(tokens, req, res) {
   let statusString = [
     tokens.method(req, res),
@@ -12,13 +22,7 @@ function logger(tokens, req, res) {
     "ms"
   ].join(" ");
 
-  if (res.statusCode < 400) {
-    return messages.LOG_SUCCESS(statusString);
-  } else if (res.statusCode >= 400 && res.statusCode < 500) {
-    return messages.LOG_NOT_FOUND(statusString);
-  } else if (res.statusCode >= 500) {
-    return messages.LOG_SERVER_ERROR(statusString);
-  }
+  return resolveMessages(req.statusCode, statusString);
 }
 
 function loggerMiddleware(app) {

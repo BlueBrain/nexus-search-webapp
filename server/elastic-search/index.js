@@ -3,7 +3,7 @@ import config from "../libs/config";
 import types from "./types";
 import facets from "./facets";
 import docs from "./docs";
-import * as errors from "./errors";
+import * as errors from "../libs/errors";
 import queryFactory from "./queryFactory";
 import getInstanceFactory from "./getInstance";
 import getMappingFactory from "./getMapping";
