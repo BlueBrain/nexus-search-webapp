@@ -31,7 +31,7 @@ const resourceDict = {
     repository: "Neocortical Microcircuitry Collaboration Portal",
     source: "NMC portal",
     studyType: "Experimental",
-    project: "search-app-staging-public",
+    project: "search-app-staging-public-3",
     type: types.searchCell["@id"],
     dependency: "pctc"
   },
@@ -78,7 +78,7 @@ const resourceDict = {
     repository: "MouseLight",
     source: "Neocortex Project",
     studyType: "Experimental",
-    project: "search-app-staging-public",
+    project: "search-app-staging-public-3",
     type: types.searchCell["@id"]
   },
   wmurwbc: {
@@ -99,7 +99,7 @@ const resourceDict = {
     repository: null,
     source: "Neocortex Project",
     studyType: "Experimental",
-    project: "search-app-staging-thalamus",
+    project: "search-app-staging-public",
     type: types.searchCell["@id"]
   },
   uploaded: {
