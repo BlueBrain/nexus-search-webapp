@@ -43,6 +43,7 @@ export default async (doc, queryURL) => {
       })
     );
     if (!payload || status >= 400) {
+      console.log("there's a problem", status)
       throw new Error("cannot update: " + updateURL);
     }
   }

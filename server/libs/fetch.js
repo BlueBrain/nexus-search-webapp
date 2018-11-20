@@ -6,6 +6,7 @@ export default async function fetchToJSONWithLogging (url, options) {
   console.log(url, options)
   let res = await fetch(url, options);
   let message = resolveMessages(res.status, res.statusText)
+  console.log(message);
   if (res.status === 401) {
     throw(new UnauthorizedError());
   }
@@ -16,6 +17,6 @@ export default async function fetchToJSONWithLogging (url, options) {
     throw(new ExternalServiceError());
   }
   let results = await res.json();
-  console.log(message, results);
+  console.log(results)
   return results;
 }

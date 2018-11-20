@@ -10,7 +10,12 @@ function makeDocsQuery(
   let params = {
     query: {
       bool: {
-        must: []
+        must: [
+          // TODO add back when includeMetadata is fixed
+          // {
+          //   term: { "_deprecated" : false }
+          // }
+        ],
       }
     }
   };

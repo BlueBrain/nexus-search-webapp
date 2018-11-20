@@ -11,6 +11,7 @@ export default {
     // https://bluebrain.github.io/nexus/schemas/resource.json
     "https://bluebrain.github.io/nexus/schemas/resource.json"
   ],
+  "includeMetadata": false,
   "mapping": {
     properties
   }

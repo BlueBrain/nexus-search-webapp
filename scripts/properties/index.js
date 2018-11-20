@@ -8,8 +8,9 @@ import dataType from "./dataType";
 import license from "./license";
 import studyType from "./studyType";
 import subject from "./subject";
-
+import deprecated from "./_deprecated";
 export default {
+  "_deprecated": deprecated,
   "@type": type,
   brainLocation,
   cellType,

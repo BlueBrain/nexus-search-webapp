@@ -2,7 +2,7 @@ import { fetchWithToken } from "./helpers";
 import trimMetaData from "./trimMetaData";
 import whichToken from "../../server/libs/whichToken"
 
-export default async (doc, getResourceID) => {
+export default async (doc, getResourceID, trimData=true) => {
   try {
     let resourceID = getResourceID(doc);
     let token = whichToken(resourceID)
@@ -10,7 +10,7 @@ export default async (doc, getResourceID) => {
     let response = await fetchWithToken(resourceID, token);
     if (response) {
       let resource = await response.json();
-      return trimMetaData(resource);
+      return trimData ? trimMetaData(resource) : resource;
     } else {
       throw new Error("something strange...")
     }

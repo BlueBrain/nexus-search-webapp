@@ -5,7 +5,7 @@ import icons from "../Icons";
 import { makeCancelable } from "@libs/promise";
 import fetchProtectedData from "../../libs/fetchProtectedData";
 import { SwcParser } from 'swcmorphologyparser';
-import { MorphoViewer } from 'morphoviewer'
+import morphoviewer from 'morphoviewer'
 
 class MorphologyContainer extends React.Component {
   state = { morphoData: null, error: null };
@@ -79,7 +79,7 @@ class MorphologyContainer extends React.Component {
     const wholeBrainMeshURL = staticContentLocation + "/brain-mesh"
     if (this.viewContainer && morphoData) {
       try {
-        this.viewer = new MorphoViewer(this.viewContainer);
+        this.viewer = new morphoviewer.MorphoViewer(this.viewContainer);
         if (wholeBrain) {
           this.viewer.addStlToMeshCollection(
             wholeBrainMeshURL,

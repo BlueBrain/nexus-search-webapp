@@ -3,11 +3,12 @@ import fetchResourceById from "../fetchResourceById";
 import getRelatedResourceWithFilter from "../getRelatedResourceWithFilter";
 import trimMetaData from "../trimMetaData";
 import pushToNexus from "../pushToNexus";
+import deprecateFromNexus from "../deprecateFromNexus";
 import flattenDownloadables from "../flattenDownloadables";
 import { getProp } from "@libs/utils";
 import { mTypes } from "@consts";
 
-const PUBLIC_PROJECT = "search-app-staging-public";
+const PUBLIC_PROJECT = "search-app-staging-public-3";
 const NEOCORTEX_PROJECT = "search-app-staging-neocortex";
 
 export default (resource, resourceURL, shouldUpload, dependencies) => [
@@ -78,6 +79,7 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
         // with an array. We can hard code in the value.
         let project = PUBLIC_PROJECT;
         doc.resourceURL = `https://bbp.epfl.ch/nexus/v1/resources/webapps/${project}/resource/`;
+        doc.dataSource.nexusProject = project;
         let contribution =
           activity.wasStartedBy.map(() => {
             return {
@@ -97,12 +99,15 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
         doc.dataSource.repository = "NeuroMorpho.org";
         let project = PUBLIC_PROJECT;
         doc.resourceURL = `https://bbp.epfl.ch/nexus/v1/resources/webapps/${project}/resource/`;
+        doc.dataSource.nexusProject = project;
         // PUBLIC
         let contribution = await Promise.all(
           activity.wasAssociatedWith.map(async wasAssociatedWith => {
+            let trimData = false;
             let affiliation = await fetchResourceById(
               doc,
-              doc => wasAssociatedWith["@id"]
+              doc => wasAssociatedWith["@id"],
+              trimData
             );
             return affiliation;
           })
@@ -117,18 +122,20 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
         contribution = contribution.reduce(
           (memo, contrib) => {
             console.log({contrib})
-            if (!contrib["@type"]) {
-              // probably a software
-              memo.software = trimMetaData(contrib);
-              return memo;
-            }
-            if (contrib.affiliation) { contrib = contrib.affiliation };
-            if (contrib["@type"].includes("schema:Person")) {
+            if (contrib["@type"] && contrib["@type"].includes("schema:Person")) {
               let agent = trimMetaData(contrib);
               agent.fullName = agent.additionalName
                 ? `${agent.givenName} ${agent.additionalName} ${agent.familyName}`
                 : `${agent.givenName} ${agent.familyName}`;
               agent.person = agent.fullName;
+
+              // How we judge the ACL's for this data is based on authorship
+              if (agent.fullName === "Javier DeFelipe") {
+                // NEOCORTEX
+                let project = NEOCORTEX_PROJECT;
+                doc.dataSource.nexusProject = project;
+                doc.resourceURL = `https://bbp.epfl.ch/nexus/v1/resources/webapps/${project}/resource/`;
+              }
               // we can find the org via email (seems to be only two)
               if (agent.email) {
                 if (agent.email.indexOf("bcm.edu") >= 0) {
@@ -141,11 +148,12 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
               memo.contribution.push(agent);
               return memo;
             }
-            if (contrib["@type"].includes("nsg:SoftwareAgent")) {
+            if (contrib["@type"] && contrib["@type"].includes("nsg:SoftwareAgent")) {
               memo.software = trimMetaData(contrib);
               return memo;
             }
-            return memo;
+            console.log("nothing matched", {contrib })
+            throw new Error("nothing matched ");
           },
           { contribution: [], software: {} }
         );
@@ -157,30 +165,27 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
       mType: mType ? mTypes[mType.toLowerCase()] : null
     };
     delete doc.mType;
-
-    // if no contribution has been found yet, that's because they're
-    // a DAT file which didn't have contributors uploaded to NEXUS
-    // TODO subject to change!
-    if (!doc.contribution) {
-      // NEOCORTEX
-      let project = NEOCORTEX_PROJECT;
-      doc.resourceURL = `https://bbp.epfl.ch/nexus/v1/resources/webapps/${project}/resource/`;
-      doc.contribution = [{
-        "email": "defelipe@cajal.csic.es",
-        "familyName": "DeFelipe",
-        "givenName": "Javier",
-        "nxv:deprecated": false,
-        "fullName": "Javier DeFelipe",
-        "person": "Javier DeFelipe",
-        "organization": "Center for Biomedical Technology Technical University of Madrid"
-      }]
+    return doc;
+  },
+  async doc => {
+    if (!doc.dataSource.nexusProject) {
+      console.log(doc);
+      throw new Error("there was no nexusProject found");
     }
-
+    if (doc.image && doc.image.length) {
+      doc.dataType = {
+        morphology: "has Morphology"
+      }
+    }
     return doc;
   },
   async doc => await flattenDownloadables(doc),
   async doc => {
     if (shouldUpload) {
+      if (!doc.resourceURL) {
+        console.log(doc);
+        throw new Error("no resoureceURL found!");
+      }
       await pushToNexus(doc, doc.resourceURL);
     }
     return doc;
