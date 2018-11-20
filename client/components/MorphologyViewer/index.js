@@ -75,7 +75,6 @@ class MorphologyContainer extends React.Component {
   }
   makeVisualizer() {
     let { morphoData } = this.state;
-    console.log({ morphoData });
     let { name, wholeBrain, staticContentLocation } = this.props;
     const wholeBrainMeshURL = staticContentLocation + "/brain-mesh"
     if (this.viewContainer && morphoData) {
