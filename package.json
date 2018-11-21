@@ -8,7 +8,7 @@
   "repository": "github:bluebrain/nexus-explorer",
   "homepage": "https://github.com/BlueBrain/nexus-search-webapp#readme",
   "scripts": {
-    "build": "export NODE_ENV=production && parcel build server/index.js --target node --out-dir dist/server && parcel build public/index.pug --public-url ./ --out-dir dist/public && envsub --env npm_package_version dist/public/index.html",
+    "build": "export NODE_ENV=production && parcel build server/index.js --target node --out-dir dist/server && parcel build public/index.pug --no-source-maps --public-url ./ --out-dir dist/public && envsub --env npm_package_version dist/public/index.html",
     "prepare:pipeline": "npm run prepare:client && npm run prepare:server",
     "prepare:client": "mkdir -p dist-client/dist && cp dist/public/* dist-client/dist && cp -r docker/client dist-client/docker",
     "prepare:server": "mkdir -p dist-server/dist && cp dist/server/* dist-server/dist && cp -r docker/server dist-server/docker && cp package.json dist-server/dist && cp package-lock.json dist-server/dist",
@@ -107,6 +107,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/runtime-corejs2": "^7.1.5",
     "@types/jest": "^23.1.6",
+    "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.4.2",
     "babel-plugin-module-resolver": "^3.1.1",
     "babel-preset-react-app": "^3.1.2",
