@@ -57,6 +57,7 @@ const resourceDict = {
     name: "Cell Models (eModels)",
     type: types.searchCell["@id"],
     source: "BBP",
+    project: "search-app-staging-neocortex",
     studyType: "In Silico",
     dependency: "emtc",
     repository: null
@@ -136,6 +137,7 @@ const resourceDict = {
     name: "Morphology Release",
     source: "BBP",
     studyType: "Experimental",
+    project: "search-app-staging-neocortex",
     type: types.morphologyRelease["@id"]
   },
 };

@@ -44,7 +44,6 @@ void (async function main() {
       let resource = resources[whichEntityAnswer];
       let { project } = resource;
       let resourceURL = `https://bbp.epfl.ch/nexus/v1/resources/webapps/${project}/resource/`;
-
       docs = await processResources(
         resource,
         resourceURL,

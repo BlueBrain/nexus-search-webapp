@@ -80,7 +80,7 @@ function fetchWrapper(url, result, fetchAll, access_token, options, cb=() => {})
 
       if (fetchAll && links.next) {
         // TODO remove, just for testing purposes to limit calls
-        if (links.next.indexOf("from=1050") >= 0) {
+        if (links.next.indexOf("from=5050") >= 0) {
           return result
         }
 

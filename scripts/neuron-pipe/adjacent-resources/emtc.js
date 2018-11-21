@@ -1,10 +1,28 @@
+import { readFileSync } from "fs";
+import { resolve } from "path";
 import getResources from "../getResources";
 import { resources } from "../consts";
 import { getURIPartsFromNexusURL } from "../helpers";
 
+// TODO remove this requirement
+// if it is possible to get the pc trace collections
+// via SPARQL query
+function readTestDataJSON (file) {
+  try {
+    console.log("attempting to read file", file);
+    return JSON.parse(readFileSync(file, 'utf8'));
+  } catch(error) {
+    console.log(error);
+    throw new Error(`file ${file} cannot be read. It must be available as a requirement to run this script`);
+  }
+}
+
+
 let docs;
 
 async function fetchAdjacentResource() {
+  let pc = readTestDataJSON(resolve(__dirname, "../../test-data/pc.json"));
+
   // if docs have been fetched and are in memory...
   if (docs && Object.keys(docs.length)) { return docs; }
 
@@ -29,41 +47,12 @@ async function fetchAdjacentResource() {
         .filter(
           ({ source }) => source.name.indexOf(`${emodel}___${protocol}`) >= 0
         )
-        .map(async ({ source }) => {
+        .map(({ source }) => {
           const name = source.name.split("___").pop();
           let cellInfo = {}
-          let { context } = resources.pc;
-          let response
-          // try {
-          //   response = await getRelatedResourceWithFilter(
-          //     context,
-          //     doc["@id"],
-          //     "nsg:ReconstructedCell",
-          //     function makeQuery(startingResourceURI, targetResourceType) {
-          //       const query = {
-          //         op: "and",
-          //         value: [
-          //           {
-          //             op: "eq",
-          //             path: "name",
-          //             value: name
-          //           },
-          //           {
-          //             op: "eq",
-          //             path: "rdf:type",
-          //             value: "nsg:PatchedCell"
-          //           }
-          //         ]
-          //       };
-          //       return query;
-          //     }
-          //   );
-          //   console.log({response});
-          // } catch (error) {
-          //   console.log("oh no!", error)
-          //   throw new Error("broken!", error);
-          // }
-          let resolvedPatchedCellList = [];
+          let resolvedPatchedCellList = pc.filter(cell => {
+            return cell.name === name;
+          });
           if (resolvedPatchedCellList.length) {
             let {
               searchID,
