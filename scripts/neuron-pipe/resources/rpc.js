@@ -73,7 +73,19 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
       // TODO change repos to URLS
       if (activity.wasStartedBy) {
         // we know its allen
+
         doc.dataSource.repository = "Allen Cell Types Database";
+
+        doc.citations = {
+          howToCite: "https://alleninstitute.org/legal/citation-policy/",
+          citationsList: [
+            {
+              text: "© 2015 Allen Institute for Brain Science. Allen Cell Types Database. Available from: http://celltypes.brain-map.org/",
+              location: doc.citation ? doc.citation : "http://celltypes.brain-map.org/"
+            }
+          ]
+        }
+
         // PUBLIC
         // allen only ever has one contribution, but we'll let them slide for now
         // with an array. We can hard code in the value.
@@ -121,7 +133,6 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
         // we can seperate the software form the people using types
         contribution = contribution.reduce(
           (memo, contrib) => {
-            console.log({contrib})
             if (contrib["@type"] && contrib["@type"].includes("schema:Person")) {
               let agent = trimMetaData(contrib);
               agent.fullName = agent.additionalName
@@ -169,7 +180,6 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
   },
   async doc => {
     if (!doc.dataSource.nexusProject) {
-      console.log(doc);
       throw new Error("there was no nexusProject found");
     }
     if (doc.image && doc.image.length) {
@@ -183,7 +193,6 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
   async doc => {
     if (shouldUpload) {
       if (!doc.resourceURL) {
-        console.log(doc);
         throw new Error("no resoureceURL found!");
       }
       await pushToNexus(doc, doc.resourceURL);

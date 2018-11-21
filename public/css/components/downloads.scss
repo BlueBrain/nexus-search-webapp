@@ -1,3 +1,13 @@
+.citations-list {
+  max-height: 80vh;
+  height: auto;
+  overflow-y: scroll;
+  padding: 2em;
+  li {
+    margin-bottom: 1em;
+  }
+}
+
 .download-list {
   max-height: 80vh;
   height: auto;

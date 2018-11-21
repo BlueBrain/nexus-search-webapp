@@ -9,6 +9,7 @@ import BrainRegionLink from "../../../BrainRegionLink";
 import Subject from "../Subject";
 import FontAwesome from "react-fontawesome";
 import TraceViewer from "../../../ExperimentalTraceViewer";
+import { citationsList } from "../../../Citations";
 
 const DEFAULT_CELL_MODEL_NAME = "Cell";
 function getUUIDFromAtID(instance) {
@@ -121,6 +122,7 @@ function Hero({ instance }) {
 
 function Details({ instance }) {
   let generatedFromCells = getProp(instance, "generatedFromCells", []);
+  let citations = getProp(instance, "citations");
   return (
     <div className="more-details">
       <Row>
@@ -154,6 +156,13 @@ function Details({ instance }) {
           </Fragment>
         )}
       </Row>
+      {citations &&
+        <Row style={{ marginBottom: "2em"}}>
+          <Divider>How to Cite?</Divider>
+          {citationsList(citations)}
+        </Row>
+      }
+
     </div>
   );
 }

@@ -1,6 +1,8 @@
 import queryString from "querystring";
 import fetch from "node-fetch";
 
+const MAX_REQUESTS = 5000
+
 /**
  * Checks if custom path to API has been added
  * @param {string} API_PATH
@@ -80,7 +82,7 @@ function fetchWrapper(url, result, fetchAll, access_token, options, cb=() => {})
 
       if (fetchAll && links.next) {
         // TODO remove, just for testing purposes to limit calls
-        if (links.next.indexOf("from=5050") >= 0) {
+        if (links.next.indexOf(`from=${MAX_REQUESTS}`) >= 0) {
           return result
         }
 

@@ -9,6 +9,7 @@ import InspectLink from "../InspectLink";
 import Contributions from "./Contributions";
 import { Icon } from "antd";
 import Download from "../../Download";
+import Citations from "../../Citations";
 import {eTypes, mTypes} from "../../../../consts";
 
 const GridResult = ({ value, id }) => {
@@ -51,8 +52,13 @@ const GridResult = ({ value, id }) => {
                   <div className={`action-buttons ${active ? "active" : ""}`}>
                     {getProp(value, "files") && !!getProp(value, "files").length &&
                       <Download files={getProp(value, "files")} name={getProp(value, "cellName.label", "Cell")}>
-                        <a><Icon type="cloud-download-o" style={{ fontSize: 16 }}/></a>
+                        <a><Icon type="cloud-download-o" style={{ fontSize: 16 }}/> Downloads</a>
                       </Download>
+                    }
+                    {getProp(value, "citations") &&
+                      <Citations citations={getProp(value, "citations")} name={getProp(value, "cellName.label", "Cell")}>
+                        <a><Icon type="highlight" style={{ fontSize: 16 }}/> How to Cite?</a>
+                      </Citations>
                     }
                   </div>
                   <div className="labels">

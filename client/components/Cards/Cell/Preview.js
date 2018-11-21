@@ -1,5 +1,4 @@
 import React, { PureComponent } from "react";
-import EphysPreview from "./EphysPreview";
 import MorphologyPreview from "./MorphologyPreview";
 
 class Preview extends PureComponent {
@@ -12,9 +11,6 @@ class Preview extends PureComponent {
     let { value } = this.props;
     return (
       <div className="card-morph">
-        {value.traces &&
-          <EphysPreview traces={value.traces} disabled={hoveringOverMorph}/>
-        }
         <MorphologyPreview preview onHover={this.handlehoverOverMorph.bind(this)} value={value} shouldRender={hoveringOverMorph} polyLine/>
       </div>
     );
