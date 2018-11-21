@@ -4,6 +4,7 @@ import processResources from "./process";
 import file from "./file";
 import config from "../../server/libs/config";
 import pctc from "./adjacent-resources/pctc";
+import emtc from "./adjacent-resources/emtc";
 
 
 const whichEntity = {
@@ -37,11 +38,12 @@ void (async function main() {
 
     if (whichEntityAnswer === "pctc") {
       docs = await pctc();
+    } else if (whichEntityAnswer === "emtc") {
+      docs = await emtc();
     } else {
       let resource = resources[whichEntityAnswer];
       let { project } = resource;
       let resourceURL = `https://bbp.epfl.ch/nexus/v1/resources/webapps/${project}/resource/`;
-
       docs = await processResources(
         resource,
         resourceURL,

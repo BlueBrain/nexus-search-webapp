@@ -46,7 +46,6 @@ export default function queryFactory(
       body
     };
     [error, docs] = await to(client.search(params, headers));
-    console.log(error, docs)
     if (error && error.message === "unauthorized") {
       throw new Errors.UnauthorizedError(error);
     }

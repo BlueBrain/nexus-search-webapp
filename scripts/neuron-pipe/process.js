@@ -10,6 +10,10 @@ export default async function fetch(resource, resourceURL, shouldUpload = false)
   if (dependencies[dependency]) {
     let error;
     [error, resolvedDependency] = await to(dependencies[dependency]());
+    if (error) {
+      console.log("something went wrong while processing dependencies");
+      throw new Error(error)
+    }
   }
   let [error, docs] = await to(
     waitForEach(getResources(url), processorFactory(resource, resourceURL, shouldUpload, resolvedDependency))

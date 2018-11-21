@@ -1,4 +1,5 @@
-import {fetchWrapper} from "./helpers";
+import {fetchWrapper, getURIPartsFromNexusURL} from "./helpers";
+import whichToken from "../../server/libs/whichToken";
 
 function makeQuery(startingResourceURI, targetResourceType, context) {
   const query = {
@@ -22,11 +23,12 @@ function makeQuery(startingResourceURI, targetResourceType, context) {
   return query;
 }
 
-function getRelatedResourceTypeByID(params, id, targetResourceType, queryMaker=makeQuery) {
+function getRelatedResourceTypeByID(context, id, targetResourceType, queryMaker=makeQuery) {
   return new Promise((resolve, reject) => {
-    const { token, base, context} = params;
     let query = queryMaker(id, targetResourceType, context);
+    let [base, ...uriParts] = getURIPartsFromNexusURL(id);
     let queryURL = base + "/queries/";// + "?fields=all";
+    let token = whichToken(id);
     let options = {
       method: "POST",
       body: JSON.stringify(query),
@@ -35,6 +37,7 @@ function getRelatedResourceTypeByID(params, id, targetResourceType, queryMaker=m
         "Content-Type": "application/json; charset=utf-8"
       }
     };
+    console.log(queryURL)
     return fetchWrapper(queryURL, {}, true, token, options)
       .then(response => {
         return resolve(response);
