@@ -4,7 +4,6 @@ import subcell from "./subcell";
 import rwbc from "./rwbc";
 import wmurwbc from "./wmurwbc";
 import rpc from "./rpc";
-import emtc from "./emtc";
 import mr from "./mr";
 
 let tpc = pc;
@@ -24,8 +23,6 @@ export {
   wmurwbc,
   // Neocortex reconstructed patch cells
   rpc,
-  // Emodel Trace Collection (for referenc only!)
-  emtc,
   // Morphology Release
   mr
 }

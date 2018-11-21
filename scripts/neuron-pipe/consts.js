@@ -58,6 +58,7 @@ const resourceDict = {
     type: types.searchCell["@id"],
     source: "BBP",
     studyType: "In Silico",
+    dependency: "emtc",
     repository: null
   },
   subcell: {
@@ -66,6 +67,7 @@ const resourceDict = {
     name: "Subcellular Mechanisms",
     context: "https://bbp-nexus.epfl.ch/staging/v0/contexts/neurosciencegraph/core/data/v1.0.2",
     type: types.searchIonChannel["@id"],
+    project: "search-app-staging-neocortex",
     source: "BBP",
     studyType: "In Silico",
     repository: null
