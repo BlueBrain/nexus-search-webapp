@@ -71,13 +71,13 @@ function citationsComponent(citation) {
   let location = getProp(citation, "location")
   return (
     <li>
+      {location &&
+        <a href={location} target="_blank" style={{fontSize: "1.2em"}}>{location}</a>
+      }
       {text &&
         <p>
           {text}
         </p>
-      }
-      {location &&
-        <a href={location} target="_blank">{location}</a>
       }
     </li>
   )
