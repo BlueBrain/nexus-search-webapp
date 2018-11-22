@@ -36,12 +36,14 @@ export default async (doc, queryURL) => {
       throw new Error("cannot update, no revision: " + resourceURL);
     }
     let updateURL = queryURL + doc.searchID + "?rev=" + rev;
+    console.log("\n update to nexus!", { updateURL, id: doc["@id"] }, "\n");
     [error, status, payload] = await withStatus(
       fetchWithToken(updateURL, token, {
         method: "PUT",
         body
       })
     );
+    console.log("attempt to update response: ", status)
     if (!payload || status >= 400) {
       console.log("there's a problem", status)
       throw new Error("cannot update: " + updateURL);

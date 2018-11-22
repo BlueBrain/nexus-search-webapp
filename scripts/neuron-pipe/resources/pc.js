@@ -198,6 +198,11 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
         doc,
         doc => wasStartedBy["@id"]
       );
+      if (!agent.familyName || !agent.givenName) {
+        console.log(wasStartedBy)
+        console.log(agent)
+        throw new Error("No agent info")
+      }
       agent.fullName = agent.additionalName
         ? `${agent.givenName} ${agent.additionalName} ${agent.familyName}`
         : `${agent.givenName} ${agent.familyName}`;
@@ -292,6 +297,15 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
   },
   async doc => {
     doc.dataSource.nexusProject = resource.project;
+    doc.citations = {
+      howToCite: "https://bbp.epfl.ch/nmc-portal/howtocite",
+      citationsList: [
+        {
+          text: "Markram H†, Muller E†, Ramaswamy S†, Reimann MW†,  Abdellah M, Sanchez CA, Ailamaki A, Alonso-Nanclares L, Antille N, Arsever S et al. (2015). Reconstruction and Simulation of Neocortical Microcircuitry. Cell 163:2, 456 - 492.",
+          location: "doi: 10.1016/j.cell.2015.09.029"
+        }
+      ]
+    }
     return doc;
   },
   async doc => await flattenDownloadables(doc),
