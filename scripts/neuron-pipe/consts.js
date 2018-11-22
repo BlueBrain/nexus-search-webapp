@@ -20,6 +20,12 @@ export const types = {
   }
 };
 
+// DATATYPE keys
+export const datatTypes = {
+  morphology: "has morphology",
+  electrophysiology: "has electrophysiology"
+};
+
 // Which resources do we consume from Nexus v1
 // to create our tranformed instances
 const resourceDict = {
@@ -66,7 +72,8 @@ const resourceDict = {
     url:
       "https://bbp-nexus.epfl.ch/staging/v0/data/somatosensorycortexproject/simulation/subcellularmodel/v0.1.2/",
     name: "Subcellular Mechanisms",
-    context: "https://bbp-nexus.epfl.ch/staging/v0/contexts/neurosciencegraph/core/data/v1.0.2",
+    context:
+      "https://bbp-nexus.epfl.ch/staging/v0/contexts/neurosciencegraph/core/data/v1.0.2",
     type: types.searchIonChannel["@id"],
     project: "search-app-staging-neocortex",
     source: "BBP",
@@ -74,7 +81,8 @@ const resourceDict = {
     repository: null
   },
   rwbc: {
-    url: "https://bbp.epfl.ch/nexus/v0/data/neocortexproject/morphology/reconstructedwholebraincell/v0.1.1/",
+    url:
+      "https://bbp.epfl.ch/nexus/v0/data/neocortexproject/morphology/reconstructedwholebraincell/v0.1.1/",
     context:
       "https://bbp.epfl.ch/nexus/v0/contexts/neurosciencegraph/core/data/v0.1.0",
     name: "Reconstructed Whole Brain Cells",
@@ -85,9 +93,10 @@ const resourceDict = {
     type: types.searchCell["@id"]
   },
   wmurwbc: {
-    url: "https://bbp.epfl.ch/nexus/v0/data/bbp/morphology/reconstructedwholebraincell/v0.1.1/",
+    url:
+      "https://bbp.epfl.ch/nexus/v0/data/bbp/morphology/reconstructedwholebraincell/v0.1.1/",
     context:
-    "https://bbp.epfl.ch/nexus/v0/contexts/neurosciencegraph/core/data/v1.0.1",
+      "https://bbp.epfl.ch/nexus/v0/contexts/neurosciencegraph/core/data/v1.0.1",
     name: "WMU Reconstructed Whole Brain Cells",
     repository: null,
     source: "WMU",
@@ -96,8 +105,10 @@ const resourceDict = {
     type: types.searchCell["@id"]
   },
   rpc: {
-    url: "https://bbp.epfl.ch/nexus/v0/data/neocortexproject/morphology/reconstructedpatchedcell/v0.1.1/",
-    context: "https://bbp.epfl.ch/nexus/v0/contexts/neurosciencegraph/core/data/v0.2.0",
+    url:
+      "https://bbp.epfl.ch/nexus/v0/data/neocortexproject/morphology/reconstructedpatchedcell/v0.1.1/",
+    context:
+      "https://bbp.epfl.ch/nexus/v0/contexts/neurosciencegraph/core/data/v0.2.0",
     name: "Reconstructed Patch Cell",
     repository: null,
     source: "Neocortex Project",
@@ -111,12 +122,14 @@ const resourceDict = {
     source: "Nexus File Uploader"
   },
   emtc: {
-    url: "https://bbp-nexus.epfl.ch/staging/v0/data/somatosensorycortexproject/simulation/emodeltraceset/v0.0.1/",
+    url:
+      "https://bbp-nexus.epfl.ch/staging/v0/data/somatosensorycortexproject/simulation/emodeltraceset/v0.0.1/",
     name: "E Model Trace Collection",
     source: "BBP NSE"
   },
   pctc: {
-    url: "https://bbp-nexus.epfl.ch/staging/v0/data/somatosensorycortexproject/electrophysiology/experimentaltraceset/v0.0.1?filter=%7B%22op%22%3A%22eq%22%2C%22path%22%3A%22rdf%3Atype%22%2C%22value%22%3A%22nsg%3AConfiguration%22%7D&context=%7B%22nsg%22%3A%20%22https%3A%2F%2Fbbp-nexus.epfl.ch%2Fvocabs%2Fbbp%2Fneurosciencegraph%2Fcore%2Fv0.1.0%2F%22%7D",
+    url:
+      "https://bbp-nexus.epfl.ch/staging/v0/data/somatosensorycortexproject/electrophysiology/experimentaltraceset/v0.0.1?filter=%7B%22op%22%3A%22eq%22%2C%22path%22%3A%22rdf%3Atype%22%2C%22value%22%3A%22nsg%3AConfiguration%22%7D&context=%7B%22nsg%22%3A%20%22https%3A%2F%2Fbbp-nexus.epfl.ch%2Fvocabs%2Fbbp%2Fneurosciencegraph%2Fcore%2Fv0.1.0%2F%22%7D",
     name: "Exp Cell Trace Collection",
     source: "BBP NSE"
   },
@@ -124,22 +137,24 @@ const resourceDict = {
     url:
       "https://bbp.epfl.ch/nexus/explorer/ionchannelproject/experiment/cell/v0.1.0/",
     name: "Ion Channel Experiment",
-    context: "https://bbp.epfl.ch/nexus/v0/contexts/neurosciencegraph/core/data/v1.0.4",
+    context:
+      "https://bbp.epfl.ch/nexus/v0/contexts/neurosciencegraph/core/data/v1.0.4",
     type: types.searchIonChannel["@id"],
     source: "BBP",
     studyType: "Experimental",
     repository: "Channelpedia"
   },
   mr: {
-    url: "https://bbp-nexus.epfl.ch/staging/v0/data/thalamusproject/simulation/morphologyrelease/v0.1.2/",
+    url:
+      "https://bbp-nexus.epfl.ch/staging/v0/data/thalamusproject/simulation/morphologyrelease/v0.1.2/",
     context:
-    "https://bbp-nexus.epfl.ch/staging/v0/contexts/neurosciencegraph/core/data/v1.0.5",
+      "https://bbp-nexus.epfl.ch/staging/v0/contexts/neurosciencegraph/core/data/v1.0.5",
     name: "Morphology Release",
     source: "BBP",
     studyType: "Experimental",
     project: "search-app-staging-neocortex",
     type: types.morphologyRelease["@id"]
-  },
+  }
 };
 
 // expose resourceDict as "resources" with additional field "short"

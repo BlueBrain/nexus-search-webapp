@@ -12,8 +12,10 @@ import fullscreen from "../../public/img/full-screen.svg";
 import lightbulb from "../../public/img/lightbulb.svg";
 import connectionError from "../../public/img/connection-error.svg";
 import bug from "../../public/img/bug.svg";
+import spike from "../../public/img/spike.svg";
 
 export default {
+  spike,
   fullscreen,
   preview,
   eye,
@@ -28,4 +30,4 @@ export default {
   bug,
   connectionError,
   lightbulb
-}
+};

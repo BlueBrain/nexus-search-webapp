@@ -6,20 +6,18 @@ import pushToNexus from "../pushToNexus";
 import flattenDownloadables from "../flattenDownloadables";
 import { getProp } from "@libs/utils";
 import { mTypes } from "@consts";
+import { dataTypes } from "../consts";
 
 // This is here because it seems that node cannot resolve DNS
 // when doing lots of requests
-require('dns-cache')(100000);
+require("dns-cache")(100000);
 
 export default (resource, resourceURL, shouldUpload, dependencies) => [
   processDoc(resource),
   async doc => {
     let subject = getProp(doc, "wasDerivedFrom.@id");
     if (subject) {
-      let subjectResult = await fetchResourceById(
-        doc,
-        doc => subject
-      );
+      let subjectResult = await fetchResourceById(doc, doc => subject);
       doc.subject = subjectResult;
     }
     doc.cellName = {
@@ -194,14 +192,11 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
     if (activity && activity.length && activity[0].wasStartedBy) {
       // This activity only ever has one agent
       let wasStartedBy = activity[0].wasStartedBy;
-      let agent = await fetchResourceById(
-        doc,
-        doc => wasStartedBy["@id"]
-      );
+      let agent = await fetchResourceById(doc, doc => wasStartedBy["@id"]);
       if (!agent.familyName || !agent.givenName) {
-        console.log(wasStartedBy)
-        console.log(agent)
-        throw new Error("No agent info")
+        console.log(wasStartedBy);
+        console.log(agent);
+        throw new Error("No agent info");
       }
       agent.fullName = agent.additionalName
         ? `${agent.givenName} ${agent.additionalName} ${agent.familyName}`
@@ -288,10 +283,10 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
   async doc => {
     doc.dataType = {};
     if (doc.traces && Object.keys(doc.traces).length) {
-      doc.dataType.electrophysiology = "has electrophysiology";
+      doc.dataType.electrophysiology = dataTypes.electrophysiology;
     }
     if (doc.morphology && doc.morphology.length) {
-      doc.dataType.morphology = "has morphology";
+      doc.dataType.morphology = dataTypes.morphology;
     }
     return doc;
   },
@@ -301,11 +296,12 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
       howToCite: "https://bbp.epfl.ch/nmc-portal/howtocite",
       citationsList: [
         {
-          text: "Markram H†, Muller E†, Ramaswamy S†, Reimann MW†,  Abdellah M, Sanchez CA, Ailamaki A, Alonso-Nanclares L, Antille N, Arsever S et al. (2015). Reconstruction and Simulation of Neocortical Microcircuitry. Cell 163:2, 456 - 492.",
+          text:
+            "Markram H†, Muller E†, Ramaswamy S†, Reimann MW†,  Abdellah M, Sanchez CA, Ailamaki A, Alonso-Nanclares L, Antille N, Arsever S et al. (2015). Reconstruction and Simulation of Neocortical Microcircuitry. Cell 163:2, 456 - 492.",
           location: "doi: 10.1016/j.cell.2015.09.029"
         }
       ]
-    }
+    };
     return doc;
   },
   async doc => await flattenDownloadables(doc),
@@ -315,4 +311,4 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
     }
     return doc;
   }
-]
+];

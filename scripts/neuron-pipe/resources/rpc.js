@@ -7,6 +7,7 @@ import deprecateFromNexus from "../deprecateFromNexus";
 import flattenDownloadables from "../flattenDownloadables";
 import { getProp } from "@libs/utils";
 import { mTypes } from "@consts";
+import { dataTypes } from "../consts";
 
 const PUBLIC_PROJECT = "search-app-staging-public-3";
 const NEOCORTEX_PROJECT = "search-app-staging-neocortex";
@@ -207,7 +208,7 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
     }
     if (doc.image && Object.keys(doc.image).length) {
       doc.dataType = {
-        morphology: "has Morphology"
+        morphology: dataTypes.morphology
       };
     }
     return doc;

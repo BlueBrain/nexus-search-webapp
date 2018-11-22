@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Checkbox, Tooltip, Tag } from "antd";
 import FontAwesome from "react-fontawesome";
+import TypeIcon from "../../TypeIcon";
 
 function splitStringInTwain(str) {
   let middle = Math.ceil(str.length / 2);
@@ -11,6 +12,26 @@ function splitStringInTwain(str) {
 }
 
 function Label(label) {
+  if (label === "has electrophysiology") {
+    return (
+      <div className="label">
+        <Tag color="#90eac3">
+          <TypeIcon iconURL="spike" className="facet-icon" />
+        </Tag>
+        Has Electrophysiology
+      </div>
+    );
+  }
+  if (label === "has morphology") {
+    return (
+      <div className="label">
+        <Tag color="#90eac3">
+          <TypeIcon iconURL="neuron" className="facet-icon" />
+        </Tag>
+        Has Morphology
+      </div>
+    );
+  }
   if (label === "Experimental") {
     return (
       <div className="label">
@@ -39,9 +60,8 @@ const FacetCheckbox = ({ label, value, amount, selected }) => {
       <Checkbox value={value} checked={selected} className="facet-checkbox">
         {/* <span className="label" data-content-start={start} data-content-end={end}></span> */}
         <div className="label-container">
-        {Label(label)}
-        <span className="amount">{amount}</span>
-
+          {Label(label)}
+          <span className="amount">{amount}</span>
         </div>
       </Checkbox>
     </Tooltip>
