@@ -25,13 +25,13 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
   async doc => {
     let subject = getProp(doc, "wasDerivedFrom.@id");
     if (subject) {
-      let subjectResult = await fetchResourceById(
-        doc,
-        doc => subject
-      );
+      let subjectResult = await fetchResourceById(doc, doc => subject);
       doc.subject = subjectResult;
       doc.subject.species = getProp(doc, "subject.species.label");
-      if (doc.subject.species && doc.subject.species.toLowerCase() === "mouse") {
+      if (
+        doc.subject.species &&
+        doc.subject.species.toLowerCase() === "mouse"
+      ) {
         doc.subject.species = "Mus musculus";
       }
       doc.subject.sex = getProp(doc, "subject.sex.label");
@@ -80,11 +80,14 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
           howToCite: "https://alleninstitute.org/legal/citation-policy/",
           citationsList: [
             {
-              text: "© 2015 Allen Institute for Brain Science. Allen Cell Types Database. Available from: http://celltypes.brain-map.org/",
-              location: doc.citation ? doc.citation : "http://celltypes.brain-map.org/"
+              text:
+                "© 2015 Allen Institute for Brain Science. Allen Cell Types Database. Available from: http://celltypes.brain-map.org/",
+              location: doc.citation
+                ? doc.citation
+                : "http://celltypes.brain-map.org/"
             }
           ]
-        }
+        };
 
         // PUBLIC
         // allen only ever has one contribution, but we'll let them slide for now
@@ -92,12 +95,11 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
         let project = PUBLIC_PROJECT;
         doc.resourceURL = `https://bbp.epfl.ch/nexus/v1/resources/webapps/${project}/resource/`;
         doc.dataSource.nexusProject = project;
-        let contribution =
-          activity.wasStartedBy.map(() => {
-            return {
-              organization: "Allen Institute for Brain Science"
-            };
-          });
+        let contribution = activity.wasStartedBy.map(() => {
+          return {
+            organization: "Allen Institute for Brain Science"
+          };
+        });
         doc.contribution = contribution;
 
         // license for Allen
@@ -109,6 +111,19 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
       if (activity.wasAssociatedWith) {
         // we know its neuromorpho
         doc.dataSource.repository = "NeuroMorpho.org";
+
+        // neuromorpho citations
+        doc.citations = {
+          howToCite: "http://neuromorpho.org/useterm.jsp",
+          citationsList: [
+            {
+              text:
+                "Ascoli GA, Donohue DE, Halavi M. (2007) NeuroMorpho.Org: a central resource for neuronal morphologies.J Neurosci., 27(35):9247-51",
+              location: doc.citation
+            }
+          ]
+        };
+
         let project = PUBLIC_PROJECT;
         doc.resourceURL = `https://bbp.epfl.ch/nexus/v1/resources/webapps/${project}/resource/`;
         doc.dataSource.nexusProject = project;
@@ -133,10 +148,15 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
         // we can seperate the software form the people using types
         contribution = contribution.reduce(
           (memo, contrib) => {
-            if (contrib["@type"] && contrib["@type"].includes("schema:Person")) {
+            if (
+              contrib["@type"] &&
+              contrib["@type"].includes("schema:Person")
+            ) {
               let agent = trimMetaData(contrib);
               agent.fullName = agent.additionalName
-                ? `${agent.givenName} ${agent.additionalName} ${agent.familyName}`
+                ? `${agent.givenName} ${agent.additionalName} ${
+                    agent.familyName
+                  }`
                 : `${agent.givenName} ${agent.familyName}`;
               agent.person = agent.fullName;
 
@@ -150,20 +170,23 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
               // we can find the org via email (seems to be only two)
               if (agent.email) {
                 if (agent.email.indexOf("bcm.edu") >= 0) {
-                  agent.organization = "Baylor College of Medicine"
+                  agent.organization = "Baylor College of Medicine";
                 }
                 if (agent.email.indexOf("mcgill.ca") >= 0) {
-                  agent.organization = "McGill University"
+                  agent.organization = "McGill University";
                 }
               }
               memo.contribution.push(agent);
               return memo;
             }
-            if (contrib["@type"] && contrib["@type"].includes("nsg:SoftwareAgent")) {
+            if (
+              contrib["@type"] &&
+              contrib["@type"].includes("nsg:SoftwareAgent")
+            ) {
               memo.software = trimMetaData(contrib);
               return memo;
             }
-            console.log("nothing matched", {contrib })
+            console.log("nothing matched", { contrib });
             throw new Error("nothing matched ");
           },
           { contribution: [], software: {} }
@@ -182,10 +205,10 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
     if (!doc.dataSource.nexusProject) {
       throw new Error("there was no nexusProject found");
     }
-    if (doc.image && doc.image.length) {
+    if (doc.image && Object.keys(doc.image).length) {
       doc.dataType = {
         morphology: "has Morphology"
-      }
+      };
     }
     return doc;
   },
