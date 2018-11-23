@@ -13,6 +13,7 @@ export default {
   ],
   "includeMetadata": false,
   "mapping": {
+    "dynamic": false,
     properties
   }
 };
