@@ -13,6 +13,7 @@ import lightbulb from "../../public/img/lightbulb.svg";
 import connectionError from "../../public/img/connection-error.svg";
 import bug from "../../public/img/bug.svg";
 import spike from "../../public/img/spike.svg";
+import ionChannel from "../../public/img/ion-channel.svg";
 
 export default {
   spike,
@@ -29,5 +30,6 @@ export default {
   neuron,
   bug,
   connectionError,
-  lightbulb
+  lightbulb,
+  ionChannel
 };

@@ -173,17 +173,37 @@ section .header {
   /* fill: #dbf3e8; */
   fill: #32325d;
   width: 1.5em;
+  path {
+    stroke: inherit !important;
+    // fill: inherit !important;
+  }
+  circle {
+    stroke: inherit !important;
+  }
 }
 
-.facet-icon {
-  width: 1.2em;
-  // fill: white;
-  // svg {
-  //   path: {
-  //     stroke: white;
-  //     fill: white;
-  //   }
-  // }
+.data-type-icon {
+  width: auto;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  svg {
+    width: 12px;
+  }
+}
+
+.data-types {
+  li {
+    display: inline-block;
+  }
+}
+
+.data-type-tag {
+  display: inline-block;
+  .ant-tag {
+    pointer-events: none;
+  }
 }
 
 .rounded-shadow::after {

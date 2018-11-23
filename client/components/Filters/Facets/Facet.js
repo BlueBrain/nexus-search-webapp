@@ -2,33 +2,23 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Checkbox, Tooltip, Tag } from "antd";
 import FontAwesome from "react-fontawesome";
-import TypeIcon from "../../TypeIcon";
-
-function splitStringInTwain(str) {
-  let middle = Math.ceil(str.length / 2);
-  let start = str.slice(0, middle);
-  let end = str.slice(middle);
-  return [start, end];
-}
+import { hasMorphology, hasElectrophysiology } from "../../DataTypeIcons";
 
 function Label(label) {
   if (label === "has electrophysiology") {
     return (
       <div className="label">
-        <Tag color="#90eac3">
-          <TypeIcon iconURL="spike" className="facet-icon" />
-        </Tag>
-        Has Electrophysiology
+        {hasElectrophysiology({
+          children: "Has Electrophysiology",
+          skipText: true
+        })}
       </div>
     );
   }
   if (label === "has morphology") {
     return (
       <div className="label">
-        <Tag color="#90eac3">
-          <TypeIcon iconURL="neuron" className="facet-icon" />
-        </Tag>
-        Has Morphology
+        {hasMorphology({ children: "Has Morphology", skipText: true })}
       </div>
     );
   }

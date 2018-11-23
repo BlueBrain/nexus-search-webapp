@@ -6,12 +6,12 @@ import TypeIcon from "../../../NewTypeIcon";
 import MorphologyPreview from "../../../Cards/Cell/MorphologyPreview";
 import Download from "../../../Download";
 import { eTypes, mTypes } from "../../../../../consts";
-import Extensions from "../../Extensions";
 import BrainRegionLink from "../../../BrainRegionLink";
 import Subject from "../Subject";
 import FontAwesome from "react-fontawesome";
 import ProvList from "../ProvList";
 import TraceViewer from "../../../ModelTraceViewer";
+import { hasMorphology, hasElectrophysiology } from "../../../DataTypeIcons";
 
 const DEFAULT_CELL_MODEL_NAME = "Cell Model";
 function getUUIDFromAtID(instance) {
@@ -31,7 +31,7 @@ function getExplorerLink(instance) {
 }
 
 function attributionLine(instance) {
-  let contribution = getProp(instance, "contribution", {});
+  let contribution = getProp(instance, "contribution", [{}])[0];
   let name = getProp(contribution, "fullName");
   let email = getProp(contribution, "email");
   let date = moment(getProp(instance, "dateCreated")).format("MMM Do YYYY");
@@ -55,6 +55,15 @@ function softwareLine(instance) {
 }
 
 function Header({ instance }) {
+  let dataTypesList = [];
+  if (getProp(instance, "dataType.morphology") === "has morphology") {
+    dataTypesList.push(<li>{hasMorphology()}</li>);
+  }
+  if (
+    getProp(instance, "dataType.electrophysiology") === "has electrophysiology"
+  ) {
+    dataTypesList.push(<li>{hasElectrophysiology()}</li>);
+  }
   return (
     <header className="flex">
       <div className="title flex">
@@ -66,6 +75,9 @@ function Header({ instance }) {
         <div>
           <h1>
             {getProp(instance, "cellName.label", DEFAULT_CELL_MODEL_NAME)}
+            <div className="data-types">
+              <ul>{dataTypesList}</ul>
+            </div>
           </h1>
           {attributionLine(instance)}
         </div>
@@ -101,26 +113,25 @@ function Hero({ instance }) {
           <MorphologyPreview onHover={() => {}} value={instance} shouldRender />
         </picture>
       </div>
-      {files &&
-        files.length && (
-          <div className="detail-attachments">
-            <h3>
-              <Icon type="paper-clip" />{" "}
-              <Download
-                files={files}
-                name={getProp(instance, "cellName.label", "Cell")}
-              >
-                <a>
-                  {files.length} File
-                  {files.length > 1 ? "s" : ""}
-                </a>
-              </Download>
-            </h3>
-            <ul>
-              <li />
-            </ul>
-          </div>
-        )}
+      {files && files.length && (
+        <div className="detail-attachments">
+          <h3>
+            <Icon type="paper-clip" />{" "}
+            <Download
+              files={files}
+              name={getProp(instance, "cellName.label", "Cell")}
+            >
+              <a>
+                {files.length} File
+                {files.length > 1 ? "s" : ""}
+              </a>
+            </Download>
+          </h3>
+          <ul>
+            <li />
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
@@ -161,7 +172,9 @@ function Details({ instance }) {
         <Divider>Provenance</Divider>
         <Col span={12}>
           <ProvList
-            title={`Electrophysiology derived from ${generatedEPhysFrom.length} Cells`}
+            title={`Electrophysiology derived from ${
+              generatedEPhysFrom.length
+            } Cells`}
             provList={generatedEPhysFrom}
           />
         </Col>

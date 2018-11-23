@@ -10,6 +10,7 @@ import Subject from "../Subject";
 import FontAwesome from "react-fontawesome";
 import TraceViewer from "../../../ExperimentalTraceViewer";
 import { citationsList } from "../../../Citations";
+import { hasMorphology, hasElectrophysiology } from "../../../DataTypeIcons";
 
 const DEFAULT_CELL_MODEL_NAME = "Cell";
 function getUUIDFromAtID(instance) {
@@ -18,11 +19,9 @@ function getUUIDFromAtID(instance) {
 }
 
 function getVersion(instance) {
-  const id = instance['@id'];
+  const id = instance["@id"];
   const matches = id.match(/v[0-9]+/);
-  return matches && matches.length > 0
-    ? matches[0]
-    : null;
+  return matches && matches.length > 0 ? matches[0] : null;
 }
 
 function getExplorerLink(instance) {
@@ -37,7 +36,7 @@ function getExplorerLink(instance) {
 }
 
 function attributionLine(instance) {
-  let contribution = getProp(instance, "contribution", {});
+  let contribution = getProp(instance, "contribution", [{}])[0];
   let name = getProp(contribution, "fullName");
   let email = getProp(contribution, "email");
   let attribution = null;
@@ -60,6 +59,15 @@ function attributionLine(instance) {
 }
 
 function Header({ instance }) {
+  let dataTypesList = [];
+  if (getProp(instance, "dataType.morphology") === "has morphology") {
+    dataTypesList.push(<li>{hasMorphology()}</li>);
+  }
+  if (
+    getProp(instance, "dataType.electrophysiology") === "has electrophysiology"
+  ) {
+    dataTypesList.push(<li>{hasElectrophysiology()}</li>);
+  }
   return (
     <header className="flex">
       <div className="title flex">
@@ -71,17 +79,22 @@ function Header({ instance }) {
         <div>
           <h1>
             {getProp(instance, "cellName.label", DEFAULT_CELL_MODEL_NAME)}
+            <div className="data-types">
+              <ul>{dataTypesList}</ul>
+            </div>
           </h1>
           {attributionLine(instance)}
         </div>
       </div>
       <ul className="actions">
         {/* <li><Button>Save</Button></li> */}
-        {getVersion(instance) === 'v0' && <li>
-          <a target="_blank" href={getExplorerLink(instance)}>
-            <Button>Open Explorer</Button>
-          </a>
-        </li>}
+        {getVersion(instance) === "v0" && (
+          <li>
+            <a target="_blank" href={getExplorerLink(instance)}>
+              <Button>Open Explorer</Button>
+            </a>
+          </li>
+        )}
       </ul>
     </header>
   );
@@ -96,26 +109,25 @@ function Hero({ instance }) {
           <MorphologyPreview onHover={() => {}} value={instance} shouldRender />
         </picture>
       </div>
-      {files &&
-        files.length && (
-          <div className="detail-attachments">
-            <h3>
-              <Icon type="paper-clip" />{" "}
-              <Download
-                files={files}
-                name={getProp(instance, "cellName.label", "Cell")}
-              >
-                <a>
-                  {files.length} File
-                  {files.length > 1 ? "s" : ""}
-                </a>
-              </Download>
-            </h3>
-            <ul>
-              <li />
-            </ul>
-          </div>
-        )}
+      {files && files.length && (
+        <div className="detail-attachments">
+          <h3>
+            <Icon type="paper-clip" />{" "}
+            <Download
+              files={files}
+              name={getProp(instance, "cellName.label", "Cell")}
+            >
+              <a>
+                {files.length} File
+                {files.length > 1 ? "s" : ""}
+              </a>
+            </Download>
+          </h3>
+          <ul>
+            <li />
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
@@ -156,13 +168,12 @@ function Details({ instance }) {
           </Fragment>
         )}
       </Row>
-      {citations &&
-        <Row style={{ marginBottom: "2em"}}>
+      {citations && (
+        <Row style={{ marginBottom: "2em" }}>
           <Divider>How to Cite?</Divider>
           {citationsList(citations)}
         </Row>
-      }
-
+      )}
     </div>
   );
 }

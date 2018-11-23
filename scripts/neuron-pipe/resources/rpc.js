@@ -74,6 +74,10 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
       // TODO change repos to URLS
       if (activity.wasStartedBy) {
         // we know its allen
+        // Hard Coded! (we know they're all mice)
+        doc.subject = {
+          species: "Mus musculus"
+        };
 
         doc.dataSource.repository = "Allen Cell Types Database";
 
@@ -160,6 +164,14 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
                   }`
                 : `${agent.givenName} ${agent.familyName}`;
               agent.person = agent.fullName;
+
+              if (agent.fullName === "Christiaan de Kock") {
+                // DeKock NeoMorpho Data
+                // Hard Coded! (we know they're all Humans)
+                doc.subject = {
+                  species: "Homo sapiens"
+                };
+              }
 
               // How we judge the ACL's for this data is based on authorship
               if (agent.fullName === "Javier DeFelipe") {

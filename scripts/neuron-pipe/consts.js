@@ -21,7 +21,7 @@ export const types = {
 };
 
 // DATATYPE keys
-export const datatTypes = {
+export const dataTypes = {
   morphology: "has morphology",
   electrophysiology: "has electrophysiology"
 };
