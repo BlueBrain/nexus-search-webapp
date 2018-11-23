@@ -2,15 +2,26 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Checkbox, Tooltip, Tag } from "antd";
 import FontAwesome from "react-fontawesome";
-
-function splitStringInTwain(str) {
-  let middle = Math.ceil(str.length / 2);
-  let start = str.slice(0, middle);
-  let end = str.slice(middle);
-  return [start, end];
-}
+import { hasMorphology, hasElectrophysiology } from "../../DataTypeIcons";
 
 function Label(label) {
+  if (label === "has electrophysiology") {
+    return (
+      <div className="label">
+        {hasElectrophysiology({
+          children: "Has Electrophysiology",
+          skipText: true
+        })}
+      </div>
+    );
+  }
+  if (label === "has morphology") {
+    return (
+      <div className="label">
+        {hasMorphology({ children: "Has Morphology", skipText: true })}
+      </div>
+    );
+  }
   if (label === "Experimental") {
     return (
       <div className="label">
@@ -39,9 +50,8 @@ const FacetCheckbox = ({ label, value, amount, selected }) => {
       <Checkbox value={value} checked={selected} className="facet-checkbox">
         {/* <span className="label" data-content-start={start} data-content-end={end}></span> */}
         <div className="label-container">
-        {Label(label)}
-        <span className="amount">{amount}</span>
-
+          {Label(label)}
+          <span className="amount">{amount}</span>
         </div>
       </Checkbox>
     </Tooltip>

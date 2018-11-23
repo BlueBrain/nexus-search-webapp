@@ -39,13 +39,6 @@
         a {
           opacity: 1;
         }
-        // .downloader {
-        //   &:nth-child(1) {
-        //   .downloader-clicker a {
-        //       top: 5em;
-        //     }
-        //   }
-        // }
         .downloader:nth-of-type(1) {
           .downloader-clicker a {
             top: 5em;
@@ -53,7 +46,7 @@
         }
         .downloader:nth-of-type(2) {
           .downloader-clicker a {
-            top: 11em;
+            top: 9em;
           }
         }
       }

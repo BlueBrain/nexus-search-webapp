@@ -1,4 +1,3 @@
-
 import { readFileSync } from "fs";
 import { resolve } from "path";
 import processDoc from "../processDoc";
@@ -8,17 +7,19 @@ import flattenDownloadables from "../flattenDownloadables";
 import getRelatedResourceWithFilter from "../getRelatedResourceWithFilterBody";
 import { getProp } from "@libs/utils";
 import { mTypes } from "@consts";
-
+import { dataTypes } from "../consts";
 // TODO remove this requirement
 // if it is possible to get the pc trace collections
 // via SPARQL query
 function readTestDataJSON(file) {
   try {
     console.log("attempting to read file", file);
-    return JSON.parse(readFileSync(file, 'utf8'));
+    return JSON.parse(readFileSync(file, "utf8"));
   } catch (error) {
     console.log(error);
-    throw new Error(`file ${file} cannot be read. It must be available as a requirement to run this script`);
+    throw new Error(
+      `file ${file} cannot be read. It must be available as a requirement to run this script`
+    );
   }
 }
 
@@ -44,21 +45,23 @@ export default (resource, resourceURL, shouldUpload, dependency) => [
       // we need to find the reconstructed cell used, in morphology
       let reconstructedCell = cell.morphology[0];
       if (reconstructedCell) {
-        return morphology.name === reconstructedCell.name
+        return morphology.name === reconstructedCell.name;
       } else {
         return false;
       }
     });
-    let searchID = getProp(patchedCellsFilteredByName[0] || {}, "searchID")
-    let id = getProp(patchedCellsFilteredByName[0] || {}, "@id")
-    let type = getProp(patchedCellsFilteredByName[0] || {}, "@type")
+    let searchID = getProp(patchedCellsFilteredByName[0] || {}, "searchID");
+    let id = getProp(patchedCellsFilteredByName[0] || {}, "@id");
+    let type = getProp(patchedCellsFilteredByName[0] || {}, "@type");
     // if there's no ID, it doesn't map to anything in prod (BAD!)
-    if (!id) { return doc }
+    if (!id) {
+      return doc;
+    }
     doc.generatedMorphologyFrom = {
       "@id": id,
       searchId: searchID,
       type
-    }
+    };
     return doc;
   },
   async doc => {
@@ -166,10 +169,7 @@ export default (resource, resourceURL, shouldUpload, dependency) => [
     // resolve all the patchedCell Id's into thier full contents
     let patchedCells = await Promise.all(
       response.results.map(async result => {
-        return await fetchResourceById(
-          doc,
-          doc => result.resultId
-        );
+        return await fetchResourceById(doc, doc => result.resultId);
       })
     );
 
@@ -210,18 +210,12 @@ export default (resource, resourceURL, shouldUpload, dependency) => [
     return doc;
   },
   async doc => {
-    let generatedFrom = await fetchResourceById(
-      doc,
-      doc => doc.generatedFrom
-    );
+    let generatedFrom = await fetchResourceById(doc, doc => doc.generatedFrom);
     doc.software = generatedFrom;
     return doc;
   },
   async doc => {
-    let agent = await fetchResourceById(
-      doc,
-      doc => doc.wasAttributedTo["@id"]
-    );
+    let agent = await fetchResourceById(doc, doc => doc.wasAttributedTo["@id"]);
     agent.fullName = agent.fullName = agent.additionalName
       ? `${agent.givenName} ${agent.additionalName} ${agent.familyName}`
       : `${agent.givenName} ${agent.familyName}`;
@@ -234,10 +228,10 @@ export default (resource, resourceURL, shouldUpload, dependency) => [
   async doc => {
     doc.dataType = {};
     if (doc.traces && Object.keys(doc.traces).length) {
-      doc.dataType.electrophysiology = "has electrophysiology";
+      doc.dataType.electrophysiology = dataTypes.electrophysiology;
     }
     if (doc.morphology && doc.morphology.length) {
-      doc.dataType.morphology = "has morphology";
+      doc.dataType.morphology = dataTypes.morphology;
     }
     return doc;
   },

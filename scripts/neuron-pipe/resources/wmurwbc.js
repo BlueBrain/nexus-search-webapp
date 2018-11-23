@@ -2,6 +2,7 @@ import processDoc from "../processDoc";
 import pushToNexus from "../pushToNexus";
 import flattenDownloadables from "../flattenDownloadables";
 import { getProp } from "@libs/utils";
+import { dataTypes } from "../consts";
 
 export default (resource, resourceURL, shouldUpload) => [
   processDoc(resource),
@@ -12,16 +13,18 @@ export default (resource, resourceURL, shouldUpload) => [
     // Hard Coded! There's no mouse data there
     doc.subject = {
       species: "Mus musculus"
-    }
+    };
     let brainRegion = getProp(doc, "brainLocation.brainRegion.label");
     doc.brainLocation = {
       brainRegion: brainRegion === "TH" ? "Thalamus" : brainRegion,
       atlas: getProp(doc, "brainLocation.atlasSpatialReferenceSystem.name")
     };
-    doc.contribution = [{
-      organization: "Wenzhou Medical University"
-    }]
-    doc.cellType = { specialDesignation: "Whole Brain" }
+    doc.contribution = [
+      {
+        organization: "Wenzhou Medical University"
+      }
+    ];
+    doc.cellType = { specialDesignation: "Whole Brain" };
     return doc;
   },
   async doc => {
@@ -36,7 +39,7 @@ export default (resource, resourceURL, shouldUpload) => [
   },
   async doc => {
     doc.dataType = {
-      morphology: "has morphology"
+      morphology: dataTypes.morphology
     };
     doc.dataSource.nexusProject = resource.project;
     return doc;

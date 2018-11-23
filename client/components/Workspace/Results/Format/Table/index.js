@@ -13,7 +13,13 @@ import { find } from "underscore";
 
 const blacklistedKeys = ["@id", "traces"];
 // TODO get from SCHEMA
-const nonSortableKeys = ["patchedCell", "contributions", "distribution", "subject", "morphology"];
+const nonSortableKeys = [
+  "patchedCell",
+  "contributions",
+  "distribution",
+  "subject",
+  "morphology"
+];
 
 const labelMapping = {
   "@type": {
@@ -29,7 +35,7 @@ function makeDataSourceFromResults(results) {
   });
 }
 
-function Download ({ url }) {
+function Download({ url }) {
   if (url) {
     return (
       <a href={url} download>
@@ -37,42 +43,38 @@ function Download ({ url }) {
       </a>
     );
   } else {
-    return <span></span>
+    return <span />;
   }
 }
 
 const defaultEntry = entry => {
   if (!entry) {
-    return <span></span>;
+    return <span />;
   }
   if (entry.label) {
-    return (
-      <span>{entry.label}</span>
-    );
+    return <span>{entry.label}</span>;
   }
   if (Array.isArray(entry)) {
-    return <span></span>;
+    return <span />;
   }
   if (typeof entry === "string") {
     return <span>{entry}</span>;
   }
-  return <span></span>
-}
+  return <span />;
+};
 
-function Category ({ type }) {
+function Category({ type }) {
   return (
     <div className="flex">
-    <div className="type-avatar">
-      {type && (
-        <TypeIcon color={type.color} iconURL={type.icon} />
-      )}
-    </div>
-    <div>{ type.label }</div>
+      <div className="type-avatar">
+        {type && <TypeIcon color={type.color} iconURL={type.icon} />}
+      </div>
+      <div>{type.label}</div>
     </div>
   );
 }
 
-function Subject ({ subject }) {
+function Subject({ subject }) {
   return (
     <div className="subject flex column">
       <div className="species">{getProp(subject, "species.label")}</div>
@@ -85,25 +87,25 @@ function Subject ({ subject }) {
 const renderType = (key, types) => entry => {
   switch (key) {
     case "contributions":
-      return <Contributions contributions={entry} />
-    break;
+      return <Contributions contributions={entry} />;
+      break;
     case "distribution":
-      return <Download url={getProp(entry, "url")}  />
-    break;
+      return <Download url={getProp(entry, "url")} />;
+      break;
     case "subject":
-      return <Subject subject={entry}/>
-    break;
+      return <Subject subject={entry} />;
+      break;
     case "@type":
       const myType = find(types, type => {
         return type.value === entry;
       });
-      return myType ? <Category type={myType}/> : null;
-    break;
+      return myType ? <Category type={myType} /> : null;
+      break;
     default:
       return defaultEntry(entry);
-    break;
+      break;
   }
-}
+};
 
 function makeColumnsFromDataSource(results, sort, types) {
   let keysWhitelist = Object.keys(results[0]).filter(
@@ -132,16 +134,17 @@ function makeColumnsFromDataSource(results, sort, types) {
       let id = record["@id"];
       return (
         <Link
-        key={id}
-        to={{
-          pathname: `/docs/${id}`,
-          state: { modal: true }
-        }}>
-        Inspect
+          key={id}
+          to={{
+            pathname: `/docs/${id}`,
+            state: { modal: true }
+          }}
+        >
+          Inspect
         </Link>
       );
     }
-  })
+  });
   return columns;
 }
 
@@ -151,11 +154,19 @@ const TableComponent = ({ results, handleTableChange, sort, types }) => {
   const tableOptions = {
     pagination: false
   };
-  return <Table onChange={handleTableChange} rowKey={record => record['@id']} dataSource={dataSource} columns={columns} {...tableOptions} />;
+  return (
+    <Table
+      onChange={handleTableChange}
+      rowKey={record => record["@id"]}
+      dataSource={dataSource}
+      columns={columns}
+      {...tableOptions}
+    />
+  );
 };
 
 class TableContainer extends React.PureComponent {
-  handleTableChange (pagination, filters, sorter) {
+  handleTableChange(pagination, filters, sorter) {
     let { field, order } = sorter;
     order = order === "descend" ? "desc" : "asc";
     this.props.updateSearchParams({
@@ -163,7 +174,7 @@ class TableContainer extends React.PureComponent {
         field,
         order
       }
-    })
+    });
   }
   render() {
     const { results, sort, types } = this.props;
@@ -178,7 +189,7 @@ TableContainer.propTypes = {
 
 function mapStateToProps({ search, types }) {
   return {
-    sort: { ...search.sort},
+    sort: { ...search.sort },
     types: types.types
   };
 }
@@ -189,4 +200,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TableContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TableContainer);

@@ -1,7 +1,7 @@
 {
   "name": "nexus-search-webapp",
   "description": "Service which allows you to search Nexus platform",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "author": "Blue Brain Nexus",
   "license": "Apache-2.0",
   "main": "index.js",

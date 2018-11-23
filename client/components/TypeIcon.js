@@ -5,18 +5,18 @@ import SVG from "react-svg";
 
 const DEFAULT_TYPE_ICON_KEY = "cube";
 
-const TypeIcon = ({iconURL, color}) => (
+const TypeIcon = ({ iconURL, color, className }) => (
   <SVG
-    svgStyle={color ?  { fill: color } : {}}
+    svgStyle={color ? { fill: color, stroke: color } : {}}
     path={icons[iconURL] || icons[DEFAULT_TYPE_ICON_KEY]}
-    svgClassName="type-svg"
-    className="type-icon"
+    svgClassName={"type-svg"}
+    className={className || "type-icon"}
   />
 );
 
 TypeIcon.propTypes = {
   iconURL: PropTypes.string,
-  color: PropTypes.string.isRequired,
+  color: PropTypes.string
 };
 
 export default TypeIcon;

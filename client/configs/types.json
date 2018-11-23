@@ -4,7 +4,7 @@
     "label": "Cell"
   },
   "nxv:SearchIonChannel": {
-    "icon": "neuron",
+    "icon": "ionChannel",
     "label": "Ion Channel"
   },
   "nxv:MorphologyRelease": {
