@@ -4,8 +4,8 @@ import SVG from "react-svg";
 import icons from "../Icons";
 import { makeCancelable } from "@libs/promise";
 import fetchProtectedData from "../../libs/fetchProtectedData";
-import { SwcParser } from 'swcmorphologyparser';
-import morphoviewer from 'morphoviewer'
+import { SwcParser } from "swcmorphologyparser";
+import morphoviewer from "morphoviewer";
 
 class MorphologyContainer extends React.Component {
   state = { morphoData: null, error: null };
@@ -19,10 +19,7 @@ class MorphologyContainer extends React.Component {
   componentDidMount() {
     const { morphologySrc, token } = this.props;
     if (morphologySrc) {
-      // TODO: refactor after demo
-      // if swc, parse
-      const extension = morphologySrc.split('.');
-      if (extension[extension.length - 1] === 'swc' ) {
+      if (morphologySrc.endsWith(".swc")) {
         this.fetchDataPromise = makeCancelable(
           fetchProtectedData.asPlainText(morphologySrc, token)
         );
@@ -36,7 +33,6 @@ class MorphologyContainer extends React.Component {
             console.error(error);
             this.setState({ error: error.message });
           });
-
       } else {
         this.fetchDataPromise = makeCancelable(
           fetchProtectedData.asJSON(morphologySrc, token)
@@ -67,27 +63,23 @@ class MorphologyContainer extends React.Component {
       this.shouldRender();
     }
   }
-  shouldRender() {
-    // toggle rendering
-  }
-  async addBrainMesh () {
-
-  }
-  makeVisualizer() {
+  async makeVisualizer() {
     let { morphoData } = this.state;
-    let { name, wholeBrain, staticContentLocation } = this.props;
-    const wholeBrainMeshURL = staticContentLocation + "/brain-mesh"
+    let { name, wholeBrain, token, wholeMouseBrainMeshLocation } = this.props;
     if (this.viewContainer && morphoData) {
       try {
         this.viewer = new morphoviewer.MorphoViewer(this.viewContainer);
         if (wholeBrain) {
-          this.viewer.addStlToMeshCollection(
-            wholeBrainMeshURL,
-            {
+          let wholeBrainObjData = await fetchProtectedData.asPlainText(
+            wholeMouseBrainMeshLocation,
+            token
+          );
+          if (wholeBrainObjData) {
+            this.viewer.addObjToMeshCollection(wholeBrainObjData, {
               name: "brain", // the name of it?
-              focusOn: true, // do we want to focus on it when it's loaded?
-            }
-          )
+              focusOn: true // do we want to focus on it when it's loaded?
+            });
+          }
         }
         this.viewer.addMorphology(morphoData, {
           focusOn: !wholeBrain, // do we want the camera to focus on this one when it's loaded?
@@ -108,16 +100,15 @@ class MorphologyContainer extends React.Component {
     let error = this.state.error;
     return (
       <div id="mophology-viewer" className="morpho-viz full-height">
-        {!loaded &&
-          !error && (
-            <div style={{ width: "6em", margin: "0 auto", marginTop: "10em" }}>
-              <SVG
-                path={icons.neuron}
-                svgClassName="neuron-svg"
-                className="neuron-icon loading"
-              />
-            </div>
-          )}
+        {!loaded && !error && (
+          <div style={{ width: "6em", margin: "0 auto", marginTop: "10em" }}>
+            <SVG
+              path={icons.neuron}
+              svgClassName="neuron-svg"
+              className="neuron-icon loading"
+            />
+          </div>
+        )}
         {error && (
           <div style={{ width: "6em", margin: "0 auto", marginTop: "10em" }}>
             <SVG
@@ -127,16 +118,15 @@ class MorphologyContainer extends React.Component {
             />
           </div>
         )}
-        {loaded &&
-          !error && (
-            <Fragment>
-              <div
-                className="full-height"
-                style={{ overflow: "hidden" }}
-                ref={this.setViewContainer}
-              />
-            </Fragment>
-          )}
+        {loaded && !error && (
+          <Fragment>
+            <div
+              className="full-height"
+              style={{ overflow: "hidden" }}
+              ref={this.setViewContainer}
+            />
+          </Fragment>
+        )}
       </div>
     );
   }
@@ -145,6 +135,7 @@ class MorphologyContainer extends React.Component {
 function mapStateToProps({ config, auth }) {
   return {
     staticContentLocation: config.staticContentLocation,
+    wholeMouseBrainMeshLocation: config.wholeMouseBrainMeshLocation,
     token: auth.token
   };
 }

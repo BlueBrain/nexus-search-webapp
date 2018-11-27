@@ -37,6 +37,23 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
     return doc;
   },
   async doc => {
+    doc.citations = {
+      howToCite:
+        "https://www.janelia.org/project-team/mouselight/neuronbrowser",
+      citationsList: [
+        {
+          text: `Economo, M. N., Clack, N. G., Lavis, L. D., Gerfen, C. R., Svoboda, K., Myers, E. W., & Chandrashekar, J. (2016). A platform for brain-wide imaging and reconstruction of individual neurons. eLife, 5.`,
+          location: "https://doi.org/10.7554/eLife.10566"
+        },
+        {
+          text: "Neuron Identifier",
+          location: doc.identifier
+        }
+      ]
+    };
+    return doc;
+  },
+  async doc => {
     let mTypePreprocessed = getProp(doc, "mType.label");
     if (mTypePreprocessed) {
       let [layer, mTypeWithColon] = mTypePreprocessed.split("_");
