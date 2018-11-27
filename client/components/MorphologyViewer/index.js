@@ -59,8 +59,6 @@ class MorphologyContainer extends React.Component {
   componentDidUpdate() {
     if (!this.viewer) {
       this.makeVisualizer();
-    } else {
-      this.shouldRender();
     }
   }
   async makeVisualizer() {
