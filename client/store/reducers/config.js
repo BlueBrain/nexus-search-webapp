@@ -19,9 +19,10 @@ const initialState = {
   loginURI: LOGIN_URI,
   elasticSearchAPI: SEARCH_API_URI,
   staticContentLocation: SEARCH_API_URI + "/data",
-  uiConfig: require("../../configs")
+  uiConfig: require("../../configs"),
+  wholeMouseBrainMeshLocation:
+    "https://bbp.epfl.ch/nexus/v0/data/bbp/atlas/brainparcellationmesh/v0.1.0/39a3078c-1e21-4e1c-9015-82a10ba6797e/attachment"
 };
-
 const configReducer = (state = initialState) => state;
 
 export default configReducer;

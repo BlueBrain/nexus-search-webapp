@@ -19,10 +19,7 @@ class MorphologyContainer extends React.Component {
   componentDidMount() {
     const { morphologySrc, token } = this.props;
     if (morphologySrc) {
-      // TODO: refactor after demo
-      // if swc, parse
-      const extension = morphologySrc.split(".");
-      if (extension[extension.length - 1] === "swc") {
+      if (morphologySrc.endsWith(".swc")) {
         this.fetchDataPromise = makeCancelable(
           fetchProtectedData.asPlainText(morphologySrc, token)
         );
@@ -68,19 +65,16 @@ class MorphologyContainer extends React.Component {
   }
   async makeVisualizer() {
     let { morphoData } = this.state;
-    let { name, wholeBrain, token } = this.props;
+    let { name, wholeBrain, token, wholeMouseBrainMeshLocation } = this.props;
     if (this.viewContainer && morphoData) {
       try {
         this.viewer = new morphoviewer.MorphoViewer(this.viewContainer);
         if (wholeBrain) {
-          const wholeBrainMeshURL =
-            "https://bbp.epfl.ch/nexus/v0/data/bbp/atlas/brainparcellationmesh/v0.1.0/39a3078c-1e21-4e1c-9015-82a10ba6797e/attachment";
           let wholeBrainObjData = await fetchProtectedData.asPlainText(
-            wholeBrainMeshURL,
+            wholeMouseBrainMeshLocation,
             token
           );
           if (wholeBrainObjData) {
-            console.log(this.viewer);
             this.viewer.addObjToMeshCollection(wholeBrainObjData, {
               name: "brain", // the name of it?
               focusOn: true // do we want to focus on it when it's loaded?
@@ -141,6 +135,7 @@ class MorphologyContainer extends React.Component {
 function mapStateToProps({ config, auth }) {
   return {
     staticContentLocation: config.staticContentLocation,
+    wholeMouseBrainMeshLocation: config.wholeMouseBrainMeshLocation,
     token: auth.token
   };
 }
