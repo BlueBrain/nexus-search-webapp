@@ -1,7 +1,7 @@
 {
   "name": "nexus-search-webapp",
   "description": "Service which allows you to search Nexus platform",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "author": "Blue Brain Nexus",
   "license": "Apache-2.0",
   "main": "index.js",
@@ -59,7 +59,7 @@
     "kafkajs": "^1.4.3",
     "moment": "^2.22.2",
     "morgan": "^1.9.1",
-    "morphoviewer": "^0.1.9",
+    "morphoviewer": "^0.1.13",
     "node-fetch": "^2.3.0",
     "pretty-bytes": "^5.1.0",
     "prop-types": "^15.6.2",
