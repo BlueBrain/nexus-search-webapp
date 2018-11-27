@@ -9,7 +9,7 @@ import { getProp } from "@libs/utils";
 import { mTypes } from "@consts";
 import { dataTypes } from "../consts";
 
-const PUBLIC_PROJECT = "search-app-staging-public-3";
+const PUBLIC_PROJECT = "search-app-staging-public-4";
 const NEOCORTEX_PROJECT = "search-app-staging-neocortex";
 
 export default (resource, resourceURL, shouldUpload, dependencies) => [
@@ -171,6 +171,29 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
                 doc.subject = {
                   species: "Homo sapiens"
                 };
+
+                // NEOCORTEX
+                let project = NEOCORTEX_PROJECT;
+                doc.dataSource.nexusProject = project;
+                doc.resourceURL = `https://bbp.epfl.ch/nexus/v1/resources/webapps/${project}/resource/`;
+                delete doc.dataSource.repository;
+                delete doc.dataSource.source;
+                delete doc.license.name;
+                doc.citations = {
+                  howToCite: null,
+                  citationsList: [
+                    {
+                      text:
+                        "Hemanth Mohan, Matthijs B. Verhoog, Keerthi K. Doreswamy, Guy Eyal, Romy Aardse, Brendan N. Lodder, Natalia A. Goriounova, Boateng Asamoah, A.B. Clementine B. Brakspear, Colin Groot, Sophie van der Sluis, Guilherme Testa-Silva, Joshua Obermayer, Zimbo S.R.M. Boudewijns, Rajeevan T. Narayanan, Johannes C. Baayen, Idan Segev, Huibert D. Mansvelder, Christiaan P.J. de Kock; Dendritic and Axonal Architecture of Individual Pyramidal Neurons across Layers of Adult Human Neocortex, Cerebral Cortex, Volume 25, Issue 12, 1 December 2015, Pages 4839–4853, https://doi.org/10.1093/cercor/bhv188",
+                      location: "doi: 10.1093/cercor/bhv188"
+                    },
+                    {
+                      text:
+                        "Yair Deitcher, Guy Eyal, Lida Kanari, Matthijs B Verhoog, Guy Antoine Atenekeng Kahou, Huibert D Mansvelder, Christiaan P J de Kock, Idan Segev; Comprehensive Morpho-Electrotonic Analysis Shows 2 Distinct Classes of L2 and L3 Pyramidal Neurons in Human Temporal Cortex, Cerebral Cortex, Volume 27, Issue 11, 1 November 2017, Pages 5398–5414, https://doi.org/10.1093/cercor/bhx226",
+                      location: "doi: 10.1093/cercor/bhx226"
+                    }
+                  ]
+                };
               }
 
               // How we judge the ACL's for this data is based on authorship
@@ -179,6 +202,8 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
                 let project = NEOCORTEX_PROJECT;
                 doc.dataSource.nexusProject = project;
                 doc.resourceURL = `https://bbp.epfl.ch/nexus/v1/resources/webapps/${project}/resource/`;
+                // remove citations for neocortex data
+                delete doc.citations;
               }
               // we can find the org via email (seems to be only two)
               if (agent.email) {

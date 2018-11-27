@@ -297,7 +297,7 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
       citationsList: [
         {
           text:
-            "Markram H†, Muller E†, Ramaswamy S†, Reimann MW†,  Abdellah M, Sanchez CA, Ailamaki A, Alonso-Nanclares L, Antille N, Arsever S et al. (2015). Reconstruction and Simulation of Neocortical Microcircuitry. Cell 163:2, 456 - 492.",
+            "Markram H, Muller E, Ramaswamy S, Reimann MW,  Abdellah M, Sanchez CA, Ailamaki A, Alonso-Nanclares L, Antille N, Arsever S et al. (2015). Reconstruction and Simulation of Neocortical Microcircuitry. Cell 163:2, 456 - 492.",
           location: "doi: 10.1016/j.cell.2015.09.029"
         }
       ]
