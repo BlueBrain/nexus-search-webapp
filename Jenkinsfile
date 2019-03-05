@@ -68,8 +68,8 @@ pipeline {
                 expression { isMinds && !isRelease && !isPR }
             }
             steps {
-                openshiftTag srcStream: imageStream, srcTag: 'minds', destStream: imageStream, destTag: "staging,${GIT_COMMIT.substring(0,7)}", verbose: 'false'
-                openshiftTag srcStream: serverImageStream, srcTag: 'minds', destStream: serverImageStream, destTag: "staging,${GIT_COMMIT.substring(0,7)}", verbose: 'false'
+                openshiftTag srcStream: imageStream, srcTag: 'latest', destStream: imageStream, destTag: "minds,${GIT_COMMIT.substring(0,7)}", verbose: 'false'
+                openshiftTag srcStream: serverImageStream, srcTag: 'latest', destStream: serverImageStream, destTag: "minds,${GIT_COMMIT.substring(0,7)}", verbose: 'false'
             }
         }
 
