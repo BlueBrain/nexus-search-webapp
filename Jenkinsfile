@@ -3,6 +3,7 @@ String commitId = env.GIT_COMMIT
 Boolean isRelease = version ==~ /v\d+\.\d+\.\d+.*/
 Boolean isPR = env.CHANGE_ID != null
 Boolean isMaster = version == 'master'
+Boolean isMinds = version == 'minds'
 
 pipeline {
     agent any
@@ -52,7 +53,7 @@ pipeline {
 
         stage('Build Image') {
             when {
-                expression { isMaster && !isRelease && !isPR }
+                expression { isMinds && !isRelease && !isPR }
             }
             steps {
                 sh 'npm run build'
@@ -62,24 +63,24 @@ pipeline {
             }
         }
 
-        stage('Promote to staging') {
+        stage('Promote to dev') {
             when {
-                expression { isMaster && !isRelease && !isPR }
+                expression { isMinds && !isRelease && !isPR }
             }
             steps {
-                openshiftTag srcStream: imageStream, srcTag: 'latest', destStream: imageStream, destTag: "staging,${GIT_COMMIT.substring(0,7)}", verbose: 'false'
-                openshiftTag srcStream: serverImageStream, srcTag: 'latest', destStream: serverImageStream, destTag: "staging,${GIT_COMMIT.substring(0,7)}", verbose: 'false'
+                openshiftTag srcStream: imageStream, srcTag: 'minds', destStream: imageStream, destTag: "staging,${GIT_COMMIT.substring(0,7)}", verbose: 'false'
+                openshiftTag srcStream: serverImageStream, srcTag: 'minds', destStream: serverImageStream, destTag: "staging,${GIT_COMMIT.substring(0,7)}", verbose: 'false'
             }
         }
 
-        stage('Promote to production') {
-            when {
-                expression { isRelease }
-            }
-            steps {
-                openshiftTag srcStream: imageStream, srcTag: 'staging', destStream: imageStream, destTag: "production,${BRANCH_NAME.substring(1)}", verbose: 'false'
-                openshiftTag srcStream: serverImageStream, srcTag: 'staging', destStream: serverImageStream, destTag: "production,${BRANCH_NAME.substring(1)}", verbose: 'false'
-            }
-        }
+        // stage('Promote to production') {
+        //     when {
+        //         expression { isRelease }
+        //     }
+        //     steps {
+        //         openshiftTag srcStream: imageStream, srcTag: 'staging', destStream: imageStream, destTag: "production,${BRANCH_NAME.substring(1)}", verbose: 'false'
+        //         openshiftTag srcStream: serverImageStream, srcTag: 'staging', destStream: serverImageStream, destTag: "production,${BRANCH_NAME.substring(1)}", verbose: 'false'
+        //     }
+        // }
     }
 }
