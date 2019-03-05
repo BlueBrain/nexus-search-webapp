@@ -5,9 +5,7 @@ import inquirer from "inquirer";
 import Project from "../../v1/project";
 import config from "../../../server/libs/config";
 
-const {
-  SEARCH_APP_SERVICE_TOKEN_PROD: token
-} = config;
+const { SEARCH_APP_SERVICE_TOKEN_PROD: token } = config;
 
 const whatProjectName = {
   type: "input",
@@ -32,19 +30,27 @@ const whichOrg = {
 
 // must be curi
 const contextName = "base:neuroshapes";
-const esViewName = "search-view"
+const esViewName = "search-view";
 
 void (async function main() {
   try {
-    let answers = await inquirer.prompt([ whatProjectName, whatNexusBase, whichOrg]);
+    let answers = await inquirer.prompt([
+      whatProjectName,
+      whatNexusBase,
+      whichOrg
+    ]);
     let {
       whatProjectName: whatProjectNameAnswer,
       whatNexusBase: whatNexusBaseAnswer,
       whichOrg: whichOrgAnswer
     } = answers;
-    let myProject = new Project(whatProjectNameAnswer, { base: whatNexusBaseAnswer, org: whichOrgAnswer, token });
-    await myProject.create(projectPayload)
-    await myProject.createResource(contextPayload, contextName)
+    let myProject = new Project(whatProjectNameAnswer, {
+      base: whatNexusBaseAnswer,
+      org: whichOrgAnswer,
+      token
+    });
+    await myProject.create(projectPayload);
+    await myProject.createResource(contextPayload, contextName);
     await myProject.createESView(esViewPayload, esViewName);
   } catch (error) {
     console.log(error);

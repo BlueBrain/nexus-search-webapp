@@ -1,5 +1,5 @@
 // project base url (for IDs)
-export const base = "http://created.by.kenny/";
+export const base = "https://bbp.epfl.ch/nexus/search/";
 
 // context name (expanded)
 export const context = base + "neuroshapes";
@@ -37,7 +37,7 @@ const resourceDict = {
     repository: "Neocortical Microcircuitry Collaboration Portal",
     source: "NMC portal",
     studyType: "Experimental",
-    project: "search-app-staging-public-4",
+    project: "search-app-prod-public",
     type: types.searchCell["@id"],
     dependency: "pctc"
   },
@@ -48,7 +48,7 @@ const resourceDict = {
       "https://bbp.epfl.ch/nexus/v0/contexts/neurosciencegraph/core/data/v1.0.1",
     name: "Thalamus project patched cells",
     source: "Thalamus project",
-    project: "search-app-staging-thalamus",
+    project: "search-app-prod-thalamus",
     repository: null,
     short: "tpc",
     studyType: "Experimental",
@@ -63,7 +63,7 @@ const resourceDict = {
     name: "Cell Models (eModels)",
     type: types.searchCell["@id"],
     source: "BBP",
-    project: "search-app-staging-neocortex",
+    project: "search-app-prod-neocortex",
     studyType: "In Silico",
     dependency: "emtc",
     repository: null
@@ -75,7 +75,7 @@ const resourceDict = {
     context:
       "https://bbp-nexus.epfl.ch/staging/v0/contexts/neurosciencegraph/core/data/v1.0.2",
     type: types.searchIonChannel["@id"],
-    project: "search-app-staging-neocortex",
+    project: "search-app-prod-neocortex",
     source: "BBP",
     studyType: "In Silico",
     repository: null
@@ -89,7 +89,7 @@ const resourceDict = {
     repository: "MouseLight",
     source: "Neocortex Project",
     studyType: "Experimental",
-    project: "search-app-staging-public-4",
+    project: "search-app-prod-public",
     type: types.searchCell["@id"]
   },
   wmurwbc: {
@@ -101,7 +101,7 @@ const resourceDict = {
     repository: null,
     source: "WMU",
     studyType: "Experimental",
-    project: "search-app-staging-thalamus",
+    project: "search-app-prod-thalamus",
     type: types.searchCell["@id"]
   },
   rpc: {
@@ -113,7 +113,7 @@ const resourceDict = {
     repository: null,
     source: "Neocortex Project",
     studyType: "Experimental",
-    project: "search-app-staging-public",
+    project: "search-app-prod-public",
     type: types.searchCell["@id"]
   },
   uploaded: {
@@ -152,7 +152,7 @@ const resourceDict = {
     name: "Morphology Release",
     source: "BBP",
     studyType: "Experimental",
-    project: "search-app-staging-neocortex",
+    project: "search-app-prod-neocortex",
     type: types.morphologyRelease["@id"]
   }
 };

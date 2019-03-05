@@ -47,6 +47,10 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
   },
   async doc => {
     let label = doc.brainLocation.brainRegion;
+    console.log(label);
+    if (!label) {
+      return doc;
+    }
     let layerIndex = label.indexOf("layer");
     if (layerIndex >= 0) {
       let layerName = label.slice(layerIndex, label.length);
@@ -263,13 +267,17 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
     let mTypePreprocessed = getProp(doc.morphology[0] || {}, "mType.label");
     if (mTypePreprocessed) {
       let [layer, mTypeWithColon] = mTypePreprocessed.split("_");
-      let [mType, unknownValue] = mTypeWithColon.split(":");
-      doc.brainLocation.layer = layer;
-      // There are sometimes this strange layer here
-      if (doc.brainLocation.layer === "L23") {
-        doc.brainLocation.layer = "L2/3";
+      if (!mTypeWithColon) {
+        doc.cellType.mType = layer;
+      } else {
+        let [mType, unknownValue] = mTypeWithColon.split(":");
+        doc.brainLocation.layer = layer;
+        // There are sometimes this strange layer here
+        if (doc.brainLocation.layer === "L23") {
+          doc.brainLocation.layer = "L2/3";
+        }
+        doc.cellType.mType = mTypes[mType.toLowerCase()];
       }
-      doc.cellType.mType = mTypes[mType.toLowerCase()];
     }
 
     if (doc.cellType.eType === "null" || doc.cellType.eType === null) {

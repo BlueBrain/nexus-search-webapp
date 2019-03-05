@@ -1,6 +1,6 @@
 import { fetchWithToken } from "./helpers";
 import { getProp } from "@libs/utils";
-import whichToken from "../../server/libs/whichToken"
+import whichToken from "../../server/libs/whichToken";
 
 export default async (doc, queryURL) => {
   let body = JSON.stringify(doc);
@@ -12,15 +12,19 @@ export default async (doc, queryURL) => {
       body
     })
   );
-  let code = responsePayload.code;
-  console.log("\n\npushing to nexus!", { queryURL, id: doc["@id"], status, code }, "\n");
+  console.log(
+    "\n\npushing to nexus!",
+    { queryURL, id: doc["@id"], status },
+    "\n"
+  );
   if (error) {
-    console.log(body);
+    console.log(error);
+    console.log(responsePayload);
     throw error;
   }
   if (status >= 400 && status !== 409) {
     console.log(body);
-    throw new Error(code);
+    throw new Error(body);
   }
   // Already exists
   if (status === 409) {
@@ -43,9 +47,9 @@ export default async (doc, queryURL) => {
         body
       })
     );
-    console.log("attempt to update response: ", status)
+    console.log("attempt to update response: ", status);
     if (!payload || status >= 400) {
-      console.log("there's a problem", status)
+      console.log("there's a problem", status);
       throw new Error("cannot update: " + updateURL);
     }
   }
@@ -60,7 +64,7 @@ async function withStatus(fetchWithToken) {
     let response = await fetchWithToken;
     if (response) {
       let status = getProp(response, "status");
-      // console.log(response);
+      console.log(response);
       let payload = await response.json();
       return [null, status, payload];
     }

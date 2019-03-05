@@ -1,11 +1,13 @@
 import { base, resources } from "../consts";
 
-const resourcePrevixMappings = Object.keys(resources).filter(key => key !== 'pctc').map(key => {
-  return {
-    namespace: resources[key].url,
-    prefix: key
-  };
-});
+const resourcePrevixMappings = Object.keys(resources)
+  .filter(key => key !== "pctc")
+  .map(key => {
+    return {
+      namespace: resources[key].url,
+      prefix: key
+    };
+  });
 
 export default {
   "@context":
@@ -13,7 +15,7 @@ export default {
   "@type": "nxv:Project",
   base,
   name: "Search Project",
-  prefixMappings: [
+  apiMappings: [
     {
       namespace: "http://example.com/some/person",
       prefix: "person"

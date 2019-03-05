@@ -9,8 +9,8 @@ import { getProp } from "@libs/utils";
 import { mTypes } from "@consts";
 import { dataTypes } from "../consts";
 
-const PUBLIC_PROJECT = "search-app-staging-public-4";
-const NEOCORTEX_PROJECT = "search-app-staging-neocortex";
+const PUBLIC_PROJECT = "search-app-prod-public";
+const NEOCORTEX_PROJECT = "search-app-prod-neocortex";
 
 export default (resource, resourceURL, shouldUpload, dependencies) => [
   processDoc(resource),
@@ -100,12 +100,12 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
         let project = PUBLIC_PROJECT;
         doc.resourceURL = `https://bbp.epfl.ch/nexus/v1/resources/webapps/${project}/resource/`;
         doc.dataSource.nexusProject = project;
-        let contribution = activity.wasStartedBy.map(() => {
-          return {
-            organization: "Allen Institute for Brain Science"
-          };
-        });
-        doc.contribution = contribution;
+        // let contribution = activity.wasStartedBy.map(() => {
+        //   return {
+        //     organization: "Allen Institute for Brain Science"
+        //   };
+        // });
+        // doc.contribution = contribution;
 
         // license for Allen
         doc.license = {
@@ -224,6 +224,20 @@ export default (resource, resourceURL, shouldUpload, dependencies) => [
               memo.software = trimMetaData(contrib);
               return memo;
             }
+
+            if (
+              contrib["@type"] &&
+              contrib["@type"].includes("nsg:Organization")
+            ) {
+              if (!doc.contribution) {
+                doc.contribution = [];
+              }
+              doc.contribution.push({
+                organization: contrib.name
+              });
+              return memo;
+            }
+
             console.log("nothing matched", { contrib });
             throw new Error("nothing matched ");
           },

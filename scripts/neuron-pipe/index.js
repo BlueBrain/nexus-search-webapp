@@ -6,7 +6,6 @@ import config from "../../server/libs/config";
 import pctc from "./adjacent-resources/pctc";
 import emtc from "./adjacent-resources/emtc";
 
-
 const whichEntity = {
   type: "list",
   name: "whichEntity",
@@ -22,7 +21,7 @@ const shouldUpload = {
   name: "shouldUpload",
   message: `Do you want to upload these to the v1 Project? \n url: ${
     config.RESOURCE_URL
-    }`,
+  }`,
   default: false
 };
 
@@ -31,7 +30,7 @@ void (async function main() {
     let answers = await inquirer.prompt([whichEntity, shouldUpload]);
     let {
       whichEntity: whichEntityAnswer,
-      shouldUpload: shouldUploadAnswer,
+      shouldUpload: shouldUploadAnswer
     } = answers;
 
     let docs;
@@ -44,14 +43,9 @@ void (async function main() {
       let resource = resources[whichEntityAnswer];
       let { project } = resource;
       let resourceURL = `https://bbp.epfl.ch/nexus/v1/resources/webapps/${project}/resource/`;
-      docs = await processResources(
-        resource,
-        resourceURL,
-        shouldUploadAnswer,
-      );
+      docs = await processResources(resource, resourceURL, shouldUploadAnswer);
     }
     file.write(whichEntityAnswer, docs);
-
   } catch (error) {
     console.log(error);
     process.exit(1);
