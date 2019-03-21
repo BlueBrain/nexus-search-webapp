@@ -1,8 +1,0 @@
-{
-  "ignore": [
-    "cellName",
-    "@id",
-    "shortName",
-    "_distribution"
-  ]
-}

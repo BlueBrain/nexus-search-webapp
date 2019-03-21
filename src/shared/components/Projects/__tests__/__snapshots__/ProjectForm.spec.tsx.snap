@@ -1,0 +1,797 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Project Form component should render correctly 1`] = `
+<Form(ProjectForm)>
+  <ProjectForm
+    form={
+      Object {
+        "getFieldDecorator": [Function],
+        "getFieldError": [Function],
+        "getFieldInstance": [Function],
+        "getFieldProps": [Function],
+        "getFieldValue": [Function],
+        "getFieldsError": [Function],
+        "getFieldsValue": [Function],
+        "isFieldTouched": [Function],
+        "isFieldValidating": [Function],
+        "isFieldsTouched": [Function],
+        "isFieldsValidating": [Function],
+        "isSubmitting": [Function],
+        "resetFields": [Function],
+        "setFields": [Function],
+        "setFieldsInitialValue": [Function],
+        "setFieldsValue": [Function],
+        "submit": [Function],
+        "validateFields": [Function],
+        "validateFieldsAndScroll": [Function],
+      }
+    }
+  >
+    <Spin
+      size="default"
+      spinning={false}
+      tip="Please be patient while the project is scaffolded."
+      wrapperClassName=""
+    >
+      <div
+        className="ant-spin-nested-loading"
+      >
+        <div
+          className="ant-spin-container"
+          key="container"
+        >
+          <Form
+            colon={true}
+            hideRequiredMark={false}
+            layout="horizontal"
+            onSubmit={[Function]}
+          >
+            <form
+              className="ant-form ant-form-horizontal"
+              onSubmit={[Function]}
+            >
+              <FormItem
+                hasFeedback={false}
+                label="Label"
+                labelCol={
+                  Object {
+                    "sm": Object {
+                      "span": 6,
+                    },
+                    "xs": Object {
+                      "span": 24,
+                    },
+                  }
+                }
+                wrapperCol={
+                  Object {
+                    "sm": Object {
+                      "span": 18,
+                    },
+                    "xs": Object {
+                      "span": 24,
+                    },
+                  }
+                }
+              >
+                <Row
+                  className="ant-form-item"
+                  gutter={0}
+                >
+                  <div
+                    className="ant-row ant-form-item"
+                  >
+                    <Col
+                      className="ant-form-item-label"
+                      sm={
+                        Object {
+                          "span": 6,
+                        }
+                      }
+                      xs={
+                        Object {
+                          "span": 24,
+                        }
+                      }
+                    >
+                      <div
+                        className="ant-form-item-label ant-col-xs-24 ant-col-sm-6"
+                      >
+                        <label
+                          className="ant-form-item-required"
+                          htmlFor="label"
+                          onClick={[Function]}
+                          title="Label"
+                        >
+                          Label
+                        </label>
+                      </div>
+                    </Col>
+                    <Col
+                      className="ant-form-item-control-wrapper"
+                      sm={
+                        Object {
+                          "span": 18,
+                        }
+                      }
+                      xs={
+                        Object {
+                          "span": 24,
+                        }
+                      }
+                    >
+                      <div
+                        className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18"
+                      >
+                        <div
+                          className="ant-form-item-control"
+                        >
+                          <span
+                            className="ant-form-item-children"
+                          >
+                            <Input
+                              data-__field={
+                                Object {
+                                  "name": "label",
+                                }
+                              }
+                              data-__meta={
+                                Object {
+                                  "initialValue": "",
+                                  "name": "label",
+                                  "originalProps": Object {
+                                    "disabled": false,
+                                    "placeholder": "Label",
+                                    "type": "text",
+                                  },
+                                  "ref": null,
+                                  "rules": Array [
+                                    Object {
+                                      "message": "Label must be a phrase without spaces",
+                                      "pattern": /\\^\\\\S\\+\\$/g,
+                                      "required": true,
+                                      "whitespace": true,
+                                    },
+                                  ],
+                                  "trigger": "onChange",
+                                  "validate": Array [
+                                    Object {
+                                      "rules": Array [
+                                        Object {
+                                          "message": "Label must be a phrase without spaces",
+                                          "pattern": /\\^\\\\S\\+\\$/g,
+                                          "required": true,
+                                          "whitespace": true,
+                                        },
+                                      ],
+                                      "trigger": Array [
+                                        "onChange",
+                                      ],
+                                    },
+                                  ],
+                                  "valuePropName": "value",
+                                }
+                              }
+                              disabled={false}
+                              id="label"
+                              onChange={[Function]}
+                              placeholder="Label"
+                              type="text"
+                              value=""
+                            >
+                              <input
+                                className="ant-input"
+                                data-__field={
+                                  Object {
+                                    "name": "label",
+                                  }
+                                }
+                                data-__meta={
+                                  Object {
+                                    "initialValue": "",
+                                    "name": "label",
+                                    "originalProps": Object {
+                                      "disabled": false,
+                                      "placeholder": "Label",
+                                      "type": "text",
+                                    },
+                                    "ref": null,
+                                    "rules": Array [
+                                      Object {
+                                        "message": "Label must be a phrase without spaces",
+                                        "pattern": /\\^\\\\S\\+\\$/g,
+                                        "required": true,
+                                        "whitespace": true,
+                                      },
+                                    ],
+                                    "trigger": "onChange",
+                                    "validate": Array [
+                                      Object {
+                                        "rules": Array [
+                                          Object {
+                                            "message": "Label must be a phrase without spaces",
+                                            "pattern": /\\^\\\\S\\+\\$/g,
+                                            "required": true,
+                                            "whitespace": true,
+                                          },
+                                        ],
+                                        "trigger": Array [
+                                          "onChange",
+                                        ],
+                                      },
+                                    ],
+                                    "valuePropName": "value",
+                                  }
+                                }
+                                disabled={false}
+                                id="label"
+                                onChange={[Function]}
+                                onKeyDown={[Function]}
+                                placeholder="Label"
+                                type="text"
+                                value=""
+                              />
+                            </Input>
+                          </span>
+                          <Animate
+                            animation={Object {}}
+                            component=""
+                            componentProps={Object {}}
+                            key="help"
+                            onAppear={[Function]}
+                            onEnd={[Function]}
+                            onEnter={[Function]}
+                            onLeave={[Function]}
+                            transitionAppear={true}
+                            transitionEnter={true}
+                            transitionLeave={true}
+                            transitionName="show-help"
+                          />
+                        </div>
+                      </div>
+                    </Col>
+                  </div>
+                </Row>
+              </FormItem>
+              <FormItem
+                hasFeedback={false}
+                label="Description"
+                labelCol={
+                  Object {
+                    "sm": Object {
+                      "span": 6,
+                    },
+                    "xs": Object {
+                      "span": 24,
+                    },
+                  }
+                }
+                wrapperCol={
+                  Object {
+                    "sm": Object {
+                      "span": 18,
+                    },
+                    "xs": Object {
+                      "span": 24,
+                    },
+                  }
+                }
+              >
+                <Row
+                  className="ant-form-item"
+                  gutter={0}
+                >
+                  <div
+                    className="ant-row ant-form-item"
+                  >
+                    <Col
+                      className="ant-form-item-label"
+                      sm={
+                        Object {
+                          "span": 6,
+                        }
+                      }
+                      xs={
+                        Object {
+                          "span": 24,
+                        }
+                      }
+                    >
+                      <div
+                        className="ant-form-item-label ant-col-xs-24 ant-col-sm-6"
+                      >
+                        <label
+                          className=""
+                          htmlFor="description"
+                          onClick={[Function]}
+                          title="Description"
+                        >
+                          Description
+                        </label>
+                      </div>
+                    </Col>
+                    <Col
+                      className="ant-form-item-control-wrapper"
+                      sm={
+                        Object {
+                          "span": 18,
+                        }
+                      }
+                      xs={
+                        Object {
+                          "span": 24,
+                        }
+                      }
+                    >
+                      <div
+                        className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18"
+                      >
+                        <div
+                          className="ant-form-item-control"
+                        >
+                          <span
+                            className="ant-form-item-children"
+                          >
+                            <Input
+                              data-__field={
+                                Object {
+                                  "name": "description",
+                                }
+                              }
+                              data-__meta={
+                                Object {
+                                  "initialValue": "",
+                                  "name": "description",
+                                  "originalProps": Object {
+                                    "disabled": false,
+                                    "placeholder": "Description",
+                                    "type": "text",
+                                  },
+                                  "ref": null,
+                                  "rules": Array [
+                                    Object {
+                                      "required": false,
+                                    },
+                                  ],
+                                  "trigger": "onChange",
+                                  "validate": Array [
+                                    Object {
+                                      "rules": Array [
+                                        Object {
+                                          "required": false,
+                                        },
+                                      ],
+                                      "trigger": Array [
+                                        "onChange",
+                                      ],
+                                    },
+                                  ],
+                                  "valuePropName": "value",
+                                }
+                              }
+                              disabled={false}
+                              id="description"
+                              onChange={[Function]}
+                              placeholder="Description"
+                              type="text"
+                              value=""
+                            >
+                              <input
+                                className="ant-input"
+                                data-__field={
+                                  Object {
+                                    "name": "description",
+                                  }
+                                }
+                                data-__meta={
+                                  Object {
+                                    "initialValue": "",
+                                    "name": "description",
+                                    "originalProps": Object {
+                                      "disabled": false,
+                                      "placeholder": "Description",
+                                      "type": "text",
+                                    },
+                                    "ref": null,
+                                    "rules": Array [
+                                      Object {
+                                        "required": false,
+                                      },
+                                    ],
+                                    "trigger": "onChange",
+                                    "validate": Array [
+                                      Object {
+                                        "rules": Array [
+                                          Object {
+                                            "required": false,
+                                          },
+                                        ],
+                                        "trigger": Array [
+                                          "onChange",
+                                        ],
+                                      },
+                                    ],
+                                    "valuePropName": "value",
+                                  }
+                                }
+                                disabled={false}
+                                id="description"
+                                onChange={[Function]}
+                                onKeyDown={[Function]}
+                                placeholder="Description"
+                                type="text"
+                                value=""
+                              />
+                            </Input>
+                          </span>
+                          <Animate
+                            animation={Object {}}
+                            component=""
+                            componentProps={Object {}}
+                            key="help"
+                            onAppear={[Function]}
+                            onEnd={[Function]}
+                            onEnter={[Function]}
+                            onLeave={[Function]}
+                            transitionAppear={true}
+                            transitionEnter={true}
+                            transitionLeave={true}
+                            transitionName="show-help"
+                          />
+                        </div>
+                      </div>
+                    </Col>
+                  </div>
+                </Row>
+              </FormItem>
+              <FormItem
+                hasFeedback={false}
+                wrapperCol={
+                  Object {
+                    "sm": Object {
+                      "offset": 6,
+                      "span": 18,
+                    },
+                    "xs": Object {
+                      "offset": 0,
+                      "span": 24,
+                    },
+                  }
+                }
+              >
+                <Row
+                  className="ant-form-item"
+                  gutter={0}
+                >
+                  <div
+                    className="ant-row ant-form-item"
+                  >
+                    <Col
+                      className="ant-form-item-control-wrapper"
+                      sm={
+                        Object {
+                          "offset": 6,
+                          "span": 18,
+                        }
+                      }
+                      xs={
+                        Object {
+                          "offset": 0,
+                          "span": 24,
+                        }
+                      }
+                    >
+                      <div
+                        className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-xs-offset-0 ant-col-sm-18 ant-col-sm-offset-6"
+                      >
+                        <div
+                          className="ant-form-item-control"
+                        >
+                          <span
+                            className="ant-form-item-children"
+                          >
+                            <Collapse
+                              bordered={true}
+                              openAnimation={
+                                Object {
+                                  "appear": [Function],
+                                  "enter": [Function],
+                                  "leave": [Function],
+                                }
+                              }
+                            >
+                              <Collapse
+                                accordion={false}
+                                bordered={true}
+                                className=""
+                                destroyInactivePanel={false}
+                                expandIcon={[Function]}
+                                onChange={[Function]}
+                                openAnimation={
+                                  Object {
+                                    "appear": [Function],
+                                    "enter": [Function],
+                                    "leave": [Function],
+                                  }
+                                }
+                                prefixCls="ant-collapse"
+                              >
+                                <div
+                                  className="ant-collapse"
+                                  role={null}
+                                >
+                                  <CollapsePanel
+                                    accordion={false}
+                                    destroyInactivePanel={false}
+                                    expandIcon={[Function]}
+                                    header="Advanced settings"
+                                    isActive={false}
+                                    key=".$1"
+                                    onItemClick={[Function]}
+                                    openAnimation={
+                                      Object {
+                                        "appear": [Function],
+                                        "enter": [Function],
+                                        "leave": [Function],
+                                      }
+                                    }
+                                    panelKey="1"
+                                    prefixCls="ant-collapse"
+                                  >
+                                    <CollapsePanel
+                                      accordion={false}
+                                      className=""
+                                      destroyInactivePanel={false}
+                                      expandIcon={[Function]}
+                                      forceRender={false}
+                                      header="Advanced settings"
+                                      headerClass=""
+                                      isActive={false}
+                                      onItemClick={[Function]}
+                                      openAnimation={
+                                        Object {
+                                          "appear": [Function],
+                                          "enter": [Function],
+                                          "leave": [Function],
+                                        }
+                                      }
+                                      panelKey="1"
+                                      prefixCls="ant-collapse"
+                                      showArrow={true}
+                                    >
+                                      <div
+                                        className="ant-collapse-item"
+                                      >
+                                        <div
+                                          aria-expanded="false"
+                                          className="ant-collapse-header"
+                                          onClick={[Function]}
+                                          onKeyPress={[Function]}
+                                          role="button"
+                                          tabIndex={0}
+                                        >
+                                          <expandIcon
+                                            accordion={false}
+                                            className=""
+                                            destroyInactivePanel={false}
+                                            expandIcon={[Function]}
+                                            forceRender={false}
+                                            header="Advanced settings"
+                                            headerClass=""
+                                            isActive={false}
+                                            onItemClick={[Function]}
+                                            openAnimation={
+                                              Object {
+                                                "appear": [Function],
+                                                "enter": [Function],
+                                                "leave": [Function],
+                                              }
+                                            }
+                                            panelKey="1"
+                                            prefixCls="ant-collapse"
+                                            showArrow={true}
+                                          >
+                                            <Icon
+                                              className="ant-collapse-arrow"
+                                              type="right"
+                                            >
+                                              <LocaleReceiver
+                                                componentName="Icon"
+                                              >
+                                                <i
+                                                  aria-label="icon: right"
+                                                  className="anticon anticon-right ant-collapse-arrow"
+                                                >
+                                                  <IconReact
+                                                    className=""
+                                                    type="right-o"
+                                                  >
+                                                    <svg
+                                                      aria-hidden="true"
+                                                      className=""
+                                                      data-icon="right"
+                                                      fill="currentColor"
+                                                      height="1em"
+                                                      key="svg-right"
+                                                      viewBox="64 64 896 896"
+                                                      width="1em"
+                                                    >
+                                                      <path
+                                                        d="M765.7 486.8L314.9 134.7A7.97 7.97 0 0 0 302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 0 0 0-50.4z"
+                                                        key="svg-right-svg-0"
+                                                      />
+                                                    </svg>
+                                                  </IconReact>
+                                                </i>
+                                              </LocaleReceiver>
+                                            </Icon>
+                                          </expandIcon>
+                                          Advanced settings
+                                        </div>
+                                        <Animate
+                                          animation={
+                                            Object {
+                                              "appear": [Function],
+                                              "enter": [Function],
+                                              "leave": [Function],
+                                            }
+                                          }
+                                          component=""
+                                          componentProps={Object {}}
+                                          exclusive={true}
+                                          onAppear={[Function]}
+                                          onEnd={[Function]}
+                                          onEnter={[Function]}
+                                          onLeave={[Function]}
+                                          showProp="isActive"
+                                          transitionAppear={false}
+                                          transitionEnter={true}
+                                          transitionLeave={true}
+                                        >
+                                          <AnimateChild
+                                            animation={
+                                              Object {
+                                                "appear": [Function],
+                                                "enter": [Function],
+                                                "leave": [Function],
+                                              }
+                                            }
+                                            key="rc_animate_1234567890123"
+                                            transitionAppear={false}
+                                            transitionEnter={true}
+                                            transitionLeave={true}
+                                          >
+                                            <PanelContent
+                                              destroyInactivePanel={false}
+                                              forceRender={false}
+                                              isActive={false}
+                                              key="rc_animate_1234567890123"
+                                              prefixCls="ant-collapse"
+                                              role={null}
+                                            />
+                                          </AnimateChild>
+                                        </Animate>
+                                      </div>
+                                    </CollapsePanel>
+                                  </CollapsePanel>
+                                </div>
+                              </Collapse>
+                            </Collapse>
+                          </span>
+                          <Animate
+                            animation={Object {}}
+                            component=""
+                            componentProps={Object {}}
+                            key="help"
+                            onAppear={[Function]}
+                            onEnd={[Function]}
+                            onEnter={[Function]}
+                            onLeave={[Function]}
+                            transitionAppear={true}
+                            transitionEnter={true}
+                            transitionLeave={true}
+                            transitionName="show-help"
+                          />
+                        </div>
+                      </div>
+                    </Col>
+                  </div>
+                </Row>
+              </FormItem>
+              <FormItem
+                hasFeedback={false}
+                wrapperCol={
+                  Object {
+                    "sm": Object {
+                      "offset": 6,
+                      "span": 18,
+                    },
+                    "xs": Object {
+                      "offset": 0,
+                      "span": 24,
+                    },
+                  }
+                }
+              >
+                <Row
+                  className="ant-form-item"
+                  gutter={0}
+                >
+                  <div
+                    className="ant-row ant-form-item"
+                  >
+                    <Col
+                      className="ant-form-item-control-wrapper"
+                      sm={
+                        Object {
+                          "offset": 6,
+                          "span": 18,
+                        }
+                      }
+                      xs={
+                        Object {
+                          "offset": 0,
+                          "span": 24,
+                        }
+                      }
+                    >
+                      <div
+                        className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-xs-offset-0 ant-col-sm-18 ant-col-sm-offset-6"
+                      >
+                        <div
+                          className="ant-form-item-control"
+                        >
+                          <span
+                            className="ant-form-item-children"
+                          >
+                            <Button
+                              block={false}
+                              className="login-form-button"
+                              ghost={false}
+                              htmlType="submit"
+                              loading={false}
+                              type="primary"
+                            >
+                              <Wave>
+                                <button
+                                  className="ant-btn login-form-button ant-btn-primary"
+                                  onClick={[Function]}
+                                  type="submit"
+                                >
+                                  <span
+                                    key=".0"
+                                  >
+                                    Save
+                                  </span>
+                                </button>
+                              </Wave>
+                            </Button>
+                          </span>
+                          <Animate
+                            animation={Object {}}
+                            component=""
+                            componentProps={Object {}}
+                            key="help"
+                            onAppear={[Function]}
+                            onEnd={[Function]}
+                            onEnter={[Function]}
+                            onLeave={[Function]}
+                            transitionAppear={true}
+                            transitionEnter={true}
+                            transitionLeave={true}
+                            transitionName="show-help"
+                          />
+                        </div>
+                      </div>
+                    </Col>
+                  </div>
+                </Row>
+              </FormItem>
+            </form>
+          </Form>
+        </div>
+      </div>
+    </Spin>
+  </ProjectForm>
+</Form(ProjectForm)>
+`;
