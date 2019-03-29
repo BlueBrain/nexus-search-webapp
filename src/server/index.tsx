@@ -213,7 +213,7 @@ app.get('*', async (req: express.Request, res: express.Response) => {
     .send(html({ body, helmet, preloadedState: store.getState() }));
 });
 
-app.listen(8000, () => {
+app.listen(process.env.PORT || 8000, () => {
   // tslint:disable-next-line:no-console
   console.log('Nexus Web is listening...');
 });
