@@ -23,8 +23,23 @@
   padding: 19px 24px;
 }
 .ant-drawer-content-wrapper {
-  top: 60px;
+  top: 40px;
+}
+.ant-drawer-left.ant-drawer-open .ant-drawer-content-wrapper {
+  box-shadow: -2px 12px 8px rgba(0, 0, 0, 0.15);
 }
 .ant-drawer-right.ant-drawer-open .ant-drawer-content-wrapper {
-  box-shadow: -2px 8px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: -2px 12px 8px rgba(0, 0, 0, 0.15);
+}
+
+.ant-checkbox-wrapper {
+  display: flex;
+  margin: 0.5em 0;
+  .ant-checkbox {
+    top: 0.2em;
+    height: 100%;
+  }
+  .ant-checkbox + span {
+    width: 100%;
+  }
 }

@@ -25,7 +25,6 @@ const nexus = new Nexus({
 });
 // create redux store
 const store = configureStore(history, nexus, preloadedState);
-
 const renderApp = () => {
   return ReactDOM.hydrate(
     <Provider store={store}>
