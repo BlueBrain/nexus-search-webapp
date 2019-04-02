@@ -103,7 +103,7 @@ export const fetchFilters: ActionCreator<ThunkAction> = (
       };
       return dispatch(fetchFiltersFulfilledAction(datasets));
     } catch (e) {
-      console.error(e);
+      // console.error(e);
       return dispatch(fetchFiltersFailedAction(e));
     }
   };

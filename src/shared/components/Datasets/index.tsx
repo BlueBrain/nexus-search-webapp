@@ -61,12 +61,12 @@ const Datasets: React.FunctionComponent<DatasetsProps> = props => {
               ...paginationSettings,
               from: paginationSettings.from + 1,
             };
-            console.log(
-              'new',
-              newPaginationSettings,
-              paginationSettings.from + 1,
-              paginationSettings.from
-            );
+            // console.log(
+            //   'new',
+            //   newPaginationSettings,
+            //   paginationSettings.from + 1,
+            //   paginationSettings.from
+            // );
             fetchDatasets(newPaginationSettings);
           }}
           fetchablePaginatedList={fetchableDatasets}

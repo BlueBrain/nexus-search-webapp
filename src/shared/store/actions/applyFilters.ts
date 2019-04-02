@@ -110,7 +110,7 @@ export const fetchDatasets: ActionCreator<ThunkAction> = (
 
       return dispatch(fetchDatasetsFulfilledAction(datasets));
     } catch (e) {
-      console.error(e);
+      // console.error(e);
       return dispatch(fetchDatasetsFailedAction(e));
     }
   };
