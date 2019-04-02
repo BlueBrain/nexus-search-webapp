@@ -1,5 +1,8 @@
 export const mindsQuery = `
-SELECT DISTINCT ?speciesLabel ?speciesID ?brainRegionID ?brainRegionLabel ?contribution ?distribution ?license
+prefix prov: <http://www.w3.org/ns/prov#>
+prefix schema: <http://schema.org/>
+
+SELECT DISTINCT ?speciesLabel ?speciesID ?brainRegionID ?brainRegionLabel ?contribution ?distribution ?license ?agentID ?fName
 {
   {
     ?s1 <https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/brainRegion> ?brainRegionID .
@@ -8,7 +11,9 @@ SELECT DISTINCT ?speciesLabel ?speciesID ?brainRegionID ?brainRegionLabel ?contr
     ?s3 <https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/species> ?speciesID .
     OPTIONAL { ?speciesID rdfs:label ?speciesLabel }
   } UNION {
-    ?s4 <https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/contribution> ?contribution .
+    ?s4 <https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/contribution> ?contributionBN .
+    ?contributionBN prov:agent ?agentID .
+    OPTIONAL{ ?agentID schema:familyName ?fName }
   } UNION {
     ?s5 <https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/distribution> ?distribution .
   } UNION {
@@ -48,8 +53,8 @@ SELECT DISTINCT ?speciesLabel ?speciesID ?brainRegionID ?brainRegionLabel ?contr
 // SELECT DISTINCT ?agentID ?fName
 // {
 //   {
-//     ?s3 <https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/contribution> ?contributionBN .
-//     ?contributionBN prov:agent ?agentID .
-//     OPTIONAL{ ?agentID schema:familyName ?fName }
+// ?s3 <https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/contribution> ?contributionBN .
+// ?contributionBN prov:agent ?agentID .
+// OPTIONAL{ ?agentID schema:familyName ?fName }
 //   }
 // }

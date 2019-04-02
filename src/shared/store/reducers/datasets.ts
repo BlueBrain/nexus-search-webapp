@@ -5,6 +5,10 @@ import {
   actionTypes as FilterActionTypes,
   Filter,
 } from '../actions/filters';
+import {
+  DatasetsActions,
+  actionTypes as DatasetsActionsTypes,
+} from '../actions/datasets';
 
 export interface DatasetsState {
   datasets: FetchableState<PaginatedList<any>>;
@@ -24,7 +28,7 @@ const initialState: DatasetsState = {
   },
 };
 
-// const datasetsReducer = createFetchReducer(orgsActionTypes, []);
+const datasetsFetchingReducer = createFetchReducer(DatasetsActionsTypes, []);
 const filtersReducer = createFetchReducer(FilterActionTypes, []);
 
 export default function datasetsReducer(
@@ -35,6 +39,12 @@ export default function datasetsReducer(
     return {
       ...state,
       filters: filtersReducer(state.filters, action),
+    };
+  }
+  if (action.type.startsWith('@@nexus/DATASETS')) {
+    return {
+      ...state,
+      datasets: datasetsFetchingReducer(state.datasets, action),
     };
   }
   return state;

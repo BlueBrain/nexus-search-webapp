@@ -1,9 +1,5 @@
 import { ActionCreator, Dispatch } from 'redux';
-import {
-  Organization,
-  PaginatedList,
-  PaginationSettings,
-} from '@bbp/nexus-sdk';
+import { PaginatedList, PaginationSettings } from '@bbp/nexus-sdk';
 import { ThunkAction } from '../';
 import { FetchAction, FetchFulfilledAction, FetchFailedAction } from './utils';
 import { mindsQuery } from './queries/filters';
@@ -12,10 +8,6 @@ enum FiltersActionTypes {
   FETCHING = '@@nexus/FILTERS_FETCHING',
   FULFILLED = '@@nexus/FILTERS_FETCHING_FULFILLED',
   FAILED = '@@nexus/FILTERS_FETCHING_FAILED',
-}
-
-export interface OrgPayload extends Organization {
-  projectNumber: string;
 }
 
 export const actionTypes = {

@@ -1,11 +1,13 @@
 @import '../../lib.less';
 
-.Toolbar {
+.toolbar-container {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   padding: 10px;
-
+  height: 40px;
+  background-color: #6bcff220;
+  margin-bottom: 1em;
   .divider {
     border-left: 1px solid @border-color-base;
     height: 16px;
@@ -14,16 +16,5 @@
 
   .members {
     margin-right: 5px;
-  }
-}
-
-.Toolbar-permission-menu {
-  .title {
-    margin: 5px 10px 10px;
-  }
-  .permission-item {
-    .permission-name {
-      padding: 0 5px;
-    }
   }
 }

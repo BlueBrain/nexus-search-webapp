@@ -47,11 +47,11 @@ const Filters: React.FunctionComponent<FilterProps> = props => {
                     </div>
                   );
                   return (
-                    <CollapsePanel header={header} key={`${index}`}>
+                    <CollapsePanel header={header} key={`$${index}`}>
                       <ul className="checkbox-list">
                         {filter.values.map(value => {
                           return (
-                            <li>
+                            <li key={value.id}>
                               <Checkbox value={value.id}>
                                 {value.label}
                               </Checkbox>
