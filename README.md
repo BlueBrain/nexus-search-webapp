@@ -1,8 +1,20 @@
-# Nexus Web
+# BBP Nexus Search
 
-> Transform your data into a fully searchable linked-data graph
+> The searchable neuroscience knowledgegraph
 
-Nexus Web is the interface of Blue Brain Nexus, the open-source knowledge graph for data-driven science.
+BBP Nexus Search Is a web application that allows for looking at BBP's datasets that are stored in our nexus instance in a way that's more useful than, for example, Nexus Web's more generic interface.
+
+It provides useful filters based on MINDS properties common to all integrated neuroscience datasets.
+
+## How does data get into this Search App?
+
+Once data is integrated into Nexus (under the `bbp` organization), the data will be automatically available in this search application. As the dataset conforms more and more to _MINDS_, filters will work automatically for that dataset as well.
+
+## How does querying work?
+
+Instead of the previous iteration, which uses it's own bespoke elastic search instance, this version queries Nexus using _SPARQL_ directly from the client.
+
+There is no server-side data ETL or scripts to run to get the right queries. The server for BBP Nexus Search exists only for server-side rendering html content for SEO and sharing purposes.
 
 ## Development
 
