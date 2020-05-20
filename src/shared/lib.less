@@ -1,0 +1,180 @@
+// Antd overrride
+@primary-color: #44c7f4; // primary color for all components
+@link-color: #00adee; // link color
+@success-color: #52c41a; // success state color
+@warning-color: #faad14; // warning state color
+@error-color: #f5222d; // error state color
+@font-size-base: 14px; // major text font size
+@heading-color: rgba(0, 0, 0, 0.72); // heading text color
+@text-color: rgba(0, 0, 0, 0.65); // major text color
+@text-color-secondary: rgba(0, 0, 0, 0.45); // secondary text color
+@disabled-color: rgba(0, 0, 0, 0.25); // disable state color
+@border-radius-base: 2px; // major border radius
+@border-color-base: #d9d9d9; // major border color
+@box-shadow-base: 0 2px 8px rgba(0, 0, 0, 0.15); // major shadow for layers
+@primary-background-subtle: rgb(226, 248, 255);
+@background-color-subtle: rgb(
+  252,
+  253,
+  253
+); // for sublte highlighting in lists
+@nexus-dark: #1d3b61;
+// Variables
+@header-background-color: fade(black, 5%);
+@box-shadow-color: #abbac9;
+@bounce: cubic-bezier(0.645, 0.045, 0.355, 1);
+@interfaceTransition: 0.3s @bounce;
+@component-background: #fcfdfd;
+@maxConstrainedItemWidth: 980px;
+@link-hover-color: #28c9fa;
+@primary-card: #f5f6f7;
+@default-card-width: 400px;
+@default-pad: 1rem;
+@half-pad: 0.5rem;
+@fast: 85ms;
+@internal-link-color: #ff6666;
+@subtle-white: #e4ebf2;
+@main-node-color: #9dfcc5;
+@edge-color: #8a8b8b;
+@table-row-highlight-color: rgba(255, 255, 255, 0.1);
+
+body {
+  background-color: #9e9e9e1f;
+  background-size: cover;
+  background-repeat: no-repeat;
+  // Just for fun! Try them out!
+  // background-color: pink;
+  // background-image: url('https://source.unsplash.com/random/2560x1842/?snow,nature,mountains');
+}
+
+h1 {
+  .ellipsis();
+  font-weight: 200;
+}
+
+// Mixins
+
+// Good for elements that want to look like
+// they're at the very top
+.highShadow() {
+  box-shadow: 0 12px 24px -6px rgba(9, 30, 66, 0.25),
+    0 0 0 1px rgba(9, 30, 66, 0.08);
+}
+
+.fixed-minus-header {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  max-height: calc(100vh - 40px);
+}
+
+.rows {
+  display: flex;
+  flex-direction: row;
+}
+
+.unstyleList() {
+  list-style: none;
+}
+
+.textLoadingGradient () {
+  background: linear-gradient(
+    -45deg,
+    @success-color,
+    @primary-color,
+    @nexus-dark,
+    @link-color
+  );
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: Gradient 4s ease infinite;
+}
+.blockLoadingGradient () {
+  background: linear-gradient(-45deg, @box-shadow-color, white);
+  background-size: 400% 400%;
+  animation: Gradient 4s ease infinite;
+}
+
+.ellipsis () {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.oddListColor() {
+  &:nth-of-type(2n + 1) {
+    background-color: @background-color-subtle;
+  }
+}
+
+.focus() {
+  outline: none;
+}
+
+.cardlike() {
+  padding: @default-pad;
+  box-shadow: @box-shadow-base;
+  border-radius: @border-radius-base;
+  background-color: @background-color-subtle;
+  height: fit-content;
+  height: -moz-max-content;
+  height: -webkit-max-content;
+}
+
+.interactiveArea() {
+  background-color: white;
+  border: 1px solid #e8e8e8;
+  transition: all 0.3s ease;
+}
+
+.constrainedWidth() {
+  max-width: @maxConstrainedItemWidth;
+  margin: 0 auto;
+}
+
+.flash {
+  animation: TextFlash 1s ease-out;
+}
+
+.scrollBar() {
+  /* width */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: @header-background-color;
+  }
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: shade(@header-background-color, 20%);
+  }
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}
+
+@keyframes TextFlash {
+  0% {
+    text-shadow: 0px 0px 6px @warning-color;
+    color: white;
+  }
+  100% {
+    text-shadow: 0px 0px 0px @warning-color;
+    color: @text-color-secondary;
+  }
+}
+
+@keyframes Gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

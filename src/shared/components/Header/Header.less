@@ -1,0 +1,99 @@
+@import '../../lib.less';
+
+.Header {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px;
+  box-sizing: content-box;
+  height: 32px;
+  background-color: @header-background-color;
+
+  .logo-block {
+    position: absolute;
+    left: 50%;
+    width: 120px;
+    margin-left: -60px;
+
+    .logo {
+      margin-right: 0.5em;
+      height: 32px;
+      display: flex;
+      align-items: center;
+
+      img {
+        height: 2em;
+        width: 2em;
+        margin: 1px 0;
+        padding-bottom: 2px;
+      }
+    }
+
+    h1 {
+      color: @primary-color;
+      margin: 0;
+      font-weight: 100;
+      display: inline-block;
+    }
+
+    @media (max-width: 795px) {
+      left: 0;
+      margin-left: 10px;
+    }
+  }
+
+  .selectors {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-grow: 1;
+    margin-left: 10px;
+
+    .OrgDropdown {
+      height: 100%;
+    }
+  }
+
+  .menu-block {
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
+    padding-right: @default-pad;
+    align-items: center;
+
+    button,
+    a {
+      margin: 5px;
+      font-weight: lighter;
+    }
+
+    .menu-dropdown {
+      color: @text-color;
+      align-self: center;
+      margin-left: 10px;
+    }
+  }
+}
+
+.nav-item {
+  font-size: 16px;
+}
+
+.popover-title {
+  padding: 0 0 5px 0;
+}
+
+// the gtm modal should appear on a top of a popover
+.ant-popover {
+  z-index: 1000 !important;
+}
+
+/*
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (max-width: 1024px) {
+  .hide-tablet {
+    display: none;
+  }
+}

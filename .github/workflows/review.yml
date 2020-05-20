@@ -1,0 +1,32 @@
+name: Review
+
+on: [pull_request]
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: install dependencies 🚀
+        run: |
+          yarn
+      - name: linting ✨
+        run: |
+          yarn lint
+      - name: style 💅
+        run: |
+          yarn style
+      - name: running test 🛫🛬
+        run: |
+          yarn test --coverage src
+      - name: upload coverage to Codecov 💌
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: running ui test
+        run: |
+          yarn test-ui
+      - name: build project 👷
+        run: |
+          yarn build
