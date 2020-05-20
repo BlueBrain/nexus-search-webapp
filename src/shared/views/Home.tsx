@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Spin } from 'antd';
 import SearchConfigContainer from '../containers/SearchConfigContainer';
 import Search from 'antd/lib/input/Search';
 import SearchTextContainer from '../containers/SearchTextContainer';
 import SearchResultsContainer from '../containers/SearchResultsContainer';
 import SearchFiltersContainer from '../containers/SearchFiltersContainer';
+import SearchQueryContainer from '../containers/SearchQueryContainer';
 
 const { Sider, Content } = Layout;
 
@@ -43,16 +44,22 @@ const Home: React.FC = () => {
           </Sider>
           <div>
             {!!selectedSearchConfig && (
-              <Layout>
-                <Sider>
-                  <SearchFiltersContainer />
-                </Sider>
-                <section>
-                  <h2>{selectedSearchConfig.label}</h2>
-                  <SearchTextContainer />
-                  <SearchResultsContainer />
-                </section>
-              </Layout>
+              <SearchQueryContainer searchConfig={selectedSearchConfig}>
+                {({ loading, error, data }) => (
+                  <Spin spinning={loading}>
+                    <Layout>
+                      <Sider>
+                        <SearchFiltersContainer />
+                      </Sider>
+                      <section>
+                        <h2>{selectedSearchConfig.label}</h2>
+                        <SearchTextContainer />
+                        <SearchResultsContainer results={data} />
+                      </section>
+                    </Layout>
+                  </Spin>
+                )}
+              </SearchQueryContainer>
             )}
           </div>
         </Layout>

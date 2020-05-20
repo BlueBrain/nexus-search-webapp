@@ -3,19 +3,27 @@ import * as React from 'react';
 export type SearchConfig = {
   key: string;
   label: string;
+  orgLabel: string;
+  projectLabel: string;
   view: string;
 };
 
 const fakeSearchConfigs: SearchConfig[] = [
   {
-    key: '1',
+    key: 'minds',
     label: 'Minds Search',
-    view: 'lasdjhflasdjhfalh',
+    orgLabel: 'public',
+    projectLabel: 'graphql-ld',
+    view:
+      'https://bluebrain.github.io/nexus/vocabulary/defaultElasticSearchIndex',
   },
   {
-    key: '2',
+    key: 'ls',
     label: 'Literature Search',
-    view: 'lasdjhflasdjhfalh',
+    orgLabel: 'bbp',
+    projectLabel: 'nmc',
+    view:
+      'https://bluebrain.github.io/nexus/vocabulary/defaultElasticSearchIndex',
   },
 ];
 
