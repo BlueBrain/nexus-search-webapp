@@ -1918,6 +1918,11 @@
   resolved "https://registry.yarnpkg.com/@types/cytoscape/-/cytoscape-3.8.8.tgz#87e949a1b43f884254683947ff1354c767810101"
   integrity sha512-N/i7yj71pudU2NjLJ9SiaHwfqJkAqQTbvtfi66Eek4h4nJt7Sn5omHqtEt6D9KV+tNwQ1tTlia+S8LvSDO79OQ==
 
+"@types/elasticsearch@^5.0.36":
+  version "5.0.36"
+  resolved "https://registry.yarnpkg.com/@types/elasticsearch/-/elasticsearch-5.0.36.tgz#5799894db7d83a478d19dc36127957579071702c"
+  integrity sha512-uV1mcrQIscL1HuewQ4XoEmv64tIBP/fN6u+LfBJEzO6DfXLZeogmP6odybxzFDg0C85/e102++3XKV68lYScLQ==
+
 "@types/enzyme@^3.9.0":
   version "3.10.4"
   resolved "https://registry.yarnpkg.com/@types/enzyme/-/enzyme-3.10.4.tgz#dd4961042381a7c0f6637ce25fec3f773ce489dd"

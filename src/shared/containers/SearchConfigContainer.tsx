@@ -1,4 +1,5 @@
 import * as React from 'react';
+import defaultElasticSearchMappings from './defaultElasticSearchMapping.json';
 
 export type SearchConfig = {
   key: string;
@@ -6,9 +7,19 @@ export type SearchConfig = {
   orgLabel: string;
   projectLabel: string;
   view: string;
+  mappings: any;
 };
 
 const fakeSearchConfigs: SearchConfig[] = [
+  {
+    key: 'default',
+    label: 'Default Search Example',
+    orgLabel: 'public',
+    projectLabel: 'graphql-ld',
+    view:
+      'https://bluebrain.github.io/nexus/vocabulary/defaultElasticSearchIndex',
+    mappings: defaultElasticSearchMappings,
+  },
   {
     key: 'minds',
     label: 'Minds Search',
@@ -16,6 +27,7 @@ const fakeSearchConfigs: SearchConfig[] = [
     projectLabel: 'graphql-ld',
     view:
       'https://bluebrain.github.io/nexus/vocabulary/defaultElasticSearchIndex',
+    mappings: defaultElasticSearchMappings,
   },
   {
     key: 'ls',
@@ -24,6 +36,7 @@ const fakeSearchConfigs: SearchConfig[] = [
     projectLabel: 'nmc',
     view:
       'https://bluebrain.github.io/nexus/vocabulary/defaultElasticSearchIndex',
+    mappings: defaultElasticSearchMappings,
   },
 ];
 

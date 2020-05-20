@@ -10,6 +10,9 @@ import SearchQueryContainer from '../containers/SearchQueryContainer';
 const { Sider, Content } = Layout;
 
 const Home: React.FC = () => {
+  const [searchText, setSearchText] = React.useState('');
+  const [searchFilters, setSearchFilters] = React.useState({});
+
   return (
     <SearchConfigContainer>
       {({
@@ -44,16 +47,22 @@ const Home: React.FC = () => {
           </Sider>
           <div>
             {!!selectedSearchConfig && (
-              <SearchQueryContainer searchConfig={selectedSearchConfig}>
+              <SearchQueryContainer
+                searchConfig={selectedSearchConfig}
+                searchText={searchText}
+              >
                 {({ loading, error, data }) => (
                   <Spin spinning={loading}>
                     <Layout>
                       <Sider>
-                        <SearchFiltersContainer />
+                        <SearchFiltersContainer
+                          searchConfig={selectedSearchConfig}
+                          onChange={setSearchFilters}
+                        />
                       </Sider>
-                      <section>
+                      <section style={{ padding: '1rem' }}>
                         <h2>{selectedSearchConfig.label}</h2>
-                        <SearchTextContainer />
+                        <SearchTextContainer onChange={setSearchText} />
                         <SearchResultsContainer results={data} />
                       </section>
                     </Layout>

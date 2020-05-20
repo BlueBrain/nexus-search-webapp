@@ -13,7 +13,7 @@ const SearchQueryContainer: React.FC<{
   }>;
 }> = ({
   children,
-  searchConfig: { orgLabel, projectLabel, view },
+  searchConfig: { orgLabel, projectLabel, view, key },
   searchText,
   filters,
 }) => {
@@ -38,7 +38,19 @@ const SearchQueryContainer: React.FC<{
       orgLabel,
       projectLabel,
       encodeURIComponent(view),
-      {}
+      // We need to combine the props
+      // to create a beautiful ES query
+      {
+        ...(searchText
+          ? {
+              query: {
+                query_string: {
+                  query: searchText,
+                },
+              },
+            }
+          : {}),
+      }
     )
       .then(elasticSearchResponse => {
         setData({
@@ -54,7 +66,7 @@ const SearchQueryContainer: React.FC<{
           data: null,
         });
       });
-  }, []);
+  }, [key, searchText]);
 
   return !!children
     ? children({
