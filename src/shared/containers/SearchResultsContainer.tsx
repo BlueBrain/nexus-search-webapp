@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Table } from 'antd';
-import { useLocation, useHistory, useParams } from 'react-router';
+import { useLocation, useHistory } from 'react-router';
 
 const SearchResultsContainer: React.FC<{
   results: any;
@@ -38,8 +38,6 @@ const SearchResultsContainer: React.FC<{
         id: result._id,
       };
     });
-
-  console.log(data);
 
   return (
     <div>
