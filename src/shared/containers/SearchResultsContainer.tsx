@@ -4,13 +4,12 @@ import { useLocation, useHistory } from 'react-router';
 
 const SearchResultsContainer: React.FC<{
   results: any;
-}> = ({ results }) => {
+  searchConfig: any;
+}> = ({ results, searchConfig }) => {
   const history = useHistory();
   const location = useLocation();
 
-  // TODO: get from somewhere
-  const orgLabel = 'public';
-  const projectLabel = 'graphql-ld';
+  const { orgLabel, projectLabel } = searchConfig;
 
   const goToResource = (resourceId: string) => {
     const pushRoute = `/${orgLabel}/${projectLabel}/resources/${encodeURIComponent(

@@ -63,7 +63,10 @@ const Home: React.FC = () => {
                       <section style={{ padding: '1rem' }}>
                         <h2>{selectedSearchConfig.label}</h2>
                         <SearchTextContainer onChange={setSearchText} />
-                        <SearchResultsContainer results={data} />
+                        <SearchResultsContainer
+                          results={data}
+                          searchConfig={selectedSearchConfig}
+                        />
                       </section>
                     </Layout>
                   </Spin>
