@@ -47,7 +47,6 @@ const generateAggregatedQueryFromElasticSearchMapping = (
   mappings: SearchConfig['mappings']
 ) => {
   const properties = mappings?.properties || {};
-  console.log({ properties });
   const aggregations = Object.keys(properties).reduce(
     (memo, propertyKey) => {
       // If it's a keyword, then we
@@ -79,7 +78,6 @@ const SearchFiltersContainer: React.FC<{
   onChange,
 }) => {
   const nexus = useNexusContext();
-  console.log({ mappings });
   const [{ loading, error, data }, setData] = React.useState<{
     loading: boolean;
     error: Error | null;
@@ -97,7 +95,6 @@ const SearchFiltersContainer: React.FC<{
       data: null,
     });
     const query = generateAggregatedQueryFromElasticSearchMapping(mappings);
-    console.log(query);
     nexus.View.elasticSearchQuery(
       orgLabel,
       projectLabel,

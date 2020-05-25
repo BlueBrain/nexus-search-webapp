@@ -10,8 +10,6 @@ export type SearchConfig = {
   mappings: any;
 };
 
-console.log({ defaultElasticSearchMappings });
-
 const fakeSearchConfigs: SearchConfig[] = [
   {
     key: 'default',
