@@ -48,42 +48,6 @@ exports[`Header component Should render correctly 1`] = `
     >
       Studio
     </a>
-    <Popover
-      content={
-        <InformationContent
-          githubIssueURL=""
-          serviceVersions={
-            Object {
-              "admin": "1.0",
-              "blazegraph": "1.0",
-              "elasticsearch": "1.0",
-              "iam": "1.0",
-              "kg": "1.0",
-              "nexus": "1.0",
-              "storage": "asda",
-            }
-          }
-          version=""
-        />
-      }
-      mouseEnterDelay={0.1}
-      mouseLeaveDelay={0.1}
-      overlayStyle={Object {}}
-      placement="bottomRight"
-      title="Information"
-      transitionName="zoom-big"
-      trigger="click"
-    >
-      <Button
-        block={false}
-        className="ui-header-info-button"
-        ghost={false}
-        htmlType="button"
-        icon="info-circle"
-        loading={false}
-        size="small"
-      />
-    </Popover>
     <Dropdown
       mouseEnterDelay={0.15}
       mouseLeaveDelay={0.1}

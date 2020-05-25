@@ -1,5 +1,5 @@
 import * as React from 'react';
-import defaultElasticSearchMappings from './defaultElasticSearchMapping.json';
+import defaultElasticSearchMappings from './defaultElasticSearchMapping';
 
 export type SearchConfig = {
   key: string;
