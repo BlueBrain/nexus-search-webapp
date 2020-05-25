@@ -54,7 +54,7 @@ const Home: React.FC = () => {
                 {({ loading, error, data }) => (
                   <Spin spinning={loading}>
                     <Layout>
-                      <Sider>
+                      <Sider style={{ backgroundColor: 'white' }}>
                         <SearchFiltersContainer
                           searchConfig={selectedSearchConfig}
                           onChange={setSearchFilters}

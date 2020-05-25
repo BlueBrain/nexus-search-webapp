@@ -1,5 +1,5 @@
 import * as React from 'react';
-import defaultElasticSearchMappings from './defaultElasticSearchMapping.json';
+import defaultElasticSearchMappings from './defaultElasticSearchMapping';
 
 export type SearchConfig = {
   key: string;
@@ -9,6 +9,8 @@ export type SearchConfig = {
   view: string;
   mappings: any;
 };
+
+console.log({ defaultElasticSearchMappings });
 
 const fakeSearchConfigs: SearchConfig[] = [
   {
