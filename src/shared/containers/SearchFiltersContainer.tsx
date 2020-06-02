@@ -19,7 +19,7 @@ const SearchFiltersComponent: React.FC<{
   filters: FilterParams;
   onChange: (filters: FilterParams) => void;
 }> = ({ loading, error, data, filters, onChange }) => {
-  // TODO Break into utils
+  // TODO Break into utils?
   const filterItems = Object.keys(data?.aggregations || {})
     .map(filterKey => {
       return {
@@ -32,7 +32,6 @@ const SearchFiltersComponent: React.FC<{
     })
     .filter(({ buckets }) => buckets.length > 0);
 
-  // TODO post
   return (
     <Spin spinning={loading}>
       {filterItems.map(({ filterKey, buckets }, index) => {

@@ -7,6 +7,7 @@ import SearchResultsContainer from '../containers/SearchResultsContainer';
 import SearchFiltersContainer from '../containers/SearchFiltersContainer';
 import SearchQueryContainer from '../containers/SearchQueryContainer';
 import { FilterParams } from '../utils/queryBuilder';
+import SelectedSearchFilters from '../components/SelectedSearchFilters';
 
 const { Sider, Content } = Layout;
 
@@ -65,6 +66,10 @@ const Home: React.FC = () => {
                       <section style={{ padding: '1rem' }}>
                         <h2>{selectedSearchConfig.label}</h2>
                         <SearchTextContainer onChange={setSearchText} />
+                        <SelectedSearchFilters
+                          filters={searchFilters}
+                          onChange={setSearchFilters}
+                        />
                         <SearchResultsContainer
                           results={data}
                           searchConfig={selectedSearchConfig}
