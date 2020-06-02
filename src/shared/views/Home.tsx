@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { Layout, Menu, Spin } from 'antd';
 import SearchConfigContainer from '../containers/SearchConfigContainer';
-import Search from 'antd/lib/input/Search';
 import SearchTextContainer from '../containers/SearchTextContainer';
-import SearchResultsContainer from '../containers/SearchResultsContainer';
 import SearchFiltersContainer from '../containers/SearchFiltersContainer';
 import SearchQueryContainer from '../containers/SearchQueryContainer';
 import { FilterParams } from '../utils/queryBuilder';

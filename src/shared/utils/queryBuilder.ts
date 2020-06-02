@@ -56,8 +56,8 @@ function buildQuery(query: ESQueryParams): RequestParams.Search['body'] {
   // }
   if (q) {
     params.query.bool.must.push({
-      query_string: {
-        query: `(${q}* OR ${q}~)`,
+      match: {
+        _all_fields: q,
       },
     });
     // TODO how to speed up?

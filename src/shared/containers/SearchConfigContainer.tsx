@@ -1,6 +1,6 @@
 import * as React from 'react';
 import defaultElasticSearchMappings from './defaultElasticSearchMapping';
-import { ESQueryParams } from '../utils/queryBuilder';
+import buildQuery, { ESQueryParams } from '../utils/queryBuilder';
 import SearchResultsContainer from './SearchResultsContainer';
 import { NexusClient } from '@bbp/nexus-sdk';
 import { SearchResponse } from 'elasticsearch';
@@ -15,19 +15,7 @@ const defaultSearchMethod = (
     searchConfig.orgLabel,
     searchConfig.projectLabel,
     encodeURIComponent(searchConfig.view),
-    // We need to combine the props
-    // to create a beautiful ES query
-    {
-      ...(params.q
-        ? {
-            query: {
-              query_string: {
-                query: params.q,
-              },
-            },
-          }
-        : {}),
-    }
+    buildQuery(params) || {}
   );
 
 export type SearchConfig = {
