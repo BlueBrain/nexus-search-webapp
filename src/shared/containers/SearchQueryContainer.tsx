@@ -1,15 +1,17 @@
 import * as React from 'react';
 import { SearchConfig } from './SearchConfigContainer';
 import { useNexus, useNexusContext } from '@bbp/react-nexus';
+import { SearchResponse } from 'elasticsearch';
+import { FilterParams } from '../utils/queryBuilder';
 
 const SearchQueryContainer: React.FC<{
   searchConfig: SearchConfig;
   searchText?: string;
-  filters?: any;
+  filters?: FilterParams;
   children: React.FC<{
     loading: boolean;
     error: Error | null;
-    data: any;
+    data: SearchResponse<any>;
   }>;
 }> = ({
   children,
@@ -34,7 +36,7 @@ const SearchQueryContainer: React.FC<{
       error: null,
       data: null,
     });
-    nexus.View.elasticSearchQuery(
+    nexus.View.elasticSearchQuery<SearchResponse<any>>(
       orgLabel,
       projectLabel,
       encodeURIComponent(view),

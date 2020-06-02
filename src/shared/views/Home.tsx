@@ -6,12 +6,13 @@ import SearchTextContainer from '../containers/SearchTextContainer';
 import SearchResultsContainer from '../containers/SearchResultsContainer';
 import SearchFiltersContainer from '../containers/SearchFiltersContainer';
 import SearchQueryContainer from '../containers/SearchQueryContainer';
+import { FilterParams } from '../utils/queryBuilder';
 
 const { Sider, Content } = Layout;
 
 const Home: React.FC = () => {
   const [searchText, setSearchText] = React.useState('');
-  const [searchFilters, setSearchFilters] = React.useState({});
+  const [searchFilters, setSearchFilters] = React.useState<FilterParams>({});
 
   return (
     <SearchConfigContainer>
@@ -58,6 +59,7 @@ const Home: React.FC = () => {
                         <SearchFiltersContainer
                           searchConfig={selectedSearchConfig}
                           onChange={setSearchFilters}
+                          filters={searchFilters}
                         />
                       </Sider>
                       <section style={{ padding: '1rem' }}>
