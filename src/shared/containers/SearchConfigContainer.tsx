@@ -1,5 +1,34 @@
 import * as React from 'react';
 import defaultElasticSearchMappings from './defaultElasticSearchMapping';
+import { ESQueryParams } from '../utils/queryBuilder';
+import SearchResultsContainer from './SearchResultsContainer';
+import { NexusClient } from '@bbp/nexus-sdk';
+import { SearchResponse } from 'elasticsearch';
+
+const defaultSearchResultsContainer = SearchResultsContainer;
+const defaultSearchMethod = (
+  params: ESQueryParams,
+  searchConfig: SearchConfig,
+  nexus: NexusClient
+) =>
+  nexus.View.elasticSearchQuery<SearchResponse<any>>(
+    searchConfig.orgLabel,
+    searchConfig.projectLabel,
+    encodeURIComponent(searchConfig.view),
+    // We need to combine the props
+    // to create a beautiful ES query
+    {
+      ...(params.q
+        ? {
+            query: {
+              query_string: {
+                query: params.q,
+              },
+            },
+          }
+        : {}),
+    }
+  );
 
 export type SearchConfig = {
   key: string;
@@ -8,6 +37,15 @@ export type SearchConfig = {
   projectLabel: string;
   view: string;
   mappings: any;
+  searchMethod: (
+    params: ESQueryParams,
+    searchConfig: SearchConfig,
+    nexus: NexusClient
+  ) => Promise<any>;
+  resultsComponent: React.FC<{
+    results: any;
+    searchConfig: SearchConfig;
+  }>;
 };
 
 const fakeSearchConfigs: SearchConfig[] = [
@@ -19,6 +57,8 @@ const fakeSearchConfigs: SearchConfig[] = [
     view:
       'https://bluebrain.github.io/nexus/vocabulary/defaultElasticSearchIndex',
     mappings: defaultElasticSearchMappings,
+    searchMethod: defaultSearchMethod,
+    resultsComponent: defaultSearchResultsContainer,
   },
   {
     key: 'minds',
@@ -28,6 +68,8 @@ const fakeSearchConfigs: SearchConfig[] = [
     view:
       'https://bluebrain.github.io/nexus/vocabulary/defaultElasticSearchIndex',
     mappings: defaultElasticSearchMappings,
+    searchMethod: defaultSearchMethod,
+    resultsComponent: defaultSearchResultsContainer,
   },
   {
     key: 'ls',
@@ -37,6 +79,8 @@ const fakeSearchConfigs: SearchConfig[] = [
     view:
       'https://bluebrain.github.io/nexus/vocabulary/defaultElasticSearchIndex',
     mappings: defaultElasticSearchMappings,
+    searchMethod: defaultSearchMethod,
+    resultsComponent: defaultSearchResultsContainer,
   },
 ];
 

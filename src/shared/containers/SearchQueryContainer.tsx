@@ -2,7 +2,7 @@ import * as React from 'react';
 import { SearchConfig } from './SearchConfigContainer';
 import { useNexus, useNexusContext } from '@bbp/react-nexus';
 import { SearchResponse } from 'elasticsearch';
-import { FilterParams } from '../utils/queryBuilder';
+import { FilterParams, ESQueryParams } from '../utils/queryBuilder';
 
 const SearchQueryContainer: React.FC<{
   searchConfig: SearchConfig;
@@ -13,12 +13,8 @@ const SearchQueryContainer: React.FC<{
     error: Error | null;
     data: SearchResponse<any>;
   }>;
-}> = ({
-  children,
-  searchConfig: { orgLabel, projectLabel, view, key },
-  searchText,
-  filters,
-}) => {
+}> = ({ children, searchConfig, searchText, filters }) => {
+  const { orgLabel, projectLabel, view, key, searchMethod } = searchConfig;
   const nexus = useNexusContext();
   const [{ loading, error, data }, setData] = React.useState<{
     loading: boolean;
@@ -36,32 +32,21 @@ const SearchQueryContainer: React.FC<{
       error: null,
       data: null,
     });
-    nexus.View.elasticSearchQuery<SearchResponse<any>>(
-      orgLabel,
-      projectLabel,
-      encodeURIComponent(view),
-      // We need to combine the props
-      // to create a beautiful ES query
-      {
-        ...(searchText
-          ? {
-              query: {
-                query_string: {
-                  query: searchText,
-                },
-              },
-            }
-          : {}),
-      }
-    )
-      .then(elasticSearchResponse => {
+
+    const esQueryParams: ESQueryParams = {
+      q: searchText,
+      filter: filters,
+    };
+
+    searchMethod(esQueryParams, searchConfig, nexus)
+      .then((elasticSearchResponse: any) => {
         setData({
           error: null,
           loading: false,
           data: elasticSearchResponse,
         });
       })
-      .catch(error => {
+      .catch((error: Error) => {
         setData({
           error,
           loading: false,
