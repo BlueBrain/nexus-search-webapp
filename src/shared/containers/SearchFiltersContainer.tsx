@@ -3,39 +3,76 @@ import { SearchConfig } from './SearchConfigContainer';
 import { useNexusContext } from '@bbp/react-nexus';
 import { Spin, Checkbox } from 'antd';
 import { labelOf } from '../utils';
+import { FilterParams } from '../utils/queryBuilder';
+import { uniq, remove } from 'lodash';
+
+export type FilterBucket = {
+  count: number;
+  key: string;
+};
 
 // TODO this should be in a sep. file
 const SearchFiltersComponent: React.FC<{
   loading: boolean;
   error: Error | null;
   data: any | null;
-  onChange: (filters: any) => void;
-}> = ({ loading, error, data, onChange }) => {
-  // TODO Break into utils
-  const filters = Object.keys(data?.aggregations || {}).map(filterKey => {
-    return data?.aggregations[filterKey].buckets.map((bucket: any) => ({
-      count: bucket.doc_count,
-      key: bucket.key,
-    }));
-  });
+  filters: FilterParams;
+  onChange: (filters: FilterParams) => void;
+}> = ({ loading, error, data, filters, onChange }) => {
+  // TODO Break into utils?
+  const filterItems = Object.keys(data?.aggregations || {})
+    .map(filterKey => {
+      return {
+        filterKey,
+        buckets: data?.aggregations[filterKey].buckets.map((bucket: any) => ({
+          count: bucket.doc_count,
+          key: bucket.key,
+        })),
+      };
+    })
+    .filter(({ buckets }) => buckets.length > 0);
 
   return (
     <Spin spinning={loading}>
-      {filters.map((filter, index) => {
-        const title = Object.keys(data?.aggregations || {})[index];
+      {filterItems.map(({ filterKey, buckets }, index) => {
         return (
           <div style={{ padding: '1rem' }}>
-            <h4>{title}</h4>
+            <h4>{filterKey}</h4>
             <br />
-            {filter.map((bucket: any) => (
-              <div>
-                <p style={{ marginBottom: '1rem' }}>
-                  <Checkbox checked={false} onChange={onChange}>
-                    <b>{bucket.count}</b> {labelOf(bucket.key)}
-                  </Checkbox>
-                </p>
-              </div>
-            ))}
+            {buckets.map((bucket: FilterBucket) => {
+              const isChecked = filters[filterKey]?.indexOf(bucket.key) >= 0;
+              return (
+                <div>
+                  <p style={{ marginBottom: '1rem' }}>
+                    <Checkbox
+                      checked={isChecked}
+                      onChange={({ target: { checked } }) => {
+                        return checked
+                          ? // Add bucket key value (like "ElasticSearchView")
+                            // to Filter List (like "@type")
+                            onChange({
+                              ...filters,
+                              [filterKey]: uniq([
+                                ...(filters[filterKey] || []),
+                                bucket.key,
+                              ]),
+                            })
+                          : // remove bucket key value (like "ElasticSearchView")
+                            // to Filter List (like "@type")
+                            onChange({
+                              ...filters,
+                              [filterKey]: (filters[filterKey] || []).filter(
+                                element => element !== bucket.key
+                              ),
+                            });
+                      }}
+                    >
+                      <b>{bucket.count}</b> {labelOf(bucket.key)}
+                    </Checkbox>
+                  </p>
+                </div>
+              );
+            })}
           </div>
         );
       })}
@@ -50,7 +87,11 @@ const generateAggregatedQueryFromElasticSearchMapping = (
   const aggregations = Object.keys(properties).reduce(
     (memo, propertyKey) => {
       // If it's a keyword, then we
-      if (properties[propertyKey]?.type === 'keyword') {
+      if (
+        properties[propertyKey]?.type === 'keyword' &&
+        propertyKey !== '@id' &&
+        propertyKey !== '_self'
+      ) {
         memo[propertyKey] = {
           terms: { field: propertyKey },
         };
@@ -72,9 +113,11 @@ const generateAggregatedQueryFromElasticSearchMapping = (
 
 const SearchFiltersContainer: React.FC<{
   searchConfig: SearchConfig;
-  onChange: (filters: any) => void;
+  filters: FilterParams;
+  onChange: (filters: FilterParams) => void;
 }> = ({
   searchConfig: { key, orgLabel, projectLabel, view, mappings },
+  filters,
   onChange,
 }) => {
   const nexus = useNexusContext();
@@ -122,6 +165,7 @@ const SearchFiltersContainer: React.FC<{
       data={data}
       loading={loading}
       error={error}
+      filters={filters}
       onChange={onChange}
     />
   );

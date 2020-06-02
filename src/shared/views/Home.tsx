@@ -6,12 +6,14 @@ import SearchTextContainer from '../containers/SearchTextContainer';
 import SearchResultsContainer from '../containers/SearchResultsContainer';
 import SearchFiltersContainer from '../containers/SearchFiltersContainer';
 import SearchQueryContainer from '../containers/SearchQueryContainer';
+import { FilterParams } from '../utils/queryBuilder';
+import SelectedSearchFilters from '../components/SelectedSearchFilters';
 
 const { Sider, Content } = Layout;
 
 const Home: React.FC = () => {
   const [searchText, setSearchText] = React.useState('');
-  const [searchFilters, setSearchFilters] = React.useState({});
+  const [searchFilters, setSearchFilters] = React.useState<FilterParams>({});
 
   return (
     <SearchConfigContainer>
@@ -38,6 +40,10 @@ const Home: React.FC = () => {
                           searchConfig => searchConfig.key === config.key
                         )
                       );
+                      // make sure to remove filters and search text when navigating
+                      // between the search configs
+                      setSearchFilters({});
+                      setSearchText('');
                     }}
                   >
                     {config.label}
@@ -58,11 +64,16 @@ const Home: React.FC = () => {
                         <SearchFiltersContainer
                           searchConfig={selectedSearchConfig}
                           onChange={setSearchFilters}
+                          filters={searchFilters}
                         />
                       </Sider>
                       <section style={{ padding: '1rem' }}>
                         <h2>{selectedSearchConfig.label}</h2>
                         <SearchTextContainer onChange={setSearchText} />
+                        <SelectedSearchFilters
+                          filters={searchFilters}
+                          onChange={setSearchFilters}
+                        />
                         <SearchResultsContainer
                           results={data}
                           searchConfig={selectedSearchConfig}
