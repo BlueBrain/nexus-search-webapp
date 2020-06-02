@@ -40,6 +40,10 @@ const Home: React.FC = () => {
                           searchConfig => searchConfig.key === config.key
                         )
                       );
+                      // make sure to remove filters and search text when navigating
+                      // between the search configs
+                      setSearchFilters({});
+                      setSearchText('');
                     }}
                   >
                     {config.label}
