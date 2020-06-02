@@ -74,7 +74,7 @@ const Home: React.FC = () => {
                           filters={searchFilters}
                           onChange={setSearchFilters}
                         />
-                        <SearchResultsContainer
+                        <selectedSearchConfig.resultsComponent
                           results={data}
                           searchConfig={selectedSearchConfig}
                         />
