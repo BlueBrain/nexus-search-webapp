@@ -37,7 +37,6 @@ const SearchQueryContainer: React.FC<{
       q: searchText,
       filter: filters,
     };
-    console.log('search', { filters });
 
     searchMethod(esQueryParams, searchConfig, nexus)
       .then((elasticSearchResponse: any) => {
