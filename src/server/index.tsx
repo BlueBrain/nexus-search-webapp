@@ -1,5 +1,5 @@
 import { resolve, join } from 'path';
-import { readFileSync } from 'fs';
+import * as request from 'request';
 import * as express from 'express';
 import * as cookieParser from 'cookie-parser';
 import * as morgan from 'morgan';
@@ -47,6 +47,30 @@ app.get(
   }
 );
 
+function doRequest(options: any) {
+  return new Promise((resolve, reject) => {
+    request(options, (error: any, res: any, body: any) => {
+      if (!error && res.statusCode === 200) {
+        resolve(body);
+      } else {
+        reject(error);
+      }
+    });
+  });
+}
+
+app.get('/embed', async (req: express.Request, res: express.Response) => {
+  const options = {
+    method: 'POST',
+    url: 'http://dgx1.bbp.epfl.ch:32852/v1/embed/json',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ model: 'SBIOBERT', text: 'A simple question' }),
+  };
+  const response = await doRequest(options);
+  res.send(response);
+});
 // For all routes
 app.get('*', async (req: express.Request, res: express.Response) => {
   // Compute pre-loaded state
