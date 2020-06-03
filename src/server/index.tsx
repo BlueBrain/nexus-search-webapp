@@ -46,79 +46,11 @@ app.get(
     res.send(silentRefreshHtml());
   }
 );
-
-function doRequest(options: any) {
-  return new Promise((resolve, reject) => {
-    request(options, (error: any, res: any, body: any) => {
-      if (!error && res.statusCode === 200) {
-        resolve(body);
-      } else {
-        console.log(error);
-        reject(error);
-      }
-    });
-  });
-}
-
-app.get('/embed', async (req: express.Request, res: express.Response) => {
-  const options = {
-    method: 'POST',
-    url: 'http://dgx1.bbp.epfl.ch:32852/v1/embed/json',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ model: 'USE', text: 'A simple question' }),
-  };
-  const response = (await doRequest(options)) as any;
-  const embedJSON = JSON.parse(response);
-  const query = {
-    query: {
-      nested: {
-        path: 'sentences',
-        query: {
-          function_score: {
-            script_score: {
-              script: {
-                source:
-                  "cosineSimilarity(params.query_embedding, doc['sentences.embedding']) + 1.0",
-                params: { query_embedding: embedJSON['embedding'] },
-              },
-            },
-          },
-        },
-        inner_hits: { size: 1, _source: { excludes: ['sentences.embedding'] } },
-        score_mode: 'max',
-      },
-    },
-    _source: {
-      includes: [
-        'author',
-        'datePublished',
-        'title',
-        'sameAs',
-        'license',
-        'abstract',
-        'articleBody',
-      ],
-    },
-  };
-  console.log(query);
-  const options2 = {
-    method: 'POST',
-    url:
-      'http://elasticsearch.dev.nexus.ocp.bbp.epfl.ch/papers_use/_search?size=1',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(query),
-  };
-  try {
-    const response2 = (await doRequest(options2)) as any;
-    res.send(response2);
-  } catch (e) {
-    console.log(e);
-    res.send(e);
-  }
+// For literature search
+app.get('/litsearch', async (req: express.Request, res: express.Response) => {
+  const embedJSON = await getEmbedding(req);
+  const ESResult = await getESResult(embedJSON);
+  res.send(ESResult);
 });
 // For all routes
 app.get('*', async (req: express.Request, res: express.Response) => {
@@ -157,3 +89,77 @@ app.listen(PORT_NUMBER, () => {
 });
 
 export default app;
+
+async function getESResult(embedJSON: any) {
+  const query = {
+    query: {
+      nested: {
+        path: 'sentences',
+        query: {
+          function_score: {
+            script_score: {
+              script: {
+                source:
+                  "cosineSimilarity(params.query_embedding, doc['sentences.embedding']) + 1.0",
+                params: { query_embedding: embedJSON['embedding'] },
+              },
+            },
+          },
+        },
+        inner_hits: { size: 1, _source: { excludes: ['sentences.embedding'] } },
+        score_mode: 'max',
+      },
+    },
+    _source: {
+      includes: [
+        'author',
+        'datePublished',
+        'title',
+        'sameAs',
+        'license',
+        'abstract',
+        'articleBody',
+      ],
+    },
+  };
+  const ESUrl =
+    'http://elasticsearch.dev.nexus.ocp.bbp.epfl.ch/papers_use/_search?size=1';
+  const options = postOptionObject(ESUrl, query);
+  const response = (await doRequest(options)) as any;
+  return response;
+}
+
+async function getEmbedding(req: express.Request) {
+  const searchText = req.query['search'];
+  const model = req.query['model'] || 'USE';
+  const embedQuery = { model, text: searchText };
+  const embedUrl = 'http://dgx1.bbp.epfl.ch:32852/v1/embed/json';
+  const options = postOptionObject(embedUrl, embedQuery);
+  const response = (await doRequest(options)) as any;
+  const embedJSON = JSON.parse(response);
+  return embedJSON;
+}
+
+function doRequest(options: any) {
+  return new Promise((resolve, reject) => {
+    request(options, (error: any, res: any, body: any) => {
+      if (!error && res.statusCode === 200) {
+        resolve(body);
+      } else {
+        console.log(error);
+        reject(error);
+      }
+    });
+  });
+}
+
+function postOptionObject(url: string, bodyObject: any) {
+  return {
+    url,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(bodyObject),
+  };
+}
