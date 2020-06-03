@@ -7,7 +7,7 @@ import { FilterParams, ESQueryParams } from '../utils/queryBuilder';
 const SearchQueryContainer: React.FC<{
   searchConfig: SearchConfig;
   searchText?: string;
-  filters?: FilterParams;
+  filters: FilterParams;
   children: React.FC<{
     loading: boolean;
     error: Error | null;
@@ -37,6 +37,7 @@ const SearchQueryContainer: React.FC<{
       q: searchText,
       filter: filters,
     };
+    console.log('search', { filters });
 
     searchMethod(esQueryParams, searchConfig, nexus)
       .then((elasticSearchResponse: any) => {
@@ -53,7 +54,7 @@ const SearchQueryContainer: React.FC<{
           data: null,
         });
       });
-  }, [key, searchText]);
+  }, [key, searchText, filters]);
 
   return !!children
     ? children({

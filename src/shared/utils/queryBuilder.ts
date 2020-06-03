@@ -69,52 +69,50 @@ function buildQuery(query: ESQueryParams): RequestParams.Search['body'] {
     // }
   }
   // TODO implement filter
-  // if (filter) {
-  //   // MUST is an AND, we do it for terms across filter sets
-  //   const must = Object.keys(filter).map(key => {
-  //     // SHOULD is an OR, we do it for terms in the same filter set
-  //     const should = filter[key].map(filterTerm => {
-  //       const propertyName = `${key}.raw`;
-  //       return { term: { [propertyName]: filterTerm } };
-  //     });
+  if (filter) {
+    // MUST is an AND, we do it for terms across filter sets
+    const must = Object.keys(filter).map(key => {
+      // SHOULD is an OR, we do it for terms in the same filter set
+      const should = filter[key].map(filterTerm => {
+        const propertyName = key; // `${key}.raw`;
+        return { term: { [propertyName]: filterTerm } };
+      });
 
-  //     // For nested queries, every part of the path needs to contain
-  //     // its ancestors, as in "grandparent.parent.value"
-  //     const path = key.split('.').reduce((previous, current) => {
-  //       const parentLabel = previous[previous.length - 1] || null;
-  //       const currentLabel = parentLabel
-  //         ? `${parentLabel}.${current}`
-  //         : current;
-  //       previous.push(currentLabel);
-  //       return previous;
-  //     }, []);
+      // For nested queries, every part of the path needs to contain
+      // its ancestors, as in "grandparent.parent.value"
+      const path = key.split('.').reduce((previous, current) => {
+        const parentLabel = previous[previous.length - 1] || null;
+        const currentLabel = parentLabel
+          ? `${parentLabel}.${current}`
+          : current;
+        previous.push(currentLabel);
+        return previous;
+      }, [] as string[]);
 
-  //     return path.reverse().reduce((memo, level, index) => {
-  //       if (index === 0) {
-  //         memo = {
-  //           bool: {
-  //             should,
-  //           },
-  //         };
-  //       } else {
-  //         memo = {
-  //           nested: {
-  //             path: level,
-  //             query: memo,
-  //           },
-  //         };
-  //       }
-  //       return memo;
-  //     }, {});
-  //   });
-  //   if (must.length) {
-  //     params.query.bool.must.push({
-  //       bool: {
-  //         must,
-  //       },
-  //     });
-  //   }
-  // }
+      return path.reverse().reduce((memo, level, index) => {
+        if (index === 0) {
+          return {
+            bool: {
+              should,
+            },
+          };
+        }
+        return {
+          nested: {
+            path: level,
+            query: memo,
+          },
+        };
+      }, {});
+    });
+    if (must.length) {
+      params.query.bool.must.push({
+        bool: {
+          must,
+        },
+      });
+    }
+  }
   return params;
 }
 

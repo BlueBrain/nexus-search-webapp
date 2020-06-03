@@ -52,6 +52,7 @@ const Home: React.FC = () => {
           <div>
             {!!selectedSearchConfig && (
               <SearchQueryContainer
+                filters={searchFilters}
                 searchConfig={selectedSearchConfig}
                 searchText={searchText}
               >
