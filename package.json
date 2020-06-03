@@ -25,6 +25,7 @@
     "@sentry/browser": "5.9.1",
     "@types/cytoscape": "^3.8.5",
     "@types/lodash": "^4.14.149",
+    "@types/request": "^2.48.5",
     "antd": "^3.19.5",
     "codemirror": "^5.44.0",
     "connected-react-router": "^6.3.2",
