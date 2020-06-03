@@ -53,6 +53,7 @@ function doRequest(options: any) {
       if (!error && res.statusCode === 200) {
         resolve(body);
       } else {
+        console.log(error);
         reject(error);
       }
     });
@@ -66,10 +67,58 @@ app.get('/embed', async (req: express.Request, res: express.Response) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ model: 'SBIOBERT', text: 'A simple question' }),
+    body: JSON.stringify({ model: 'USE', text: 'A simple question' }),
   };
-  const response = await doRequest(options);
-  res.send(response);
+  const response = (await doRequest(options)) as any;
+  const embedJSON = JSON.parse(response);
+  const query = {
+    query: {
+      nested: {
+        path: 'sentences',
+        query: {
+          function_score: {
+            script_score: {
+              script: {
+                source:
+                  "cosineSimilarity(params.query_embedding, doc['sentences.embedding']) + 1.0",
+                params: { query_embedding: embedJSON['embedding'] },
+              },
+            },
+          },
+        },
+        inner_hits: { size: 1, _source: { excludes: ['sentences.embedding'] } },
+        score_mode: 'max',
+      },
+    },
+    _source: {
+      includes: [
+        'author',
+        'datePublished',
+        'title',
+        'sameAs',
+        'license',
+        'abstract',
+        'articleBody',
+      ],
+    },
+  };
+  console.log(query);
+  const options2 = {
+    method: 'POST',
+    url:
+      'http://elasticsearch.dev.nexus.ocp.bbp.epfl.ch/papers_use/_search?size=1',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(query),
+  };
+  try {
+    const response2 = (await doRequest(options2)) as any;
+    res.send(response2);
+  } catch (e) {
+    console.log(e);
+    res.send(e);
+  }
 });
 // For all routes
 app.get('*', async (req: express.Request, res: express.Response) => {
