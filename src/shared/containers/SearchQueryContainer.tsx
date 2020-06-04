@@ -34,38 +34,63 @@ const SearchQueryContainer: React.FC<{
       error: null,
       data: null,
     });
-    nexus.View.elasticSearchQuery(
-      orgLabel,
-      projectLabel,
-      encodeURIComponent(view),
-      // We need to combine the props
-      // to create a beautiful ES query
-      {
-        ...(searchText
-          ? {
-              query: {
-                query_string: {
-                  query: searchText,
+
+    // Update me
+    if (key === 'ls') {
+      fetch(
+        'http://localhost:8000/litsearch?search=Does%20SARS%20matter&model=USE'
+      )
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          setData({
+            error: null,
+            loading: false,
+            data,
+          });
+        })
+        .catch(error => {
+          setData({
+            error,
+            loading: false,
+            data: null,
+          });
+        });
+    } else {
+      nexus.View.elasticSearchQuery(
+        orgLabel,
+        projectLabel,
+        encodeURIComponent(view),
+        // We need to combine the props
+        // to create a beautiful ES query
+        {
+          ...(searchText
+            ? {
+                query: {
+                  query_string: {
+                    query: searchText,
+                  },
                 },
-              },
-            }
-          : {}),
-      }
-    )
-      .then(elasticSearchResponse => {
-        setData({
-          error: null,
-          loading: false,
-          data: elasticSearchResponse,
+              }
+            : {}),
+        }
+      )
+        .then(elasticSearchResponse => {
+          setData({
+            error: null,
+            loading: false,
+            data: elasticSearchResponse,
+          });
+        })
+        .catch(error => {
+          setData({
+            error,
+            loading: false,
+            data: null,
+          });
         });
-      })
-      .catch(error => {
-        setData({
-          error,
-          loading: false,
-          data: null,
-        });
-      });
+    }
   }, [key, searchText]);
 
   return !!children
