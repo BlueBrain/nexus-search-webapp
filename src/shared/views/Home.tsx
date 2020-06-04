@@ -4,14 +4,20 @@ import SearchConfigContainer from '../containers/SearchConfigContainer';
 import SearchTextContainer from '../containers/SearchTextContainer';
 import SearchFiltersContainer from '../containers/SearchFiltersContainer';
 import SearchQueryContainer from '../containers/SearchQueryContainer';
-import { FilterParams } from '../utils/queryBuilder';
+import { FilterParams, Pagination } from '../utils/queryBuilder';
 import SelectedSearchFilters from '../components/SelectedSearchFilters';
 
-const { Sider, Content } = Layout;
+const { Sider } = Layout;
+
+const DEFAULT_PAGE_SIZE = 20;
 
 const Home: React.FC = () => {
   const [searchText, setSearchText] = React.useState('');
   const [searchFilters, setSearchFilters] = React.useState<FilterParams>({});
+  const [pagination, setPagination] = React.useState<Pagination>({
+    size: DEFAULT_PAGE_SIZE,
+    from: 0,
+  });
 
   return (
     <SearchConfigContainer>
@@ -52,6 +58,7 @@ const Home: React.FC = () => {
           <div>
             {!!selectedSearchConfig && (
               <SearchQueryContainer
+                pagination={pagination}
                 filters={searchFilters}
                 searchConfig={selectedSearchConfig}
                 searchText={searchText}
@@ -75,6 +82,8 @@ const Home: React.FC = () => {
                         />
                         <selectedSearchConfig.resultsComponent
                           results={data}
+                          pagination={pagination}
+                          setPagination={setPagination}
                           searchConfig={selectedSearchConfig}
                         />
                       </section>

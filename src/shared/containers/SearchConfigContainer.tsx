@@ -1,6 +1,6 @@
 import * as React from 'react';
 import defaultElasticSearchMappings from './defaultElasticSearchMapping';
-import buildQuery, { ESQueryParams } from '../utils/queryBuilder';
+import buildQuery, { ESQueryParams, Pagination } from '../utils/queryBuilder';
 import SearchResultsContainer from './SearchResultsContainer';
 import { NexusClient } from '@bbp/nexus-sdk';
 import { SearchResponse } from 'elasticsearch';
@@ -33,6 +33,8 @@ export type SearchConfig = {
   resultsComponent: React.FC<{
     results: any;
     searchConfig: SearchConfig;
+    pagination: Pagination;
+    setPagination: (pagination: Pagination) => void;
   }>;
 };
 

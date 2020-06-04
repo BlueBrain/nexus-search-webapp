@@ -4,11 +4,16 @@ export type FilterParams = {
   [filterTermKey: string]: string[];
 };
 
+export type Pagination = {
+  from: number;
+  size: number;
+};
+
 export type ESQueryParams = {
   filter?: FilterParams | null;
   q?: string;
   sort?: null;
-  pagination?: any;
+  pagination?: Pagination;
 };
 
 function buildQuery(query: ESQueryParams): RequestParams.Search['body'] {
@@ -24,9 +29,9 @@ function buildQuery(query: ESQueryParams): RequestParams.Search['body'] {
       },
     },
   };
-  const { sort, filter, q } = query;
+  const { sort, filter, q, pagination } = query;
 
-  // TODO add sort
+  // TODO add sorting
   // if (sort) {
   //   sort = JSON.parse(sort);
   //   if (sort.field) {
@@ -60,21 +65,15 @@ function buildQuery(query: ESQueryParams): RequestParams.Search['body'] {
         _all_fields: q,
       },
     });
-    // TODO how to speed up?
-    // params.highlight = {
-    //   fields: {
-    //     "*": {}
-    //   },
-    //   require_field_match: false
-    // }
   }
-  // TODO implement filter
   if (filter) {
     // MUST is an AND, we do it for terms across filter sets
+    // such as BrainRegion and Species
     const must = Object.keys(filter).map(key => {
       // SHOULD is an OR, we do it for terms in the same filter set
+      // such as Species:Rat and Species:Mouse
       const should = filter[key].map(filterTerm => {
-        const propertyName = key; // `${key}.raw`;
+        const propertyName = key;
         return { term: { [propertyName]: filterTerm } };
       });
 
@@ -112,6 +111,10 @@ function buildQuery(query: ESQueryParams): RequestParams.Search['body'] {
         },
       });
     }
+  }
+  if (pagination) {
+    params.size = pagination.size;
+    params.from = pagination.from;
   }
   return params;
 }

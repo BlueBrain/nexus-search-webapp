@@ -2,18 +2,19 @@ import * as React from 'react';
 import { SearchConfig } from './SearchConfigContainer';
 import { useNexus, useNexusContext } from '@bbp/react-nexus';
 import { SearchResponse } from 'elasticsearch';
-import { FilterParams, ESQueryParams } from '../utils/queryBuilder';
+import { FilterParams, ESQueryParams, Pagination } from '../utils/queryBuilder';
 
 const SearchQueryContainer: React.FC<{
   searchConfig: SearchConfig;
   searchText?: string;
+  pagination: Pagination;
   filters: FilterParams;
   children: React.FC<{
     loading: boolean;
     error: Error | null;
     data: SearchResponse<any>;
   }>;
-}> = ({ children, searchConfig, searchText, filters }) => {
+}> = ({ children, searchConfig, searchText, filters, pagination }) => {
   const { orgLabel, projectLabel, view, key, searchMethod } = searchConfig;
   const nexus = useNexusContext();
   const [{ loading, error, data }, setData] = React.useState<{
@@ -34,6 +35,7 @@ const SearchQueryContainer: React.FC<{
     });
 
     const esQueryParams: ESQueryParams = {
+      pagination,
       q: searchText,
       filter: filters,
     };
@@ -53,7 +55,7 @@ const SearchQueryContainer: React.FC<{
           data: null,
         });
       });
-  }, [key, searchText, filters]);
+  }, [key, searchText, filters, pagination]);
 
   return !!children
     ? children({
