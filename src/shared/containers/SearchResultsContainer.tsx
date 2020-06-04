@@ -4,6 +4,7 @@ import { useLocation, useHistory } from 'react-router';
 import { Pagination } from '../utils/queryBuilder';
 import { SearchConfig } from './SearchConfigContainer';
 import { PaginationConfig } from 'antd/lib/table';
+import LiteratureSearchResultsTable from '../components/Search/LiteratureSearchResultsTable';
 
 const SearchResultsContainer: React.FC<{
   results: any;
@@ -14,7 +15,7 @@ const SearchResultsContainer: React.FC<{
   const history = useHistory();
   const location = useLocation();
 
-  const { orgLabel, projectLabel } = searchConfig;
+  const { orgLabel, projectLabel, key } = searchConfig;
 
   const goToResource = (resourceId: string) => {
     const pushRoute = `/${orgLabel}/${projectLabel}/resources/${encodeURIComponent(
@@ -58,6 +59,9 @@ const SearchResultsContainer: React.FC<{
   };
 
   console.log(paginationConfig, pagination);
+  if (key === 'ls') {
+    return <LiteratureSearchResultsTable data={results} />;
+  }
 
   return (
     <div>

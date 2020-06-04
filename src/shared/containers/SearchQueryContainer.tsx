@@ -39,8 +39,29 @@ const SearchQueryContainer: React.FC<{
       q: searchText,
       filter: filters,
     };
-
-    searchMethod(esQueryParams, searchConfig, nexus)
+    if (key === 'ls') {
+      fetch(
+        `http://localhost:8000/litsearch?search=${searchText}&model=USE&start=${pagination.from}&size=${pagination.size}`
+      )
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          setData({
+            error: null,
+            loading: false,
+            data,
+          });
+        })
+        .catch(error => {
+          setData({
+            error,
+            loading: false,
+            data: null,
+          });
+        });
+    } else {
+      searchMethod(esQueryParams, searchConfig, nexus)
       .then((elasticSearchResponse: any) => {
         setData({
           error: null,
@@ -55,6 +76,7 @@ const SearchQueryContainer: React.FC<{
           data: null,
         });
       });
+    }
   }, [key, searchText, filters, pagination]);
 
   return !!children
