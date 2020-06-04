@@ -3,8 +3,6 @@ import * as React from 'react';
 import './LiteratureSearchResultsTable.less';
 
 const LiteratureSearchResultsTable: React.FC<{ data: any }> = ({ data }) => {
-  console.log('data', data);
-
   if (data && data.hits && data.hits.hits) {
     const sources = data.hits.hits;
 
