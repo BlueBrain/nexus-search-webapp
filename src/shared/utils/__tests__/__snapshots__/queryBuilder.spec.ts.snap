@@ -27,8 +27,30 @@ Object {
           },
         },
         Object {
-          "query_string": Object {
-            "query": "(mySearchString* OR mySearchString~)",
+          "match": Object {
+            "_all_fields": "mySearchString",
+          },
+        },
+        Object {
+          "bool": Object {
+            "must": Array [
+              Object {
+                "nested": Object {
+                  "path": "sex",
+                  "query": Object {
+                    "bool": Object {
+                      "should": Array [
+                        Object {
+                          "term": Object {
+                            "sex.labels": "male",
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
           },
         },
       ],
@@ -48,8 +70,35 @@ Object {
           },
         },
         Object {
-          "query_string": Object {
-            "query": "(mySearchString* OR mySearchString~)",
+          "match": Object {
+            "_all_fields": "mySearchString",
+          },
+        },
+        Object {
+          "bool": Object {
+            "must": Array [
+              Object {
+                "nested": Object {
+                  "path": "brainLocation",
+                  "query": Object {
+                    "nested": Object {
+                      "path": "brainLocation.brainRegion",
+                      "query": Object {
+                        "bool": Object {
+                          "should": Array [
+                            Object {
+                              "term": Object {
+                                "brainLocation.brainRegion.labels": "Posterior complex of the thalamus",
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            ],
           },
         },
       ],
@@ -69,8 +118,8 @@ Object {
           },
         },
         Object {
-          "query_string": Object {
-            "query": "(mySearchString* OR mySearchString~)",
+          "match": Object {
+            "_all_fields": "mySearchString",
           },
         },
       ],
@@ -90,8 +139,8 @@ Object {
           },
         },
         Object {
-          "query_string": Object {
-            "query": "(mySearchString* OR mySearchString~)",
+          "match": Object {
+            "_all_fields": "mySearchString",
           },
         },
       ],

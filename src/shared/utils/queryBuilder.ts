@@ -4,11 +4,16 @@ export type FilterParams = {
   [filterTermKey: string]: string[];
 };
 
+export type Pagination = {
+  from: number;
+  size: number;
+};
+
 export type ESQueryParams = {
   filter?: FilterParams | null;
   q?: string;
   sort?: null;
-  pagination?: any;
+  pagination?: Pagination;
 };
 
 function buildQuery(query: ESQueryParams): RequestParams.Search['body'] {
@@ -24,9 +29,9 @@ function buildQuery(query: ESQueryParams): RequestParams.Search['body'] {
       },
     },
   };
-  const { sort, filter, q } = query;
+  const { sort, filter, q, pagination } = query;
 
-  // TODO add sort
+  // TODO add sorting
   // if (sort) {
   //   sort = JSON.parse(sort);
   //   if (sort.field) {
@@ -56,65 +61,61 @@ function buildQuery(query: ESQueryParams): RequestParams.Search['body'] {
   // }
   if (q) {
     params.query.bool.must.push({
-      query_string: {
-        query: `(${q}* OR ${q}~)`,
+      match: {
+        _all_fields: q,
       },
     });
-    // TODO how to speed up?
-    // params.highlight = {
-    //   fields: {
-    //     "*": {}
-    //   },
-    //   require_field_match: false
-    // }
   }
-  // TODO implement filter
-  // if (filter) {
-  //   // MUST is an AND, we do it for terms across filter sets
-  //   const must = Object.keys(filter).map(key => {
-  //     // SHOULD is an OR, we do it for terms in the same filter set
-  //     const should = filter[key].map(filterTerm => {
-  //       const propertyName = `${key}.raw`;
-  //       return { term: { [propertyName]: filterTerm } };
-  //     });
+  if (filter) {
+    // MUST is an AND, we do it for terms across filter sets
+    // such as BrainRegion and Species
+    const must = Object.keys(filter).map(key => {
+      // SHOULD is an OR, we do it for terms in the same filter set
+      // such as Species:Rat and Species:Mouse
+      const should = filter[key].map(filterTerm => {
+        const propertyName = key;
+        return { term: { [propertyName]: filterTerm } };
+      });
 
-  //     // For nested queries, every part of the path needs to contain
-  //     // its ancestors, as in "grandparent.parent.value"
-  //     const path = key.split('.').reduce((previous, current) => {
-  //       const parentLabel = previous[previous.length - 1] || null;
-  //       const currentLabel = parentLabel
-  //         ? `${parentLabel}.${current}`
-  //         : current;
-  //       previous.push(currentLabel);
-  //       return previous;
-  //     }, []);
+      // For nested queries, every part of the path needs to contain
+      // its ancestors, as in "grandparent.parent.value"
+      const path = key.split('.').reduce((previous, current) => {
+        const parentLabel = previous[previous.length - 1] || null;
+        const currentLabel = parentLabel
+          ? `${parentLabel}.${current}`
+          : current;
+        previous.push(currentLabel);
+        return previous;
+      }, [] as string[]);
 
-  //     return path.reverse().reduce((memo, level, index) => {
-  //       if (index === 0) {
-  //         memo = {
-  //           bool: {
-  //             should,
-  //           },
-  //         };
-  //       } else {
-  //         memo = {
-  //           nested: {
-  //             path: level,
-  //             query: memo,
-  //           },
-  //         };
-  //       }
-  //       return memo;
-  //     }, {});
-  //   });
-  //   if (must.length) {
-  //     params.query.bool.must.push({
-  //       bool: {
-  //         must,
-  //       },
-  //     });
-  //   }
-  // }
+      return path.reverse().reduce((memo, level, index) => {
+        if (index === 0) {
+          return {
+            bool: {
+              should,
+            },
+          };
+        }
+        return {
+          nested: {
+            path: level,
+            query: memo,
+          },
+        };
+      }, {});
+    });
+    if (must.length) {
+      params.query.bool.must.push({
+        bool: {
+          must,
+        },
+      });
+    }
+  }
+  if (pagination) {
+    params.size = pagination.size;
+    params.from = pagination.from;
+  }
   return params;
 }
 
