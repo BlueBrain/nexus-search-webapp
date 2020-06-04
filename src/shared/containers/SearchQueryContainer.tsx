@@ -45,9 +45,9 @@ const SearchQueryContainer: React.FC<{
         })
         .then(data => {
           setData({
+            data,
             error: null,
             loading: false,
-            data,
           });
         })
         .catch(error => {
