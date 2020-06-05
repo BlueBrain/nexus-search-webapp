@@ -49,7 +49,9 @@ app.get(
 // For literature search
 app.get('/litsearch', async (req: express.Request, res: express.Response) => {
   const embedJSON = await getEmbedding(req);
-  const ESResult = await getESResult(embedJSON);
+  const size = req.query['size'] || '5';
+  const start = req.query['start'] || '0';
+  const ESResult = await getESResult(embedJSON, size, start);
   res.send(ESResult);
 });
 // For all routes
@@ -90,8 +92,10 @@ app.listen(PORT_NUMBER, () => {
 
 export default app;
 
-async function getESResult(embedJSON: any) {
+async function getESResult(embedJSON: any, size: string, start: string) {
   const query = {
+    size,
+    from: start,
     query: {
       nested: {
         path: 'sentences',
@@ -123,7 +127,7 @@ async function getESResult(embedJSON: any) {
     },
   };
   const ESUrl =
-    'http://elasticsearch.dev.nexus.ocp.bbp.epfl.ch/papers_use/_search?size=1';
+    'http://elasticsearch.dev.nexus.ocp.bbp.epfl.ch/papers_use/_search';
   const options = postOptionObject(ESUrl, query);
   const response = (await doRequest(options)) as any;
   return response;
