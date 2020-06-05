@@ -41,7 +41,11 @@ const SearchQueryContainer: React.FC<{
     };
     if (key === 'ls') {
       fetch(
+<<<<<<< HEAD
         `http://localhost:8000/litsearch?search=${searchText}&model=USE&start=${pagination.from}&size=${pagination.size}`
+=======
+        'http://localhost:8000/litsearch?search=This%20is%20great&model=USE&size=10&start=0'
+>>>>>>> Update table
       )
         .then(response => {
           return response.json();
