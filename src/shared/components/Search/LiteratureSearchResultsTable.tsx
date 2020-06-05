@@ -1,26 +1,19 @@
 import * as React from 'react';
 
+import SourceItem from './SourceItem';
+
 import './LiteratureSearchResultsTable.less';
 
 const LiteratureSearchResultsTable: React.FC<{ data: any }> = ({ data }) => {
   if (data && data.hits && data.hits.hits) {
     const sources = data.hits.hits;
+    const totalSources = data.hits.total.value;
 
     return (
       <div className="lit-search">
-        <h4>Total: {data.hits.total.value}</h4>
+        <h4>Total: {totalSources}</h4>
         {sources.map((source: any) => (
-          <div className="source">
-            <h3>{source._source.title}</h3>
-            <h4>{source._source.datePublished}</h4>
-            <p>{source._source.abstract}</p>
-            <h4>
-              {source._source.author &&
-                source._source.author.map((author: any) => (
-                  <span className="author">{author.name}</span>
-                ))}
-            </h4>
-          </div>
+          <SourceItem source={source} />
         ))}
       </div>
     );
