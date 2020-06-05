@@ -38,7 +38,7 @@ const SearchQueryContainer: React.FC<{
     // Update me
     if (key === 'ls') {
       fetch(
-        'http://localhost:8000/litsearch?search=Does%20SARS%20matter&model=USE'
+        'http://localhost:8000/litsearch?search=This%20is%20great&model=USE&size=10&start=0'
       )
         .then(response => {
           return response.json();
