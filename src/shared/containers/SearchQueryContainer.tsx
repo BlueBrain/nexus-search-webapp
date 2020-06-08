@@ -44,7 +44,7 @@ const SearchQueryContainer: React.FC<{
     };
     if (key === 'ls') {
       fetch(
-        `http://localhost:8000/litsearch?search=${searchText}&model=USE&start=${pagination.from}&size=${pagination.size}`
+        `/litsearch?search=${searchText}&model=USE&start=${pagination.from}&size=${pagination.size}`
       )
         .then(response => {
           return response.json();
