@@ -2,6 +2,7 @@ import * as React from 'react';
 import defaultElasticSearchMappings from './defaultElasticSearchMapping';
 import buildQuery, { ESQueryParams, Pagination } from '../utils/queryBuilder';
 import SearchResultsContainer from './SearchResultsContainer';
+import LitSearchResultsContainer from './LitSearchResultsContainer';
 import { NexusClient } from '@bbp/nexus-sdk';
 import { SearchResponse } from 'elasticsearch';
 
@@ -70,7 +71,7 @@ const fakeSearchConfigs: SearchConfig[] = [
       'https://bluebrain.github.io/nexus/vocabulary/defaultElasticSearchIndex',
     mappings: defaultElasticSearchMappings,
     searchMethod: defaultSearchMethod,
-    resultsComponent: defaultSearchResultsContainer,
+    resultsComponent: LitSearchResultsContainer,
   },
 ];
 

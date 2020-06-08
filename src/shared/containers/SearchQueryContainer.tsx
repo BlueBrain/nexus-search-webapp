@@ -15,7 +15,7 @@ const SearchQueryContainer: React.FC<{
     data: SearchResponse<any>;
   }>;
 }> = ({ children, searchConfig, searchText, filters, pagination }) => {
-  const { orgLabel, projectLabel, view, key, searchMethod } = searchConfig;
+  const { key, searchMethod } = searchConfig;
   const nexus = useNexusContext();
   const [{ loading, error, data }, setData] = React.useState<{
     loading: boolean;
@@ -26,9 +26,6 @@ const SearchQueryContainer: React.FC<{
     error: null,
     data: null,
   });
-
-  const size = filters && filters.size ? filters.size : 5;
-  const start = filters && filters.start ? filters.start : 0;
 
   React.useEffect(() => {
     setData({

@@ -7,11 +7,10 @@ import './LiteratureSearchResultsTable.less';
 
 const LiteratureSearchResultsTable: React.FC<{
   data: any;
-  size?: number;
-  start?: number;
+  pagination?: any;
   onChangePage?: (page: number) => void;
   onChangePageSize?: (size: number) => void;
-}> = ({ data, size, start, onChangePage, onChangePageSize }) => {
+}> = ({ data, pagination, onChangePage, onChangePageSize }) => {
   const [currentPage, setCurrentPage] = React.useState(1);
 
   const onShowSizeChange = (current: any, pageSize: any) => {
@@ -25,6 +24,8 @@ const LiteratureSearchResultsTable: React.FC<{
     // change page
     // onChangePage(page);
   };
+
+  console.log('pagination', pagination);
 
   if (data && data.hits && data.hits.hits) {
     const sources = data.hits.hits;
