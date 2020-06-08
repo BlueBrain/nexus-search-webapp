@@ -57,14 +57,15 @@ const SourceItem: React.FC<{ source: any }> = ({ source }) => {
           {title}
         </a>
       </h3>
-      <h4>{datePublished}</h4>
-      {makeTextPreview()}
       <h4>
+        {datePublished || 'No Date'}
+        {' | '}
         {author &&
           author.map((author: any) => (
             <span className="author">{author.name}</span>
           ))}
       </h4>
+      {makeTextPreview()}
     </div>
   );
 };

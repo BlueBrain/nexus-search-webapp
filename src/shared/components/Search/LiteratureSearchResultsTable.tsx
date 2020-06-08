@@ -36,8 +36,8 @@ const LiteratureSearchResultsTable: React.FC<{
     return (
       <div className="lit-search">
         <h4>Total: {paginationConfig.total}</h4>
-        {sources.map((source: any) => (
-          <SourceItem source={source} />
+        {sources.map((source: any, index: number) => (
+          <SourceItem source={source} key={`${source._id}-${index}`} />
         ))}
         <Pagination showSizeChanger {...paginationConfig} />
       </div>
