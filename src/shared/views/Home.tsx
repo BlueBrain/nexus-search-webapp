@@ -62,6 +62,7 @@ const Home: React.FC = () => {
                 filters={searchFilters}
                 searchConfig={selectedSearchConfig}
                 searchText={searchText}
+                filters={{ start: '0', size: '10' }}
               >
                 {({ loading, error, data }) => (
                   <Spin spinning={loading}>
