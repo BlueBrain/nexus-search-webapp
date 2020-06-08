@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Pagination } from 'antd';
+import { PaginationConfig } from 'antd/lib/table';
 
 import SourceItem from './SourceItem';
 
@@ -7,43 +8,38 @@ import './LiteratureSearchResultsTable.less';
 
 const LiteratureSearchResultsTable: React.FC<{
   data: any;
-  pagination?: any;
-  onChangePage?: (page: number) => void;
-  onChangePageSize?: (size: number) => void;
-}> = ({ data, pagination, onChangePage, onChangePageSize }) => {
-  const [currentPage, setCurrentPage] = React.useState(1);
-
-  const onShowSizeChange = (current: any, pageSize: any) => {
-    console.log(current, pageSize);
-    // change page size here
-    // onChangePageSize(pageSize);
-  };
-
-  const onClickChangePage = (page: any) => {
-    console.log('data', data);
-    // change page
-    // onChangePage(page);
-  };
-
-  console.log('pagination', pagination);
-
+  pagination: any;
+  setPagination: (pagination: any) => void;
+}> = ({ data, pagination, setPagination }) => {
   if (data && data.hits && data.hits.hits) {
     const sources = data.hits.hits;
-    const totalSources = data.hits.total.value;
+
+    const paginationConfig: PaginationConfig = {
+      total: data.hits.total.value || 0,
+      current: Math.floor(pagination.from / pagination.size) + 1,
+      pageSize: pagination.size,
+      onChange: (page: number, pageSize?: number) => {
+        const size = pageSize || pagination.size;
+        setPagination({
+          size,
+          from: page * size - size,
+        });
+      },
+      onShowSizeChange: (current, size) => {
+        setPagination({
+          size,
+          from: current * size - size,
+        });
+      },
+    };
 
     return (
       <div className="lit-search">
-        <h4>Total: {totalSources}</h4>
+        <h4>Total: {paginationConfig.total}</h4>
         {sources.map((source: any) => (
           <SourceItem source={source} />
         ))}
-        <Pagination
-          onChange={onClickChangePage}
-          current={currentPage}
-          total={totalSources}
-          showSizeChanger
-          onShowSizeChange={onShowSizeChange}
-        />
+        <Pagination showSizeChanger {...paginationConfig} />
       </div>
     );
   }
