@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Table } from 'antd';
 import { useLocation, useHistory } from 'react-router';
+import LiteratureSearchResultsTable from '../components/Search/LiteratureSearchResultsTable';
 
 const SearchResultsContainer: React.FC<{
   results: any;
@@ -9,7 +10,7 @@ const SearchResultsContainer: React.FC<{
   const history = useHistory();
   const location = useLocation();
 
-  const { orgLabel, projectLabel } = searchConfig;
+  const { orgLabel, projectLabel, key } = searchConfig;
 
   const goToResource = (resourceId: string) => {
     const pushRoute = `/${orgLabel}/${projectLabel}/resources/${encodeURIComponent(
@@ -37,6 +38,10 @@ const SearchResultsContainer: React.FC<{
         id: result._id,
       };
     });
+
+  if (key === 'ls') {
+    return <LiteratureSearchResultsTable data={results} />;
+  }
 
   return (
     <div>

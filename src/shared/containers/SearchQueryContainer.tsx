@@ -34,38 +34,63 @@ const SearchQueryContainer: React.FC<{
       error: null,
       data: null,
     });
-    nexus.View.elasticSearchQuery(
-      orgLabel,
-      projectLabel,
-      encodeURIComponent(view),
-      // We need to combine the props
-      // to create a beautiful ES query
-      {
-        ...(searchText
-          ? {
-              query: {
-                query_string: {
-                  query: searchText,
+
+    // Update me
+    if (key === 'ls') {
+      fetch(
+        'http://localhost:8000/litsearch?search=This%20is%20great&model=USE&size=10&start=0'
+      )
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          setData({
+            data,
+            error: null,
+            loading: false,
+          });
+        })
+        .catch(error => {
+          setData({
+            error,
+            loading: false,
+            data: null,
+          });
+        });
+    } else {
+      nexus.View.elasticSearchQuery(
+        orgLabel,
+        projectLabel,
+        encodeURIComponent(view),
+        // We need to combine the props
+        // to create a beautiful ES query
+        {
+          ...(searchText
+            ? {
+                query: {
+                  query_string: {
+                    query: searchText,
+                  },
                 },
-              },
-            }
-          : {}),
-      }
-    )
-      .then(elasticSearchResponse => {
-        setData({
-          error: null,
-          loading: false,
-          data: elasticSearchResponse,
+              }
+            : {}),
+        }
+      )
+        .then(elasticSearchResponse => {
+          setData({
+            error: null,
+            loading: false,
+            data: elasticSearchResponse,
+          });
+        })
+        .catch(error => {
+          setData({
+            error,
+            loading: false,
+            data: null,
+          });
         });
-      })
-      .catch(error => {
-        setData({
-          error,
-          loading: false,
-          data: null,
-        });
-      });
+    }
   }, [key, searchText]);
 
   return !!children
