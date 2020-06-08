@@ -7,15 +7,15 @@ import SourceItem from './SourceItem';
 import './LiteratureSearchResultsTable.less';
 
 const LiteratureSearchResultsTable: React.FC<{
-  data: any;
+  results: any;
   pagination: any;
   setPagination: (pagination: any) => void;
-}> = ({ data, pagination, setPagination }) => {
-  if (data && data.hits && data.hits.hits) {
-    const sources = data.hits.hits;
+}> = ({ results, pagination, setPagination }) => {
+  if (results && results.hits && results.hits.hits) {
+    const sources = results.hits.hits;
 
     const paginationConfig: PaginationConfig = {
-      total: data.hits.total.value || 0,
+      total: results.hits.total.value || 0,
       current: Math.floor(pagination.from / pagination.size) + 1,
       pageSize: pagination.size,
       onChange: (page: number, pageSize?: number) => {
