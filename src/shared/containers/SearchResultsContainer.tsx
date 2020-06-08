@@ -14,7 +14,7 @@ const SearchResultsContainer: React.FC<{
   const history = useHistory();
   const location = useLocation();
 
-  const { orgLabel, projectLabel } = searchConfig;
+  const { orgLabel, projectLabel, key } = searchConfig;
 
   const goToResource = (resourceId: string) => {
     const pushRoute = `/${orgLabel}/${projectLabel}/resources/${encodeURIComponent(
@@ -56,8 +56,6 @@ const SearchResultsContainer: React.FC<{
       });
     },
   };
-
-  console.log(paginationConfig, pagination);
 
   return (
     <div>

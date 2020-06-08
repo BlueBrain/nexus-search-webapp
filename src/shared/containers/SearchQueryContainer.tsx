@@ -15,7 +15,7 @@ const SearchQueryContainer: React.FC<{
     data: SearchResponse<any>;
   }>;
 }> = ({ children, searchConfig, searchText, filters, pagination }) => {
-  const { orgLabel, projectLabel, view, key, searchMethod } = searchConfig;
+  const { key, searchMethod } = searchConfig;
   const nexus = useNexusContext();
   const [{ loading, error, data }, setData] = React.useState<{
     loading: boolean;
@@ -39,22 +39,45 @@ const SearchQueryContainer: React.FC<{
       q: searchText,
       filter: filters,
     };
-
-    searchMethod(esQueryParams, searchConfig, nexus)
-      .then((elasticSearchResponse: any) => {
-        setData({
-          error: null,
-          loading: false,
-          data: elasticSearchResponse,
+    if (key === 'ls') {
+      // TODO: move it to be searchMethod in a config!
+      fetch(
+        `/litsearch?search=${searchText}&model=USE&start=${pagination.from}&size=${pagination.size}`
+      )
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          setData({
+            data,
+            error: null,
+            loading: false,
+          });
+        })
+        .catch(error => {
+          setData({
+            error,
+            loading: false,
+            data: null,
+          });
         });
-      })
-      .catch((error: Error) => {
-        setData({
-          error,
-          loading: false,
-          data: null,
+    } else {
+      searchMethod(esQueryParams, searchConfig, nexus)
+        .then((elasticSearchResponse: any) => {
+          setData({
+            error: null,
+            loading: false,
+            data: elasticSearchResponse,
+          });
+        })
+        .catch((error: Error) => {
+          setData({
+            error,
+            loading: false,
+            data: null,
+          });
         });
-      });
+    }
   }, [key, searchText, filters, pagination]);
 
   return !!children
