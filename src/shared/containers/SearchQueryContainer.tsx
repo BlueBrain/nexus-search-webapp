@@ -40,6 +40,7 @@ const SearchQueryContainer: React.FC<{
       filter: filters,
     };
     if (key === 'ls') {
+      // TODO: move it to be searchMethod in a config!
       fetch(
         `/litsearch?search=${searchText}&model=USE&start=${pagination.from}&size=${pagination.size}`
       )
