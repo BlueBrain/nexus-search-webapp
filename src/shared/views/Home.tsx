@@ -50,6 +50,7 @@ const Home: React.FC = () => {
               <SearchQueryContainer
                 searchConfig={selectedSearchConfig}
                 searchText={searchText}
+                filters={{ start: '0', size: '10' }}
               >
                 {({ loading, error, data }) => (
                   <Spin spinning={loading}>

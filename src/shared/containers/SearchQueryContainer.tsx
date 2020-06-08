@@ -28,6 +28,9 @@ const SearchQueryContainer: React.FC<{
     data: null,
   });
 
+  const size = filters && filters.size ? filters.size : 5;
+  const start = filters && filters.start ? filters.start : 0;
+
   React.useEffect(() => {
     setData({
       loading: true,
@@ -38,7 +41,7 @@ const SearchQueryContainer: React.FC<{
     // Update me
     if (key === 'ls') {
       fetch(
-        'http://localhost:8000/litsearch?search=This%20is%20great&model=USE&size=10&start=0'
+        `http://localhost:8000/litsearch?search=${searchText}&model=USE&size=${size}&start=${start}`
       )
         .then(response => {
           return response.json();
