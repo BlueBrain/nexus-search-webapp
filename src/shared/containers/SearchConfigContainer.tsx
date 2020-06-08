@@ -74,9 +74,7 @@ const fakeSearchConfigs: SearchConfig[] = [
   },
 ];
 
-const yo = () => {
-  
-}
+const yo = () => {};
 const SearchConfigContainer: React.FC<{
   children: React.FC<{
     loading: boolean;

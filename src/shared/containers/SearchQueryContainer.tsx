@@ -65,20 +65,20 @@ const SearchQueryContainer: React.FC<{
         });
     } else {
       searchMethod(esQueryParams, searchConfig, nexus)
-      .then((elasticSearchResponse: any) => {
-        setData({
-          error: null,
-          loading: false,
-          data: elasticSearchResponse,
+        .then((elasticSearchResponse: any) => {
+          setData({
+            error: null,
+            loading: false,
+            data: elasticSearchResponse,
+          });
+        })
+        .catch((error: Error) => {
+          setData({
+            error,
+            loading: false,
+            data: null,
+          });
         });
-      })
-      .catch((error: Error) => {
-        setData({
-          error,
-          loading: false,
-          data: null,
-        });
-      });
     }
   }, [key, searchText, filters, pagination]);
 
