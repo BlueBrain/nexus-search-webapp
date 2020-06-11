@@ -41,28 +41,6 @@ export type SearchConfig = {
 
 const fakeSearchConfigs: SearchConfig[] = [
   {
-    key: 'default',
-    label: 'Default Search Example',
-    orgLabel: 'public',
-    projectLabel: 'graphql-ld',
-    view:
-      'https://bluebrain.github.io/nexus/vocabulary/defaultElasticSearchIndex',
-    mappings: defaultElasticSearchMappings,
-    searchMethod: defaultSearchMethod,
-    resultsComponent: defaultSearchResultsContainer,
-  },
-  {
-    key: 'minds',
-    label: 'Minds Search',
-    orgLabel: 'public',
-    projectLabel: 'graphql-ld',
-    view:
-      'https://bluebrain.github.io/nexus/vocabulary/defaultElasticSearchIndex',
-    mappings: defaultElasticSearchMappings,
-    searchMethod: defaultSearchMethod,
-    resultsComponent: defaultSearchResultsContainer,
-  },
-  {
     key: 'ls',
     label: 'Literature Search',
     orgLabel: 'bbp',

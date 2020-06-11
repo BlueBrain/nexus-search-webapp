@@ -47,13 +47,16 @@ app.get(
   }
 );
 // For literature search
-app.get('/litsearch', async (req: express.Request, res: express.Response) => {
-  const embedJSON = await getEmbedding(req);
-  const size = req.query['size'] || '5';
-  const start = req.query['start'] || '0';
-  const ESResult = await getESResult(embedJSON, size, start);
-  res.send(ESResult);
-});
+app.get(
+  `${base}/litsearch`,
+  async (req: express.Request, res: express.Response) => {
+    const embedJSON = await getEmbedding(req);
+    const size = req.query['size'] || '5';
+    const start = req.query['start'] || '0';
+    const ESResult = await getESResult(embedJSON, size, start);
+    res.send(ESResult);
+  }
+);
 // For all routes
 app.get('*', async (req: express.Request, res: express.Response) => {
   // Compute pre-loaded state
