@@ -3,6 +3,9 @@ import { SearchConfig } from './SearchConfigContainer';
 import { useNexus, useNexusContext } from '@bbp/react-nexus';
 import { SearchResponse } from 'elasticsearch';
 import { FilterParams, ESQueryParams, Pagination } from '../utils/queryBuilder';
+import { useSelector } from 'react-redux';
+
+import { RootState } from '../store/reducers';
 
 const SearchQueryContainer: React.FC<{
   searchConfig: SearchConfig;
@@ -17,6 +20,8 @@ const SearchQueryContainer: React.FC<{
 }> = ({ children, searchConfig, searchText, filters, pagination }) => {
   const { key, searchMethod } = searchConfig;
   const nexus = useNexusContext();
+  const basePath =
+    useSelector((state: RootState) => state.config.basePath) || '';
   const [{ loading, error, data }, setData] = React.useState<{
     loading: boolean;
     error: Error | null;
@@ -41,9 +46,12 @@ const SearchQueryContainer: React.FC<{
     };
     if (key === 'ls') {
       // TODO: move it to be searchMethod in a config!
-      fetch(
-        `/litsearch?search=${searchText}&model=USE&start=${pagination.from}&size=${pagination.size}`
-      )
+      const searchPath = `/litsearch?search=${searchText}&model=USE&start=${pagination.from}&size=${pagination.size}`;
+      const fullPath =
+        !basePath || basePath === ''
+          ? searchPath
+          : `/${basePath}/${searchPath}`;
+      fetch(fullPath)
         .then(response => {
           return response.json();
         })
