@@ -31,3 +31,10 @@ There are several channels provided to address different issues:
 - **Feature request**: If there is a feature you would like to see in this application, please first consult the [list of open feature requests](https://github.com/BlueBrain/nexus/issues?q=is%3Aopen+is%3Aissue+label%3Afeature+label%3Afrontend+label%3Asearch). In case there isn't already one, please [open a feature request](https://github.com/BlueBrain/nexus/issues/new?labels=feature,frontend,search) describing your feature with as much detail as possible.
 - **Bug report**: If you have found a bug, please create an issue [here](https://github.com/BlueBrain/nexus/issues/new?labels=bug,frontend,search).
 
+## Funding & Acknowledgment
+
+The development of this software was supported by funding to the Blue Brain Project, a research center of the École polytechnique fédérale de
+Lausanne (EPFL), from the Swiss government's ETH Board of the Swiss Federal Institutes of Technology.
+
+Copyright © 2015-2021 Blue Brain Project/EPFL
+
