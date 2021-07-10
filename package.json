@@ -93,7 +93,7 @@
     "store": "^2.0.12",
     "styled-jss": "^2.2.3",
     "swcmorphologyparser": "^0.1.1",
-    "three": "^0.96.0",
+    "three": "^0.125.0",
     "types": "^0.1.1",
     "underscore": "^1.9.1",
     "unzip": "^0.1.11"
