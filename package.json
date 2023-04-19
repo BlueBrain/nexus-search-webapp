@@ -55,7 +55,7 @@
     "fast-deep-equal": "^2.0.1",
     "gsap": "^2.0.1",
     "history": "^4.7.2",
-    "jszip": "^3.1.5",
+    "jszip": "^3.8.0",
     "kafka-node": "^3.0.1",
     "kafka-pipeline": "^1.0.0",
     "kafkajs": "^1.4.3",
