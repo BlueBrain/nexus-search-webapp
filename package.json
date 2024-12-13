@@ -53,7 +53,7 @@
     "express-http-proxy": "^1.2.0",
     "express-ws": "^4.0.0",
     "fast-deep-equal": "^2.0.1",
-    "gsap": "^2.0.1",
+    "gsap": "^3.6.0",
     "history": "^4.7.2",
     "jszip": "^3.1.5",
     "kafka-node": "^3.0.1",
